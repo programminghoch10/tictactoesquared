@@ -1,4 +1,5 @@
 function setCookie(cname, cvalue, exdays) {
+  if (!cookiesAccepted()) return;
   var d = new Date();
   d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
   var expires = "expires=" + d.toUTCString();
@@ -19,4 +20,10 @@ function getCookie(cname) {
     }
   }
   return "";
+}
+
+function cookiesAccepted() {
+  let accepted = getCookie("cookies-accepted");
+  if (accepted != "") return true;
+  return false;
 }

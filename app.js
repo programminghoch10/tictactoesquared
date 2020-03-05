@@ -22,7 +22,8 @@ function getelc(classname) {
 function gettableid(x, y) {
   return x + "" + y;
 }
-
+// eh still fixin foo u know but you can fix the foo i told you on discord
+// u back programming? i dunno what
 function getid(x, y, a, b) {
   return x + "" + y + "" + a + "" + b;
 }
@@ -74,7 +75,6 @@ function setActiveField(all, a, b) {
 }
 
 function checkWin(x, y, a, b, player) {
-  //console.log("checkWin: checking " + getid(x, y, a, b));
   let table = getel(gettableid(x, y));
   let counter1 = 0;
   for (let i = 0; i < 3; i++) {
@@ -104,11 +104,11 @@ function checkWin(x, y, a, b, player) {
       counter4++;
     }
   }
-  //console.log(getid(counter1, counter2, counter3, counter4));
+
   if (counter1 == 3 || counter2 == 3 || counter3 == 3 || counter4 == 3) {
-    //console.log("WON: " + player + " " + getid(x, y, a, b));
     table.classList.add("win");
     table.classList.add("win" + player);
+    //TODO: check for global win. getel("win").classList.add("win-active") & getel("win").innerHTML = "X/O won"
   }
 }
 
@@ -119,11 +119,11 @@ function mousedown(x, y, a, b) {
 
   let id = getid(x, y, a, b);
 
-  if (getel(id).innerHTML != "") {
+  if (getel(id).innerHTML != "" && getel(id).inner != " ") {
     return;
   }
 
-  getel(id).innerHTML = cp;
+  getel(id).innerHTML = cp; //TODO: remove. it has some bad effect on the style e.g. you can select it and see it and it changes the sizes of the fields
   getel(id).classList.add(cp);
   getel(id).classList.add("ox");
   if (!getel(gettableid(x, y)).classList.contains("win")) {
@@ -136,30 +136,46 @@ function mousedown(x, y, a, b) {
   saveField();
 }
 
+function reload() {
+  resetFieldCookie();
+  document.location.href = document.location.href;
+}
+
 function saveField() {
-  //TODO: check if cookies are allowed
   let cookie = "";
   for (let i = 0; i < 3; i++) {
     for (let j = 0; j < 3; j++) {
       for (let k = 0; k < 3; k++) {
         for (let l = 0; l < 3; l++) {
-          let field = getel(getid(i, j, k, l).innerHTML);
-          cookie += "" + (field == "" ? " " : field);
+          let field = getel(getid(i, j, k, l)).innerHTML;
+          cookie += "" + (field == "" ? "-" : field);
         }
       }
     }
   }
-  console.log("cookie: " + cookie);
   setCookie("game", cookie, 365);
 }
 
 function loadField() {
   let cookie = getCookie("game");
-  console.log(cookie);
-  cookie = cookie.replace(/([^ XO])+/g, "");
   if (cookie.length != 3 * 3 * 3 * 3) resetFieldCookie();
   if (cookie == "") return;
-  //TODO: insert into field
+  let position = 0;
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 3; j++) {
+      for (let k = 0; k < 3; k++) {
+        for (let l = 0; l < 3; l++) {
+          let field = getel(getid(i, j, k, l));
+          let inner = cookie.substring(position, position + 1);
+          if (inner != "-" && inner != "") {
+            field.innerHTML = inner;
+            field.classList.add(inner);
+          }
+          position++;
+        }
+      }
+    }
+  }
 }
 
 function resetFieldCookie() {
