@@ -17,6 +17,8 @@ body {
   align-items: center;
 
   margin: 0;
+
+  font-family: "Roboto", sans-serif;
 }
 
 .outer {
@@ -31,11 +33,42 @@ body {
 }
 
 #wrapper {
+  position: relative;
+
   width: calc(var(--size) + 20px);
-  height: calc(var(--size) + 42px);
+  height: calc(var(--size) + 22px);
   overflow: hidden;
 
   padding: 4px;
+}
+
+.win-screen {
+  position: absolute;
+
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  width: calc(var(--size) + 20px);
+  height: calc(var(--size) + 22px);
+
+  background: transparent;
+
+  color: transparent;
+  font-size: calc(var(--size) * 0.1);
+
+  border-radius: 10px;
+
+  pointer-events: none;
+
+  transition: background 200ms linear, color 200ms linear;
+}
+
+.win-active {
+  background: rgba(0, 0, 0, 0.4);
+  color: var(--color);
+  pointer-events: all;
 }
 
 td,
