@@ -6,10 +6,10 @@ win (): this field has been won in and is no longer winnable
 
 */
 
-const color1 = "X";
-const color2 = "O";
+const player1 = "X";
+const player2 = "O";
 
-let cp = color1;
+let cp = player1;
 
 function getel(element) {
   return document.getElementById(element);
@@ -34,15 +34,15 @@ let activeField = {
 };
 
 function switchPlayer() {
-  if (cp == color1) {
-    cp = color2;
+  if (cp == player1) {
+    cp = player2;
   } else {
-    cp = color1;
+    cp = player1;
   }
 }
 
 function setActiveField(all, a, b) {
-  let id = activeField.x + "" + activeField.y;
+  let id = gettableid(activeField.x, activeField.y);
 
   getel(id).classList.remove("active");
 
@@ -52,13 +52,13 @@ function setActiveField(all, a, b) {
 
   if (all) return;
 
-  id = activeField.x + "" + activeField.y;
+  id = gettableid(activeField.x, activeField.y);
 
   let empty = false;
 
   for (let i = 0; i < 3; i++) {
     for (let j = 0; j < 3; j++) {
-      let id = activeField.x + "" + activeField.y + "" + i + "" + j;
+      let id = getid(activeField.x, activeField.y, i, j);
       if (getel(id).innerHTML == "") {
         empty = true;
       }
@@ -73,9 +73,8 @@ function setActiveField(all, a, b) {
   getel(id).classList.add("active");
 }
 
-function checkWin(x, y, a, b) {
+function checkWin(x, y, a, b, player) {
   //console.log("checkWin: checking " + getid(x, y, a, b));
-  let player = getel(getid(x, y, a, b)).innerHTML;
   let table = getel(gettableid(x, y));
   let counter1 = 0;
   for (let i = 0; i < 3; i++) {
@@ -107,8 +106,9 @@ function checkWin(x, y, a, b) {
   }
   //console.log(getid(counter1, counter2, counter3, counter4));
   if (counter1 == 3 || counter2 == 3 || counter3 == 3 || counter4 == 3) {
-    console.log("WON: " + getid(x, y, a, b));
+    //console.log("WON: " + player + " " + getid(x, y, a, b));
     table.classList.add("win");
+    table.classList.add("win" + player);
   }
 }
 
@@ -127,12 +127,46 @@ function mousedown(x, y, a, b) {
   getel(id).classList.add(cp);
   getel(id).classList.add("ox");
   if (!getel(gettableid(x, y)).classList.contains("win")) {
-    checkWin(x, y, a, b);
+    checkWin(x, y, a, b, cp);
   }
   setActiveField(false, a, b);
 
-  //switchPlayer();
+  switchPlayer();
+
+  saveField();
 }
+
+function saveField() {
+  //TODO: check if cookies are allowed
+  let cookie = "";
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 3; j++) {
+      for (let k = 0; k < 3; k++) {
+        for (let l = 0; l < 3; l++) {
+          let field = getel(getid(i, j, k, l).innerHTML);
+          cookie += "" + (field == "" ? " " : field);
+        }
+      }
+    }
+  }
+  console.log("cookie: " + cookie);
+  setCookie("game", cookie, 365);
+}
+
+function loadField() {
+  let cookie = getCookie("game");
+  console.log(cookie);
+  cookie = cookie.replace(/([^ XO])+/g, "");
+  if (cookie.length != 3 * 3 * 3 * 3) resetFieldCookie();
+  if (cookie == "") return;
+  //TODO: insert into field
+}
+
+function resetFieldCookie() {
+  setCookie("game", "", 0);
+}
+
+//game field creation:
 getel("wrapper").innerHTML += "<table id=field></table>";
 let table = "";
 for (let i = 0; i < 3; i++) {
@@ -163,5 +197,6 @@ for (let i = 0; i < 3; i++) {
   table += "</tr>";
 }
 getel("field").innerHTML = table;
+loadField();
 
 setActiveField(true, 0, 0);
