@@ -1,4 +1,5 @@
 function setCookie(cname, cvalue, exdays) {
+  cvalue = btoa(cvalue);
   if (!cookiesAccepted()) return;
   var d = new Date();
   d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
@@ -7,6 +8,10 @@ function setCookie(cname, cvalue, exdays) {
 }
 
 function getCookie(cname) {
+  return atob(getRawCookie(cname));
+}
+
+function getRawCookie(cname) {
   var name = cname + "=";
   var decodedCookie = decodeURIComponent(document.cookie);
   var ca = decodedCookie.split(";");
@@ -23,7 +28,7 @@ function getCookie(cname) {
 }
 
 function cookiesAccepted() {
-  let accepted = getCookie("cookies-accepted");
+  let accepted = getRawCookie("cookies-accepted");
   if (accepted != "") return true;
   return false;
 }
