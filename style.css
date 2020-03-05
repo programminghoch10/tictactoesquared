@@ -1,7 +1,7 @@
 body {
-  --current: #5bc538;
+  --current: #49b34e;
 
-  --default: #eee;
+  --default: #ddd;
   --borders: whitesmoke;
   --player1: rgb(44, 202, 176);
   --player2: rgb(255, 123, 0);
@@ -10,6 +10,11 @@ body {
 
   --size: 70vh;
   --thickness: 7px;
+  --color: black;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   margin: 0;
 }
@@ -87,7 +92,6 @@ table .active::after {
 
   border-radius: 5px;
   border: var(--current) solid 4px;
-  box-shadow: 0 0 3px white;
 
   pointer-events: none;
 }
@@ -161,9 +165,24 @@ table {
   background: var(--player2alt);
 }
 
+input[type="button"] {
+  width: 100px;
+  height: 30px;
+
+  border-radius: 5px;
+  border: var(--default) solid 2px;
+  background: transparent;
+  color: var(--color);
+}
+
+input[type="button"]:hover {
+  background: var(--default);
+}
+
 @media (prefers-color-scheme: dark) {
   body {
     --default: #444;
+    --color: white;
 
     background: #333;
   }
