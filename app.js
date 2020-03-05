@@ -114,29 +114,28 @@ function checkWin(x, y, a, b, player) {
     table.classList.add("win");
     table.classList.add("win" + player);
 
-    outerfield[x][y] = 1;
-    //TODO: check for global win. getel("win").classList.add("win-active") & getel("win").innerHTML = "X/O won"
+    outerfield[x][y] = player;
     let counter1 = 0;
     for (let i = 0; i < 3; i++) {
-      if (outerfield[x][i] == 1) {
+      if (outerfield[x][i] == player) {
         counter1++;
       }
     }
     let counter2 = 0;
     for (let i = 0; i < 3; i++) {
-      if (outerfield[i][y] == 1) {
+      if (outerfield[i][y] == player) {
         counter2++;
       }
     }
     let counter3 = 0;
     for (let i = 0; i < 3; i++) {
-      if (outerfield[i % 3][i % 3] == 1) {
+      if (outerfield[i % 3][i % 3] == player) {
         counter3++;
       }
     }
     let counter4 = 0;
     for (let i = 0; i < 3; i++) {
-      if (outerfield[i % 3][2 - (i % 3)] == 1) {
+      if (outerfield[i % 3][2 - (i % 3)] == player) {
         counter4++;
       }
     }
@@ -177,6 +176,7 @@ function reload() {
   document.location.href = document.location.href;
 }
 
+//TODO: save and load next active field
 function saveField() {
   let cookie = "";
   for (let i = 0; i < 3; i++) {
@@ -187,7 +187,7 @@ function saveField() {
           cookie += "" + (field == "" ? "-" : field);
         }
       }
-    }
+    } //das heißt?
   }
   setCookie("game", cookie, 365);
 }

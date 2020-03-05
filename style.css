@@ -231,6 +231,6 @@ input[type="button"]:hover {
 
 @media only screen and (orientation: portrait) {
   body {
-    --size: 97vw;
+    --size: 90vw;
   }
 }
