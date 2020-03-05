@@ -1,7 +1,15 @@
-const X = "X";
-const O = "O";
+/*
+table classes:
+active (green): only this is clickable
+win (): this field has been won in and is no longer winnable
 
-let cp = X;
+
+*/
+
+const color1 = "X";
+const color2 = "O";
+
+let cp = color1;
 
 function getel(element) {
   return document.getElementById(element);
@@ -11,6 +19,14 @@ function getelc(classname) {
   return document.getElementsByClassName(classname);
 }
 
+function gettableid(x, y) {
+  return x + "" + y;
+}
+
+function getid(x, y, a, b) {
+  return x + "" + y + "" + a + "" + b;
+}
+
 let activeField = {
   all: true,
   x: 0,
@@ -18,10 +34,10 @@ let activeField = {
 };
 
 function switchPlayer() {
-  if (cp == X) {
-    cp = O;
+  if (cp == color1) {
+    cp = color2;
   } else {
-    cp = X;
+    cp = color1;
   }
 }
 
@@ -57,21 +73,65 @@ function setActiveField(all, a, b) {
   getel(id).classList.add("active");
 }
 
-function mousedown(x, y, a, b) {
-  if (!activeField.all && !(activeField.x == x && activeField.y == y)) {
-    return;
+function checkWin(x, y, a, b) {
+  //console.log("checkWin: checking " + getid(x, y, a, b));
+  let player = getel(getid(x, y, a, b)).innerHTML;
+  let table = getel(gettableid(x, y));
+  let counter1 = 0;
+  for (let i = 0; i < 3; i++) {
+    let id = getid(x, y, i, b);
+    if (getel(id).innerHTML == player) {
+      counter1++;
+    }
   }
+  let counter2 = 0;
+  for (let i = 0; i < 3; i++) {
+    let id = getid(x, y, a, i);
+    if (getel(id).innerHTML == player) {
+      counter2++;
+    }
+  }
+  let counter3 = 0;
+  for (let i = 0; i < 3; i++) {
+    let id = getid(x, y, i % 3, i % 3);
+    if (getel(id).innerHTML == player) {
+      counter3++;
+    }
+  }
+  let counter4 = 0;
+  for (let i = 0; i < 3; i++) {
+    let id = getid(x, y, i % 3, 2 - (i % 3));
+    if (getel(id).innerHTML == player) {
+      counter4++;
+    }
+  }
+  //console.log(getid(counter1, counter2, counter3, counter4));
+  if (counter1 == 3 || counter2 == 3 || counter3 == 3 || counter4 == 3) {
+    console.log("WON: " + getid(x, y, a, b));
+    table.classList.add("win");
+  }
+}
 
-  let id = x + "" + y + "" + a + "" + b;
+function mousedown(x, y, a, b) {
+  /*if (!activeField.all && !(activeField.x == x && activeField.y == y)) {
+    return;
+  }*/
+
+  let id = getid(x, y, a, b);
 
   if (getel(id).innerHTML != "") {
     return;
   }
 
   getel(id).innerHTML = cp;
+  getel(id).classList.add(cp);
+  getel(id).classList.add("ox");
+  if (!getel(gettableid(x, y)).classList.contains("win")) {
+    checkWin(x, y, a, b);
+  }
   setActiveField(false, a, b);
 
-  switchPlayer();
+  //switchPlayer();
 }
 getel("wrapper").innerHTML += "<table id=field></table>";
 let table = "";
@@ -87,7 +147,12 @@ for (let i = 0; i < 3; i++) {
       for (let l = 0; l < 3; l++) {
         let s = i + ", " + j + ", " + k + ", " + l;
         let id = i + "" + j + "" + k + "" + l;
-        table += "<td id='" + id + "' onmousedown='mousedown(" + s + ")'>";
+        table +=
+          "<td><div class='i' id='" +
+          id +
+          "' onmousedown='mousedown(" +
+          s +
+          ")'></div>";
         table += "</td>";
       }
       table += "</tr>";
