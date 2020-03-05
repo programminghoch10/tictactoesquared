@@ -1,0 +1,35 @@
+body {
+  margin: 0;
+}
+
+#wrapper {
+  width: 100vh;
+  height: 100vh;
+  overflow: hidden;
+}
+
+table table td {
+  width: calc(100vh / 9);
+  height: calc(100vh / 9);
+
+  background: grey;
+
+  text-align: center;
+
+  border: black solid 1px;
+}
+
+table .active td {
+  background: green;
+}
+
+td,
+tr,
+table {
+  margin: 0;
+  padding: 0;
+}
+
+table {
+  border-collapse: collapse;
+}
