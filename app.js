@@ -22,8 +22,7 @@ function getelc(classname) {
 function gettableid(x, y) {
   return x + "" + y;
 }
-// eh still fixin foo u know but you can fix the foo i told you on discord
-// u back programming? i dunno what
+
 function getid(x, y, a, b) {
   return x + "" + y + "" + a + "" + b;
 }
@@ -33,6 +32,12 @@ let activeField = {
   x: 0,
   y: 0
 };
+
+let outerfield = [
+  [0, 0, 0],
+  [0, 0, 0],
+  [0, 0, 0]
+];
 
 function switchPlayer() {
   if (cp == player1) {
@@ -108,7 +113,38 @@ function checkWin(x, y, a, b, player) {
   if (counter1 == 3 || counter2 == 3 || counter3 == 3 || counter4 == 3) {
     table.classList.add("win");
     table.classList.add("win" + player);
+
+    outerfield[x][y] = 1;
     //TODO: check for global win. getel("win").classList.add("win-active") & getel("win").innerHTML = "X/O won"
+    let counter1 = 0;
+    for (let i = 0; i < 3; i++) {
+      if (outerfield[x][i] == 1) {
+        counter1++;
+      }
+    }
+    let counter2 = 0;
+    for (let i = 0; i < 3; i++) {
+      if (outerfield[i][y] == 1) {
+        counter2++;
+      }
+    }
+    let counter3 = 0;
+    for (let i = 0; i < 3; i++) {
+      if (outerfield[i % 3][i % 3] == 1) {
+        counter3++;
+      }
+    }
+    let counter4 = 0;
+    for (let i = 0; i < 3; i++) {
+      if (outerfield[i % 3][2 - (i % 3)] == 1) {
+        counter4++;
+      }
+    }
+
+    if (counter1 == 3 || counter2 == 3 || counter3 == 3 || counter4 == 3) {
+      getel("win").classList.add("win-active");
+      getel("win").innerHTML = cp + " won.";
+    }
   }
 }
 
