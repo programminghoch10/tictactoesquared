@@ -148,9 +148,9 @@ function checkWin(x, y, a, b, player) {
 }
 
 function mousedown(x, y, a, b) {
-  /*if (!activeField.all && !(activeField.x == x && activeField.y == y)) {
+  if (!activeField.all && !(activeField.x == x && activeField.y == y)) {
     return;
-  }*/
+  }
 
   let id = getid(x, y, a, b);
 
@@ -171,12 +171,15 @@ function mousedown(x, y, a, b) {
   saveField();
 }
 
-function reload() {
+function restart(params) {
   resetFieldCookie();
+  reload();
+}
+
+function reload() {
   document.location.href = document.location.href;
 }
 
-//TODO: save and load next active field
 function saveField() {
   let cookie = "";
   for (let i = 0; i < 3; i++) {
@@ -187,14 +190,27 @@ function saveField() {
           cookie += "" + (field == "" ? "-" : field);
         }
       }
-    } //das heißt?
+    }
   }
+  cookie += cp;
+  cookie += activeField.all == true ? 1 : 0;
+  cookie += activeField.x + "" + activeField.y;
+
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 3; j++) {
+      cookie += outerfield[i][j];
+    }
+  }
+
   setCookie("game", cookie, 365);
 }
 
 function loadField() {
   let cookie = getCookie("game");
-  if (cookie.length != 3 * 3 * 3 * 3) resetFieldCookie();
+  console.log(cookie);
+  cookie = cookie.replace(/([^-XO012])+/g, "");
+  cookie = cookie.split("-").join(" ");
+  if (cookie.length != 3 * 3 * 3 * 3 + 12) resetFieldCookie();
   if (cookie == "") return;
   let position = 0;
   for (let i = 0; i < 3; i++) {
@@ -202,13 +218,38 @@ function loadField() {
       for (let k = 0; k < 3; k++) {
         for (let l = 0; l < 3; l++) {
           let field = getel(getid(i, j, k, l));
-          let inner = cookie.substring(position, position + 1);
-          if (inner != "-" && inner != "") {
-            field.innerHTML = inner;
-            field.classList.add(inner);
+          let char = cookie.substring(position, position + 1);
+          if (char != " " && char != "") {
+            field.innerHTML = char;
+            field.classList.add(char);
           }
           position++;
         }
+      }
+    }
+  }
+
+  cp = cookie.substring(position, position + 1);
+  position++;
+  activeField.all = cookie.substring(position, position + 1) == 1;
+  position++;
+  activeField.x = cookie.substring(position, position + 1);
+  position++;
+  activeField.y = cookie.substring(position, position + 1);
+
+  if (!activeField.all) {
+    getel(gettableid(activeField.x, activeField.y)).classList.add("active");
+  }
+
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 3; j++) {
+      position++;
+      outerfield[i][j] = cookie.substring(position, position + 1);
+      if (outerfield[i][j] == player1) {
+        console.log(gettableid(i, j));
+        getel(gettableid(i, j)).classList.add("winx");
+      } else if (outerfield[i][j] == player2) {
+        getel(gettableid(i, j)).classList.add("wino");
       }
     }
   }
@@ -249,6 +290,6 @@ for (let i = 0; i < 3; i++) {
   table += "</tr>";
 }
 getel("field").innerHTML = table;
-loadField();
-
 setActiveField(true, 0, 0);
+loadField();
+saveField();

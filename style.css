@@ -25,7 +25,7 @@ body {
   width: 100%;
   height: 100%;
 
-  margin: 24px 0;
+  margin: 94px 0;
 
   display: flex;
   justify-content: center;
@@ -66,7 +66,8 @@ body {
 }
 
 .win-active {
-  background: rgba(0, 0, 0, 0.4);
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.6);
   color: var(--color);
   pointer-events: all;
 }
