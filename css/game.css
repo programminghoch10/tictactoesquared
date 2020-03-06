@@ -38,18 +38,15 @@
 
 .game .icons i {
     position: relative;
+    cursor: pointer;
 }
 .game .icons i:hover::after {
     opacity: 1;
 }
-.game .icons .reload::after {
-    content: "reload";
-}
-.game .icons .reset::after {
-    content: "reset";
-}
+.game .icons .reload::after { content: "reload"; }
+.game .icons .reset::after { content: "reset"; }
+.game .icons .github::after { content:"github"; }
 .game .icons i::after {
-    content: "test";
     position: absolute;
 
     opacity: 0;
