@@ -1,27 +1,11 @@
 //app.js
 //  contains all game scripts
 
-let game = new Array(3)
-  .fill(null)
-  .map(() =>
-    new Array(3)
-      .fill(null)
-      .map(() =>
-        new Array(3).fill(null).map(() => new Array(3).fill(null).map(() => 0))
-      )
-  );
-
 const player1 = "X";
 const player2 = "O";
 
-let cp = player1;
-
 function getel(element) {
   return document.getElementById(element);
-}
-
-function getelc(classname) {
-  return document.getElementsByClassName(classname);
 }
 
 function gettableid(x, y) {
@@ -32,6 +16,144 @@ function getid(x, y, a, b) {
   return x + "" + y + "" + a + "" + b;
 }
 
+function restart() {
+  resetFieldCookie();
+  reload();
+}
+
+function reload() {
+  document.location.href = document.location.href;
+}
+
+class Game {
+  constructor() {
+    this.fields = Array(3).fill(null).map(() => new Array(3).fill(null).map(() => new Array(3).fill(null).map(() => new Array(3).fill(null).map(() => 0))));
+    this.outerFields = [
+      [0, 0, 0],
+      [0, 0, 0],
+      [0, 0, 0]
+    ];
+
+    this.currentField = {
+      all: true,
+      x: 0,
+      y: 0
+    };
+    this.currentPlayer = player1;
+
+    this.end = false; // will be true if the game is voer
+  }
+
+  isValid(x, y, a, b) {
+    if (!this.currentField.all && !(this.currentField.x == x && this.currentField.y == y)) return false;
+    if (this.fields[x][y][a][b] != "") return false;
+    return true;
+  }
+
+  isFull(x, y) {
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        let id = getid(x, y, i, j);
+        if (this.fields[x][y][i][j] == 0) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  setCurrentPlayer(currentPlayer) {
+    this.currentPlayer = currentPlayer;
+  }
+
+  switchPlayers() {
+    if (this.currentPlayer == player1) {
+      this.setCurrentPlayer(player2);
+    } else {
+      this.setCurrentPlayer(player1);
+    }
+  }
+
+  setTile(x, y, a, b, currentPlayer) {
+    let el = getel(getid(x, y, a, b));
+
+    this.fields[x][y][a][b] = currentPlayer;
+    el.classList.add(currentPlayer);
+    el.classList.add("ox");
+  }
+
+  setCurrentField(x, y) {
+    if (!this.currentField.all) {
+      let el = getel(gettableid(this.currentField.x, this.currentField.y));
+      el.classList.remove("current");
+    }
+
+    if (this.isFull(x, y)) {
+      this.currentField.all = true;
+      return;
+    }
+
+    let el = getel(gettableid(x, y));
+    el.classList.add("current");
+
+    this.currentField.all = false;
+    this.currentField.x = x;
+    this.currentField.y = y;
+  }
+
+  set(x, y, a, b) {
+    if (this.end) return;
+    if (!this.isValid(x, y, a, b)) return;
+
+    this.setTile(x, y, a, b, this.currentPlayer);
+    this.checkWin(x, y, a, b, this.currentPlayer);
+
+    this.setCurrentField(a, b);
+
+    this.switchPlayers();
+  }
+
+  win(x, y, a, b, player) {
+      let el = getel(gettableid(x, y));
+      
+      el.classList.add("win");
+      el.classList.add("win" + player);
+
+      this.outerFields[x][y] = player;
+    }
+
+  checkWin(x, y, a, b, player) {
+    let wins = [ 0, 0, 0, 0 ];
+    for (let i = 0; i < 3; i++) {
+      wins[0] += this.fields[x][y][i][b] == player ? 1 : 0;
+      wins[1] += this.fields[x][y][a][i] == player ? 1 : 0;
+      wins[2] += this.fields[x][y][i][i] == player ? 1 : 0;
+      wins[3] += this.fields[x][y][i][2 - (i % 3)] == player ? 1 : 0;
+      console.log(i);
+    }
+
+    console.log(wins);
+
+    if (wins[0] == 3 || wins[1] == 3 || wins[2] == 3 || wins[3] == 3) {
+      this.win(x, y, a, b, player)
+    }
+  }
+}
+
+/*
+let game = new Array(3)
+  .fill(null)
+  .map(() =>
+    new Array(3)
+      .fill(null)
+      .map(() =>
+        new Array(3).fill(null).map(() => new Array(3).fill(null).map(() => 0))
+      )
+  );
+
+let currentPlayer = player1;
+
 function getGameField(id) {
   return game[id.substring(0, 1)][id.substring(1, 2)][id.substring(2, 3)][
     id.substring(3, 4)
@@ -39,7 +161,7 @@ function getGameField(id) {
 }
 
 function isValid(x, y, a, b) {
-  if (!activeField.all && !(activeField.x == x && activeField.y == y)) {
+  if (!currentField.all && !(currentField.x == x && currentField.y == y)) {
     return;
   }
 
@@ -50,7 +172,7 @@ function isValid(x, y, a, b) {
   return true;
 }
 
-let activeField = {
+let currentField = {
   all: true,
   x: 0,
   y: 0
@@ -63,31 +185,31 @@ let outerfield = [
 ];
 
 function switchPlayer() {
-  if (cp == player1) {
-    cp = player2;
+  if (currentPlayer == player1) {
+    currentPlayer = player2;
   } else {
-    cp = player1;
+    currentPlayer = player1;
   }
 }
 
 function setActiveField(all, a, b) {
-  let id = gettableid(activeField.x, activeField.y);
+  let id = gettableid(currentField.x, currentField.y);
 
   getel(id).classList.remove("active");
 
-  activeField.all = all;
-  activeField.x = a;
-  activeField.y = b;
+  currentField.all = all;
+  currentField.x = a;
+  currentField.y = b;
 
   if (all) return;
 
-  id = gettableid(activeField.x, activeField.y);
+  id = gettableid(currentField.x, currentField.y);
 
   let empty = false;
 
   for (let i = 0; i < 3; i++) {
     for (let j = 0; j < 3; j++) {
-      let id = getid(activeField.x, activeField.y, i, j);
+      let id = getid(currentField.x, currentField.y, i, j);
       if (getGameField(id) == "") {
         empty = true;
       }
@@ -95,7 +217,7 @@ function setActiveField(all, a, b) {
   }
 
   if (!empty) {
-    activeField.all = true;
+    currentField.all = true;
     return;
   }
 
@@ -165,7 +287,7 @@ function checkWin(x, y, a, b, player) {
 
     if (counter1 == 3 || counter2 == 3 || counter3 == 3 || counter4 == 3) {
       getel("win").classList.add("win-active");
-      getel("win").innerHTML = cp + " won.";
+      getel("win").innerHTML = currentPlayer + " won.";
     }
   }
 }
@@ -195,11 +317,11 @@ function mousedown(x, y, a, b) {
 
   let id = getid(x, y, a, b);
 
-  game[x][y][a][b] = cp;
-  getel(id).classList.add(cp);
+  game[x][y][a][b] = currentPlayer;
+  getel(id).classList.add(currentPlayer);
   getel(id).classList.add("ox");
   if (!getel(gettableid(x, y)).classList.contains("win")) {
-    checkWin(x, y, a, b, cp);
+    checkWin(x, y, a, b, currentPlayer);
   }
   checkDraw();
   setActiveField(false, a, b);
@@ -230,9 +352,9 @@ function saveField() {
       }
     }
   }
-  cookie += cp;
-  cookie += activeField.all == true ? 1 : 0;
-  cookie += activeField.x + "" + activeField.y;
+  cookie += currentPlayer;
+  cookie += currentField.all == true ? 1 : 0;
+  cookie += currentField.x + "" + currentField.y;
 
   for (let i = 0; i < 3; i++) {
     for (let j = 0; j < 3; j++) {
@@ -269,16 +391,16 @@ function loadField() {
     }
   }
 
-  cp = cookie.substring(position, position + 1);
+  currentPlayer = cookie.substring(position, position + 1);
   position++;
-  activeField.all = cookie.substring(position, position + 1) == 1;
+  currentField.all = cookie.substring(position, position + 1) == 1;
   position++;
-  activeField.x = cookie.substring(position, position + 1);
+  currentField.x = cookie.substring(position, position + 1);
   position++;
-  activeField.y = cookie.substring(position, position + 1);
+  currentField.y = cookie.substring(position, position + 1);
 
-  if (!activeField.all) {
-    getel(gettableid(activeField.x, activeField.y)).classList.add("active");
+  if (!currentField.all) {
+    getel(gettableid(currentField.x, currentField.y)).classList.add("active");
   }
 
   for (let i = 0; i < 3; i++) {
@@ -332,3 +454,41 @@ getel("field").innerHTML = table;
 setActiveField(true, 0, 0);
 loadField();
 asyncSaveField();
+*/
+
+getel("wrapper").innerHTML += "<table id=field></table>";
+let table = "";
+for (let i = 0; i < 3; i++) {
+  table += "<tr>";
+  for (let j = 0; j < 3; j++) {
+    let id = i + "" + j;
+
+    table += "<td id='" + id + "'>";
+    table += "<table>";
+    for (let k = 0; k < 3; k++) {
+      table += "<tr>";
+      for (let l = 0; l < 3; l++) {
+        let s = i + ", " + j + ", " + k + ", " + l;
+        let id = i + "" + j + "" + k + "" + l;
+        table +=
+          "<td><div class='i' id='" +
+          id +
+          "' onmousedown='mousedown(" +
+          s +
+          ")'></div>";
+        table += "</td>";
+      }
+      table += "</tr>";
+    }
+    table += "</table>";
+    table += "</td>";
+  }
+  table += "</tr>";
+}
+getel("field").innerHTML = table;
+
+let game = new Game();
+
+function mousedown(x, y, a, b) {
+  game.set(x, y, a, b);
+}
