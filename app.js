@@ -176,7 +176,7 @@ function mousedown(x, y, a, b) {
 
     switchPlayer();
 
-    saveField();
+    asyncSaveField();
 }
 
 function restart(params) {
@@ -211,6 +211,10 @@ function saveField() {
     }
 
     setCookie("game", cookie, 365);
+}
+
+async function asyncSaveField() {
+    saveField();
 }
 
 function loadField() {
@@ -297,4 +301,4 @@ for (let i = 0; i < 3; i++) {
 getel("field").innerHTML = table;
 setActiveField(true, 0, 0);
 loadField();
-saveField();
+asyncSaveField();
