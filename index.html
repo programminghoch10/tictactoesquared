@@ -1,39 +1,37 @@
 <html>
-  <head>
+
+<head>
     <title>TTT²</title>
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1" /> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-    <link
-      href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="style.css" />
-  </head>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
-  <body>
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/game.css" />
+</head>
+
+<body>
     <header></header>
 
-    <div class="outer">
-      <div id="wrapper"></div>
-      <div id="win" class="win-screen"></div>
-    </div>
-
-    <div class="control">
-      <input type="button" value="Restart" onclick="restart()" />
-      <input type="button" value="Reload" onclick="reload()" />
+    <div class="game">
+        <div class="outer">
+            <div class="icons">
+                <i class="fas fa-undo-alt reload" style="color: var(--default-alt);" onclick="reload()"></i>
+                <i class="fas fa-ban reset" style="color: var(--default-alt);" onclick="restart()"></i>
+            </div>
+            <div id="wrapper" class="wrapper"></div>
+            <div id="win" class="win-screen"></div>
+        </div>
     </div>
 
     <script src="cookie.js"></script>
     <script src="app.js"></script>
 
-    <script
-      type="text/javascript"
-      id="cookieinfo"
-      src="//cookieinfoscript.com/js/cookieinfo.min.js"
-      data-message="We use cookies mainly to save your game. (It's ok. everyone does)"
-      data-cookie="cookies-accepted"
-      data-close-text="OK"
-    ></script>
-  </body>
+    <script type="text/javascript" id="cookieinfo" src="//cookieinfoscript.com/js/cookieinfo.min.js"
+        data-message="We use cookies mainly to save your game. (It's ok. everyone does)" data-cookie="cookies-accepted"
+        data-close-text="OK"></script>
+</body>
+
 </html>

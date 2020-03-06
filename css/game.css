@@ -1,8 +1,8 @@
-body {
+.game {
   --current: #49b34e;
 
   --default: #ddd;
-  --borders: whitesmoke;
+  --default-alt: #ccc;
   --player1: rgb(44, 202, 176);
   --player2: rgb(255, 123, 0);
   --player1alt: rgba(44, 202, 176, 0.3);
@@ -10,39 +10,75 @@ body {
 
   --size: 70vh;
   --thickness: 7px;
-  --color: black;
 
   display: flex;
   flex-direction: column;
   align-items: center;
 
   margin: 0;
-
-  font-family: "Roboto", sans-serif;
 }
 
-.outer {
-  width: 100%;
-  height: 100%;
+.game .outer {
+  position: relative;
+
 
   margin: 94px 0;
 
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-#wrapper {
+.game .icons {
+    margin-top: 12px;
+    margin-right: 12px;
+    margin-left: auto;
+}
+
+.game .icons i {
+    position: relative;
+}
+.game .icons i:hover::after {
+    opacity: 1;
+}
+.game .icons .reload::after {
+    content: "reload";
+}
+.game .icons .reset::after {
+    content: "reset";
+}
+.game .icons i::after {
+    content: "test";
+    position: absolute;
+
+    opacity: 0;
+
+    left: 50%;
+    transform: translate(-50%, -30px);
+
+    padding: 4px;
+
+    background: var(--default-alt);
+    color: var(--background-color);
+
+    border-radius: 5px;
+    font-family: "Roboto", sans-serif;
+
+    transition: opacity 200ms linear;
+
+    pointer-events: none;
+}
+
+.game .wrapper {
   position: relative;
 
-  width: calc(var(--size) + 20px);
-  height: calc(var(--size) + 22px);
   overflow: hidden;
 
   padding: 4px;
 }
 
-.win-screen {
+.game .win-screen {
   position: absolute;
 
   display: flex;
@@ -65,25 +101,25 @@ body {
   transition: background 200ms linear, color 200ms linear;
 }
 
-.win-active {
+.game .win-active {
   z-index: 10;
   background: rgba(0, 0, 0, 0.6);
   color: var(--color);
   pointer-events: all;
 }
 
-td,
-tr,
-table {
+.game td,
+.game tr,
+.game table {
   margin: 0;
   padding: 0;
 }
 
-table {
+.game table {
   margin: 0 auto;
 }
 
-table table td {
+.game table table td {
   position: relative;
 
   width: calc(var(--size) / 9);
@@ -92,7 +128,7 @@ table table td {
   padding: 1px;
 }
 
-table table td .i {
+.game table table td .i {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -104,18 +140,16 @@ table table td .i {
 
   text-align: center;
 
-  /* border: var(--borders) solid 1px; */
-
   border-radius: 5px;
 }
 
-table td {
+.game table td {
   position: relative;
 
   padding: 4px;
 }
 
-table .active::after {
+.game table .active::after {
   content: "";
 
   position: absolute;
@@ -132,18 +166,18 @@ table .active::after {
   pointer-events: none;
 }
 
-table {
+.game table {
   border-collapse: collapse;
 }
 
-.i {
+.game .i {
   transition: transform 200ms ease-in-out;
 
   color: transparent;
 }
 
-.i::after,
-.i::before {
+.game .i::after,
+.game .i::before {
   content: "";
 
   opacity: 0;
@@ -151,12 +185,12 @@ table {
   transition: opacity 200ms cubic-bezier(1, 0, 1, 0.01), transform 200ms linear;
 }
 
-.ox {
+.game .ox {
   transform: scale(-1, 1);
 }
 
-.x::after,
-.x::before {
+.game .x::after,
+.game .x::before {
   position: absolute;
   z-index: 2;
 
@@ -172,11 +206,11 @@ table {
   border-radius: 10px;
 }
 
-.x::before {
+.game .x::before {
   transform: rotate(-45deg) scale(-1, 1);
 }
 
-.o::before {
+.game .o::before {
   position: absolute;
   z-index: 2;
 
@@ -193,15 +227,15 @@ table {
   border-radius: 50%;
 }
 
-.winx .i {
+.game .winx .i {
   background: var(--player1alt);
 }
 
-.wino .i {
+.game .wino .i {
   background: var(--player2alt);
 }
 
-input[type="button"] {
+.game input[type="button"] {
   width: 100px;
   height: 30px;
 
@@ -211,27 +245,24 @@ input[type="button"] {
   color: var(--color);
 }
 
-input[type="button"]:hover {
+.game input[type="button"]:hover {
   background: var(--default);
 }
 
 @media (prefers-color-scheme: dark) {
-  body {
+  .game {
     --default: #444;
-    --color: white;
-
-    background: #333;
   }
 }
 
 @media only screen and (max-height: 800px) and (min-width: 800px) {
-  body {
+  .game {
     --thickness: 3px;
   }
 }
 
 @media only screen and (orientation: portrait) {
-  body {
+  .game {
     --size: 90vw;
   }
 }
