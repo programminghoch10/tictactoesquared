@@ -1,0 +1,19 @@
+body {
+    --color: black;
+    --background-color: whitesmoke;
+
+    margin: 0;
+
+    background: var(--background-color);
+
+    font-family: "Roboto", sans-serif;
+}
+
+svg, a, p {
+    color: var(--color);
+}
+
+.dark {
+    --color: white;
+    --background-color: #333;
+}
