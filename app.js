@@ -1,6 +1,14 @@
 //app.js 
 //  contains all game scripts
 
+let game = new Array(3).fill(null).map(
+    () => new Array(3).fill(null).map(
+        () => new Array(3).fill(null).map(
+            () => new Array(3).fill(null).map(
+                () => 0)
+        )
+    )
+);
 
 const player1 = "X";
 const player2 = "O";
@@ -21,6 +29,10 @@ function gettableid(x, y) {
 
 function getid(x, y, a, b) {
     return x + "" + y + "" + a + "" + b;
+}
+
+function getGameField(id) {
+    return game[id.substring(0, 1)][id.substring(1, 2)][id.substring(2, 3)][id.substring(3, 4)];
 }
 
 let activeField = {
@@ -61,7 +73,7 @@ function setActiveField(all, a, b) {
     for (let i = 0; i < 3; i++) {
         for (let j = 0; j < 3; j++) {
             let id = getid(activeField.x, activeField.y, i, j);
-            if (getel(id).innerHTML == "") {
+            if (getGameField(id) == "") {
                 empty = true;
             }
         }
@@ -80,28 +92,28 @@ function checkWin(x, y, a, b, player) {
     let counter1 = 0;
     for (let i = 0; i < 3; i++) {
         let id = getid(x, y, i, b);
-        if (getel(id).innerHTML == player) {
+        if (getGameField(id) == player) {
             counter1++;
         }
     }
     let counter2 = 0;
     for (let i = 0; i < 3; i++) {
         let id = getid(x, y, a, i);
-        if (getel(id).innerHTML == player) {
+        if (getGameField(id) == player) {
             counter2++;
         }
     }
     let counter3 = 0;
     for (let i = 0; i < 3; i++) {
         let id = getid(x, y, i % 3, i % 3);
-        if (getel(id).innerHTML == player) {
+        if (getGameField(id) == player) {
             counter3++;
         }
     }
     let counter4 = 0;
     for (let i = 0; i < 3; i++) {
         let id = getid(x, y, i % 3, 2 - (i % 3));
-        if (getel(id).innerHTML == player) {
+        if (getGameField(id) == player) {
             counter4++;
         }
     }
@@ -150,11 +162,11 @@ function mousedown(x, y, a, b) {
 
     let id = getid(x, y, a, b);
 
-    if (getel(id).innerHTML != "" && getel(id).inner != " ") {
+    if (getGameField(id) != "") {
         return;
     }
 
-    getel(id).innerHTML = cp; //TODO: remove. it has some bad effect on the style e.g. you can select it and see it and it changes the sizes of the fields
+    game[x][y][a][b] = cp;
     getel(id).classList.add(cp);
     getel(id).classList.add("ox");
     if (!getel(gettableid(x, y)).classList.contains("win")) {
@@ -182,7 +194,7 @@ function saveField() {
         for (let j = 0; j < 3; j++) {
             for (let k = 0; k < 3; k++) {
                 for (let l = 0; l < 3; l++) {
-                    let field = getel(getid(i, j, k, l)).innerHTML;
+                    let field = getGameField(getid(i, j, k, l));
                     cookie += "" + (field == "" ? "-" : field);
                 }
             }
@@ -203,7 +215,6 @@ function saveField() {
 
 function loadField() {
     let cookie = getCookie("game");
-    console.log(cookie);
     cookie = cookie.replace(/([^-XO012])+/g, "");
     cookie = cookie.split("-").join(" ");
     if (cookie.length != 3 * 3 * 3 * 3 + 12) resetFieldCookie();
@@ -213,11 +224,10 @@ function loadField() {
         for (let j = 0; j < 3; j++) {
             for (let k = 0; k < 3; k++) {
                 for (let l = 0; l < 3; l++) {
-                    let field = getel(getid(i, j, k, l));
                     let char = cookie.substring(position, position + 1);
                     if (char != " " && char != "") {
-                        field.innerHTML = char;
-                        field.classList.add(char);
+                        game[i][j][k][l] = char;
+                        getel(getid(i, j, k, l)).classList.add(char);
                     }
                     position++;
                 }
@@ -242,7 +252,6 @@ function loadField() {
             position++;
             outerfield[i][j] = cookie.substring(position, position + 1);
             if (outerfield[i][j] == player1) {
-                console.log(gettableid(i, j));
                 getel(gettableid(i, j)).classList.add("winx");
             } else if (outerfield[i][j] == player2) {
                 getel(gettableid(i, j)).classList.add("wino");
