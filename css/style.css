@@ -1,9 +1,7 @@
-* {
-  --color: black;
-  --background-color: whitesmoke;
-}
-
 body {
+    --color: black;
+    --background-color: whitesmoke;
+
     margin: 0;
 
     background: var(--background-color);
@@ -15,9 +13,7 @@ svg, a, p {
     color: var(--color);
 }
 
-@media (prefers-color-scheme: dark) {
-    * {
-        --color: white;
-        --background-color: #333 !important;
-    }
+.dark {
+    --color: white;
+    --background-color: #333;
 }

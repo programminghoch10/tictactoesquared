@@ -18,10 +18,11 @@
     <div class="game">
         <div class="outer">
             <div class="icons">
-                <i class="fab fa-github github" style="color: var(--default-alt);"
+                <i class="fas fa-moon darkmode" style="color: var(--default-alt);" onclick="dark()"></i>
+                <i class="fas fa-sun lightmode" style="color: var(--default-alt);" onclick="light()"></i>
+                <i class=" fab fa-github github" style="color: var(--default-alt);"
                     onclick="document.location.href='https://github.com/programminghoch10/tictactoesquared'"></i>
-                <i class="fas fa-undo-alt reload" style="color: var(--default-alt);" onclick="reload()"></i>
-                <i class="fas fa-ban reset" style="color: var(--default-alt);" onclick="restart()"></i>
+                <i class="fas fa-undo-alt reset" style="color: var(--default-alt);" onclick="reset()"></i>
             </div>
             <div id="wrapper" class="wrapper">
                 <div id="win" class="win-screen"><i id="ox"></i>Won</div>
@@ -30,6 +31,7 @@
     </div>
 
     <script src="cookie.js"></script>
+    <script src="scripts/colortheme.js"></script>
     <script src="app.js"></script>
 
     <script type="text/javascript" id="cookieinfo" src="//cookieinfoscript.com/js/cookieinfo.min.js"

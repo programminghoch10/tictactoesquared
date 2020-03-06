@@ -14,15 +14,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+
+  height: 100%;
 
   margin: 0;
+  margin-top: -12px;
 }
 
 .game .outer {
   position: relative;
-
-
-  margin: 94px 0;
 
   display: flex;
   flex-direction: column;
@@ -43,9 +44,20 @@
 .game .icons i:hover::after {
     opacity: 1;
 }
+.game .icons .lightmode {
+    display: none;
+}
+.dark .game .icons .darkmode {
+    display: none;
+}
+.dark .game .icons .lightmode {
+    display: initial;
+}
 .game .icons .reload::after { content: "reload"; }
 .game .icons .reset::after { content: "reset"; }
 .game .icons .github::after { content:"github"; }
+.game .icons .darkmode::after { content: "dark"; }
+.game .icons .lightmode::after { content: "light"; }
 .game .icons i::after {
     position: absolute;
 
@@ -268,11 +280,9 @@
   background: var(--default);
 }
 
-@media (prefers-color-scheme: dark) {
-  .game {
+.dark .game {
     --default: #444;
     --default-alt: #555;
-  }
 }
 
 @media only screen and (max-height: 800px) and (min-width: 800px) {
