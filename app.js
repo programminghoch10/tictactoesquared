@@ -199,7 +199,7 @@ function mousedown(x, y, a, b) {
     asyncSaveField();
 }
 
-function restart(params) {
+function restart() {
     resetFieldCookie();
     reload();
 }
