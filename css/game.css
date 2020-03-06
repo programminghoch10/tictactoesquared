@@ -249,6 +249,7 @@
 @media (prefers-color-scheme: dark) {
   .game {
     --default: #444;
+    --default-alt: #555;
   }
 }
 
