@@ -1,3 +1,6 @@
+//cookie.js
+//  contains cookie related scripts
+
 function setCookie(cname, cvalue, exdays) {
     cvalue = btoa(cvalue);
     if (!cookiesAccepted()) return;

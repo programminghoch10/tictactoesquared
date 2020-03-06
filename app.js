@@ -1,10 +1,6 @@
-/*
-table classes:
-active (green): only this is clickable
-win (): this field has been won in and is no longer winnable
+//app.js 
+//  contains all game scripts
 
-
-*/
 
 const player1 = "X";
 const player2 = "O";
