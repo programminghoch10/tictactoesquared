@@ -21,3 +21,11 @@ You win the game, by winning small TTTs, which form the big one.
 So if you won the upper left field and the lower right field, 
 you will win the game, if you win the middle field, 
 which would result in you having three in a row in the big field.
+
+## Cookies
+
+We use cookies to save your current game state, 
+so that you can return to the game at any point and continue playing.
+
+We only save cookies, when you accepted them 
+by clicking OK on the cookie banner.
