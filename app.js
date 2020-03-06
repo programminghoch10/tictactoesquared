@@ -155,7 +155,26 @@ function checkWin(x, y, a, b, player) {
     }
 }
 
+function checkDraw() {
+    let counter = 0;
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            for (let k = 0; k < 3; k++) {
+                for (let l = 0; l < 3; l++) {
+                    let field = getGameField(getid(i, j, k, l));
+                    if (field != "") counter++;
+                }
+            }
+        }
+    }
+    if (counter == 3 * 3 * 3 * 3) {
+        getel("win").classList.add("win-active");
+        getel("win").innerHTML = "Draw.";
+    }
+}
+
 function mousedown(x, y, a, b) {
+    if (getel("win").classList.contains("win-active")) return;
     if (!activeField.all && !(activeField.x == x && activeField.y == y)) {
         return;
     }
@@ -172,6 +191,7 @@ function mousedown(x, y, a, b) {
     if (!getel(gettableid(x, y)).classList.contains("win")) {
         checkWin(x, y, a, b, cp);
     }
+    checkDraw();
     setActiveField(false, a, b);
 
     switchPlayer();
