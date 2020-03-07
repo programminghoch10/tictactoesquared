@@ -128,15 +128,60 @@ class Game {
     getel("win").classList.add("win-active");
     getel("win-text").innerHTML = "Won"
     getel("win-player").classList.add(player);
+
+    this.end = true;
+  }
+
+  draw() {
+    getel("win").classList.add("win-active");
+    getel("win-text").innerHTML = "Draw"
+
+    this.end = true;
+  }
+
+  isGlobalFieldFull() {
+    for (let x = 0; x < 3; x++) {
+      for (let y = 0; y < 3; y++) {
+
+        if (this.globalField[x][y] == 0) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  checkDraw() {
+    if (this.end) return;
+
+    if (this.isGlobalFieldFull()) {
+      return true;
+    }
+
+    for (let x = 0; x < 3; x++) {
+      for (let y = 0; y < 3; y++) {
+        for (let a = 0; a < 3; a++) {
+          for (let b = 0; b < 3; b++) {
+            if (this.fields[x][y][a][b] == 0) {
+              console.log({ x: x, y: y, a: a, b: b });
+              return false;
+            }
+          }
+        }
+      }
+    }
+
+    return true;
   }
 
   checkGlobalWin(a, b, player) {
     let wins = [0, 0, 0, 0];
     for (let i = 0; i < 3; i++) {
       wins[0] += this.globalField[i][b] == player ? 1 : 0;
-      wins[0] += this.globalField[a][i] == player ? 1 : 0;
-      wins[0] += this.globalField[i][i] == player ? 1 : 0;
-      wins[0] += this.globalField[i][2 - (i % 3)] == player ? 1 : 0;
+      wins[1] += this.globalField[a][i] == player ? 1 : 0;
+      wins[2] += this.globalField[i][i] == player ? 1 : 0;
+      wins[3] += this.globalField[i][2 - (i % 3)] == player ? 1 : 0;
     }
 
     if (wins[0] == 3 || wins[1] == 3 || wins[2] == 3 || wins[3] == 3) {
@@ -158,6 +203,10 @@ class Game {
     if (wins[0] == 3 || wins[1] == 3 || wins[2] == 3 || wins[3] == 3) {
       this.win(x, y, a, b, player);
       this.checkGlobalWin(a, b, player);
+    }
+
+    if (this.checkDraw()) {
+      this.draw();
     }
   }
 }
