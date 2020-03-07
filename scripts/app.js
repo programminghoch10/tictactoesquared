@@ -16,6 +16,10 @@ function getid(x, y, a, b) {
   return x + "" + y + "" + a + "" + b;
 }
 
+function resetFieldCookie() {
+  setCookie("game", "", 0);
+}
+
 function restart() {
   resetFieldCookie();
   reload();
@@ -45,7 +49,6 @@ class Game {
   }
 
   isValid(x, y, a, b) {
-    return true;
     if (!this.currentField.all && !(this.currentField.x == x && this.currentField.y == y)) return false;
     if (this.fields[x][y][a][b] != "") return false;
     return true;
@@ -113,6 +116,8 @@ class Game {
     this.setCurrentField(a, b);
 
     this.switchPlayers();
+
+    this.save();
   }
 
   win(x, y, a, b, player) {
@@ -207,6 +212,80 @@ class Game {
 
     if (this.checkDraw()) {
       this.draw();
+    }
+  }
+
+  save() {
+    let cookie = "";
+    for (let x = 0; x < 3; x++) {
+      for (let y = 0; y < 3; y++) {
+        for (let a = 0; a < 3; a++) {
+          for (let b = 0; b < 3; b++) {
+            let field = this.fields[x][y][a][b];
+            cookie += "" + (field == "" ? "-" : field);
+          }
+        }
+      }
+    }
+    cookie += this.currentPlayer;
+    cookie += this.currentField.all == true ? 1 : 0;
+    cookie += this.currentField.x + "" + this.currentField.y;
+
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        cookie += this.globalField[i][j];
+      }
+    }
+
+    setCookie("game", cookie, 365);
+  }
+
+  load() {
+    let cookie = getCookie("game");
+    cookie = cookie.replace(/([^-XO012])+/g, "");
+    cookie = cookie.split("-").join(" ");
+
+    if (cookie.length != 3 * 3 * 3 * 3 + 12) resetFieldCookie();
+    if (cookie == "") return;
+
+    let position = 0;
+    for (let x = 0; x < 3; x++) {
+      for (let y = 0; y < 3; y++) {
+        for (let a = 0; a < 3; a++) {
+          for (let b = 0; b < 3; b++) {
+            let char = cookie.substring(position, position + 1);
+            if (char != " " && char != "") {
+              this.fields[x][y][a][b] = char;
+              getel(getid(x, y, a, b)).classList.add(char);
+            }
+            position++;
+          }
+        }
+      }
+    }
+
+    this.currentPlayer = cookie.substring(position, position + 1);
+    position++;
+    this.currentField.all = cookie.substring(position, position + 1) == 1;
+    position++;
+    this.currentField.x = cookie.substring(position, position + 1);
+    position++;
+    this.currentField.y = cookie.substring(position, position + 1);
+
+    if (!this.currentField.all) {
+      getel(getglobalel(this.currentField.x, this.currentField.y)).classList.add("current");
+    }
+
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        position++;
+        this.globalField[i][j] = cookie.substring(position, position + 1);
+        if (this.globalField[i][j] == player1) {
+          getel(getglobalel(i, j)).classList.add("winx");
+        } else if (this.globalField[i][j] == player2) {
+          getel(getglobalel(i, j)).classList.add("wino");
+        }
+      }
     }
   }
 }
@@ -562,3 +641,6 @@ let game = new Game();
 function mousedown(x, y, a, b) {
   game.set(x, y, a, b);
 }
+
+game.load();
+game.save();
