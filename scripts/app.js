@@ -45,6 +45,7 @@ class Game {
   }
 
   isValid(x, y, a, b) {
+    return true;
     if (!this.currentField.all && !(this.currentField.x == x && this.currentField.y == y)) return false;
     if (this.fields[x][y][a][b] != "") return false;
     return true;
@@ -125,7 +126,8 @@ class Game {
 
   globalWin(a, b, player) {
     getel("win").classList.add("win-active");
-    getel("win").classList.add(player);
+    getel("win-text").innerHTML = "Won"
+    getel("win-player").classList.add(player);
   }
 
   checkGlobalWin(a, b, player) {
