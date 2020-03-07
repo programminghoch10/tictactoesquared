@@ -5,6 +5,15 @@ let frontendInterface = {
     el.classList.add(currentPlayer);
     el.classList.add("ox");
   },
+  setCurrentPlayer: (player) => {
+    if (player == player1) {
+      getel("icon-o").style.display = "none";
+      getel("icon-x").style.display = "inline-block";
+    } else {
+      getel("icon-o").style.display = "inline-block";
+      getel("icon-x").style.display = "none";
+    }
+  },
   setCurrentFieldBefore: (x, y) => {
     let el = getel(getglobalid(x, y));
     el.classList.remove("current");
@@ -49,6 +58,22 @@ function mousedown(x, y, a, b) {
   game.set(x, y, a, b);
 
   save();
+}
+
+function debug() {
+  game.debug = !game.debug;
+
+  if (game.debug) {
+    getel("debug-notice").innerHTML = "Debug mode";
+  } else {
+    getel("debug-notice").innerHTML = "";
+  }
+}
+
+function switchPlayer() {
+  if (!game.debug) return;
+
+  game.switchPlayers();
 }
 
 function save() {

@@ -32,14 +32,23 @@
 }
 
 .game .icons {
+  display: flex;
+  width: calc(100% - 42px);
+
     margin-top: 12px;
-    margin-right: 12px;
-    margin-left: auto;
+
+    color: var(--default-alt);
+}
+
+.game .icons .right {
+  margin-left: auto;
 }
 
 .game .icons i {
     position: relative;
     cursor: pointer;
+
+    white-space: nowrap;
 }
 .game .icons i:hover::after {
     opacity: 1;
@@ -56,8 +65,9 @@
 .game .icons .reload::after { content: "reload"; }
 .game .icons .reset::after { content: "reset"; }
 .game .icons .github::after { content:"github"; }
-.game .icons .darkmode::after { content: "dark"; }
-.game .icons .lightmode::after { content: "light"; }
+.game .icons .darkmode::after { content: "dark theme"; }
+.game .icons .lightmode::after { content: "light theme"; }
+.game .icons .debug::after { content: "debug mode"; }
 .game .icons i::after {
     position: absolute;
 

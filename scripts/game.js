@@ -28,12 +28,17 @@ class Game {
       x: 0,
       y: 0
     };
-    this.currentPlayer = player1;
+    this.currentPlayer = 0;
+    this.setCurrentPlayer(player1);
 
-    this.end = false; // will be true if the game is voer
+    this.end = false; // will be true if the game is over
+
+    this.debug = false;
   }
 
   isValid(x, y, a, b) {
+    if (this.debug) return true;
+
     if (!this.currentField.all && !(this.currentField.x == x && this.currentField.y == y)) return false;
     if (this.fields[x][y][a][b] != "") return false;
     return true;
@@ -54,6 +59,8 @@ class Game {
 
   setCurrentPlayer(currentPlayer) {
     this.currentPlayer = currentPlayer;
+
+    this.frontendinterface.setCurrentPlayer(currentPlayer);
   }
 
   switchPlayers() {
