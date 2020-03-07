@@ -8,7 +8,7 @@ function getel(element) {
   return document.getElementById(element);
 }
 
-function gettableid(x, y) {
+function getglobalel(x, y) {
   return x + "" + y;
 }
 
@@ -28,7 +28,7 @@ function reload() {
 class Game {
   constructor() {
     this.fields = Array(3).fill(null).map(() => new Array(3).fill(null).map(() => new Array(3).fill(null).map(() => new Array(3).fill(null).map(() => 0))));
-    this.outerFields = [
+    this.globalField = [
       [0, 0, 0],
       [0, 0, 0],
       [0, 0, 0]
@@ -85,7 +85,7 @@ class Game {
 
   setCurrentField(x, y) {
     if (!this.currentField.all) {
-      let el = getel(gettableid(this.currentField.x, this.currentField.y));
+      let el = getel(getglobalel(this.currentField.x, this.currentField.y));
       el.classList.remove("current");
     }
 
@@ -94,7 +94,7 @@ class Game {
       return;
     }
 
-    let el = getel(gettableid(x, y));
+    let el = getel(getglobalel(x, y));
     el.classList.add("current");
 
     this.currentField.all = false;
@@ -115,28 +115,47 @@ class Game {
   }
 
   win(x, y, a, b, player) {
-      let el = getel(gettableid(x, y));
-      
-      el.classList.add("win");
-      el.classList.add("win" + player);
+    let el = getel(getglobalel(x, y));
 
-      this.outerFields[x][y] = player;
+    el.classList.add("win");
+    el.classList.add("win" + player);
+
+    this.globalField[x][y] = player;
+  }
+
+  globalWin(a, b, player) {
+    getel("win").classList.add("win-active");
+    getel("win").classList.add(player);
+  }
+
+  checkGlobalWin(a, b, player) {
+    let wins = [0, 0, 0, 0];
+    for (let i = 0; i < 3; i++) {
+      wins[0] += this.globalField[i][b] == player ? 1 : 0;
+      wins[0] += this.globalField[a][i] == player ? 1 : 0;
+      wins[0] += this.globalField[i][i] == player ? 1 : 0;
+      wins[0] += this.globalField[i][2 - (i % 3)] == player ? 1 : 0;
     }
 
+    if (wins[0] == 3 || wins[1] == 3 || wins[2] == 3 || wins[3] == 3) {
+      this.globalWin(a, b, player);
+    }
+  }
+
   checkWin(x, y, a, b, player) {
-    let wins = [ 0, 0, 0, 0 ];
+    if (this.globalField[x][y] != 0) return;
+
+    let wins = [0, 0, 0, 0];
     for (let i = 0; i < 3; i++) {
       wins[0] += this.fields[x][y][i][b] == player ? 1 : 0;
       wins[1] += this.fields[x][y][a][i] == player ? 1 : 0;
       wins[2] += this.fields[x][y][i][i] == player ? 1 : 0;
       wins[3] += this.fields[x][y][i][2 - (i % 3)] == player ? 1 : 0;
-      console.log(i);
     }
 
-    console.log(wins);
-
     if (wins[0] == 3 || wins[1] == 3 || wins[2] == 3 || wins[3] == 3) {
-      this.win(x, y, a, b, player)
+      this.win(x, y, a, b, player);
+      this.checkGlobalWin(a, b, player);
     }
   }
 }
