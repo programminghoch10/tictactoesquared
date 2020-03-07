@@ -1,6 +1,16 @@
 //app.js
 //  contains all game scripts
 
+const EMPTYFRONTENDINTERFACE = {
+  setTile: (x, y, a, b, currentPlayer) => { },
+  setCurrentPlayer: (player) => { },
+  setCurrentFieldBefore: (x, y) => { },
+  setCurrentFieldAfter: (x, y) => { },
+  win: (x, y, a, b, player) => { },
+  globalWin: (player) => { },
+  draw: () => { }
+}
+
 const player1 = "X";
 const player2 = "O";
 
@@ -32,8 +42,24 @@ class Game {
     this.setCurrentPlayer(player1);
 
     this.end = false; // will be true if the game is over
+    this.won = 0;
+    this.score = 0;
+    this.progress = 0;
 
     this.debug = false;
+  }
+
+  clone() {
+    let copy = new Game(EMPTYFRONTENDINTERFACE);
+    copy.currentPlayer = this.currentPlayer;
+    copy.fields = JSON.parse(JSON.stringify(this.fields));
+    copy.globalField = JSON.parse(JSON.stringify(this.globalField));
+    copy.currentField = JSON.parse(JSON.stringify(this.currentField));
+    copy.end = this.end;
+    copy.won = this.won;
+    copy.score = this.score;
+
+    return copy;
   }
 
   isValid(x, y, a, b) {
@@ -73,6 +99,7 @@ class Game {
 
   setTile(x, y, a, b, currentPlayer) {
     this.fields[x][y][a][b] = currentPlayer;
+    this.progress++;
 
     this.frontendinterface.setTile(x, y, a, b, currentPlayer);
   }
@@ -95,8 +122,8 @@ class Game {
   }
 
   set(x, y, a, b) {
-    if (this.end) return;
-    if (!this.isValid(x, y, a, b)) return;
+    if (this.end) return false;
+    if (!this.isValid(x, y, a, b)) return false;
 
     this.setTile(x, y, a, b, this.currentPlayer);
     this.checkWin(x, y, a, b, this.currentPlayer);
@@ -104,6 +131,8 @@ class Game {
     this.setCurrentField(a, b);
 
     this.switchPlayers();
+
+    return true;
   }
 
   win(x, y, a, b, player) {
@@ -114,12 +143,14 @@ class Game {
 
   globalWin(x, y, player) {
     this.end = true;
+    this.won = player;
 
     this.frontendinterface.globalWin(player);
   }
 
   draw() {
     this.end = true;
+    this.won = "draw"
 
     this.frontendinterface.draw();
   }
