@@ -1,56 +1,68 @@
 <html>
 
-<head>
-    <title>TTT² </title>
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1" /> -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/game.css" />
-</head>
+    <head>
+        <title>TTT² </title>
+        <!-- <meta name="viewport" content="width=device-width, initial-scale=1" /> -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
+              rel="stylesheet" />
+        <link rel="stylesheet"
+              href="css/style.css" />
+        <link rel="stylesheet"
+              href="css/game.css" />
+    </head>
 
-<body>
-    <header>
-    </header>
-    <div class="game">
-        <div class="outer">
-            <div class="icons">
-                <div>
-                    <i class="fas fa-times" id="icon-x" onclick="switchPlayer()"></i>
-                    <i class="far fa-circle" id="icon-o" onclick="switchPlayer()"></i>
-                    <i>turn</i>
-
-                    <i id="debug-notice"></i>
+    <body>
+        <header>
+        </header>
+        <div class="game">
+            <div class="outer">
+                <div class="icons">
+                    <div>
+                        <i class="fas fa-times"
+                           id="icon-x"
+                           onclick="switchPlayer()"></i>
+                        <i class="far fa-circle"
+                           id="icon-o"
+                           onclick="switchPlayer()"></i>
+                        <i>turn</i>
+                        <i id="debug-notice"></i>
+                    </div>
+                    <div class="right">
+                        <i class="fas fa-bug debug"
+                           onclick="debug()"></i>
+                        <i class="fas fa-moon darkmode"
+                           onclick="dark()"></i>
+                        <i class="fas fa-sun lightmode"
+                           onclick="light()"></i>
+                        <i class=" fab fa-github github"
+                           onclick="document.location.href='https://github.com/programminghoch10/tictactoesquared'"></i>
+                        <i class="fas fa-undo-alt reset"
+                           onclick="restart()"></i>
+                    </div>
                 </div>
-
-                <div class="right">
-                    <i class="fas fa-bug debug" onclick="debug()"></i>
-                    <i class="fas fa-moon darkmode" onclick="dark()"></i>
-                    <i class="fas fa-moon darkmode" onclick="dark()"></i>
-                    <i class="fas fa-moon darkmode" onclick="dark()"></i>
-                    <i class="fas fa-sun lightmode" onclick="light()"></i>
-                    <i class=" fab fa-github github"
-                        onclick="document.location.href='https://github.com/programminghoch10/tictactoesquared'"></i>
-                    <i class="fas fa-undo-alt reset" onclick="restart()"></i>
-                </div>
-            </div>
-            <div id="wrapper" class="wrapper">
-                <div id="win" class="win-screen">
-                    <i id="win-player"></i>
-                    <p id="win-text"></p>
+                <div id="wrapper"
+                     class="wrapper">
+                    <div id="win"
+                         class="win-screen">
+                        <i id="win-player"></i>
+                        <p id="win-text"></p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    </div>
-    </div>
-    <script src="scripts/cookie.js"></script>
-    <script src="scripts/colortheme.js"></script>
-    <script src="scripts/game.js"></script>
-    <script src="scripts/localgame.js"></script>
-    <script type="text/javascript" id="cookieinfo" src="//cookieinfoscript.com/js/cookieinfo.min.js"
-        data-message="We use cookies mainly to save your game. (It's ok. everyone does)" data-cookie="cookies-accepted"
-        data-close-text="OK"></script>
+        </div>
+        </div>
+        <script src="scripts/cookie.js"></script>
+        <script src="scripts/colortheme.js"></script>
+        <script src="scripts/game.js"></script>
+        <script src="scripts/localgame.js"></script>
+        <script type="text/javascript"
+                id="cookieinfo"
+                src="//cookieinfoscript.com/js/cookieinfo.min.js"
+                data-message="We use cookies mainly to save your game. (It's ok. everyone does)"
+                data-cookie="cookies-accepted"
+                data-close-text="OK"></script>
 
 </html>
