@@ -47,10 +47,13 @@ function iterate(i, g, player) {
 }
 
 function ai() {
-    let bestPath;
+    if (game.end) return 2;
+    let bestPath = { score: -Infinity };
 
     let iterations = Math.floor(2000 * Math.pow(81 - game.progress, -2)) + 2;
-    console.log(iterations)
+    if (iterations > 20) iterations = 20;
+
+    // console.log(iterations);
 
     let xs = 0;
     let xe = 3
@@ -100,9 +103,7 @@ function ai() {
                         score: cg.score
                     }
 
-                    if (bestPath == null) {
-                        bestPath = path;
-                    } else if (path.score == bestPath.score) {
+                    if (path.score == bestPath.score) {
                         if (Math.floor(Math.random() * 4) == 1) {
                             bestPath = path;
                         }
@@ -113,6 +114,7 @@ function ai() {
             }
         }
     }
-
     mousedown(bestPath.x, bestPath.y, bestPath.a, bestPath.b);
+
+    return 0;
 }
