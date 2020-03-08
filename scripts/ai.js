@@ -1,15 +1,17 @@
 function iterate(i, g, player) {
-    if (i <= 0) return g.score;
+    if (i <= 0) {
+        return g.score;
+    }
 
     let xs = 0;
     let xe = 3
     let ys = 0
     let ye = 3;
-    if (g.currentField.all) {
-        let xs = game.currentField.x;
-        let xe = game.currentField.x + 1;
-        let ys = game.currentField.y;
-        let ye = game.currentField.y + 1;
+    if (!g.currentField.all) {
+        xs = Math.floor(g.currentField.x);
+        xe = Math.floor(g.currentField.x) + 1;
+        ys = Math.floor(g.currentField.y);
+        ye = Math.floor(g.currentField.y) + 1;
     }
 
     for (let x = xs; x < xe; x++) {
@@ -33,38 +35,37 @@ function iterate(i, g, player) {
                         }
                     }
 
-                    if (!cg.set(cg.currentField.x, cg.currentField.y, a, b)) continue;
+                    if (!cg.set(x, y, a, b)) continue;
 
                     cg.score = iterate(i - 1, cg, player);
 
                     g.score = cg.score;
                 }
             }
-
-            return g.score;
         }
     }
+
+    return g.score;
 }
 
 function ai() {
     if (game.end) return 2;
-    let bestPath = { score: -Infinity };
 
-    let iterations = Math.floor(2000 * Math.pow(81 - game.progress, -2)) + 2;
+    let iterations = Math.floor(2000 * Math.pow(81 - game.progress, -2)) + 4;
     if (iterations > 20) iterations = 20;
-
-    // console.log(iterations);
 
     let xs = 0;
     let xe = 3
     let ys = 0
     let ye = 3;
-    if (game.currentField.all) {
-        let xs = game.currentField.x;
-        let xe = game.currentField.x + 1;
-        let ys = game.currentField.y;
-        let ye = game.currentField.y + 1;
+    if (!game.currentField.all) {
+        xs = game.currentField.x;
+        xe = game.currentField.x + 1;
+        ys = game.currentField.y;
+        ye = game.currentField.y + 1;
     }
+
+    let paths = [];
 
     for (let x = xs; x < xe; x++) {
         for (let y = ys; y < ye; y++) {
@@ -88,10 +89,7 @@ function ai() {
                         }
                     }
 
-                    let x = cg.currentField.x;
-                    let y = cg.currentField.y;
-
-                    if (!cg.set(cg.currentField.x, cg.currentField.y, a, b)) continue;
+                    if (!cg.set(x, y, a, b)) continue;
 
                     cg.score = iterate(iterations, cg, player, 0);
 
@@ -103,17 +101,45 @@ function ai() {
                         score: cg.score
                     }
 
-                    if (path.score == bestPath.score) {
-                        if (Math.floor(Math.random() * 4) == 1) {
-                            bestPath = path;
-                        }
-                    } else if (path.score > bestPath.score) {
-                        bestPath = path;
-                    }
+                    paths.push(path);
                 }
             }
         }
     }
+
+    // Finding the best score 
+
+    let bestScore = -Infinity;
+    let scores = [];
+
+    for (let i = 0; i < paths.length; i++) {
+        let path = paths[i];
+
+        scores.push(path.score);
+
+        if (path.score >= bestScore) {
+            bestScore = path.score;
+        }
+    }
+
+    // Put all with the best score in a list
+
+    let bests = [];
+
+    for (let i = 0; i < paths.length; i++) {
+        let path = paths[i];
+
+        if (path.score >= bestScore) {
+            bests.push(path);
+        }
+    }
+
+    // Pick one randomly
+
+    let bestPath = bests[Math.floor(Math.random() * bests.length)];
+
+    console.log(scores);
+
     mousedown(bestPath.x, bestPath.y, bestPath.a, bestPath.b);
 
     return 0;
