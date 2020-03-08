@@ -30,12 +30,12 @@ let frontendInterface = {
   },
   globalWin: (player) => {
     getel("win").classList.add("win-active");
-    getel("win-text").innerHTML = "Won"
+    getel("win-text").innerHTML = "Won";
     getel("win-player").classList.add(player);
   },
   draw: () => {
     getel("win").classList.add("win-active");
-    getel("win-text").innerHTML = "Draw"
+    getel("win-text").innerHTML = "Draw";
   }
 }
 
@@ -58,7 +58,7 @@ function mousedown(x, y, a, b) {
   game.set(x, y, a, b);
 
   if (game.currentPlayer == player2 && !game.debug) {
-    ai();
+    setTimeout(function () { ai(); }, 0);
   }
 
   save();
