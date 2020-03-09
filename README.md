@@ -28,6 +28,12 @@ You will be playing against an AI at the moment.
 
 Beating the AI is though, but it is possible to do so.
 
+## Android app
+
+There is an Android app available!
+
+[Click here for more info](webapp/)
+
 ## Cookies
 
 We use cookies to save your current game state, 
