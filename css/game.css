@@ -307,10 +307,10 @@
   }
 
   .game table td {
-    padding: 0px;
+    padding: 1px;
   } 
 
   .game table .current::after {
-    transform: translate(-4px, calc(-100% + 4px));
+    transform: translate(-5px, calc(-100% + 4px));
   }
 }
