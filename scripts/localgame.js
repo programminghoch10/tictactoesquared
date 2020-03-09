@@ -180,6 +180,7 @@ for (let i = 0; i < 3; i++) {
   table += "</tr>";
 }
 getel("field").innerHTML = table;
+// getel("field").style.height = getel("field").offsetWidth;
 
 load();
 save();
