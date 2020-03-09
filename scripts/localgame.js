@@ -78,10 +78,10 @@ function switchPlayer() {
 
 function save() {
   let cookie = "";
-  for (let x = 0; x < 3; x++) {
-    for (let y = 0; y < 3; y++) {
-      for (let a = 0; a < 3; a++) {
-        for (let b = 0; b < 3; b++) {
+  for (let x = 0; x < size; x++) {
+    for (let y = 0; y < size; y++) {
+      for (let a = 0; a < size; a++) {
+        for (let b = 0; b < size; b++) {
           let field = game.fields[x][y][a][b];
           cookie += "" + (field == "" ? "-" : field);
         }
@@ -92,8 +92,8 @@ function save() {
   cookie += game.currentField.all == true ? 1 : 0;
   cookie += game.currentField.x + "" + game.currentField.y;
 
-  for (let i = 0; i < 3; i++) {
-    for (let j = 0; j < 3; j++) {
+  for (let i = 0; i < size; i++) {
+    for (let j = 0; j < size; j++) {
       cookie += game.globalField[i][j];
     }
   }
@@ -106,14 +106,14 @@ function load() {
   cookie = cookie.replace(/([^-XO012])+/g, "");
   cookie = cookie.split("-").join(" ");
 
-  if (cookie.length != 3 * 3 * 3 * 3 + 12) setCookie("game", "", 0);
+  if (cookie.length != size * size * size * size + size * size + 3) setCookie("game", "", 0);
   if (cookie == "") return;
 
   let position = 0;
-  for (let x = 0; x < 3; x++) {
-    for (let y = 0; y < 3; y++) {
-      for (let a = 0; a < 3; a++) {
-        for (let b = 0; b < 3; b++) {
+  for (let x = 0; x < size; x++) {
+    for (let y = 0; y < size; y++) {
+      for (let a = 0; a < size; a++) {
+        for (let b = 0; b < size; b++) {
           let char = cookie.substring(position, position + 1);
           if (char != " " && char != "") {
             game.fields[x][y][a][b] = char;
@@ -137,8 +137,8 @@ function load() {
     getel(getglobalid(game.currentField.x, game.currentField.y)).classList.add("current");
   }
 
-  for (let i = 0; i < 3; i++) {
-    for (let j = 0; j < 3; j++) {
+  for (let i = 0; i < size; i++) {
+    for (let j = 0; j < size; j++) {
       position++;
       game.globalField[i][j] = cookie.substring(position, position + 1);
       if (game.globalField[i][j] == player1) {
@@ -152,16 +152,16 @@ function load() {
 
 getel("wrapper").innerHTML += "<table id=field></table>";
 let table = "";
-for (let i = 0; i < 3; i++) {
+for (let i = 0; i < size; i++) {
   table += "<tr>";
-  for (let j = 0; j < 3; j++) {
+  for (let j = 0; j < size; j++) {
     let id = i + "" + j;
 
     table += "<td id='" + id + "'>";
     table += "<table>";
-    for (let k = 0; k < 3; k++) {
+    for (let k = 0; k < size; k++) {
       table += "<tr>";
-      for (let l = 0; l < 3; l++) {
+      for (let l = 0; l < size; l++) {
         let s = i + ", " + j + ", " + k + ", " + l;
         let id = i + "" + j + "" + k + "" + l;
         table +=

@@ -3,6 +3,8 @@
 
 const player1 = "X";
 const player2 = "O";
+const size = 3;
+document.title = Array(size).fill(null).map(() => "T").join("") + "²";
 
 function getglobalid(x, y) {
   return x + "" + y;
@@ -16,12 +18,8 @@ class Game {
   constructor(frontendinterface) {
     this.frontendinterface = frontendinterface;
 
-    this.fields = Array(3).fill(null).map(() => new Array(3).fill(null).map(() => new Array(3).fill(null).map(() => new Array(3).fill(null).map(() => 0))));
-    this.globalField = [
-      [0, 0, 0],
-      [0, 0, 0],
-      [0, 0, 0]
-    ];
+    this.fields = Array(size).fill(null).map(() => new Array(size).fill(null).map(() => new Array(size).fill(null).map(() => new Array(size).fill(null).map(() => 0))));
+    this.globalField = Array(size).fill(null).map(() => new Array(size).fill(null).map(() =>0));
 
     this.currentField = {
       all: true,
@@ -45,8 +43,8 @@ class Game {
   }
 
   isFull(x, y) {
-    for (let i = 0; i < 3; i++) {
-      for (let j = 0; j < 3; j++) {
+    for (let i = 0; i < size; i++) {
+      for (let j = 0; j < size; j++) {
         let id = getid(x, y, i, j);
         if (this.fields[x][y][i][j] == 0) {
           return false;
@@ -125,8 +123,8 @@ class Game {
   }
 
   isGlobalFieldFull() {
-    for (let x = 0; x < 3; x++) {
-      for (let y = 0; y < 3; y++) {
+    for (let x = 0; x < size; x++) {
+      for (let y = 0; y < size; y++) {
 
         if (this.globalField[x][y] == 0) {
           return false;
@@ -144,10 +142,10 @@ class Game {
       return true;
     }
 
-    for (let x = 0; x < 3; x++) {
-      for (let y = 0; y < 3; y++) {
-        for (let a = 0; a < 3; a++) {
-          for (let b = 0; b < 3; b++) {
+    for (let x = 0; x < size; x++) {
+      for (let y = 0; y < size; y++) {
+        for (let a = 0; a < size; a++) {
+          for (let b = 0; b < size; b++) {
             if (this.fields[x][y][a][b] == 0) {
               return false;
             }
@@ -161,14 +159,14 @@ class Game {
 
   checkGlobalWin(x, y, player) {
     let wins = [0, 0, 0, 0];
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < size; i++) {
       wins[0] += this.globalField[i][y] == player ? 1 : 0;
       wins[1] += this.globalField[x][i] == player ? 1 : 0;
       wins[2] += this.globalField[i][i] == player ? 1 : 0;
-      wins[3] += this.globalField[i][2 - (i % 3)] == player ? 1 : 0;
+      wins[3] += this.globalField[i][size - i - 1] == player ? 1 : 0;
     }
 
-    if (wins[0] == 3 || wins[1] == 3 || wins[2] == 3 || wins[3] == 3) {
+    if (wins[0] == size || wins[1] == size || wins[2] == size || wins[3] == size) {
       this.globalWin(x, y, player);
     }
   }
@@ -177,14 +175,14 @@ class Game {
     if (this.globalField[x][y] != 0) return;
 
     let wins = [0, 0, 0, 0];
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < size; i++) {
       wins[0] += this.fields[x][y][i][b] == player ? 1 : 0;
       wins[1] += this.fields[x][y][a][i] == player ? 1 : 0;
       wins[2] += this.fields[x][y][i][i] == player ? 1 : 0;
-      wins[3] += this.fields[x][y][i][2 - (i % 3)] == player ? 1 : 0;
+      wins[3] += this.fields[x][y][i][size - i - 1] == player ? 1 : 0;
     }
 
-    if (wins[0] == 3 || wins[1] == 3 || wins[2] == 3 || wins[3] == 3) {
+    if (wins[0] == size || wins[1] == size || wins[2] == size || wins[3] == size) {
       this.win(x, y, a, b, player);
       this.checkGlobalWin(x, y, player);
     }
