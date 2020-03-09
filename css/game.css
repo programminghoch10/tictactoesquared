@@ -305,7 +305,7 @@
 
 @media only screen and (max-width: 500px) {
   .game {
-    --size: calc(100vw - 28px);
+    --size: calc(100vw - 40px);
   }
 
   .game table td {
