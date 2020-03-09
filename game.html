@@ -23,14 +23,26 @@
             <div class="outer">
                 <div class="icons">
                     <div>
+                        <i class="fas fa-times"
+                           id="icon-x"
+                           onclick="switchPlayer()"></i>
+                        <i class="far fa-circle"
+                           id="icon-o"
+                           onclick="switchPlayer()"></i>
+                        <i>turn</i>
+                        <i id="debug-notice"></i>
                     </div>
                     <div class="right">
+                        <i class="fas fa-bug debug"
+                           onclick="debug()"></i>
                         <i class="fas fa-moon darkmode"
                            onclick="dark()"></i>
                         <i class="fas fa-sun lightmode"
                            onclick="light()"></i>
-                        <i class="fab fa-github github"
+                        <i class=" fab fa-github github"
                            onclick="document.location.href='https://github.com/programminghoch10/tictactoesquared'"></i>
+                        <i class="fas fa-undo-alt reset"
+                           onclick="restart()"></i>
                     </div>
                 </div>
                 <div id="wrapper"
@@ -48,7 +60,7 @@
         <script src="scripts/cookie.js"></script>
         <script src="scripts/colortheme.js"></script>
         <script src="scripts/game.js"></script>
-        <script src="scripts/menu.js"></script>
+        <script src="scripts/localgame.js"></script>
         <script type="text/javascript"
                 id="cookieinfo"
                 src="//cookieinfoscript.com/js/cookieinfo.min.js"

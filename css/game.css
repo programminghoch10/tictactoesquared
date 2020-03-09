@@ -225,6 +225,24 @@
   color: transparent;
 }
 
+.game .fullwidth table {
+  margin: 0;
+}
+
+.game .fullwidth .i {
+  min-width: 300%;
+  border-radius: 10px;
+
+  text-align: center;
+
+  color: var(--player1);
+}
+
+.game .fullwidth td {
+  color: var(--player1);
+}
+
+
 .game .i::after,
 .game .i::before {
   content: "";
