@@ -9,6 +9,7 @@
   --player2alt: rgba(255, 123, 0, 0.3);
 
   --size: 70vh;
+  --tilesize: 3;
   --thickness: 7px;
 
   display: flex;
@@ -163,8 +164,8 @@
 .game table table td {
   position: relative;
 
-  width: calc(var(--size) / 9);
-  height: calc(var(--size) / 9);
+  width: calc(var(--size) / (var(--tilesize) * var(--tilesize)));
+  height: calc(var(--size) / (var(--tilesize) * var(--tilesize)));
 
   padding: 1px;
 }

@@ -3,7 +3,7 @@
 
 const player1 = "X";
 const player2 = "O";
-const size = 3;
+const size = 4;
 document.title = Array(size).fill(null).map(() => "T").join("") + "²";
 
 function getglobalid(x, y) {

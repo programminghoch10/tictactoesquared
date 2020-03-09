@@ -180,6 +180,7 @@ for (let i = 0; i < size; i++) {
   table += "</tr>";
 }
 getel("field").innerHTML = table;
+getel("game").style.setProperty("--tilesize", size);
 
 load();
 save();
