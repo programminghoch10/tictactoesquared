@@ -6,6 +6,7 @@ function mousedown(x, y, a, b) {
 
 }
 
+/*
 getel("wrapper").innerHTML += "<table id=field></table>";
 let table = "";
 for (let i = 0; i < 3; i++) {
@@ -58,4 +59,65 @@ for (let j = 0; j < 3; j++) {
 table += "</tr>";
 }
 getel("field").innerHTML = table;
+*/
+
 getel("game").style.setProperty("--tilesize", 3);
+
+let els = document.getElementsByClassName("free");
+
+let currentPlayer = player1;
+
+function switchPlayer() {
+    if (currentPlayer == player1) {
+        currentPlayer = player2;
+    } else {
+        currentPlayer = player1;
+    }
+}
+
+function action() {
+    let el = els[Math.floor(Math.random() * els.length)];
+
+    console.log(el)
+
+    if (el.classList.contains(player1)) {
+        el.classList.remove(player1);
+        el.classList.remove("ox");
+        return;
+    }
+    
+    if (el.classList.contains(player2)) {
+        el.classList.remove(player2);
+        el.classList.remove("ox");
+        return;
+    }
+
+    el.classList.add(currentPlayer)
+    el.classList.add("ox")
+
+    switchPlayer()
+}
+
+for (let i = 0; i < els.length; i++) {
+    const el = els[i];
+
+    el.addEventListener("click", () => {
+        if (el.classList.contains(player1)) {
+            el.classList.remove(player1);
+            el.classList.remove("ox");
+            return;
+        }
+        
+        if (el.classList.contains(player2)) {
+            el.classList.remove(player2);
+            el.classList.remove("ox");
+            return;
+        }
+
+        el.classList.add(currentPlayer)
+        el.classList.add("ox")
+        switchPlayer();
+    })
+}
+
+setInterval(function() { action() }, 2000)

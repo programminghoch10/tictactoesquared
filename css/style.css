@@ -11,6 +11,7 @@ body {
 
 svg, a, p {
     color: var(--color);
+    text-decoration: none;
 }
 
 .dark {

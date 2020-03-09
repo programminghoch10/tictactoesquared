@@ -221,27 +221,34 @@
 
 .game .i {
   transition: transform 200ms ease-in-out;
-
-  color: transparent;
 }
 
-.game .fullwidth table {
-  margin: 0;
+.game .i svg {
+  width: 100%;
+  height: 100%;
+
+  z-index: 10;
+}
+
+.game .fullwidth-transform {
+  transform: translateX(-100%);
 }
 
 .game .fullwidth .i {
-  min-width: 300%;
+  min-width: calc(300% + 2px);
   border-radius: 10px;
 
   text-align: center;
 
   color: var(--player1);
+
+  font-weight: bold;
+  letter-spacing: 2px;
 }
 
 .game .fullwidth td {
   color: var(--player1);
 }
-
 
 .game .i::after,
 .game .i::before {
