@@ -22,6 +22,12 @@ So if you won the upper left field and the lower right field,
 you will win the game, if you win the middle field, 
 which would result in you having three in a row in the big field.
 
+## AI
+
+You will be playing against an AI at the moment.
+
+Beating the AI is though, but it is possible to do so.
+
 ## Cookies
 
 We use cookies to save your current game state, 
