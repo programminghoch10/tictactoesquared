@@ -138,8 +138,6 @@ function ai() {
 
     let bestPath = bests[Math.floor(Math.random() * bests.length)];
 
-    console.log(scores);
-
     mousedown(bestPath.x, bestPath.y, bestPath.a, bestPath.b);
 
     return 0;

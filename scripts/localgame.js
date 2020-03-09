@@ -57,10 +57,6 @@ function reload() {
 function mousedown(x, y, a, b) {
   game.set(x, y, a, b);
 
-  if (game.currentPlayer == player2 && !game.debug) {
-    setTimeout(function () { ai(); }, 0);
-  }
-
   save();
 }
 
