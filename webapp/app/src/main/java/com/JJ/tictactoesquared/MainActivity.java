@@ -2,8 +2,10 @@ package com.JJ.tictactoesquared;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +19,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 	
+	String url;
+	
 	@SuppressLint("SetJavaScriptEnabled")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -25,13 +29,26 @@ public class MainActivity extends AppCompatActivity {
 		Context context = MainActivity.this;
 		//imported all webview knowledge from my other project: http://github.com/programminghoch10/weblauncher
 		
-		String url = context.getString(R.string.url);
-		WebView webView = findViewById(R.id.webview);
+		url = context.getString(R.string.url);
 		
 		//webview setup
+		WebView webView = findViewById(R.id.webview);
 		WebSettings webSettings = webView.getSettings();
 		webSettings.setJavaScriptEnabled(true);
-		webView.setWebViewClient(new WebViewClient());
+		webView.setWebViewClient(new WebViewClient() {
+			@Override
+			public boolean shouldOverrideUrlLoading(WebView view, String newurl) {
+				//Log.d("TTT", "shouldOverrideUrlLoading: URL is " + newurl);
+				if (newurl != null && newurl.startsWith(url)){
+					return false;
+				} else {
+					view.getContext().startActivity(
+							new Intent(Intent.ACTION_VIEW, Uri.parse(newurl))
+					);
+					return true;
+				}
+			}
+		});
 		webSettings.setAppCacheEnabled(true);
 		webSettings.setCacheMode(isNetworkConnected() ? WebSettings.LOAD_DEFAULT : WebSettings.LOAD_CACHE_ELSE_NETWORK);
 		webView.setOnLongClickListener(new View.OnLongClickListener() {
