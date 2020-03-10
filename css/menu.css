@@ -109,58 +109,6 @@
   padding: 4px;
 }
 
-.game .win-screen {
-  position: absolute;
-
-  display: flex;
-
-  justify-content: center;
-  align-items: center;
-
-    width: 100%;
-    height: 100%;
-
-  background: transparent;
-
-  color: transparent;
-  font-size: calc(var(--size) * 0.1);
-
-  border-radius: 10px;
-
-  pointer-events: none;
-
-  transition: background 200ms linear, color 200ms linear;
-}
-
-.game .win-screen i {
-    position: relative;
-
-    width: 60px;
-    height: 60px;
-}
-
-.game .win-screen .o {
-    transform: translate(0, 8px);
-}
-
-.game .win-screen .o::before {
-    content: '';
-    border-color: white;
-}
-
-.game .win-screen .x::before,
-.game .win-screen .x::after {
-    content: '';
-    background: white;
-}
-
-.game .win-active {
-  z-index: 10;
-  background: rgba(0, 0, 0, 0.6);
-  color: var(--color);
-  pointer-events: all;
-}
-
 .game td,
 .game tr,
 .game table {
