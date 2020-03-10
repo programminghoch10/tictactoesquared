@@ -42,6 +42,10 @@
   color: var(--default-alt);
 }
 
+.game .icons i::before {
+  color: var(--default-alt);
+}
+
 .game .icons .right {
   margin-left: auto;
 }
@@ -65,7 +69,7 @@
     display: initial;
 }
 
-.game .icons .reload, .game .icons .reset, .game .icons .github, .game .icons .darkmode, .game .icons .lightmode, .game .icons .debug {
+.game .icons .reload, .game .icons .reset, .game .icons .github, .game .icons .darkmode, .game .icons .lightmode, .game .icons .debug, .game .icons .home {
   cursor: pointer;
 }
 
