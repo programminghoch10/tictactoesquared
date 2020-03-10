@@ -252,7 +252,7 @@
 }
 
 .game .fullwidth-transform {
-  width: calc(var(--size) / (var(--tilesize)));
+  width: calc(8px + var(--size) / (var(--tilesize)));
 }
 
 .game .fullwidth .i {
@@ -405,10 +405,25 @@
     --default-alt: #555;
 }
 
-@media only screen and (max-width: 500px) {
-  .game {
-    --size: calc(100vw - 28px);
+@media only screen and (max-width: 700px) {
+  .hideable {
+    display: none;
   }
+
+  .fullwidth-transform .i, .fullwidth-transform .i::before {
+    width: calc(var(--size) + 20px) !important;
+  }
+
+  .fullwidth .i {
+    border-radius: 5px !important;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .game {
+    --size: calc(100vw - 40px);
+  }
+
 
   .game table td {
     padding: 1px;
@@ -416,5 +431,11 @@
 
   .game table .current::after {
     transform: translate(-5px, calc(-100% + 4px));
+  }
+}
+
+@media only screen and (max-width: 350px) {
+  .game .sbutton .sbuttonicon {
+    transform: scale(0.5);
   }
 }
