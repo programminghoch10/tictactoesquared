@@ -63,6 +63,32 @@ getel("field").innerHTML = table;
 
 getel("game").style.setProperty("--tilesize", 3);
 
+let menufreefields = document.getElementsByClassName("menufieldfree");
+for (let i = 0; i < menufreefields.length; i++) {
+    let table = "";
+    table += "<table>";
+    for (let j = 0; j < 3; j++) {
+        table += "<tr>";
+        for (let k = 0; k < 3; k++) {
+            table += '<td><div class="i free"></div></td>';
+        }
+        table += "</tr>";
+    }
+    table += "</table>";
+    menufreefields[i].innerHTML = table;
+};
+
+let menufreerows = document.getElementsByClassName("menufieldfreerow");
+for (let i = 0; i < menufreerows.length; i++) {
+    let row = "";
+    row += "<tr>";
+    for (let j = 0; j < 3; j++) {
+        row += '<td><div class="i free"></div></td>';
+    }
+    row += "</tr>";
+    menufreerows[i].innerHTML = row;
+};
+
 let els = document.getElementsByClassName("free");
 
 let currentPlayer = player1;
@@ -119,31 +145,5 @@ for (let i = 0; i < els.length; i++) {
         switchPlayer();
     })
 }
-
-let menufreefields = document.getElementsByClassName("menufieldfree");
-for (let i = 0; i < menufreefields.length; i++) {
-    let table = "";
-    table += "<table>";
-    for (let j = 0; j < 3; j++) {
-        table += "<tr>";
-        for (let k = 0; k < 3; k++) {
-            table += '<td><div class="i free"></div></td>';
-        }
-        table += "</tr>";
-    }
-    table += "</table>";
-    menufreefields[i].innerHTML = table;
-};
-
-let menufreerows = document.getElementsByClassName("menufieldfreerow");
-for (let i = 0; i < menufreerows.length; i++) {
-    let row = "";
-    row += "<tr>";
-    for (let j = 0; j < 3; j++) {
-        row += '<td><div class="i free"></div></td>';
-    }
-    row += "</tr>";
-    menufreerows[i].innerHTML = row;
-};
 
 setInterval(function() { action() }, 2000);
