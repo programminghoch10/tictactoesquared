@@ -219,6 +219,10 @@
   border-collapse: collapse;
 }
 
+.game table table {
+  overflow: hidden;
+}
+
 .game .i {
   transition: transform 200ms ease-in-out;
 }
@@ -231,12 +235,15 @@
 }
 
 .game .fullwidth-transform {
-  transform: translateX(-100%);
+  width: calc(var(--size) / (var(--tilesize)));
 }
 
 .game .fullwidth .i {
+  position: relative;
+
   min-width: calc(300% + 2px);
   border-radius: 10px;
+  z-index: -100;
 
   text-align: center;
 
@@ -244,6 +251,60 @@
 
   font-weight: bold;
   letter-spacing: 2px;
+
+  overflow: hidden;
+}
+
+.game .fullwidth {
+  cursor: pointer;
+}
+
+.game .fullwidth-transform .i {
+  min-width: calc(100% + 2px);
+}
+
+.game .fullwidth .alt {
+  color: var(--player2);
+}
+
+.game .fullwidth .i::before {
+  opacity: 1;
+  z-index: -10;
+
+  position: absolute;
+
+  display: block;
+
+
+  transform: translateX(-110%);
+  border-radius: 50%;
+
+  width: calc(var(--size) / (var(--tilesize)));
+  height: 100%;
+
+  background: var(--player1);
+
+  pointer-events: none;
+
+  transition: transform 200ms ease-in-out, border-radius 200ms ease-in-out;
+}
+
+.game .fullwidth .alt::before {
+  background: var(--player2);
+}
+
+.game .fullwidth:hover .i::before {
+  transform: translateX(0);
+  border-radius: 10px;
+}
+
+.game .fullwidth a {
+  z-index: 1000;
+  transition: color 200ms linear;
+}
+
+.game .fullwidth:hover a {
+  color: white;
 }
 
 .game .fullwidth td {
