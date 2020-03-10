@@ -310,6 +310,8 @@
 }
 
 .game .fullwidth .alt::before {
+  transform:translateX(110%);
+
   background: var(--player2);
 }
 
@@ -419,6 +421,10 @@
   }
 
   .fullwidth .i {
+    border-radius: 5px !important;
+  }
+
+  .game .fullwidth:hover .i::before {
     border-radius: 5px !important;
   }
 }
