@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 		});
 		webSettings.setAppCacheEnabled(true);
 		webSettings.setCacheMode(isNetworkConnected() ? WebSettings.LOAD_DEFAULT : WebSettings.LOAD_CACHE_ELSE_NETWORK);
+		webSettings.setUserAgentString("ttts-webapp");
 		webView.setOnLongClickListener(new View.OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
