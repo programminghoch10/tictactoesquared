@@ -1,16 +1,16 @@
 function dark() {
   document.body.classList.add("dark");
 
-  setCookie("theme", 1, 365);
+  setThemeCookie(1);
 }
 
 function light() {
   document.body.classList.remove("dark");
 
-  setCookie("theme", 0, 365);
+  setThemeCookie(0)
 }
 
-let cookie = getCookie("theme");
+let cookie = getThemeCookie();
 
 if (cookie == "") {
   if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
