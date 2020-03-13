@@ -9,7 +9,7 @@ body {
     font-family: "Roboto", sans-serif;
 }
 
-svg, a, p {
+svg, a, p, h1, h2 {
     color: var(--color);
     text-decoration: none;
 }

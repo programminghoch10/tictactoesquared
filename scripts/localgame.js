@@ -106,7 +106,6 @@ function load() {
   cookie = cookie.replace(/([^-XO012])+/g, "");
   cookie = cookie.split("-").join(" ");
   let expectedcookielength = (size * size * size * size + size * size + 4);
-  console.log("cookie length: " + cookie.length + " of " + expectedcookielength);
   if (cookie.length != expectedcookielength) {
     deleteGameCookie();
     return;
