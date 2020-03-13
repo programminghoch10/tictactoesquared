@@ -263,6 +263,10 @@
   background: var(--player2);
 }
 
+.game .fullwidth .noanimation::before {
+  transition: none;
+}
+
 .game .fullwidth:hover .i::before {
   transform: translateX(0);
   border-radius: 10px;
