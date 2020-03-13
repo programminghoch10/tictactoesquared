@@ -2,10 +2,16 @@ function getel(element) {
     return document.getElementById(element);
 }
 
-var useragent = Navigator.useragent; //will be "ttts-webapp", when shown in our app
+var useragent = navigator.userAgent; //will be "ttts-webapp", when shown in our app
 //var params = new URLSearchParams(location.search); //get search parameters, currently unused
 
 getel("game").style.setProperty("--tilesize", 3);
+
+if (useragent == "ttts-webapp") {
+    console.log("ttts-webapp detected");
+    getel("google-play-button").classList.replace("sbutton", "free");
+    getel("google-play-button").innerHTML = "";
+}
 
 let menufreefields = document.getElementsByClassName("menufieldfree");
 for (let i = 0; i < menufreefields.length; i++) {
