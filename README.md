@@ -6,6 +6,8 @@ The game is described fairly easily: Its TicTacToe inside TicTacToe.
 
 [Start the game](https://programminghoch10.github.io/tictactoesquared)
 
+[Download on the Play Store](https://play.google.com/store/apps/details?id=com.JJ.tictactoesquared)
+
 ## How to play
 
 The first player placed his marker anywhere. 
@@ -31,6 +33,8 @@ Beating the AI is though, but it is possible to do so.
 ## Android app
 
 There is an Android app available!
+
+[Download on the Play Store](https://play.google.com/store/apps/details?id=com.JJ.tictactoesquared)
 
 [Click here for more info](webapp/)
 
