@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 			
 			@Override
 			public void onPageFinished(WebView webView, String url) {
-				getActionBar().setTitle(webView.getTitle());
+				setTitle(webView.getTitle());
 			}
 		});
 		webSettings.setAppCacheEnabled(true);
