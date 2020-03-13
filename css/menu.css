@@ -224,7 +224,7 @@
 }
 
 .game .fullwidth {
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
 .game .fullwidth-transform .i {
