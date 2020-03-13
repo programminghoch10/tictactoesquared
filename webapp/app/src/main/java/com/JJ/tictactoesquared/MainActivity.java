@@ -48,9 +48,15 @@ public class MainActivity extends AppCompatActivity {
 					return true;
 				}
 			}
+			
+			@Override
+			public void onPageFinished(WebView webView, String url) {
+				setTitle(webView.getTitle());
+			}
 		});
 		webSettings.setAppCacheEnabled(true);
 		webSettings.setCacheMode(isNetworkConnected() ? WebSettings.LOAD_DEFAULT : WebSettings.LOAD_CACHE_ELSE_NETWORK);
+		webSettings.setUserAgentString("ttts-webapp");
 		webView.setOnLongClickListener(new View.OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
