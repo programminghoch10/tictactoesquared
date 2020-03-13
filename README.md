@@ -26,7 +26,9 @@ which would result in you having three in a row in the big field.
 
 ## AI
 
-You will be playing against an AI at the moment.
+You can force the AI to play for or against you by typing `ai()` into the developer console.
+
+With the addition of the menu, this will become obsolete.
 
 Beating the AI is though, but it is possible to do so.
 
