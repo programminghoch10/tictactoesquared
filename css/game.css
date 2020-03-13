@@ -149,12 +149,37 @@
     content: '';
     background: white;
 }
-
 .game .win-active {
   z-index: 10;
   background: rgba(0, 0, 0, 0.6);
   color: var(--color);
   pointer-events: all;
+}
+
+
+.game #win-text {
+    color: #fff;
+}
+
+.game #icon-x, .game #icon-o {
+    transform: translateY(-4px);
+}
+
+.game #icon-x, .game #icon-x p {
+    color: var(--player1);
+}
+
+.game #icon-o, .game #icon-o p {
+    color: var(--player2);
+}
+
+.game #icon-o p, .game #icon-x p {
+    display: inline;
+    font-family: "Roboto", sans-serif;
+    text-decoration: none;
+
+    font-weight: bold;
+    padding-left: 8px;
 }
 
 .game td,

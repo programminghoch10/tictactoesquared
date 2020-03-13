@@ -1,4 +1,4 @@
-<html>
+<html lang="en">
 
     <head>
         <title>TTT² </title>
@@ -22,6 +22,8 @@
               content="#ffffff">
         <meta name="viewport"
               content="width=device-width, initial-scale=1" />
+        <meta name="description"
+              content="tictactoe inside tictactoe">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
               rel="stylesheet" />
@@ -43,11 +45,14 @@
                     <div>
                         <i class="fas fa-times"
                            id="icon-x"
-                           onclick="switchPlayer()"></i>
+                           onclick="switchPlayer()">
+                            <p>turn</p>
+                        </i>
                         <i class="far fa-circle"
                            id="icon-o"
-                           onclick="switchPlayer()"></i>
-                        <i>turn</i>
+                           onclick="switchPlayer()">
+                            <p>turn</p>
+                        </i>
                         <i id="debug-notice"></i>
                     </div>
                     <div class="right">
