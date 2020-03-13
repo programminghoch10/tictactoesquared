@@ -2,6 +2,9 @@ function getel(element) {
     return document.getElementById(element);
 }
 
+var useragent = Navigator.useragent; //will be "ttts-webapp", when shown in our app
+//var params = new URLSearchParams(location.search); //get search parameters, currently unused
+
 getel("game").style.setProperty("--tilesize", 3);
 
 let menufreefields = document.getElementsByClassName("menufieldfree");

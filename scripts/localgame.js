@@ -46,7 +46,7 @@ function getel(element) {
 }
 
 function restart() {
-  setCookie("game", "", 0);
+  deleteGameCookie();
   reload();
 }
 
@@ -98,16 +98,19 @@ function save() {
     }
   }
 
-  setCookie("game", cookie, 365);
+  setGameCookie(cookie);
 }
 
 function load() {
-  let cookie = getCookie("game");
+  let cookie = getGameCookie();
   cookie = cookie.replace(/([^-XO012])+/g, "");
   cookie = cookie.split("-").join(" ");
-
-  if (cookie.length != size * size * size * size + size * size + 3) setCookie("game", "", 0);
-  if (cookie == "") return;
+  let expectedcookielength = (size * size * size * size + size * size + 4);
+  console.log("cookie length: " + cookie.length + " of " + expectedcookielength);
+  if (cookie.length != expectedcookielength) {
+    deleteGameCookie();
+    return;
+  }
 
   let position = 0;
   for (let x = 0; x < size; x++) {
