@@ -30,14 +30,14 @@ let frontendInterface = {
   },
   globalWin: (player) => {
     getel("win").classList.add("win-active");
-    getel("win-text").innerHTML = "Won";
+    getel("win-text").innerHTML = "Won"
     getel("win-player").classList.add(player);
 
     deleteGameCookie();
   },
   draw: () => {
     getel("win").classList.add("win-active");
-    getel("win-text").innerHTML = "Draw";
+    getel("win-text").innerHTML = "Draw"
   }
 }
 
@@ -58,6 +58,10 @@ function reload() {
 
 function mousedown(x, y, a, b) {
   game.set(x, y, a, b);
+
+  if (game.currentPlayer == player2 && !game.debug) {
+    setTimeout(function () { ai(); }, 100);
+  }
 
   if (!game.end) {
     save();
@@ -109,11 +113,9 @@ function load() {
   let cookie = getGameCookie();
   cookie = cookie.replace(/([^-XO012])+/g, "");
   cookie = cookie.split("-").join(" ");
-  let expectedcookielength = (size * size * size * size + size * size + 4);
-  if (cookie.length != expectedcookielength) {
-    deleteGameCookie();
-    return;
-  }
+
+  if (cookie.length != size * size * size * size + size * size + 3) deleteGameCookie();
+  if (cookie == "") return;
 
   let position = 0;
   for (let x = 0; x < size; x++) {
@@ -132,7 +134,6 @@ function load() {
   }
 
   game.currentPlayer = cookie.substring(position, position + 1);
-  game.setCurrentPlayer(game.currentPlayer);
   position++;
   game.currentField.all = cookie.substring(position, position + 1) == 1;
   position++;

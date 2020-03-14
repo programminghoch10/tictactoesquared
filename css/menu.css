@@ -1,6 +1,4 @@
 .game {
-  --current: #49b34e;
-
   --default: #ddd;
   --default-alt: #ccc;
   --player1: rgb(44, 202, 176);
@@ -17,7 +15,7 @@
   align-items: center;
   justify-content: center;
 
-  height: 100%;
+  height: 100vh;
   overflow: hidden;
 
   margin: 0;
@@ -109,84 +107,6 @@
   padding: 4px;
 }
 
-.game .win-screen {
-  position: absolute;
-
-  display: flex;
-
-  justify-content: center;
-  align-items: center;
-
-    width: 100%;
-    height: 100%;
-
-  background: transparent;
-
-  color: transparent;
-  font-size: calc(var(--size) * 0.1);
-
-  border-radius: 10px;
-
-  pointer-events: none;
-
-  transition: background 200ms linear, color 200ms linear;
-}
-
-.game .win-screen i {
-    position: relative;
-
-    width: 60px;
-    height: 60px;
-}
-
-.game .win-screen .o {
-    transform: translate(0, 8px);
-}
-
-.game .win-screen .o::before {
-    content: '';
-    border-color: white;
-}
-
-.game .win-screen .x::before,
-.game .win-screen .x::after {
-    content: '';
-    background: white;
-}
-.game .win-active {
-  z-index: 10;
-  background: rgba(0, 0, 0, 0.6);
-  color: var(--color);
-  pointer-events: all;
-}
-
-
-.game #win-text {
-    color: #fff;
-}
-
-.game #icon-x, .game #icon-o {
-    transform: translateX(8px);
-}
-
-.game #icon-x, .game #icon-x p, .game #icon-x::before {
-    color: var(--player1);
-}
-
-.game #icon-o, .game #icon-o p, .game #icon-o::before {
-    color: var(--player2);
-}
-
-.game #icon-o p, .game #icon-x p {
-    transform: translateY(10px);
-    display: inline;
-    font-family: "Roboto", sans-serif;
-    text-decoration: none;
-
-    font-weight: bold;
-    padding-left: 4px;
-}
-
 .game td,
 .game tr,
 .game table {
@@ -228,23 +148,6 @@
   padding: 4px;
 }
 
-.game table .current::after {
-  content: "";
-
-  position: absolute;
-  z-index: 1;
-
-  transform: translate(-8px, calc(-100% + 8px));
-
-  width: 100%;
-  height: 100%;
-
-  border-radius: 5px;
-  border: var(--current) solid 4px;
-
-  pointer-events: none;
-}
-
 .game table {
   border-collapse: collapse;
 }
@@ -255,6 +158,112 @@
 
 .game .i {
   transition: transform 200ms ease-in-out;
+}
+
+.game .sbutton {
+  transition: background 100ms linear;
+}
+
+.game .sbutton .sbuttonicon {
+  color: var(--player1);
+  transition: color 100ms linear;
+}
+
+.game .sbutton-alt .sbuttonicon {
+  color: var(--player2);
+}
+
+.game .sbutton:hover {
+  background: var(--player1);
+}
+.game .sbutton-alt:hover {
+  background: var(--player2);
+}
+
+.game .sbutton:hover .sbuttonicon {
+  color: white;
+}
+
+.game .fullwidth-transform {
+  width: calc(8px + var(--size) / (var(--tilesize)));
+}
+
+.game .fullwidth .i {
+  position: relative;
+
+  min-width: calc(300% + 2px);
+  border-radius: 10px;
+
+  text-align: center;
+
+  color: var(--player1);
+
+  font-weight: bold;
+  letter-spacing: 2px;
+
+  overflow: hidden;
+}
+
+.game .fullwidth {
+  cursor: default;
+}
+
+.game .fullwidth-transform .i {
+  min-width: calc(100% + 2px);
+}
+
+.game .fullwidth .alt {
+  color: var(--player2);
+}
+
+.game .fullwidth .i::before {
+  opacity: 1;
+  z-index: -10;
+
+  position: absolute;
+
+  display: block;
+
+  transform: translateX(-110%);
+  border-radius: 50%;
+
+  width: calc(var(--size) / (var(--tilesize)) + 60px);
+  height: 100%;
+
+  background: var(--player1);
+
+  pointer-events: none;
+
+  transition: transform 200ms ease-in-out, border-radius 200ms linear;
+}
+
+.game .fullwidth .alt::before {
+  transform: translateX(110%);
+
+  background: var(--player2);
+}
+
+.game .fullwidth .noanimation::before {
+  transition: none;
+  display: none;
+}
+
+.game .fullwidth:hover .i::before {
+  transform: translateX(0);
+  border-radius: 0px;
+}
+
+.game .fullwidth a {
+  z-index: 1000;
+  transition: color 200ms linear;
+}
+
+.game .fullwidth:hover a {
+  color: white;
+}
+
+.game .fullwidth td {
+  color: var(--player1);
 }
 
 .game .i::after,
@@ -321,10 +330,25 @@
     --default-alt: #555;
 }
 
+@media only screen and (max-width: 700px) {
+  .hideable {
+    display: none;
+  }
+
+  .fullwidth-transform .i, .fullwidth-transform .i::before {
+    width: calc(var(--size) + 20px) !important;
+  }
+
+  .fullwidth .i {
+    border-radius: 5px !important;
+  }
+}
+
 @media only screen and (max-width: 600px) {
   .game {
     --size: calc(100vw - 40px);
   }
+
 
   .game table td {
     padding: 1px;
@@ -337,5 +361,16 @@
   .game .icons {
       width: 60%;
       transform: scale(1.5) translate(0, -6px);
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .game .sbutton .sbuttonicon {
+    transform: scale(0.5);
+  }
+
+  .game .fullwidth .i {
+    letter-spacing: 1px;
+    font-size: calc(var(--size) / 25 );
   }
 }

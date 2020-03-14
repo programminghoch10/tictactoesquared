@@ -48,10 +48,10 @@ function iterate(i, g, player) {
     return g.score;
 }
 
-function ai() {
+async function ai() {
     if (game.end) return 2;
 
-    let iterations = Math.floor(2000 * Math.pow(81 - game.progress, -2)) + 4;
+    let iterations = Math.floor(2000 * Math.pow(81 - game.progress, -2)) + 3;
     if (iterations > 20) iterations = 20;
 
     let xs = 0;

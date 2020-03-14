@@ -1,5 +1,5 @@
-//app.js
-//  contains all game scripts
+// https://davidwalsh.name/query-string-javascript
+var params = new URLSearchParams(location.search); //get search parameters, currently unused
 
 const EMPTYFRONTENDINTERFACE = {
   setTile: (x, y, a, b, currentPlayer) => { },
@@ -13,7 +13,7 @@ const EMPTYFRONTENDINTERFACE = {
 
 const player1 = "X";
 const player2 = "O";
-const size = 3;
+const size = params.has("size") ? parseInt(params.get("size")) : 3;
 document.title = Array(size).fill(null).map(() => "T").join("") + "²";
 
 function getglobalid(x, y) {
