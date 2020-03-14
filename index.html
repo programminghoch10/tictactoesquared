@@ -90,6 +90,18 @@
                 data-message="We use cookies mainly to save your game. (It's ok, everyone does.)"
                 data-cookie="cookies-accepted"
                 data-close-text="Accept"></script>
+        <script async>
+            //TODO: check if cookies accepted and only then register SW
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function () {
+                    navigator.serviceWorker.register('./sw.js').then(function (registration) {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    }).catch(function (err) {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+                });
+            }
+        </script>
     </body>
 
 </html>
