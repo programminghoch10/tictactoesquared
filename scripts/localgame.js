@@ -126,6 +126,7 @@ function load() {
   }
 
   game.currentPlayer = cookie.substring(position, position + 1);
+  game.setCurrentPlayer(game.currentPlayer);
   position++;
   game.currentField.all = cookie.substring(position, position + 1) == 1;
   position++;
