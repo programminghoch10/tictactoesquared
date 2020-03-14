@@ -2,7 +2,8 @@
 
 //kindly copied from https://github.com/BernoulliMath/BernoulliMath.github.io/blob/master/sw.js
 
-var CACHE_NAME = 'TTTS_CACHE_1';
+var CACHE_NAME = 'TTTS_CACHE';
+
 // urlsToCache: all crucial files absolutely needed to run the game
 var urlsToCache = [
     '/index.html',
@@ -27,10 +28,6 @@ self.addEventListener('install', function(event) {
 });
 
 self.addEventListener('fetch', function(event) {
-    console.log("add to cache: " + event.request.url);
-    caches.open(CACHE_NAME).then(function(cache) {
-            return cache.add(event.request.url);
-    });
     event.respondWith((function() {
         return caches.open(CACHE_NAME).then(function(cache) {
             return cache.match(event.request).then(function(response) {
