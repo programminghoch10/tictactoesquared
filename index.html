@@ -2,6 +2,22 @@
 
       <head>
             <title>TTT² </title>
+            <link rel="prerender"
+                  href="game.html" />
+            <link rel="prefetch"
+                  href="css/game.css" />
+            <link rel="prefetch"
+                  href="scripts/localgame.js" />
+            <link rel="prefetch"
+                  href="game.html" />
+            <link rel="prefetch"
+                  href="settings.html" />
+            <link rel="prefetch"
+                  href="scripts/ai.js" />
+            <link rel="prefetch"
+                  href="scripts/againstai.js" />
+            <link rel="prefetch"
+                  href="https://github.com/programminghoch10/tictactoesquared" />
             <meta name="viewport"
                   content="width=device-width, initial-scale=1" />
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -29,8 +45,10 @@
                                        onclick="dark()"></i>
                                     <i class="fas fa-sun lightmode"
                                        onclick="light()"></i>
-                                    <i class="fab fa-github github"
-                                       onclick="window.open('https://github.com/programminghoch10/tictactoesquared', '_blank').focus();"></i>
+                                    <a href="https://github.com/programminghoch10/tictactoesquared"
+                                       target="_blank">
+                                          <i class="fab fa-github github"></i>
+                                    </a>
                               </div>
                         </div>
                         <div id="wrapper"
@@ -85,8 +103,8 @@
                                                       <tr>
                                                             <td class="fullwidth">
                                                                   <a class="i alt"
-                                                                     style="text-decoration: line-through;"> MULTIPLAYER
-                                                                        GAME </a>
+                                                                     style="text-decoration: line-through; cursor: not-allowed">
+                                                                        ONLINE MULTIPLAYER </a>
                                                             </td>
                                                       </tr>
                                                       <tr>
@@ -111,7 +129,7 @@
                                                 <table>
                                                       <tr>
                                                             <td class="fullwidth">
-                                                                  <div class="i"
+                                                                  <div class="i noanimation"
                                                                        style="color: var(--player2)"> DOWNLOAD </div>
                                                             </td>
                                                       </tr>
@@ -121,9 +139,11 @@
                                                                   </div>
                                                             </td>
                                                             <td>
-                                                                  <div class="i sbutton">
-                                                                        <i
-                                                                           class="fab fa-google-play fa-2x sbuttonicon"></i>
+                                                                  <div id="google-play-button"
+                                                                       class="i sbutton">
+                                                                        <a href="https://play.store.com/store/apps/details?id=com.JJ.tictactoesquared"
+                                                                           target="_blank"
+                                                                           class="fab fa-google-play fa-2x sbuttonicon"></a>
                                                                   </div>
                                                             </td>
                                                             <td>

@@ -205,7 +205,7 @@
 }
 
 .game .fullwidth {
-  cursor: pointer;
+  cursor: default;
 }
 
 .game .fullwidth-transform .i {
@@ -242,6 +242,10 @@
   transform:translateX(110%);
 
   background: var(--player2);
+}
+
+.game .fullwidth .noanimation::before {
+  transition: none;
 }
 
 .game .fullwidth:hover .i::before {
