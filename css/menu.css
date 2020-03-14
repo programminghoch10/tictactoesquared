@@ -15,10 +15,10 @@
   align-items: center;
   justify-content: center;
 
-  height: 100%;
+  height: 100vh;
+  overflow: hidden;
 
   margin: 0;
-  margin-top: -12px;
 }
 
 .game .outer {
@@ -224,11 +224,10 @@
 
   display: block;
 
-
   transform: translateX(-110%);
   border-radius: 50%;
 
-  width: calc(var(--size) / (var(--tilesize)));
+  width: calc(var(--size) / (var(--tilesize)) + 60px);
   height: 100%;
 
   background: var(--player1);
@@ -239,18 +238,19 @@
 }
 
 .game .fullwidth .alt::before {
-  transform:translateX(110%);
+  transform: translateX(110%);
 
   background: var(--player2);
 }
 
 .game .fullwidth .noanimation::before {
   transition: none;
+  display: none;
 }
 
 .game .fullwidth:hover .i::before {
   transform: translateX(0);
-  border-radius: 10px;
+  border-radius: 0px;
 }
 
 .game .fullwidth a {
@@ -342,10 +342,6 @@
   .fullwidth .i {
     border-radius: 5px !important;
   }
-
-  .game .fullwidth:hover .i::before {
-    border-radius: 5px !important;
-  }
 }
 
 @media only screen and (max-width: 600px) {
@@ -360,6 +356,11 @@
 
   .game table .current::after {
     transform: translate(-5px, calc(-100% + 4px));
+  }
+
+  .game .icons {
+      width: 60%;
+      transform: scale(1.5) translate(0, -6px);
   }
 }
 

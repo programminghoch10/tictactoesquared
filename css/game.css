@@ -18,9 +18,9 @@
   justify-content: center;
 
   height: 100%;
+  overflow: hidden;
 
   margin: 0;
-  margin-top: -12px;
 }
 
 .game .outer {
@@ -166,24 +166,25 @@
 }
 
 .game #icon-x, .game #icon-o {
-    transform: translateY(-4px);
+    transform: translateX(8px);
 }
 
-.game #icon-x, .game #icon-x p {
+.game #icon-x, .game #icon-x p, .game #icon-x::before {
     color: var(--player1);
 }
 
-.game #icon-o, .game #icon-o p {
+.game #icon-o, .game #icon-o p, .game #icon-o::before {
     color: var(--player2);
 }
 
 .game #icon-o p, .game #icon-x p {
+    transform: translateY(10px);
     display: inline;
     font-family: "Roboto", sans-serif;
     text-decoration: none;
 
     font-weight: bold;
-    padding-left: 8px;
+    padding-left: 4px;
 }
 
 .game td,
@@ -331,5 +332,10 @@
 
   .game table .current::after {
     transform: translate(-5px, calc(-100% + 4px));
+  }
+
+  .game .icons {
+      width: 60%;
+      transform: scale(1.5) translate(0, -6px);
   }
 }

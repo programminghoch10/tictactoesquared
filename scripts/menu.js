@@ -8,9 +8,13 @@ var useragent = navigator.userAgent; //will be "ttts-webapp", when shown in our 
 getel("game").style.setProperty("--tilesize", 3);
 
 if (useragent == "ttts-webapp") {
-    console.log("ttts-webapp detected");
     getel("google-play-button").classList.replace("sbutton", "free");
     getel("google-play-button").innerHTML = "";
+    getel("download-button").innerHTML = "PLAY ONLINE";
+    getel("download-button").classList.remove("noanimation");
+    getel("download-button").onclick = function() {
+        window.open("https://programminghoch10.github.io/tictactoesquared/")
+    }
 }
 
 let menufreefields = document.getElementsByClassName("menufieldfree");
@@ -53,8 +57,6 @@ function switchPlayer() {
 
 function action() {
     let el = els[Math.floor(Math.random() * els.length)];
-
-    console.log(el)
 
     if (el.classList.contains(player1)) {
         el.classList.remove(player1);

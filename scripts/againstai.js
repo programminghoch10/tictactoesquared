@@ -32,6 +32,8 @@ let frontendInterface = {
     getel("win").classList.add("win-active");
     getel("win-text").innerHTML = "Won"
     getel("win-player").classList.add(player);
+
+    deleteGameCookie();
   },
   draw: () => {
     getel("win").classList.add("win-active");
@@ -58,10 +60,12 @@ function mousedown(x, y, a, b) {
   game.set(x, y, a, b);
 
   if (game.currentPlayer == player2 && !game.debug) {
-    setTimeout(function () { ai(); }, 1);
+    setTimeout(function () { ai(); }, 100);
   }
 
-  save();
+  if (!game.end) {
+    save();
+  }
 }
 
 function debug() {
