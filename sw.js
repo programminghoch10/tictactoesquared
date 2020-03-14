@@ -6,16 +6,16 @@ var CACHE_NAME = 'TTTS_CACHE';
 
 // urlsToCache: all crucial files absolutely needed to run the game
 var urlsToCache = [
-    '/index.html',
-    '/scripts/ai.js',
-    '/scripts/colortheme.js',
-    '/scripts/cookie.js',
-    '/scripts/game.js',
-    '/scripts/localgame.js',
-    '/css/game.css',
-    '/css/style.css',
-    '/favicons/favicon-32x32.png',
-    '/favicons/favicon-16x16.png',
+    'index.html',
+    'scripts/ai.js',
+    'scripts/colortheme.js',
+    'scripts/cookie.js',
+    'scripts/game.js',
+    'scripts/localgame.js',
+    'css/game.css',
+    'css/style.css',
+    'favicons/favicon-32x32.png',
+    'favicons/favicon-16x16.png',
 ];
 
 self.addEventListener('install', function(event) {

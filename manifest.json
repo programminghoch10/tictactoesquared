@@ -28,6 +28,7 @@
   }
 ],
 "prefer_related_applications": true,
+"scope": "https://programminghoch10.github.io/tictactoesquared/",
 "start_url": "https://programminghoch10.github.io/tictactoesquared",
 "display": "standalone",
 "orientation": "any",
