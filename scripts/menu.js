@@ -10,11 +10,8 @@ getel("game").style.setProperty("--tilesize", 3);
 if (useragent == "ttts-webapp") {
     getel("google-play-button").classList.replace("sbutton", "free");
     getel("google-play-button").innerHTML = "";
-    getel("download-button").innerHTML = "PLAY ONLINE";
-    getel("download-button").classList.remove("noanimation");
-    getel("download-button").onclick = function() {
-        window.open("https://programminghoch10.github.io/tictactoesquared/")
-    }
+    getel("download-button").classList.remove("fullwidth");
+    getel("download-button").parentElement.outerHTML = '<td><div class="i free"></div></td><td><div class="i free"></div></td><td><div class="i free"></div></td>';
 }
 
 let menufreefields = document.getElementsByClassName("menufieldfree");
