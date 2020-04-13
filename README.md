@@ -24,13 +24,20 @@ So if you won the upper left field and the lower right field,
 you will win the game, if you win the middle field, 
 which would result in you having three in a row in the big field.
 
+You can start a local 2-player game, by selecting `LOCAL GAME`.
+
 ## AI
+
+To play against the AI, select `AGAINST AI` in the main menu.
 
 You can force the AI to play for or against you by typing `ai()` into the developer console.
 
-With the addition of the menu, this will become obsolete.
-
 Beating the AI is though, but it is possible to do so.
+
+## Online Multiplayer
+
+We are working on an online multiplayer.
+This is a tough task to complete, but we hope to get it done sometime in the future.
 
 ## Android app
 
