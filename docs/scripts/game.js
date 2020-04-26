@@ -13,9 +13,6 @@ const EMPTYFRONTENDINTERFACE = {
 
 const player1 = "X";
 const player2 = "O";
-const size = params.has("size") ? parseInt(params.get("size")) : 3;
-document.title = Array(size).fill(null).map(() => "T").join("") + "²";
-
 function getglobalid(x, y) {
   return x + "" + y;
 }
@@ -25,11 +22,16 @@ function getid(x, y, a, b) {
 }
 
 class Game {
-  constructor(frontendinterface) {
+  constructor(frontendinterface, size) {
     this.frontendinterface = frontendinterface;
+    this.size = size;
 
-    this.fields = Array(size).fill(null).map(() => new Array(size).fill(null).map(() => new Array(size).fill(null).map(() => new Array(size).fill(null).map(() => 0))));
-    this.globalField = Array(size).fill(null).map(() => new Array(size).fill(null).map(() =>0));
+    this.init();
+  }
+
+  init() {
+    this.fields = Array(this.size).fill(null).map(() => new Array(this.size).fill(null).map(() => new Array(this.size).fill(null).map(() => new Array(this.size).fill(null).map(() => 0))));
+    this.globalField = Array(this.size).fill(null).map(() => new Array(this.size).fill(null).map(() =>0));
 
     this.currentField = {
       all: true,
@@ -69,8 +71,8 @@ class Game {
   }
 
   isFull(x, y) {
-    for (let i = 0; i < size; i++) {
-      for (let j = 0; j < size; j++) {
+    for (let i = 0; i < this.size; i++) {
+      for (let j = 0; j < this.size; j++) {
         let id = getid(x, y, i, j);
         if (this.fields[x][y][i][j] == 0) {
           return false;
@@ -154,8 +156,8 @@ class Game {
   }
 
   isGlobalFieldFull() {
-    for (let x = 0; x < size; x++) {
-      for (let y = 0; y < size; y++) {
+    for (let x = 0; x < this.size; x++) {
+      for (let y = 0; y < this.size; y++) {
 
         if (this.globalField[x][y] == 0) {
           return false;
@@ -173,10 +175,10 @@ class Game {
       return true;
     }
 
-    for (let x = 0; x < size; x++) {
-      for (let y = 0; y < size; y++) {
-        for (let a = 0; a < size; a++) {
-          for (let b = 0; b < size; b++) {
+    for (let x = 0; x < this.size; x++) {
+      for (let y = 0; y < this.size; y++) {
+        for (let a = 0; a < this.size; a++) {
+          for (let b = 0; b < this.size; b++) {
             if (this.fields[x][y][a][b] == 0) {
               return false;
             }
@@ -190,14 +192,14 @@ class Game {
 
   checkGlobalWin(x, y, player) {
     let wins = [0, 0, 0, 0];
-    for (let i = 0; i < size; i++) {
+    for (let i = 0; i < this.size; i++) {
       wins[0] += this.globalField[i][y] == player ? 1 : 0;
       wins[1] += this.globalField[x][i] == player ? 1 : 0;
       wins[2] += this.globalField[i][i] == player ? 1 : 0;
-      wins[3] += this.globalField[i][size - i - 1] == player ? 1 : 0;
+      wins[3] += this.globalField[i][this.size - i - 1] == player ? 1 : 0;
     }
 
-    if (wins[0] == size || wins[1] == size || wins[2] == size || wins[3] == size) {
+    if (wins[0] == this.size || wins[1] == this.size || wins[2] == this.size || wins[3] == this.size) {
       this.globalWin(x, y, player);
     }
   }
@@ -206,14 +208,14 @@ class Game {
     if (this.globalField[x][y] != 0) return;
 
     let wins = [0, 0, 0, 0];
-    for (let i = 0; i < size; i++) {
+    for (let i = 0; i < this.size; i++) {
       wins[0] += this.fields[x][y][i][b] == player ? 1 : 0;
       wins[1] += this.fields[x][y][a][i] == player ? 1 : 0;
       wins[2] += this.fields[x][y][i][i] == player ? 1 : 0;
-      wins[3] += this.fields[x][y][i][size - i - 1] == player ? 1 : 0;
+      wins[3] += this.fields[x][y][i][this.size - i - 1] == player ? 1 : 0;
     }
 
-    if (wins[0] == size || wins[1] == size || wins[2] == size || wins[3] == size) {
+    if (wins[0] == this.size || wins[1] == this.size || wins[2] == this.size || wins[3] == this.size) {
       this.win(x, y, a, b, player);
       this.checkGlobalWin(x, y, player);
     }
@@ -221,5 +223,93 @@ class Game {
     if (this.checkDraw()) {
       this.draw();
     }
+  }
+
+  toString() {
+    let saveGame = "";
+
+    saveGame += this.size + "-";
+
+    for (let x = 0; x < size; x++) {
+      for (let y = 0; y < size; y++) {
+        for (let a = 0; a < size; a++) {
+            for (let b = 0; b < size; b++) {
+            let field = game.fields[x][y][a][b];
+            saveGame += "" + (field == "" ? "-" : field);
+          }
+        }
+      }
+    }
+    saveGame += game.currentPlayer;
+    saveGame += game.currentField.all == true ? 1 : 0;
+    saveGame += game.currentField.x + "" + game.currentField.y;
+
+    for (let i = 0; i < size; i++) {
+      for (let j = 0; j < size; j++) {
+        saveGame += game.globalField[i][j];
+      }
+    }
+
+    return saveGame;
+  }
+
+  fromString(saveGame) {
+    if (saveGame == "") return false;
+
+    this.init();
+
+    this.size = saveGame.substring(0, saveGame.indexOf("-"));
+
+    saveGame = saveGame.substring(saveGame.indexOf("-") + 1);
+
+    saveGame = saveGame.replace(/([^-XO012])+/g, "");
+    saveGame = saveGame.split("-").join(" ");
+
+    let expectedSaveGameLength = (this.size * this.size * this.size * this.size + this.size * this.size + 4);
+    if (saveGame.length != expectedSaveGameLength) {
+      return false;
+    }
+
+    let position = 0;
+    for (let x = 0; x < size; x++) {
+      for (let y = 0; y < size; y++) {
+        for (let a = 0; a < size; a++) {
+          for (let b = 0; b < size; b++) {
+            let char = saveGame.substring(position, position + 1);
+            if (char != " " && char != "") {
+              this.setTile(x, y, a, b, char);
+            }
+            position++;
+          }
+        }
+      }
+    }
+
+    this.currentPlayer = saveGame.substring(position, position + 1);
+    this.setCurrentPlayer(this.currentPlayer);
+    position++;
+    this.currentField.all = saveGame.substring(position, position + 1) == 1;
+    position++;
+    this.currentField.x = saveGame.substring(position, position + 1);
+    position++;
+    this.currentField.y = saveGame.substring(position, position + 1);
+
+    if (!this.currentField.all) {
+      this.frontendinterface.setCurrentFieldAfter(this.currentField.x, this.currentField.y);
+    }
+
+    for (let i = 0; i < this.size; i++) {
+      for (let j = 0; j < this.size; j++) {
+        position++;
+        this.globalField[i][j] = saveGame.substring(position, position + 1);
+        if (this.globalField[i][j] == player1) {
+          this.frontendinterface.win(i, j, 0, 0, player1);
+        } else if (this.globalField[i][j] == player2) {
+          this.frontendinterface.win(i, j, 0, 0, player2);
+        }
+      }
+    }
+
+    return true;
   }
 }
