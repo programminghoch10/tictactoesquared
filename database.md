@@ -25,7 +25,6 @@ id | int | makes table entry unique | assigned on creation, never gets changed |
 token | text | system internal token for this lobby | unique for this lobby, never gets changed after creation | NOT NULL
 hid | text | human readable hexadezimal number for identifing this lobby on GUI level. intended to be used if several lobby with the same name exist | unique for this lobby, never gets changed after creation | NOT NULL
 game | text | game instance of this lobby | | NOT NULL
-gamesize | int | game size factor of this game, default: `3` | assigned on creation, never gets changed `This is planned to be integrated into table entry game soon!` | NOT NULL
 name | text | name of this lobby | assigned by user, can be changed | NOT NULL
 description | text | description of this lobby | assigned by user, can be changed | 
 password | text | `sha256` hashed password of this lobby, only used for open lobbys | assigned by user, can be changed | 
