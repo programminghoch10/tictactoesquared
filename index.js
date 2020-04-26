@@ -1,13 +1,13 @@
 var express = require('express');
-var app = express();
+var app = express();  
+let fs = require('fs')
 
-const hostname = "127.0.0.1"
-const port = "5500"
+const DIR = "./docs/"
 
-app.get('/test', (req, res) => {
-    res.send('Hello, world');
+app.use(express.static(DIR))
+
+app.get('/', function(req, res) {
+    res.render(DIR + 'index.html');
 });
 
-app.listen(port, hostname, () => {
-    console.log(`Server is running at http://${hostname}:${port}/`)
-})
+app.listen(5500, '127.0.0.1')
