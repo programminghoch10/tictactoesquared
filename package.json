@@ -1,0 +1,27 @@
+{
+  "name": "tictactoesquared",
+  "version": "1.0.0",
+  "description": "TTT² is an extended version of TTT.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "ejs": "^3.1.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/programminghoch10/tictactoesquared.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/programminghoch10/tictactoesquared/issues"
+  },
+  "homepage": "https://github.com/programminghoch10/tictactoesquared#readme"
+}
