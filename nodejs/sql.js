@@ -68,21 +68,6 @@ async function getUsers() {
   return results;
 }
 
-async function getLobbyByToken(token) {
-  let result = await getByToken("lobbies", token);
-  if (!result) return false;
-  return await convertSqlToUser(result);
-}
-
-async function getLobbies() {
-  let results = await getAll("lobbies");
-  if (results.length == 0) return false;
-  for (let i = 0; i < results.length; i++) {
-    results[i] = await convertSqlToLobby(results[i]);
-  }
-  return results;
-}
-
 async function createUser(user) {
   if (user.constructor.name != classes.User.name) return false;
   user.creationtime = common.getTime();
@@ -122,6 +107,31 @@ async function updateUser(user) {
   return user;
 }
 
+async function deleteUser(user) {
+  if (user.constructor.name != classes.User.name) return false;
+  pool.query({
+    sql: "DELETE FROM users WHERE `id`=?",
+    timeout: sqltimeout,
+    values: [user.id]
+  });
+  return true;
+}
+
+async function getLobbyByToken(token) {
+  let result = await getByToken("lobbies", token);
+  if (!result) return false;
+  return await convertSqlToUser(result);
+}
+
+async function getLobbies() {
+  let results = await getAll("lobbies");
+  if (results.length == 0) return false;
+  for (let i = 0; i < results.length; i++) {
+    results[i] = await convertSqlToLobby(results[i]);
+  }
+  return results;
+}
+
 async function createLobby(lobby) {
   if (lobby.constructor.name != classes.Lobby.name) return false;
   lobby.creationtime = common.getTime();
@@ -142,12 +152,12 @@ async function createLobby(lobby) {
   return await getLobbyByToken(lobby.token);
 }
 
-async function updatelobbygame(token, game) {
+async function updateLobbyGame(token, game) {
   let lobby = await getLobbyByToken(token);
   lobby.game = game;
-  return await updatelobby(lobby);
+  return await updateLobby(lobby);
 }
-async function updatelobby(lobby) {
+async function updateLobby(lobby) {
   if (lobby.constructor.name != classes.Lobby.name) return false;
   let oldlobby = await getLobbyByToken(lobby.token);
   lobby.creationtime = oldlobby.creationtime;
@@ -166,6 +176,16 @@ async function updatelobby(lobby) {
       lobby.privacy, lobby.lastacttime, lobby.timeout]
   });
   return lobby;
+}
+
+async function deleteLobby(lobby) {
+  if (lobby.constructor.name != classes.Lobby.name) return false;
+  pool.query({
+    sql: "DELETE FROM lobbies WHERE `id`=?",
+    timeout: sqltimeout,
+    values: [lobby.id]
+  });
+  return true;
 }
 
 async function createCorrelation(correlation) {
@@ -191,7 +211,17 @@ async function updateCorrelation(correlation) {
       timeout: sqltimeout,
       values: [correlation.usertoken, correlation.lobbytoken, 
       correlation.invite, correlation.id]
-  })
+  });
+  return true;
+}
+
+async function deleteCorrelation(correlation) {
+  if (correlation.constructor.name != classes.Correlation.name) return false;
+  pool.query({
+    sql: "DELETE FROM correlations WHERE `id`=?",
+    timeout: sqltimeout,
+    values: [correlation.id]
+  });
   return true;
 }
 
@@ -286,14 +316,24 @@ function convertSqlToCorrelation(row) {
 module.exports = {
   init: init,
   rawQuery: rawQuery,
+
   getUsers: getUsers,
   getUserByToken: getUserByToken,
-  getLobbies: getLobbies,
-  getLobbyByToken: getLobbyByToken,
   createUser: createUser,
   updateUser: updateUser,
   updateUserLastActivity: updateUserLastActivity,
+  deleteUser: deleteUser,
+
+  getLobbies: getLobbies,
+  getLobbyByToken: getLobbyByToken,
   createLobby: createLobby,
-  updatelobby: updatelobby,
-  updatelobbygame: updatelobbygame,
+  updateLobby: updateLobby,
+  updateLobbyGame: updateLobbyGame,
+  deleteLobby: deleteLobby,
+
+  getCorrelationsByLobbyToken: getCorrelationsByLobbyToken,
+  getCorrelationsByUserToken: getCorrelationsByUserToken,
+  createCorrelation: createCorrelation,
+  updateCorrelation: updateCorrelation,
+  deleteCorrelation: deleteCorrelation,
 }
