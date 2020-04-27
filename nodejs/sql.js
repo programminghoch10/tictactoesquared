@@ -8,18 +8,21 @@
  */
 
 var mysql;
-var con; //mysql connection
+var pool; //mysql connection pool
 
 function init() {
   let logindata = require('./sqllogin.js')
 
-  mysql = require('mysql');
+  mysql = require('mysql2/promise');
 
-  con = mysql.createConnection({
+  pool = mysql.createPool({
     host: logindata.hostname,
     user: logindata.username,
     password: logindata.password,
     database: logindata.database,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0,
   });
 
   /*con.connect(function(err) {
@@ -27,7 +30,7 @@ function init() {
     console.log("Connected to sql!");
   });*/
   //no inital connect needed, because a query automatically starts the connection
-  con.on('error', function(err) {
+  /*con.on('error', function(err) {
     //console.log('db error', err);
     if(err.code === 'PROTOCOL_CONNECTION_LOST') { 
       //init(); 
@@ -35,7 +38,8 @@ function init() {
     } else {
       throw err;
     }
-  });
+  });*/
+}
 }
 
 module.exports = {
