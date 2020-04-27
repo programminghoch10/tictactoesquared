@@ -13,6 +13,8 @@ router.post('/requestPlayerToken', function(req, res) {
 
     let token = common.hash(name + common.getTime())
 
+    // add player to database
+
     res.send(token)
 })
 

@@ -80,8 +80,14 @@ function isPlayerTokenValid() {
   return true
 }
 
-function createLobby() {
-
+function createLobby(name, description, password) {
+    let lobbyToken = post("/createLobby", {
+        name: name,
+        description: description,
+        password: password,
+        ownToken: token,
+        inviteToken: null,
+    })
 }
 
 function getJoinedLobbies() {

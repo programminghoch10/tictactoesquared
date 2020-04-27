@@ -8,5 +8,9 @@ module.exports = {
     },
     getTime: () => {
         return new Date().getTime()
+    },
+    isStringEmpty: (str) => {
+        str = str.split(" ").join("")
+        return str.length == 0
     }
 }

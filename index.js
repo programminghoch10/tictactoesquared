@@ -16,6 +16,7 @@ app.use(bodyParser.json())
 // app.use(require("./nodejs/test.js"))
 app.use(require("./nodejs/requestPlayerToken.js"))
 app.use(require("./nodejs/doesPlayerTokenExist.js"))
+app.use(require("./nodejs/createLobby.js"))
 
 const DIR = "./docs/"
 
