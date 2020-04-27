@@ -4,7 +4,8 @@ let fs = require('fs')
 
 const sql = require("./nodejs/sql.js")
 sql.init()
-console.log(sql.i)
+
+process()
 
 // to import another router
 // app.use(require("./nodejs/test.js"))
@@ -24,3 +25,10 @@ app.get('/', function(req, res) {
 // sql.dropAllTables()
 
 app.listen(5500, '127.0.0.1')
+
+async function process() {
+    //console.log( await sql.rawQuery("select * from users"))
+    //sql.rawQuery("insert into users (token) values ('abc')")
+    //console.log( await sql.getUserByToken("abc"))
+    console.log( await sql.getLobbies());
+}
