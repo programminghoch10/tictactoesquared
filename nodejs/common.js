@@ -7,7 +7,7 @@ module.exports = {
         return hash.digest('hex')
     },
     getTime: () => {
-        return new Date().getTime()
+        return Math.floor(new Date().getTime() / 1000)
     },
     isStringEmpty: (str) => {
         str = str.split(" ").join("")

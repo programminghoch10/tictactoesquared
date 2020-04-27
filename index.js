@@ -41,8 +41,8 @@ app.post('/test', function(req, res) {
 app.listen(5500, '127.0.0.1')
 
 async function process() {
-    //console.log( await sql.rawQuery("select * from users"))
-    //sql.rawQuery("insert into users (token) values ('abc')")
     //console.log( await sql.getUserByToken("abc"))
     //console.log( await sql.getLobbies());
+    // console.log(await sql.getUsers())
+    // console.log(await sql.getLobbies())
 }
