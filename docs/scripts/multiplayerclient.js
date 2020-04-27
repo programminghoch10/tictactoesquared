@@ -13,56 +13,46 @@ let name = getCookie("name")
 let token = getCookie("token")
 
 function connect(_name) {
-  name = getCookie("name")
-  token = getCookie("token")
+  // TODO: check if the cookies are accepted
+  name = loadName()
+  token = loadToken()
 
-  // is the token empty ask for a name
-  // remove the old token so it gets requested again
-  if (!isUserTokenValid(token)) {
-    enterName(_name)
+  // if name is empty enter a name
+  if (isEmpty(name)) {
+    saveName(_name)
+    createNewUser()
+    return
   }
 
-  // if the token is invalid
+  // if token is invalid create a new user
   if (!isUserTokenValid(token)) {
-    // request a new token
-    token = requestUserToken()
+    createNewUser()
+    return
+  }
+  
+}
 
-    // if the token is still invalid
-    if (!isUserTokenValid(token)) {
-      console.log("Something went wrong.")
-      return
-    }
+function createNewUser() {
+    let request = post("/createUser", { name: name })
 
+    let user = JSON.parse(request.responseText)
+
+    saveToken(user.token)
+}
+
+function loadName() { return getCookie("name") }
+function loadToken() { return getCookie("token") }
+function saveName(_name) {
+    name = _name
+    setGlobalCookie("name", name)
+}
+function saveToken(_token) {
+    token = _token
     setGlobalCookie("token", token)
-  }
-
-  setGlobalCookie("name", name)
-
-  console.log("name: " + name)
-  console.log("token: " + token)
 }
 
-function enterName(_name) {
-  name =_name
-}
-
-function setName(_name) {
-  if (!isNameValid(name)) return
-
-  name = _name
-
-  setGlobalCookie(name)
-
-  token = ""
-}
-
-function isNameValid() {
-  // TODO: make a client side validation check
-  return true
-}
-
-function requestUserToken() {
-  return post("/requestUserToken", { name: name }).responseText
+function isEmpty(str) {
+    return str.split(" ").join("").length == 0
 }
 
 function isUserTokenValid() {
@@ -101,7 +91,15 @@ function createLobby(name, description, password) {
 }
 
 function self() {
-    return JSON.parse(post("/getUser", { token: token }).responseText)
+  return JSON.parse(post("/getUser", { token: token }).responseText)
+}
+
+function other(_token) {
+  return JSON.parse(post("/getUser", { token: _token }).responseText)
+}
+
+function getLobby(lobbyToken) {
+  return JSON.parse(post("/getLobby", { token: lobbyToken }).responseText)
 }
 
 function getJoinedLobbies() {
