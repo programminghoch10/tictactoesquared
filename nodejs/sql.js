@@ -15,6 +15,7 @@ var mysql;
 var pool; //mysql connection pool
 const sqltimeout = 10000; //10s
 const usertimeout = 60 * 60 * 24 * 31; //in seconds
+const lobbytimeout = 60 * 60 * 24 * 14; //in seconds
 
 function init() {
   let logindata = require('./sqllogin.js')
@@ -92,10 +93,10 @@ async function createUser(user) {
   user.lobbyinvitetokens = "";
   console.log("Adding user " + user.name + " to database.");
   pool.query({
-    sql: "INSERT INTO `users` (token, name, creationtime, lastacttime) \
-     VALUES (?, ?, ?, ?)",
+    sql: "INSERT INTO `users` (token, name, creationtime, lastacttime, timeout) \
+     VALUES (?, ?, ?, ?, ?)",
     timeout: sqltimeout,
-    values: [user.token, user.name, user.creationtime, user.lastacttime]
+    values: [user.token, user.name, user.creationtime, user.lastacttime, user.timeout]
   });
   return user;
 }
@@ -110,15 +111,67 @@ async function updateUser(user) {
   user.lastacttime = common.getTime();
   user.timeout = user.lastacttime + usertimeout;
   user.id = olduser.id;
+  console.log("Updating user " + user.name);
   pool.query({
     sql: "UPDATE `users` \
-      SET `lastacttime`=?, `lobbytokens`=?, `lobbyinvitetokens`=?, `name`=? \
+      SET `lastacttime`=?, `lobbytokens`=?, `lobbyinvitetokens`=?, \
+      `name`=?, `timeout`=? \
       WHERE `token`=?",
     timeout: sqltimeout,
     values: [user.lastacttime, user.lobbytokens, user.lobbyinvitetokens, 
-      user.name, user.token]
+      user.name, user.timeout, user.token]
   });
   return user;
+}
+
+async function createLobby(lobby) {
+  if (lobby.constructor.name != classes.Lobby.name) return false;
+  lobby.creationtime = common.getTime();
+  lobby.lastacttime = lobby.creationtime;
+  lobby.timeout = lobby.lastacttime + lobbytimeout;
+  lobby.token = common.hash(lobby.name + lobby.creationtime);
+  if (!checkPrivacyFlag(lobby.privacy)) return false;
+  console.log("Adding lobby " + lobby.name + " to database.");
+  pool.query({
+    sql: "INSERT INTO `lobbies` ( \
+      token, name, game, description, password, \
+      privacy, creationtime, lastacttime, timeout, \
+      usertokens, userinvitetokens) \
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    timeout: sqltimeout,
+    values: [lobby.token, lobby.name, lobby.game, lobby.description, lobby.password,
+      lobby.privacy, lobby.creationtime, lobby.lastacttime, lobby.timeout, 
+      lobby.usertokens, lobby.userinvitetokens]
+  });
+  return lobby;
+}
+
+async function updatelobbygame(token, game) {
+  let lobby = await getLobbyByToken(token);
+  lobby.game = game;
+  return await updatelobby(lobby);
+}
+async function updatelobby(lobby) {
+  if (lobby.constructor.name != classes.Lobby.name) return false;
+  let oldlobby = await getLobbyByToken(lobby.token);
+  lobby.creationtime = oldlobby.creationtime;
+  lobby.lastacttime = common.getTime();
+  lobby.timeout = lobby.lastacttime + lobbytimeout;
+  lobby.id = oldlobby.id;
+  if (!checkPrivacyFlag(lobby.privacy)) return false;
+  console.log("Updating lobby " + lobby.name);
+  pool.query({
+    sql: "UPDATE `lobbies` \
+      SET `name`=?, `game`=?, `description`=?, `password`=?, \
+      `privacy`=?, `lastacttime`=?, `timeout`=?, \
+      `usertokens`=?, `userinvitetokens`=? \
+      WHERE `token`=?",
+    timeout: sqltimeout,
+    values: [lobby.name, lobby.game, lobby.description, lobby.password, 
+      lobby.privacy, lobby.lastacttime, lobby.timeout, 
+      lobby.usertokens, lobby.userinvitetokens]
+  });
+  return lobby;
 }
 
 async function getByToken(table, token) {
@@ -139,6 +192,17 @@ async function getAll(table) {
     timeout: sqltimeout,
     values: [table]
   }))[0];
+}
+
+function checkPrivacyFlag(privacy) {
+  switch (privacy) {
+    case "open":
+    case "closed":
+    case "invisible":
+      return true;
+    default:
+      return false;
+  }
 }
 
 function convertSqlToUser(row) {
@@ -182,4 +246,7 @@ module.exports = {
   createUser: createUser,
   updateUser: updateUser,
   updateUserLastActivity: updateUserLastActivity,
+  createLobby: createLobby,
+  updatelobby: updatelobby,
+  updatelobbygame: updatelobbygame,
 }

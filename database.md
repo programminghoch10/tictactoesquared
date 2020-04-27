@@ -12,8 +12,8 @@ id | int | makes table entry unique | assigned on creation, never gets changed |
 token | text | system internal token for this user | unique for this user, never gets changed after creation | NOT NULL
 name | text | name of this user | assigned by user, can be changed | NOT NULL
 creationtime | int | unix timestamp of user creation | assigned on creation, never gets changed |  NOT NULL
-lastacttime | int | unix timestamp of last user interaction | get updated everytime the user interacts with the system | NOT NULL
-timeout | int | unix timestamp when the lobby will time out and should be deleted | assigned on creation, never gets changed | NOT NULL
+lastacttime | int | unix timestamp of last user interaction | gets updated everytime the user interacts with the system | NOT NULL
+timeout | int | unix timestamp when the lobby will time out and should be deleted | gets updated everytime a user interacts with the lobby | NOT NULL
 lobbytokens | text | comma seperated list of joined lobbies | | NOT NULL
 lobbyinvitetokens | text | comma seperated list of invited lobbies | | NOT NULL
 
@@ -30,10 +30,10 @@ game | text | game instance of this lobby | | NOT NULL
 name | text | name of this lobby | assigned by user, can be changed | NOT NULL
 description | text | description of this lobby | assigned by user, can be changed | 
 password | text | `sha256` hashed password of this lobby, only used for open lobbies | assigned by user, can be changed | 
-privacy | text | whether the lobby is `open`, `closed` or `invisible`. read more about the lobby privacy flag below | assigned on creation, never gets changed | NOT NULL
+privacy | text | whether the lobby is `open`, `closed` or `invisible`. read more about the lobby privacy flag below | assigned on creation, not intended to be changed after creation, but it is possible to do so | NOT NULL
 creationtime | int | unix timestamp of lobby creation | assigned on creation, never gets changed |  NOT NULL
-lastacttime | int | unix timestamp of last interaction with this lobby | get updated everytime a user interacts with the lobby | NOT NULL
-timeout | int | unix timestamp when the lobby will time out and should be deleted | assigned on creation, never gets changed | NOT NULL
+lastacttime | int | unix timestamp of last interaction with this lobby | gets updated everytime a user interacts with the lobby | NOT NULL
+timeout | int | unix timestamp when the lobby will time out and should be deleted | gets updated everytime a user interacts with the lobby | NOT NULL
 usertokens | text | comma seperated list of joined users | | NOT NULL
 userinvitetokens | text | comma seperated list of users invited to this lobby | | NOT NULL
 
