@@ -18,7 +18,7 @@ lobbytokens | text | comma seperated list of joined lobbies | | NOT NULL
 lobbyinvitetokens | text | comma seperated list of invited lobbies | | NOT NULL
 
 MySQL create table:  
-`CREATE TABLE users(id INT NOT NULL AUTO_INCREMENT, token TEXT NOT NULL, humanid TEXT NOT NULL, name TEXT NOT NULL, creationtime INT NOT NULL, lastacttime INT NOT NULL, timeout INT NOT NULL, lobbytokens TEXT NOT NULL, lobbyinvitetokens TEXT NOT NULL, PRIMARY KEY (id))`
+`CREATE TABLE users(id INT NOT NULL AUTO_INCREMENT, token TEXT NOT NULL, name TEXT NOT NULL, creationtime INT NOT NULL, lastacttime INT NOT NULL, timeout INT NOT NULL, lobbytokens TEXT NOT NULL, lobbyinvitetokens TEXT NOT NULL, PRIMARY KEY (id))`
 
 ### Lobbies
 
@@ -38,7 +38,7 @@ usertokens | text | comma seperated list of joined users | | NOT NULL
 userinvitetokens | text | comma seperated list of users invited to this lobby | | NOT NULL
 
 MySQL create table:  
-`CREATE TABLE lobbies(id INT NOT NULL AUTO_INCREMENT, token TEXT NOT NULL, humanid TEXT NOT NULL, name TEXT NOT NULL, description TEXT, password TEXT, privacy TEXT NOT NULL, creationtime INT NOT NULL, lastacttime INT NOT NULL, timeout INT NOT NULL, usertokens TEXT NOT NULL, userinvitetokens TEXT NOT NULL, PRIMARY KEY (id))`
+`CREATE TABLE lobbies(id INT NOT NULL AUTO_INCREMENT, token TEXT NOT NULL, name TEXT NOT NULL, description TEXT, password TEXT, privacy TEXT NOT NULL, creationtime INT NOT NULL, lastacttime INT NOT NULL, timeout INT NOT NULL, usertokens TEXT NOT NULL, userinvitetokens TEXT NOT NULL, PRIMARY KEY (id))`
 
 #### Lobby Privacy Flag
 
