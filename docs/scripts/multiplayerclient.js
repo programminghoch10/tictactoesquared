@@ -6,7 +6,7 @@ function post(url, data) {
     async: false
   })
 
-  return request.responseText
+  return request
 }
 
 let name = getCookie("name")
@@ -18,17 +18,17 @@ function connect(_name) {
 
   // is the token empty ask for a name
   // remove the old token so it gets requested again
-  if (!isPlayerTokenValid(token)) {
+  if (!isUserTokenValid(token)) {
     enterName(_name)
   }
 
   // if the token is invalid
-  if (!isPlayerTokenValid(token)) {
+  if (!isUserTokenValid(token)) {
     // request a new token
-    token = requestPlayerToken()
+    token = requestUserToken()
 
     // if the token is still invalid
-    if (!isPlayerTokenValid(token)) {
+    if (!isUserTokenValid(token)) {
       console.log("Something went wrong.")
       return
     }
@@ -61,23 +61,33 @@ function isNameValid() {
   return true
 }
 
-function requestPlayerToken() {
-  return post("/requestPlayerToken", { name: name })
+function requestUserToken() {
+  return post("/requestUserToken", { name: name }).responseText
 }
 
-function isPlayerTokenValid() {
+function isUserTokenValid() {
   if (token == "" || token == undefined || token == "undefined") {
     return false
   }
 
   // make a post request that returns 1 if the token is availabe
-  let availabe = post("/doesPlayerTokenExist", { token: token })
+  let availabe = post("/doesUserTokenExist", { token: token }).responseText
 
   if (availabe != "true") {
     return false
   }
 
   return true
+}
+
+function changeName(newName) {
+    let request = post("/changeName", { token: token })
+    
+    let status = request.statusText
+
+    name = request.responseText
+
+    setGlobalCookie("name", name)
 }
 
 function createLobby(name, description, password) {
@@ -90,12 +100,16 @@ function createLobby(name, description, password) {
     })
 }
 
-function getJoinedLobbies() {
+function self() {
+    return JSON.parse(post("/getUser", { token: token }).responseText)
+}
 
+function getJoinedLobbies() {
+    return self().lobbytokens
 }
 
 function getInvitedLobbies() {
-
+    return self().lobbyinvitetokens
 }
 
 function searchLobbies(filter) {
