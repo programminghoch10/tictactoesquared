@@ -56,14 +56,14 @@ async function rawQuery(query) {
 async function getUserByToken(token) {
   let result = await getByToken("users", token);
   if (!result) return false;
-  return convertSqlToUser(result);
+  return await convertSqlToUser(result);
 }
 
 async function getUsers() {
   let results = await getAll("users");
   if (results.length == 0) return false;
   for (let i = 0; i < results.length; i++) {
-    results[i] = convertSqlToUser(results[i]);
+    results[i] = await convertSqlToUser(results[i]);
   }
   return results;
 }
@@ -71,14 +71,14 @@ async function getUsers() {
 async function getLobbyByToken(token) {
   let result = await getByToken("lobbies", token);
   if (!result) return false;
-  return convertSqlToUser(result);
+  return await convertSqlToUser(result);
 }
 
 async function getLobbies() {
   let results = await getAll("lobbies");
   if (results.length == 0) return false;
   for (let i = 0; i < results.length; i++) {
-    results[i] = convertSqlToLobby(results[i]);
+    results[i] = await convertSqlToLobby(results[i]);
   }
   return results;
 }
@@ -98,7 +98,7 @@ async function createUser(user) {
     timeout: sqltimeout,
     values: [user.token, user.name, user.creationtime, user.lastacttime, user.timeout]
   });
-  return user;
+  return await getUserByToken(user.token);
 }
 
 async function updateUserLastActivity(token) {
@@ -114,12 +114,10 @@ async function updateUser(user) {
   console.log("Updating user " + user.name);
   pool.query({
     sql: "UPDATE `users` \
-      SET `lastacttime`=?, `lobbytokens`=?, `lobbyinvitetokens`=?, \
-      `name`=?, `timeout`=? \
+      SET `lastacttime`=?, `name`=?, `timeout`=? \
       WHERE `token`=?",
     timeout: sqltimeout,
-    values: [user.lastacttime, user.lobbytokens, user.lobbyinvitetokens, 
-      user.name, user.timeout, user.token]
+    values: [user.lastacttime, user.name, user.timeout, user.token]
   });
   return user;
 }
@@ -135,15 +133,13 @@ async function createLobby(lobby) {
   pool.query({
     sql: "INSERT INTO `lobbies` ( \
       token, name, game, description, password, \
-      privacy, creationtime, lastacttime, timeout, \
-      usertokens, userinvitetokens) \
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      privacy, creationtime, lastacttime, timeout) \
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
     timeout: sqltimeout,
     values: [lobby.token, lobby.name, lobby.game, lobby.description, lobby.password,
-      lobby.privacy, lobby.creationtime, lobby.lastacttime, lobby.timeout, 
-      lobby.usertokens, lobby.userinvitetokens]
+      lobby.privacy, lobby.creationtime, lobby.lastacttime, lobby.timeout]
   });
-  return lobby;
+  return await getLobbyByToken(lobby.token);
 }
 
 async function updatelobbygame(token, game) {
@@ -163,19 +159,63 @@ async function updatelobby(lobby) {
   pool.query({
     sql: "UPDATE `lobbies` \
       SET `name`=?, `game`=?, `description`=?, `password`=?, \
-      `privacy`=?, `lastacttime`=?, `timeout`=?, \
-      `usertokens`=?, `userinvitetokens`=? \
+      `privacy`=?, `lastacttime`=?, `timeout`=? \
       WHERE `token`=?",
     timeout: sqltimeout,
     values: [lobby.name, lobby.game, lobby.description, lobby.password, 
-      lobby.privacy, lobby.lastacttime, lobby.timeout, 
-      lobby.usertokens, lobby.userinvitetokens]
+      lobby.privacy, lobby.lastacttime, lobby.timeout]
   });
   return lobby;
 }
 
+async function createCorrelation(correlation) {
+  if (correlation.constructor.name != classes.Correlation.name) return false;
+  console.log("Adding correlation to database.");
+  pool.query({
+    sql: "INSERT INTO `correlations` ( \
+      usertoken, lobbytoken, invite) \
+      VALUES (?, ?, ?)",
+    timeout: sqltimeout,
+    values: [correlation.usertoken, correlation.lobbytoken, correlation.invite]
+  });
+  return true;
+}
+
+async function updateCorrelation(correlation) {
+  if (correlation.constructor.name != classes.Correlation.name) return false;
+  console.log("Updating correlation.");
+  pool.query({
+    sql: "UPDATE `correlations` \
+      SET `usertoken`=?, `lobbytoken`=?, `invite`=? \
+      WHERE `id`=?",
+      timeout: sqltimeout,
+      values: [correlation.usertoken, correlation.lobbytoken, 
+      correlation.invite, correlation.id]
+  })
+  return true;
+}
+
+async function getCorrelationsByUserToken(usertoken) {
+  return await getCorrelationsByToken("user", usertoken);
+}
+
+async function getCorrelationsByLobbyToken(lobbytoken) {
+  return await getCorrelationsByToken("lobby", lobbytoken);
+}
+
+async function getCorrelationsByToken(type, token) {
+  if (token == "" || !(type == "lobby" || type == "user")) return false;
+  type = type + "token";
+  console.log("Searching correlations for " + type + ": " + token);
+  return (await pool.query({
+    sql: "SELECT * FROM correlations WHERE ??=?",
+    timeout: sqltimeout,
+    values: [type, token]
+  }))[0];
+}
+
 async function getByToken(table, token) {
-  if (token == "") return false;
+  if (token == "" || !(table == "lobbies" || table == "users")) return false;
   console.log("Searching " + table + " with token: " + token);
   let results = (await pool.query({
     sql: "SELECT * FROM ?? WHERE `token`=?",
@@ -205,7 +245,7 @@ function checkPrivacyFlag(privacy) {
   }
 }
 
-function convertSqlToUser(row) {
+async function convertSqlToUser(row) {
   let user = new classes.User();
   user.id = row.id;
   user.token = row.token;
@@ -213,12 +253,11 @@ function convertSqlToUser(row) {
   user.name = row.name;
   user.creationtime = row.creationtime;
   user.lastacttime = row.lastacttime;
-  user.lobbytokens = row.lobbytokens;
-  user.lobbyinvitetokens = row.lobbyinvitetokens;
+  user.correlations = await getCorrelationsByUserToken(user.token);
   return user;
 }
 
-function convertSqlToLobby(row) {
+async function convertSqlToLobby(row) {
   let lobby = new classes.Lobby();
   lobby.id = row.id;
   lobby.token = row.token;
@@ -231,9 +270,17 @@ function convertSqlToLobby(row) {
   lobby.creationtime = row.creationtime;
   lobby.lastacttime = row.lastacttime;
   lobby.timeout = row.timeout;
-  lobby.usertokens = row.usertokens;
-  lobby.userinvitetokens = row.userinvitetokens;
+  lobby.correlations = await getCorrelationsByLobbyToken(lobby.token);
   return lobby;
+}
+
+function convertSqlToCorrelation(row) {
+  let correlation = new classes.Correlation();
+  correlation.id = row.id;
+  correlation.usertoken = row.usertoken;
+  correlation.lobbytoken = row.lobbytoken;
+  correlation.invite = row.invite;
+  return correlation;
 }
 
 module.exports = {

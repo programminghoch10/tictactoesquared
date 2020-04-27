@@ -7,8 +7,7 @@ class User {
     this.creationtime = 0;
     this.lastacttime = 0;
     this.timeout = 0;
-    this.lobbytokens = "";
-    this.lobbyinvitetokens = "";
+    this.correlations = null;
   }
 
 }
@@ -26,13 +25,21 @@ class Lobby {
     this.creationtime = 0;
     this.lastacttime = 0;
     this.timeout = 0;
-    this.usertokens = "";
-    this.userinvitetokens = "";
+    this.correlations = null;
   }
 
 }
 
+class Correlation {
+  constructor() {
+    this.id = 0;
+    this.usertoken = "";
+    this.lobbytoken = "";
+    this.invite = 0;
+  }
+}
+
 module.exports = {
-    User: User,
-    Lobby: Lobby
+  User: User,
+  Lobby: Lobby
 }
