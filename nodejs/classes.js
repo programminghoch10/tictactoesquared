@@ -41,5 +41,6 @@ class Correlation {
 
 module.exports = {
   User: User,
-  Lobby: Lobby
+  Lobby: Lobby,
+  Correlation: Correlation,
 }
