@@ -2,6 +2,7 @@ const express = require('express')
 let router = express.Router()
 
 const common = require('./common.js')
+const classes = require('./classes.js')
 const sql = require('./sql.js')
 
 router.post('/createLobby', async function(req, res) {
@@ -31,15 +32,17 @@ router.post('/createLobby', async function(req, res) {
     if (inviteToken != null) {
         privacy = "closed"
 
-        // invite the player
+        //TODO: invite the player
     }
 
-    // create lobby token
-    let token = common.hash(name + common.getTime())
+    let lobby = new classes.Lobby()
+    lobby.name = name
+    lobby.description = description
+    lobby.password = password
 
-    // TODO: add lobby to database
+    sql.createLobby(lobby)
 
-    res.send(token)
+    res.send(JSON.stringify(lobby))
 })
 
 module.exports = router
