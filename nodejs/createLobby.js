@@ -29,7 +29,7 @@ router.post('/createLobby', async function(req, res) {
     // if invite token is not null
     // the lobby's privacy is closed
     let privacy = "open"
-    if (inviteToken != null) {
+    if (inviteToken != null && !common.isStringEmpty(inviteToken)) {
         privacy = "closed"
 
         //TODO: invite the player
@@ -39,8 +39,9 @@ router.post('/createLobby', async function(req, res) {
     lobby.name = name
     lobby.description = description
     lobby.password = password
+    lobby.privacy = privacy
 
-    sql.createLobby(lobby)
+    await sql.createLobby(lobby)
 
     res.send(JSON.stringify(lobby))
 })

@@ -1,24 +1,35 @@
 body {
-    --color: black;
-    --background-color: whitesmoke;
+  --color: black;
+  --background-color: whitesmoke;
 
-    height: 100vh;
+  --default: #ddd;
+  --default-alt: #ccc;
 
-    margin: 0;
+  --player1: rgb(44, 202, 176);
+  --player2: rgb(255, 123, 0);
+  --player1alt: rgba(44, 202, 176, 0.3);
+  --player2alt: rgba(255, 123, 0, 0.3);
 
-    background: var(--background-color);
+  height: 100vh;
 
-    font-family: "Roboto", sans-serif;
+  margin: 0;
 
-    overflow: hidden;
+  background: var(--background-color);
+
+  font-family: "Roboto", sans-serif;
+
+  overflow: hidden;
 }
 
 svg, a, p, h1, h2 {
-    color: var(--color);
-    text-decoration: none;
+  color: var(--color);
+  text-decoration: none;
 }
 
 .dark {
-    --color: white;
-    --background-color: #333;
+  --color: white;
+  --background-color: #333;
+
+  --default: #444;
+  --default-alt: #555;
 }

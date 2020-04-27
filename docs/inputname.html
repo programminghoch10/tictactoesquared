@@ -40,7 +40,7 @@
         <link rel="stylesheet"
               href="./css/style.css" />
         <link rel="stylesheet"
-              href="./css/menu.css" />
+              href="./css/inputname.css" />
         <!--
             Manifest
         -->
@@ -49,6 +49,16 @@
     </head>
 
     <body>
+        <div class="inputname">
+            <div class="center flex-column">
+                <h1>Enter your name:</h1>
+                <div class="nameinput">
+                    <input type="text"
+                           id="username">
+                    <button onclick="submit()"> SUBMIT </button>
+                </div>
+            </div>
+        </div>
         <script src="scripts/cookie.js"></script>
         <script src="scripts/colortheme.js"></script>
         <script type="text/javascript"
@@ -57,6 +67,13 @@
                 data-message="We use cookies mainly to save your game. (It's ok, everyone does.)"
                 data-cookie="cookies-accepted"
                 data-close-text="Accept"></script>
+        <script>
+            function submit() {
+                let name = document.getElementById("username").value
+                setGlobalCookie("name", name)
+                document.location.href = "./multiplayer.html"
+            }
+        </script>
     </body>
 
 </html>

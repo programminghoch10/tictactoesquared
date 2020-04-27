@@ -1,0 +1,149 @@
+.multiplayer {
+  height: calc(100% - 20px);
+
+  margin: 0;
+}
+
+.multiplayer .sidebar {
+  width: 400px;
+  height: 100%;
+
+  padding-top: 50px; 
+
+  background-color: var(--default);
+
+  text-align: center;
+}
+
+.multiplayer .sidebar .nav i::before {
+  color: var(--color);
+  margin: 5px;
+}
+
+.multiplayer .sidebar .name {
+  margin-top: 50px;
+}
+
+.multiplayer .sidebar .name i::before {
+  color: var(--color);
+}
+
+.multiplayer .sidebar .name i {
+  transform: translate(0, -12px);
+  cursor: pointer;
+}
+
+.multiplayer .groups {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.multiplayer .groups .group {
+  flex: 1;
+
+  height: 100%;
+
+  margin: 20px;
+
+  border: 2px dotted white;
+
+  overflow: scroll;
+}
+
+.multiplayer .group h1 {
+  text-align: center;
+}
+
+.multiplayer .group .game {
+  width: calc(100% - 40px);
+  height: 60px;
+  margin: 20px;
+  border-radius: 10px;
+  background: var(--default);
+}
+
+.multiplayer .flex {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+}
+
+.multiplayer .flex-column {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.multiplayer .center {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  width: inherit;
+  height: 100%;
+}
+
+.multiplayer .nameinput {
+  display: flex;
+
+  width: 850px;
+  max-width: 90%;
+  height: 50px;
+}
+
+.multiplayer input[type="text"] {
+  flex: 5;
+
+  width: 100%;
+  height: 100%;
+
+  margin: 0 10px;
+
+  background: var(--default);
+  border: none;
+  
+  border-radius: 10px;
+
+  color: var(--player1);
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.multiplayer button {
+  flex: 1;
+
+  width: 100%;
+  height: 100%;
+
+  margin: 0 10px;
+
+  background: var(--default);
+  border: none;
+  border-radius: 10px;
+
+  color: var(--player2);
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+}
+
+@media only screen and (max-width: 600px) {
+  .multiplayer .nameinput {
+    width: inherit;
+    display: block !important;
+  }
+
+  .multiplayer button, .multiplayer input[type="text"] {
+    margin: 10px 0;
+  }
+}

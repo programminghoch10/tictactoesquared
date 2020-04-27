@@ -1,4 +1,98 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="scripts/cookie.js"></script>
-<script src="scripts/multiplayerclient.js">
-</script>
+<html lang="en">
+
+    <head>
+        <title>TTT² </title>
+        <!--
+            Prerender & prefetch
+        -->
+        <link rel="prerender"
+              href="game.html" />
+        <link rel="prefetch"
+              href="css/game.css" />
+        <link rel="prefetch"
+              href="scripts/localgame.js" />
+        <link rel="prefetch"
+              href="game.html" />
+        <link rel="prefetch"
+              href="settings.html" />
+        <link rel="prefetch"
+              href="scripts/ai.js" />
+        <link rel="prefetch"
+              href="scripts/againstai.js" />
+        <link rel="prefetch"
+              href="https://github.com/programminghoch10/tictactoesquared" />
+        <!--
+            Viewport
+        -->
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1" />
+        <!--
+            Scripts
+        -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <!--
+            Styles
+        -->
+        <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
+              rel="stylesheet" />
+        <link rel="stylesheet"
+              href="fontawesome/css/all.css">
+        <link rel="stylesheet"
+              href="./css/style.css" />
+        <link rel="stylesheet"
+              href="./css/multiplayer.css" />
+        <!--
+            Manifest
+        -->
+        <link rel="manifest"
+              href="manifest.json" />
+    </head>
+
+    <body>
+        <div class="multiplayer">
+            <div class="flex">
+                <div class="sidebar">
+                    <div class="nav">
+                        <a href="index.html">
+                            <i class="fas fa-home home"></i>
+                        </a>
+                        <i class="fas fa-moon darkmode"
+                           onclick="dark()"></i>
+                        <i class="fas fa-sun lightmode"
+                           onclick="light()"></i>
+                        <i class=" fab fa-github github"
+                           onclick="document.location.href='https://github.com/programminghoch10/tictactoesquared'"></i>
+                    </div>
+                    <div class="name">
+                        <h2 class="username"
+                            id="username"></h2>
+                        <a href="inputname.html"><i class="fas fa-edit"></i></a>
+                    </div>
+                </div>
+                <div class="groups">
+                    <div class="group">
+                        <h1>Current games</h1>
+                        <div class="game">
+                            <h2>TITLE</h2>
+                            <h3>DESCRIPTION</h3>
+                            <h4>STATUS</h4>
+                            <button>Join</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="scripts/cookie.js"></script>
+        <script src="scripts/colortheme.js"></script>
+        <script type="text/javascript"
+                id="cookieinfo"
+                src="//cookieinfoscript.com/js/cookieinfo.min.js"
+                data-message="We use cookies mainly to save your game. (It's ok, everyone does.)"
+                data-cookie="cookies-accepted"
+                data-close-text="Accept"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="scripts/cookie.js"></script>
+        <script src="scripts/multiplayerclient.js"></script>
+    </body>
+
+</html>
