@@ -9,6 +9,7 @@
 
 var mysql;
 var pool; //mysql connection pool
+const sqltimeout = 10000; //10s
 
 function init() {
   let logindata = require('./sqllogin.js')
@@ -40,8 +41,13 @@ function init() {
     }
   });*/
 }
+
+async function rawquery(query) {
+  console.log("Querying: " + query)
+  return (await pool.query(query))[0];
 }
 
 module.exports = {
-  init: init
+  init: init,
+  rawquery: rawquery,
 }
