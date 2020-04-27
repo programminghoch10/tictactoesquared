@@ -96,7 +96,7 @@ function searchLobbies(filter) {
 
 }
 
-function joinLobbie() {
+function joinLobby() {
 
 }
 
