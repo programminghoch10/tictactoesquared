@@ -48,6 +48,20 @@ function init() {
   });*/
 }
 
+async function cleanUp() {
+  //cleans users and lobbies which are overdue
+  console.log("Performing cleanup");
+  let now = common.getTime();
+  let lobbies = getLobbies();
+  for (let i = 0; i < lobbies.length; i++) {
+    if (lobbies[i].timeout <= now) deleteLobby(lobbies[i]);
+  }
+  let users = getUsers();
+  for (let i = 0; i < users.length; i++) {
+    if (users[i].timeout <= now) deleteUser(users[i]);
+  }
+}
+
 async function rawQuery(query) {
   console.log("Querying: " + query)
   return (await pool.query(query))[0];
@@ -109,11 +123,13 @@ async function updateUser(user) {
 
 async function deleteUser(user) {
   if (user.constructor.name != classes.User.name) return false;
+  if (common.isStringEmpty(user.token)) return false;
   pool.query({
-    sql: "DELETE FROM users WHERE `id`=?",
+    sql: "DELETE FROM users WHERE `token`=?",
     timeout: sqltimeout,
-    values: [user.id]
+    values: [user.token]
   });
+  deleteCorrelationsByUserToken(user.token)
   return true;
 }
 
@@ -180,11 +196,13 @@ async function updateLobby(lobby) {
 
 async function deleteLobby(lobby) {
   if (lobby.constructor.name != classes.Lobby.name) return false;
+  if (common.isStringEmpty(lobby.token)) return false;
   pool.query({
-    sql: "DELETE FROM lobbies WHERE `id`=?",
+    sql: "DELETE FROM lobbies WHERE `token`=?",
     timeout: sqltimeout,
-    values: [lobby.id]
+    values: [lobby.token]
   });
+  deleteCorrelationsByLobbyToken(lobby.token)
   return true;
 }
 
@@ -223,6 +241,25 @@ async function deleteCorrelation(correlation) {
     values: [correlation.id]
   });
   return true;
+}
+
+async function deleteCorrelationsByUserToken(usertoken) {
+  return await deleteCorrelationsByToken("user", usertoken);
+}
+
+async function deleteCorrelationsByLobbyToken(lobbytoken) {
+  return await deleteCorrelationsByToken("lobby", lobbytoken);
+}
+
+async function deleteCorrelationsByToken(type, token) {
+  if (token == "" || !(type == "lobby" || type == "user")) return false;
+  type = type + "token";
+  console.log("Searching correlations for " + type + ": " + token);
+  return (await pool.query({
+    sql: "DELETE FROM correlations WHERE ??=?",
+    timeout: sqltimeout,
+    values: [type, token]
+  }))[0];
 }
 
 async function getCorrelationsByUserToken(usertoken) {
@@ -316,6 +353,7 @@ function convertSqlToCorrelation(row) {
 module.exports = {
   init: init,
   rawQuery: rawQuery,
+  cleanUp: cleanUp,
 
   getUsers: getUsers,
   getUserByToken: getUserByToken,
