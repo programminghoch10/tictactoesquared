@@ -47,7 +47,18 @@ async function rawquery(query) {
   return (await pool.query(query))[0];
 }
 
+async function getuserbytoken(token) {
+  if (token == "") return false;
+  console.log("Searching for user with token: " + token);
+  return (await pool.query({
+    sql: "SELECT * FROM `users` WHERE `token`=?",
+    timeout: sqltimeout,
+    values: [token]
+  }))[0];
+}
+
 module.exports = {
   init: init,
   rawquery: rawquery,
+  getuserbytoken: getuserbytoken
 }
