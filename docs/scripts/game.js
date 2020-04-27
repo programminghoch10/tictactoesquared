@@ -313,3 +313,5 @@ class Game {
     return true;
   }
 }
+
+module.exports = Game;
