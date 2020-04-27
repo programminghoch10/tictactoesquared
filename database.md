@@ -14,8 +14,8 @@ humanid | text | human readable hexadezimal number for identifing this user on G
 name | text | name of this user | assigned by user, can be changed | NOT NULL
 creationtime | int | unix timestamp of user creation | assigned on creation, never gets changed |  NOT NULL
 lastacttime | int | unix timestamp of last user interaction | get updated everytime the user interacts with the system | NOT NULL
-lobbytokens | text | comma seperated list of joined lobbys | | NOT NULL
-lobbyinvitetokens | text | comma seperated list of invited lobbys | | NOT NULL
+lobbytokens | text | comma seperated list of joined lobbies | | NOT NULL
+lobbyinvitetokens | text | comma seperated list of invited lobbies | | NOT NULL
 
 MySQL create table:  
 `CREATE TABLE users(id INT NOT NULL AUTO_INCREMENT, token TEXT NOT NULL, humanid TEXT NOT NULL, name TEXT NOT NULL, creationtime INT NOT NULL, lastacttime INT NOT NULL, lobbytokens TEXT NOT NULL, lobbyinvitetokens TEXT NOT NULL, PRIMARY KEY (id))`
@@ -30,7 +30,7 @@ humanid | text | human readable hexadezimal number for identifing this lobby on 
 game | text | game instance of this lobby | | NOT NULL
 name | text | name of this lobby | assigned by user, can be changed | NOT NULL
 description | text | description of this lobby | assigned by user, can be changed | 
-password | text | `sha256` hashed password of this lobby, only used for open lobbys | assigned by user, can be changed | 
+password | text | `sha256` hashed password of this lobby, only used for open lobbies | assigned by user, can be changed | 
 privacy | text | whether the lobby is `open`, `closed` or `invisible`. read more about the lobby privacy flag below | assigned on creation, never gets changed | NOT NULL
 creationtime | int | unix timestamp of lobby creation | assigned on creation, never gets changed |  NOT NULL
 lastacttime | int | unix timestamp of last interaction with this lobby | get updated everytime a user interacts with the lobby | NOT NULL
@@ -45,6 +45,6 @@ MySQL create table:
 
 Flag | Description
 ---- | -----------
-open | can be joined by anyone, can have a password, will appear in "`open lobbys`" list, can be created by user
+open | can be joined by anyone, can have a password, will appear in "`open lobbies`" list, can be created by user
 closed | can only be joined using an invitation, no password, can be created by a user, only creatable when also inviting players
 invisible | only used in quickstart option, generated automatically by the server, will not appear in any lists, no manual invites by users
