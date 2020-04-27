@@ -12,5 +12,10 @@ module.exports = {
     isStringEmpty: (str) => {
         str = str.split(" ").join("")
         return str.length == 0
+    },
+    generateHumanId: (name) => {
+        let hash = crypto.createHash("sha256")
+        hash.update(name)
+        return hash.digest('hex').substring(0, 4)
     }
 }
