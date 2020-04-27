@@ -1,5 +1,5 @@
-//cookie.js
-//  contains cookie related scripts
+// cookie.js
+// contains cookie related scripts
 const cookiesavedays = 365;
 var gamecookiename = "game"; //needs to be variable to be changed if ai is enabled
 const themecookiename = "theme";
@@ -19,6 +19,10 @@ function setGameCookie(value) {
 
 function setThemeCookie(value) {
     setCookie(themecookiename, value, cookiesavedays, "");
+}
+
+function setGlobalCookie(name, value) {
+    setCookie(name, value, cookiesavedays, "");
 }
 
 function getCookie(cname) {
