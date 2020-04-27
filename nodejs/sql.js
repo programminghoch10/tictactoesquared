@@ -3,11 +3,13 @@
  * module.exports = {
  *  hostname: "***",
  *  username: "***",
- *  password: "***"
+ *  password: "***",
+ *  database: "***",
  * }
  */
 
-const Classes = require("./classes.js")
+const classes = require("./classes.js")
+const common = require("./common.js")
 
 var mysql;
 var pool; //mysql connection pool
@@ -79,6 +81,43 @@ async function getLobbies() {
   return results;
 }
 
+async function createUser(user) {
+  if (user.constructor.name != classes.User.name) return false;
+  user.creationtime = common.getTime();
+  user.lastacttime = user.creationtime;
+  user.token = common.hash(user.name + user.creationtime);
+  user.lobbytokens = "";
+  user.lobbyinvitetokens = "";
+  console.log("Adding user " + user.name + " to database.");
+  pool.query({
+    sql: "INSERT INTO `users` (token, name, creationtime, lastacttime) \
+     VALUES (?, ?, ?, ?)",
+    timeout: sqltimeout,
+    values: [user.token, user.name, user.creationtime, user.lastacttime]
+  });
+  return user;
+}
+
+async function updateUserLastActivity(token) {
+  return await updateUser(await getUserByToken(token));
+}
+async function updateUser(user) {
+  if (user.constructor.name != classes.User.name) return false;
+  let olduser = await getUserByToken(user.token);
+  user.creationtime = olduser.creationtime;
+  user.lastacttime = common.getTime();
+  user.id = olduser.id;
+  pool.query({
+    sql: "UPDATE `users` \
+      SET `lastacttime`=?, `lobbytokens`=?, `lobbyinvitetokens`=?, `name`=? \
+      WHERE `token`=?",
+    timeout: sqltimeout,
+    values: [user.lastacttime, user.lobbytokens, user.lobbyinvitetokens, 
+      user.name, user.token]
+  });
+  return user;
+}
+
 async function getByToken(table, token) {
   if (token == "") return false;
   console.log("Searching " + table + " with token: " + token);
@@ -100,7 +139,7 @@ async function getAll(table) {
 }
 
 function convertSqlToUser(row) {
-  let user = new Classes.User();
+  let user = new classes.User();
   user.id = row.id;
   user.token = row.token;
   user.humanid = row.humanid;
@@ -113,7 +152,7 @@ function convertSqlToUser(row) {
 }
 
 function convertSqlToLobby(row) {
-  let lobby = new Classes.Lobby();
+  let lobby = new classes.Lobby();
   lobby.id = row.id;
   lobby.token = row.token;
   lobby.humanid = row.humanid;
@@ -137,4 +176,7 @@ module.exports = {
   getUserByToken: getUserByToken,
   getLobbies: getLobbies,
   getLobbyByToken: getLobbyByToken,
+  createUser: createUser,
+  updateUser: updateUser,
+  updateUserLastActivity: updateUserLastActivity,
 }

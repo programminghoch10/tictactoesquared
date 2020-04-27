@@ -13,6 +13,7 @@ token | text | system internal token for this user | unique for this user, never
 name | text | name of this user | assigned by user, can be changed | NOT NULL
 creationtime | int | unix timestamp of user creation | assigned on creation, never gets changed |  NOT NULL
 lastacttime | int | unix timestamp of last user interaction | get updated everytime the user interacts with the system | NOT NULL
+timeout | int | unix timestamp when the lobby will time out and should be deleted | assigned on creation, never gets changed | NOT NULL
 lobbytokens | text | comma seperated list of joined lobbies | | NOT NULL
 lobbyinvitetokens | text | comma seperated list of invited lobbies | | NOT NULL
 
