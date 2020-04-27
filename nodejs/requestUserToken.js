@@ -3,7 +3,7 @@ let router = express.Router()
 
 const common = require('./common.js')
 
-router.post('/requestPlayerToken', function(req, res) {
+router.post('/requestUserToken', function(req, res) {
     const name = req.body.name
 
     if (name == undefined) {
@@ -13,7 +13,7 @@ router.post('/requestPlayerToken', function(req, res) {
 
     let token = common.hash(name + common.getTime())
 
-    // add player to database
+    // TODO: add user to database
 
     res.send(token)
 })
