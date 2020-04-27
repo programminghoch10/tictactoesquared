@@ -95,5 +95,3 @@ for (let i = 0; i < els.length; i++) {
         switchPlayer();
     })
 }
-
-setInterval(function() { action() }, 2000);
