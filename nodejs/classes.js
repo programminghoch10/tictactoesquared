@@ -6,6 +6,7 @@ class User {
     this.name = "";
     this.creationtime = 0;
     this.lastacttime = 0;
+    this.timeout = 0;
     this.lobbytokens = "";
     this.lobbyinvitetokens = "";
   }

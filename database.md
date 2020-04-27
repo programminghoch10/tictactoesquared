@@ -18,7 +18,7 @@ lobbytokens | text | comma seperated list of joined lobbies | | NOT NULL
 lobbyinvitetokens | text | comma seperated list of invited lobbies | | NOT NULL
 
 MySQL create table:  
-`CREATE TABLE users(id INT NOT NULL AUTO_INCREMENT, token TEXT NOT NULL, humanid TEXT NOT NULL, name TEXT NOT NULL, creationtime INT NOT NULL, lastacttime INT NOT NULL, lobbytokens TEXT NOT NULL, lobbyinvitetokens TEXT NOT NULL, PRIMARY KEY (id))`
+`CREATE TABLE users(id INT NOT NULL AUTO_INCREMENT, token TEXT NOT NULL, humanid TEXT NOT NULL, name TEXT NOT NULL, creationtime INT NOT NULL, lastacttime INT NOT NULL, timeout INT NOT NULL, lobbytokens TEXT NOT NULL, lobbyinvitetokens TEXT NOT NULL, PRIMARY KEY (id))`
 
 ### Lobbies
 
