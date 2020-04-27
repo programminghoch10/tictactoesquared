@@ -7,20 +7,34 @@
  * }
  */
 
+var mysql;
+var con; //mysql connection
+
 function init() {
   let logindata = require('./sqllogin.js')
 
-  this.mysql = require('mysql');
+  mysql = require('mysql');
 
-  this.connection = this.mysql.createConnection({
+  con = mysql.createConnection({
     host: logindata.hostname,
     user: logindata.username,
-    password: logindata.password
+    password: logindata.password,
+    database: logindata.database,
   });
 
-  this.connection.connect(function(err) {
+  /*con.connect(function(err) {
     if (err) throw err;
     console.log("Connected to sql!");
+  });*/
+  //no inital connect needed, because a query automatically starts the connection
+  con.on('error', function(err) {
+    //console.log('db error', err);
+    if(err.code === 'PROTOCOL_CONNECTION_LOST') { 
+      //init(); 
+      //no automatic reconnect, because a query automatically starts a connection
+    } else {
+      throw err;
+    }
   });
 }
 
