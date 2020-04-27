@@ -18,17 +18,17 @@ function connect(_name) {
 
   // is the token empty ask for a name
   // remove the old token so it gets requested again
-  if (!isTokenValid(token)) {
+  if (!isPlayerTokenValid(token)) {
     enterName(_name)
   }
 
   // if the token is invalid
-  if (!isTokenValid(token)) {
+  if (!isPlayerTokenValid(token)) {
     // request a new token
-    token = requestToken()
+    token = requestPlayerToken()
 
     // if the token is still invalid
-    if (!isTokenValid(token)) {
+    if (!isPlayerTokenValid(token)) {
       console.log("Something went wrong.")
       return
     }
@@ -61,11 +61,11 @@ function isNameValid() {
   return true
 }
 
-function requestToken() {
+function requestPlayerToken() {
   return post("/requestPlayerToken", { name: name })
 }
 
-function isTokenValid() {
+function isPlayerTokenValid() {
   if (token == "" || token == undefined || token == "undefined") {
     return false
   }
@@ -80,3 +80,26 @@ function isTokenValid() {
   return true
 }
 
+function createLobby() {
+
+}
+
+function getJoinedLobbies() {
+
+}
+
+function getInvitedLobbies() {
+
+}
+
+function searchLobbies(filter) {
+
+}
+
+function joinLobbie() {
+
+}
+
+function requestPlay() {
+  
+}
