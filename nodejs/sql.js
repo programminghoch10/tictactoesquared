@@ -14,6 +14,7 @@ const common = require("./common.js")
 var mysql;
 var pool; //mysql connection pool
 const sqltimeout = 10000; //10s
+const usertimeout = 60 * 60 * 24 * 31; //in seconds
 
 function init() {
   let logindata = require('./sqllogin.js')
@@ -85,6 +86,7 @@ async function createUser(user) {
   if (user.constructor.name != classes.User.name) return false;
   user.creationtime = common.getTime();
   user.lastacttime = user.creationtime;
+  user.timeout = user.lastacttime + usertimeout;
   user.token = common.hash(user.name + user.creationtime);
   user.lobbytokens = "";
   user.lobbyinvitetokens = "";
@@ -106,6 +108,7 @@ async function updateUser(user) {
   let olduser = await getUserByToken(user.token);
   user.creationtime = olduser.creationtime;
   user.lastacttime = common.getTime();
+  user.timeout = user.lastacttime + usertimeout;
   user.id = olduser.id;
   pool.query({
     sql: "UPDATE `users` \
