@@ -10,7 +10,6 @@ Name | Type | Description | Particularities | SQL specific
 ---- | ---- | ----------- | --------------- | ------------
 id | int | makes table entry unique | assigned on creation, never gets changed | NOT NULL AUTO_INCREMENT PRIMARY KEY
 token | text | system internal token for this user | unique for this user, never gets changed after creation | NOT NULL
-humanid | text | human readable hexadezimal number for identifing this user on GUI level. intended to be used if several users with the same name exist | unique for this user, never gets changed after creation | NOT NULL
 name | text | name of this user | assigned by user, can be changed | NOT NULL
 creationtime | int | unix timestamp of user creation | assigned on creation, never gets changed |  NOT NULL
 lastacttime | int | unix timestamp of last user interaction | get updated everytime the user interacts with the system | NOT NULL
@@ -26,7 +25,6 @@ Name | Type | Description | Particularities | SQL specific
 ---- | ---- | ----------- | --------------- | ------------
 id | int | makes table entry unique | assigned on creation, never gets changed | NOT NULL AUTO_INCREMENT PRIMARY KEY
 token | text | system internal token for this lobby | unique for this lobby, never gets changed after creation | NOT NULL
-humanid | text | human readable hexadezimal number for identifing this lobby on GUI level. intended to be used if several lobby with the same name exist | unique for this lobby, never gets changed after creation | NOT NULL
 game | text | game instance of this lobby | | NOT NULL
 name | text | name of this lobby | assigned by user, can be changed | NOT NULL
 description | text | description of this lobby | assigned by user, can be changed | 
