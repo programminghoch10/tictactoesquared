@@ -1,0 +1,56 @@
+.ui {
+  --size: 100px;
+  --tilesize: 3;
+}
+
+.ui .flex {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+}
+
+.ui .flex-column {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.ui .center {
+  display: flex;
+  
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 100%;
+}
+
+.ui .w1 { width: 100%; height: 100%; flex: 1; }
+.ui .w2 { width: 100%; height: 100%; flex: 2; }
+.ui .w3 { width: 100%; height: 100%; flex: 3; }
+.ui .w4 { width: 100%; height: 100%; flex: 4; }
+.ui .w5 { width: 100%; height: 100%; flex: 5; }
+.ui .w6 { width: 100%; height: 100%; flex: 6; }
+.ui .w7 { width: 100%; height: 100%; flex: 7; }
+.ui .w8 { width: 100%; height: 100%; flex: 8; }
+.ui .w9 { width: 100%; height: 100%; flex: 9; }
+.ui .w10 { width: 100%; height: 100%; flex: 10; }
+
+.ui .i {
+  width: 100%;
+  height: 100%;
+
+  border: 2px dotted red;
+}
+
+.ui .fw {
+  width: var(--size) !important;
+}
+
+.ui .fh {
+  height: var(--size) !important;
+}
+

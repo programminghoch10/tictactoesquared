@@ -10,6 +10,8 @@ module.exports = {
         return Math.floor(new Date().getTime() / 1000)
     },
     isStringEmpty: (str) => {
+        if (str == undefined) return true
+        
         str = str.split(" ").join("")
         return str.length == 0
     },

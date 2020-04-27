@@ -81,6 +81,7 @@ function changeName(newName) {
 }
 
 function createLobby(name, description, password) {
+    // TODO: hash password
     let lobbyToken = post("/createLobby", {
         name: name,
         description: description,
@@ -88,6 +89,8 @@ function createLobby(name, description, password) {
         ownToken: token,
         inviteToken: null,
     })
+
+    console.log(lobbyToken)
 }
 
 function self() {
