@@ -1,3 +1,5 @@
+function getel(name) { return document.getElementById(name) }
+
 function post(url, data) {
   let request = $.ajax({
     type: "POST",
@@ -12,15 +14,14 @@ function post(url, data) {
 let name = getCookie("name")
 let token = getCookie("token")
 
-function connect(_name) {
+function connect() {
   // TODO: check if the cookies are accepted
   name = loadName()
   token = loadToken()
 
   // if name is empty enter a name
   if (isEmpty(name)) {
-    saveName(_name)
-    createNewUser()
+    document.location.href = "./inputname.html"
     return
   }
 
@@ -29,8 +30,10 @@ function connect(_name) {
     createNewUser()
     return
   }
-  
 }
+try {
+connect()
+} catch {}
 
 function createNewUser() {
     let request = post("/createUser", { name: name })
@@ -124,3 +127,6 @@ function joinLobby() {
 function requestPlay() {
   
 }
+
+console.log(name)
+getel("username").innerHTML = name

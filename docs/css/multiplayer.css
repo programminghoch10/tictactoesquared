@@ -21,20 +21,16 @@
 }
 
 .multiplayer .sidebar .name {
-  display: flex;
+  margin-top: 50px;
 }
-
-.multiplayer .sidebar .username {
-  margin-left: 25%;
-}
-
 
 .multiplayer .sidebar .name i::before {
   color: var(--color);
 }
 
 .multiplayer .sidebar .name i {
-  transform: translate(16px, 24px);
+  transform: translate(0, -12px);
+  cursor: pointer;
 }
 
 .multiplayer .groups {
