@@ -14,11 +14,12 @@ app.use(bodyParser.json())
 
 // to import another router
 // app.use(require("./nodejs/test.js"))
-app.use(require("./nodejs/requestUserToken.js"))
+app.use(require("./nodejs/createUser.js"))
 app.use(require("./nodejs/doesUserTokenExist.js"))
 app.use(require("./nodejs/createLobby.js"))
 app.use(require("./nodejs/changeName.js"))
 app.use(require("./nodejs/getUser.js"))
+app.use(require("./nodejs/getLobby.js"))
 
 const DIR = "./docs/"
 

@@ -67,7 +67,7 @@ async function getUsers() {
 }
 
 async function getLobbyByToken(token) {
-  let result = await getByToken("l", token);
+  let result = await getByToken("lobbies", token);
   if (!result) return false;
   return convertSqlToUser(result);
 }

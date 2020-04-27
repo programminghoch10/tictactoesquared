@@ -4,17 +4,17 @@ let router = express.Router()
 const common = require('./common.js')
 const sql = require('./sql.js')
 
-router.post('/doesUserTokenExist', async function(req, res) {
+router.post('/getLobby', async function(req, res) {
     let token = req.body.token
 
-    let user = await sql.getUserByToken(token)
+    let lobby = await sql.getLobbyByToken(token)
 
-    if (!user) {
-        res.send("false")
+    if (!lobby) {
+        res.sendStatus(400)
         return
     }
-
-    res.send("true")
+    
+    res.send(JSON.stringify(lobby))
 })
 
 module.exports = router
