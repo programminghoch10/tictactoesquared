@@ -1,5 +1,5 @@
 // https://davidwalsh.name/query-string-javascript
-var params = new URLSearchParams(location.search); //get search parameters, currently unused
+//var params = new URLSearchParams(location.search); //get search parameters, currently unused
 
 const EMPTYFRONTENDINTERFACE = {
   setTile: (x, y, a, b, currentPlayer) => { },
@@ -23,8 +23,8 @@ function getid(x, y, a, b) {
 
 class Game {
   constructor(frontendinterface, size) {
-    this.frontendinterface = frontendinterface;
-    this.size = size;
+    this.frontendinterface = frontendinterface == null ? EMPTYFRONTENDINTERFACE : frontendinterface;
+    this.size = parseInt(size);
 
     this.init();
   }
@@ -50,7 +50,7 @@ class Game {
   }
 
   clone() {
-    let copy = new Game(EMPTYFRONTENDINTERFACE);
+    let copy = new Game(EMPTYFRONTENDINTERFACE, this.size);
     copy.currentPlayer = this.currentPlayer;
     copy.fields = JSON.parse(JSON.stringify(this.fields));
     copy.globalField = JSON.parse(JSON.stringify(this.globalField));
@@ -230,23 +230,23 @@ class Game {
 
     saveGame += this.size + "-";
 
-    for (let x = 0; x < size; x++) {
-      for (let y = 0; y < size; y++) {
-        for (let a = 0; a < size; a++) {
-            for (let b = 0; b < size; b++) {
-            let field = game.fields[x][y][a][b];
+    for (let x = 0; x < this.size; x++) {
+      for (let y = 0; y < this.size; y++) {
+        for (let a = 0; a < this.size; a++) {
+          for (let b = 0; b < this.size; b++) {
+            let field = this.fields[x][y][a][b];
             saveGame += "" + (field == "" ? "-" : field);
           }
         }
       }
     }
-    saveGame += game.currentPlayer;
-    saveGame += game.currentField.all == true ? 1 : 0;
-    saveGame += game.currentField.x + "" + game.currentField.y;
+    saveGame += this.currentPlayer;
+    saveGame += this.currentField.all == true ? 1 : 0;
+    saveGame += this.currentField.x + "" + this.currentField.y;
 
-    for (let i = 0; i < size; i++) {
-      for (let j = 0; j < size; j++) {
-        saveGame += game.globalField[i][j];
+    for (let i = 0; i < this.size; i++) {
+      for (let j = 0; j < this.size; j++) {
+        saveGame += this.globalField[i][j];
       }
     }
 
@@ -271,10 +271,10 @@ class Game {
     }
 
     let position = 0;
-    for (let x = 0; x < size; x++) {
-      for (let y = 0; y < size; y++) {
-        for (let a = 0; a < size; a++) {
-          for (let b = 0; b < size; b++) {
+    for (let x = 0; x < this.size; x++) {
+      for (let y = 0; y < this.size; y++) {
+        for (let a = 0; a < this.size; a++) {
+          for (let b = 0; b < this.size; b++) {
             let char = saveGame.substring(position, position + 1);
             if (char != " " && char != "") {
               this.setTile(x, y, a, b, char);
