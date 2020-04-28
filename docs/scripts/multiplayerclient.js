@@ -110,15 +110,27 @@ function getLobby(lobbyToken) {
 }
 
 function getJoinedLobbies() {
-    return self().lobbytokens
+    let correlations = self().correlations
+    correlations.filter(function(correlation) {return !correlation.invite})
+    let lobbies = new Array(correlations.length)
+    for (let i = 0; i < correlations.length; i++) {
+        lobbies[i] = getLobby(correlations[i].lobbytoken)
+    }
+    return lobbies
 }
 
 function getInvitedLobbies() {
-    return self().lobbyinvitetokens
+    let correlations = self().correlations
+    correlations.filter(function(correlation) {return correlation.invite})
+    let lobbies = new Array(correlations.length)
+    for (let i = 0; i < correlations.length; i++) {
+        lobbies[i] = getLobby(correlations[i].lobbytoken)
+    }
+    return lobbies
 }
 
 function searchLobbies(filter) {
-
+    //TODO: add search for lobbies request to server
 }
 
 function joinLobby() {
