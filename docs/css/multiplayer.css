@@ -187,15 +187,8 @@
   display: flex;
 }
 
-@media only screen and (max-width: 600px) {
-  .multiplayer .group .game .title {
-    display: block;
-    margin-bottom: 50px;
-  }
-}
-
 .multiplayer .group .game .title h2 {
-  transform: translate(20px, 0px);
+  transform: translate(10px, 0px);
   color: var(--player1);
 
   margin-right: 20px;
@@ -203,8 +196,13 @@
   margin-bottom: 0;
 }
 
+.multiplayer .group .game .title h2 div {
+  display: inline;
+  margin-left: 10px;
+}
+
 .multiplayer .group .game .title p {
-  transform: translate(20px, 9px);
+  transform: translate(20px, 5px);
 
   margin-right: 10px;
   margin-top: 0;
@@ -217,24 +215,19 @@
 }
 
 .multiplayer .group .game .title i {
-  transform: translate(10px, 0);
+  transform: translate(10px, -4px) scale(0.8);
+
+  margin-right: 10px;
 
   color: var(--player1);
 }
 
 .multiplayer .group .game h3 {
-  width: calc(100% - 150px);
+  width: calc(100% - 250px);
 
-  transform: translate(20px, -20px);
+  transform: translate(20px, -16px);
   color: var(--player2);
   font-size: 16px;
-}
-
-
-@media only screen and (max-width: 900px) {
-  .multiplayer .group .game {
-    height: 140px;
-  }
 }
 
 @media only screen and (max-width: 600px) {
@@ -249,16 +242,28 @@
   }
 }
 
-.multiplayer .group .game button {
+.multiplayer .group .game .buttons {
   position: absolute;
+  right: 0;
+  transform: translate(-12px, 20px);
+  display: flex;
+  width: 200px;
+  margin-left: auto;
+  margin-right: 10px;
+}
 
+.multiplayer .group .game .button {
   right: 0;
   top: 0;
 
-  transform: translate(-12px, 20px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   width: 80px;
   height: 80px;
+
+  margin-left: auto;
   
   background: var(--default-alt);
 
@@ -269,6 +274,55 @@
   color: var(--player1);
   font-weight: bold;
   font-size: 18px;
+}
+
+@media only screen and (min-width: 799px) {
+  .multiplayer .group .game .buttons {
+    top: 0;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .multiplayer .group .game {
+    height: 200px;
+  }
+
+  .multiplayer .group .game h3 {
+    width: calc(100% - 40px);
+  }
+
+  .multiplayer .group .game .buttons {
+    bottom: 0;
+    transform: translate(-10px, -10px);
+    width: 140px;
+  }
+
+  .multiplayer .group .game .button {
+    width: 60px;
+    height: 60px;
+    font-size: 14px;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .multiplayer .group .game {
+    height: 240px;
+  }
+
+  .multiplayer .group .game .title {
+    display: block;
+  }
+  
+  .multiplayer .group .game .title h2 {
+    display: flex;
+  }
+}
+
+
+@media only screen and (max-width: 450px) {
+  .multiplayer .group .game {
+    height: 260px;
+  }
 }
 
 .multiplayer .flex {
