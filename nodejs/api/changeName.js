@@ -20,6 +20,11 @@ router.post('/api/changeName', async function(req, res) {
         return
     }
 
+    if (user.name == name) {
+        res.sendStatus(304)
+        return
+    }
+
     // prevents creation of two users with the same name
     // TODO: implement some sort of differentiation with the token for two users with the name to exist
     let users = await sql.getUsers()
@@ -35,6 +40,7 @@ router.post('/api/changeName', async function(req, res) {
 
     sql.updateUser(user)
 
+    res.status(200)
     res.send(user.name)
 })
 
