@@ -57,6 +57,7 @@ router.post('/api/createLobby', async function(req, res) {
 
     lobby = await sql.getLobbyByToken(lobby.token)
 
+    res.status(201)
     res.send(JSON.stringify(lobby))
 })
 

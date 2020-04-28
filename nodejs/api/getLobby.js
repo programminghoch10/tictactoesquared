@@ -2,6 +2,7 @@ const express = require('express')
 let router = express.Router()
 
 const common = require('../common.js')
+const classes = require('../classes.js')
 const sql = require('../sql.js')
 
 router.post('/api/getLobby', async function(req, res) {
@@ -13,6 +14,8 @@ router.post('/api/getLobby', async function(req, res) {
         res.sendStatus(400)
         return
     }
+
+    lobby.password = ""
     
     res.send(JSON.stringify(lobby))
 })
