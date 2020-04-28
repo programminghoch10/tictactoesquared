@@ -25,6 +25,7 @@ Name | Type | Description | Particularities | SQL specific
 id | bigint | makes table entry unique | assigned on creation, never gets changed | NOT NULL AUTO_INCREMENT PRIMARY KEY
 token | text | system internal token for this lobby | unique for this lobby, never gets changed after creation | NOT NULL
 game | text | game instance of this lobby | | NOT NULL
+gameflags | text | game specific flags | |
 name | text | name of this lobby | assigned by user, can be changed | NOT NULL
 description | text | description of this lobby | assigned by user, can be changed | 
 password | text | `sha256` hashed password of this lobby, only used for open lobbies | assigned by user, can be changed | 
@@ -34,7 +35,7 @@ lastacttime | bigint | unix timestamp of last interaction with this lobby | gets
 timeout | bigint | unix timestamp when the lobby will time out and should be deleted | gets updated everytime a user interacts with the lobby | NOT NULL
 
 MySQL create table query:  
-`CREATE TABLE lobbies(id BIGINT NOT NULL AUTO_INCREMENT, token TEXT NOT NULL, game TEXT NOT NULL, name TEXT NOT NULL, description TEXT, password TEXT, privacy TEXT NOT NULL, creationtime BIGINT NOT NULL, lastacttime BIGINT NOT NULL, timeout BIGINT NOT NULL, PRIMARY KEY (id))`
+`CREATE TABLE lobbies(id BIGINT NOT NULL AUTO_INCREMENT, token TEXT NOT NULL, game TEXT NOT NULL, gameflags TEXT, name TEXT NOT NULL, description TEXT, password TEXT, privacy TEXT NOT NULL, creationtime BIGINT NOT NULL, lastacttime BIGINT NOT NULL, timeout BIGINT NOT NULL, PRIMARY KEY (id))`
 
 #### Lobby Privacy Flag
 

@@ -167,11 +167,11 @@ async function createLobby(lobby) {
   console.log("Adding lobby " + lobby.name + " to database.");
   pool.query({
     sql: "INSERT INTO `lobbies` ( \
-      token, name, game, description, password, \
+      token, name, game, gameflags, description, password, \
       privacy, creationtime, lastacttime, timeout) \
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
     timeout: sqltimeout,
-    values: [lobby.token, lobby.name, lobby.game, lobby.description, lobby.password,
+    values: [lobby.token, lobby.name, lobby.game, lobby.flags, lobby.description, lobby.password,
       lobby.privacy, lobby.creationtime, lobby.lastacttime, lobby.timeout]
   });
   return await getLobbyByToken(lobby.token);
@@ -193,11 +193,12 @@ async function updateLobby(lobby) {
   console.log("Updating lobby " + lobby.name);
   pool.query({
     sql: "UPDATE `lobbies` \
-      SET `name`=?, `game`=?, `description`=?, `password`=?, \
+      SET `name`=?, `game`=?, `gameflags`=?, \
+      `description`=?, `password`=?, \
       `privacy`=?, `lastacttime`=?, `timeout`=? \
       WHERE `token`=?",
     timeout: sqltimeout,
-    values: [lobby.name, lobby.game, lobby.description, lobby.password, 
+    values: [lobby.name, lobby.game, lobby.flags, lobby.description, lobby.password, 
       lobby.privacy, lobby.lastacttime, lobby.timeout]
   });
   return lobby;
@@ -356,6 +357,7 @@ async function convertSqlToLobby(row) {
   lobby.id = row.id;
   lobby.token = row.token;
   lobby.game = row.game;
+  lobby.flags = row.gameflags;
   lobby.name = row.name;
   lobby.description = row.description;
   lobby.password = row.password;

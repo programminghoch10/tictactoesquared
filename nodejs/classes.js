@@ -18,6 +18,7 @@ class Lobby {
     this.token = "";
     this.humanid = "";
     this.game = "";
+    this.flags = "";
     this.name = "";
     this.description = "";
     this.password = "";

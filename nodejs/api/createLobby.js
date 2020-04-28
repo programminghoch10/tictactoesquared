@@ -4,11 +4,13 @@ let router = express.Router()
 const common = require('../common.js')
 const classes = require('../classes.js')
 const sql = require('../sql.js')
+const Game = require('../../docs/scripts/game.js')
 
 router.post('/api/createLobby', async function(req, res) {
     let name = req.body.name
     let description = req.body.description
     let password = req.body.password
+    let fieldSize = req.body.fieldSize
     let ownToken = req.body.ownToken
     let inviteToken = req.body.inviteToken
 
@@ -38,6 +40,8 @@ router.post('/api/createLobby', async function(req, res) {
     lobby.description = description
     lobby.password = password
     lobby.privacy = privacy
+
+    lobby.game = (new Game(null, fieldSize)).toString()
 
     lobby = await sql.createLobby(lobby)
 
