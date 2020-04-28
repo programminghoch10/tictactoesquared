@@ -94,7 +94,7 @@ function createLobby(name, description, password) {
         inviteToken: null,
     })
 
-    console.log(lobbyToken)
+    console.log(JSON.parse(lobbyToken.responseText))
 }
 
 function self() {

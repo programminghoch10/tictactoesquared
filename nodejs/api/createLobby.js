@@ -12,8 +12,6 @@ router.post('/api/createLobby', async function(req, res) {
     let ownToken = req.body.ownToken
     let inviteToken = req.body.inviteToken
 
-    console.log(req.body)
-
     if (common.isStringEmpty(name)) {
         res.sendStatus(400)
         return
@@ -26,10 +24,12 @@ router.post('/api/createLobby', async function(req, res) {
         return
     }
 
+    let invite = false
     // if invite token is not null
     // the lobby's privacy is closed
     let privacy = "open"
     if (!common.isStringEmpty(inviteToken)) {
+        invite = true
         privacy = "closed"
     }
 
@@ -45,17 +45,17 @@ router.post('/api/createLobby', async function(req, res) {
     ownCorrelation.lobbytoken = lobby.token
     ownCorrelation.usertoken = ownToken
     ownCorrelation.invite = false
-    sql.createCorrelation(ownCorrelation)
+    await sql.createCorrelation(ownCorrelation)
 
-    if (!common.isStringEmpty(inviteToken)) {
+    if (invite) {
         let inviteCorrelation = new classes.Correlation()
         inviteCorrelation.lobbytoken = lobby.token
         inviteCorrelation.usertoken = inviteToken
         inviteCorrelation.invite = true
-        sql.createCorrelation(inviteCorrelation)
+        await sql.createCorrelation(inviteCorrelation)
     }
 
-    lobby = sql.getLobbyByToken(lobby.token)
+    lobby = await sql.getLobbyByToken(lobby.token)
 
     res.send(JSON.stringify(lobby))
 })
