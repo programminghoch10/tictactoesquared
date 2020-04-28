@@ -100,9 +100,11 @@ function changeName(newName) {
             saveToken("")
             document.location.reload()
             return
-        default:
         case 200:
             break;
+        default:
+        case 304:
+            return
     }
 
     name = request.responseText
