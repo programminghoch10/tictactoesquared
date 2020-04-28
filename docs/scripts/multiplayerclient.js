@@ -112,13 +112,14 @@ function changeName(newName) {
     setGlobalCookie("name", name)
 }
 
-function createLobby(name, description, password) {
+function createLobby(name, description, password, fieldSize) {
     // TODO: hash password
     let lobbyToken = post("/api/createLobby", {
         name: name,
         description: description,
         password: password,
         ownToken: token,
+        fieldSize: fieldSize,
         inviteToken: null,
     })
 

@@ -51,5 +51,6 @@ function _createLobby() {
     let name = getel("lobbyname").value
     let description = getel("lobbydescription").value
     let password = getel("lobbypassword").value
-    createLobby(name, description, password)
+    let fieldSize = getel("lobbyfieldsize").value
+    createLobby(name, description, password, fieldSize)
 }
