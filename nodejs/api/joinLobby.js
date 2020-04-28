@@ -2,19 +2,18 @@ const express = require('express')
 let router = express.Router()
 
 const common = require('../common.js')
+const classes = require('../classes.js')
 const sql = require('../sql.js')
 
 router.post('/api/joinLobby', async function(req, res) {
 
-    //TODO: adapt for join lobby
-
     let lobbytoken = req.body.lobbytoken
-    let playertoken = req.body.playertoken
+    let usertoken = req.body.usertoken
     let password = req.body.password
 
-    let player = await sql.getUserByToken(playertoken)
+    let user = await sql.getUserByToken(usertoken)
 
-    if (!player) {
+    if (!user) {
         res.sendStatus(400)
         return
     }
@@ -26,13 +25,21 @@ router.post('/api/joinLobby', async function(req, res) {
         return
     }
 
-    if (common.hash(password) != lobby.password) {
+    if (password != lobby.password) {
         res.sendStatus(401)
         return
     }
 
-    // add player to the lobby
-    // add lobby to the player
+    let correlation = new classes.Correlation()
+    correlation.lobbytoken = lobby.token
+    correlation.usertoken = user.token
+    correlation.invite = false
+    correlation = await sql.createCorrelation(correlation)
+
+    if (lobby.privacy != "closed") {
+        lobby.privacy = "closed"
+        await sql.updateLobby(lobby)
+    }
 
     res.sendStatus(200)
 })
