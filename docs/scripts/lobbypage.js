@@ -45,7 +45,12 @@ if (window.innerWidth > 1200) {
 
 function newLobby() {
     getel("newlobbyoverlay").classList.add("overlay-active")
-    getel("newLobbyButton").style.display = "none"
+    let els = document.getElementsByClassName("add")
+    for (let i = 0; i < els.length; i++) {
+        const el = els[i];
+        
+        el.style.display = "none"
+    }
     getel("newLobbyPanel").classList.add("newLobbyPanel-active")
 
     getel("lobbyname").focus()
@@ -55,7 +60,12 @@ function newLobby() {
 
 function returnNewLobby() {
     getel("newlobbyoverlay").classList.remove("overlay-active")
-    getel("newLobbyButton").style.display = "block"
+    let els = document.getElementsByClassName("add")
+    for (let i = 0; i < els.length; i++) {
+        const el = els[i];
+        
+        el.style.display = "block"
+    }
     getel("newLobbyPanel").classList.remove("newLobbyPanel-active")
 }
 
@@ -74,18 +84,22 @@ function loadJoinedLobbies() {
     let innerHTML = ""
 
     for (let i = 0; i < joinedLobbies.length; i++) {
-        const lobby = joinedLobbies[i]
-        let userName = other(lobby.correlations[0].usertoken).name
-        if (userName == self().name) {
-            if (lobby.correlations.length == 1) {
-                userName = WAITINGFORPLAYERSSTRING
+        try {
+            const lobby = joinedLobbies[i]
+            let userName = other(lobby.correlations[0].usertoken).name
+            if (userName == self().name) {
+                if (lobby.correlations.length == 1) {
+                    userName = WAITINGFORPLAYERSSTRING
+                }
             }
+
+            if (lobby.game == undefined || lobby.game == "") lobby.game = "3-"
+            const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
+
+            innerHTML += getGame(lobby.name, lobby.description, lobby.password != null && lobby.password != "", userName, fieldSize, true)
+        } catch {
+
         }
-
-        if (lobby.game == undefined || lobby.game == "") lobby.game = "4-"
-        const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
-
-        innerHTML += getGame(lobby.name, lobby.description, lobby.password != null && lobby.password != "", userName, fieldSize, true)
     }
 
     getel("group0inner").innerHTML = innerHTML
@@ -96,7 +110,30 @@ function loadInvitedLobbies() {
 }
 
 function loadAllLobbies() {
+    let lobbies = getLobbies()
+
     let innerHTML = ""
+
+    for (let i = 0; i < lobbies.length; i++) {
+        try {
+            const lobby = lobbies[i]
+            let userName = other(lobby.correlations[0].usertoken).name
+            if (userName == self().name) {
+                if (lobby.correlations.length == 1) {
+                    userName = "yourself"
+                }
+            }
+
+            if (lobby.game == undefined || lobby.game == "") lobby.game = "3-"
+            const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
+
+            innerHTML += getGame(lobby.name, lobby.description, lobby.password != null && lobby.password != "", userName, fieldSize, false)
+        } catch {
+            
+        }
+    }
+
+    getel("group2inner").innerHTML = innerHTML
 }
 
 function getGame(title, description, password, by, fieldsize, cog) {
@@ -108,6 +145,8 @@ function getGame(title, description, password, by, fieldsize, cog) {
 
     if (fieldsize != "3") {
         fieldsize = "fieldsize " + fieldsize
+    } else {
+        fieldsize = ""
     }
 
     let lock = ""

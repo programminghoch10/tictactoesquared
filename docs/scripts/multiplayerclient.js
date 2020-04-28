@@ -158,6 +158,10 @@ function getInvitedLobbies() {
     return lobbies
 }
 
+function getLobbies() {
+    return JSON.parse(post("/api/getLobbies").responseText)
+}
+
 function searchLobbies(filter) {
     //TODO: add search for lobbies request to server
 }
