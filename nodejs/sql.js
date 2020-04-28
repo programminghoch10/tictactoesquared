@@ -296,6 +296,18 @@ async function getCorrelationsByToken(type, token) {
   return correlations;
 }
 
+async function getCorrelation(usertoken, lobbytoken) {
+  if (!common.isStringEmpty(usertoken) && !common.isStringEmpty(lobbytoken)) return false;
+  console.log("Searching for correlation with usertoken: " + usertoken + " and lobbytoken: " + lobbytoken);
+  let results = (await pool.query({
+    sql: "SELECT * FROM correlations WHERE `usertoken`=? AND `lobbytoken`=?",
+    timeout: sqltimeout,
+    values: [usertoken, lobbytoken]
+  }))[0];
+  if (results.length != 1) return false;
+  return convertSqlToCorrelation(results[0]);
+}
+
 async function getByToken(table, token) {
   if (token == "" || !(table == "lobbies" || table == "users")) return false;
   console.log("Searching " + table + " with token: " + token);
@@ -385,6 +397,7 @@ module.exports = {
 
   getCorrelationsByLobbyToken: getCorrelationsByLobbyToken,
   getCorrelationsByUserToken: getCorrelationsByUserToken,
+  getCorrelation: getCorrelation,
   createCorrelation: createCorrelation,
   updateCorrelation: updateCorrelation,
   deleteCorrelation: deleteCorrelation,

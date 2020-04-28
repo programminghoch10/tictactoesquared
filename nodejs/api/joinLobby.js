@@ -25,16 +25,22 @@ router.post('/api/joinLobby', async function(req, res) {
         return
     }
 
-    if (password != lobby.password) {
+    if (lobby.password != null && password != lobby.password) {
         res.sendStatus(401)
         return
     }
 
-    let correlation = new classes.Correlation()
-    correlation.lobbytoken = lobby.token
-    correlation.usertoken = user.token
-    correlation.invite = false
-    correlation = await sql.createCorrelation(correlation)
+    let correlation = await sql.getCorrelation(user.token, lobby.token);
+    if (correlation) {
+        correlation.invite = false
+        correlation = await sql.updateCorrelation(correlation)
+    } else {
+        correlation = new classes.Correlation();
+        correlation.lobbytoken = lobby.token
+        correlation.usertoken = user.token
+        correlation.invite = false
+        correlation = await sql.createCorrelation(correlation)
+    }
 
     if (lobby.privacy != "closed") {
         lobby.privacy = "closed"
