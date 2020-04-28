@@ -1,4 +1,7 @@
+const WAITINGFORPLAYERSSTRING = "waiting for players"
+
 let currentGroup = 0
+let currentBurger = false
 
 function changeGroup(i) {
     let oldNavEl = getel("navgroup" + currentGroup)
@@ -13,9 +16,16 @@ function changeGroup(i) {
     el.classList.remove("hide")
 
     currentGroup = i
-}
 
-let currentBurger = false
+    if (currentGroup == 0) {
+        loadJoinedLobbies()
+    } else if (currentGroup == 1) {
+        loadInvitedLobbies()
+    } else if (currentGroup == 2) {
+        loadAllLobbies()
+    }
+}
+changeGroup(0)
 
 function burger() {
     let body = document.body
@@ -74,10 +84,10 @@ function loadJoinedLobbies() {
         if (lobby.game == undefined || lobby.game == "") lobby.game = "4-"
         const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
 
-        innerHTML += getGame(lobby.name, lobby.description, lobby.password != null && lobby.password != "", userName, fieldSize)
+        innerHTML += getGame(lobby.name, lobby.description, lobby.password != null && lobby.password != "", userName, fieldSize, true)
     }
 
-    getel("group0").innerHTML = innerHTML
+    getel("group0inner").innerHTML = innerHTML
 }
 
 function loadInvitedLobbies() {
@@ -85,12 +95,10 @@ function loadInvitedLobbies() {
 }
 
 function loadAllLobbies() {
-    
+    let innerHTML = ""
 }
 
-const WAITINGFORPLAYERSSTRING = "waiting for players"
-
-function getGame(title, description, password, by, fieldsize) {
+function getGame(title, description, password, by, fieldsize, cog) {
     let html = ""
 
     if (by != WAITINGFORPLAYERSSTRING) {
@@ -103,7 +111,12 @@ function getGame(title, description, password, by, fieldsize) {
 
     let lock = ""
     if (password) {
-        lock = `<i class="fas fa-lock"></i>`
+        lock = `<i class="fas fa-lock fa-xs"></i>`
+    }
+    if (cog) {
+        cog = `<i class="fas fa-cog fa-xs"></i>`
+    } else {
+        cog = ""
     }
 
     let leave = `<div class="button">LEAVE</div>`
@@ -111,13 +124,15 @@ function getGame(title, description, password, by, fieldsize) {
     html = `
     <div class="game">
         <div class="title">
-            <h2>${title}${lock}</h2>
+            <h2>${cog}${lock}<div>${title}</div></h2>
             <p>${by}</p>
             <p>${fieldsize}</p>
         </div>
         <h3>${description}</h3>
-        ${leave}
-        <div class="button">PLAY</div>
+        <div class="buttons">
+            ${leave}
+            <div class="button">PLAY</div>
+        </div>
     </div>
     `
 

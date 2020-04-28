@@ -196,9 +196,9 @@
   margin-bottom: 0;
 }
 
-
 .multiplayer .group .game .title h2 div {
-  margin-left: 20px;
+  display: inline;
+  margin-left: 10px;
 }
 
 .multiplayer .group .game .title p {
@@ -215,7 +215,7 @@
 }
 
 .multiplayer .group .game .title i {
-  transform: translate(10px, 4px) scale(0.8);
+  transform: translate(10px, -4px) scale(0.8);
 
   margin-right: 10px;
 
