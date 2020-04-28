@@ -14,3 +14,21 @@ function changeGroup(i) {
 
     currentGroup = i
 }
+
+let currentBurger = false
+
+function burger() {
+    let body = document.body
+
+    if (currentBurger) {
+        body.classList.remove("burger")
+    } else {
+        body.classList.add("burger")
+    }
+
+    currentBurger = !currentBurger
+}
+
+if (window.innerWidth > 1200) {
+    burger()
+}
