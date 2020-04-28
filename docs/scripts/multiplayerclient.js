@@ -39,6 +39,8 @@ try {
 function createNewUser() {
     let request = post("/api/createUser", { name: name })
 
+    // TODO: check if valid
+
     let user = JSON.parse(request.responseText)
 
     saveToken(user.token)

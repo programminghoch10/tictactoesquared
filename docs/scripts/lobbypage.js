@@ -32,3 +32,24 @@ function burger() {
 if (window.innerWidth > 1200) {
     burger()
 }
+
+function newLobby() {
+    getel("newlobbyoverlay").classList.add("overlay-active")
+    getel("newLobbyButton").style.display = "none"
+    getel("newLobbyPanel").classList.add("newLobbyPanel-active")
+
+    if (currentBurger == true) burger()
+}
+
+function returnNewLobby() {
+    getel("newlobbyoverlay").classList.remove("overlay-active")
+    getel("newLobbyButton").style.display = "block"
+    getel("newLobbyPanel").classList.remove("newLobbyPanel-active")
+}
+
+function _createLobby() {
+    let name = getel("lobbyname").value
+    let description = getel("lobbydescription").value
+    let password = getel("lobbypassword").value
+    createLobby(name, description, password)
+}
