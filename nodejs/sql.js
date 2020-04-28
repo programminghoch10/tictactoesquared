@@ -133,6 +133,7 @@ async function updateUser(user) {
 async function deleteUser(user) {
   if (user.constructor.name != classes.User.name) return false;
   if (common.isStringEmpty(user.token)) return false;
+  console.log("Deleting user " + user.name)
   pool.query({
     sql: "DELETE FROM users WHERE `token`=?",
     timeout: sqltimeout,
@@ -207,6 +208,7 @@ async function updateLobby(lobby) {
 async function deleteLobby(lobby) {
   if (lobby.constructor.name != classes.Lobby.name) return false;
   if (common.isStringEmpty(lobby.token)) return false;
+  console.log("Deleting Lobby " + lobby.name);
   pool.query({
     sql: "DELETE FROM lobbies WHERE `token`=?",
     timeout: sqltimeout,
@@ -247,6 +249,7 @@ async function updateCorrelation(correlation) {
 
 async function deleteCorrelation(correlation) {
   if (correlation.constructor.name != classes.Correlation.name) return false;
+  console.log("Deleting a correlation");
   pool.query({
     sql: "DELETE FROM correlations WHERE `id`=?",
     timeout: sqltimeout,
@@ -266,7 +269,7 @@ async function deleteCorrelationsByLobbyToken(lobbytoken) {
 async function deleteCorrelationsByToken(type, token) {
   if (token == "" || !(type == "lobby" || type == "user")) return false;
   type = type + "token";
-  console.log("Searching correlations for " + type + ": " + token);
+  console.log("Deleting correlations where " + type + " is " + token);
   return (await pool.query({
     sql: "DELETE FROM correlations WHERE ??=?",
     timeout: sqltimeout,
@@ -298,7 +301,7 @@ async function getCorrelationsByToken(type, token) {
 }
 
 async function getCorrelation(usertoken, lobbytoken) {
-  if (!common.isStringEmpty(usertoken) && !common.isStringEmpty(lobbytoken)) return false;
+  if (common.isStringEmpty(usertoken) || common.isStringEmpty(lobbytoken)) return false;
   console.log("Searching for correlation with usertoken: " + usertoken + " and lobbytoken: " + lobbytoken);
   let results = (await pool.query({
     sql: "SELECT * FROM correlations WHERE `usertoken`=? AND `lobbytoken`=?",
