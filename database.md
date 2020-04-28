@@ -54,4 +54,4 @@ lobbytoken | text | token of the lobby | assigned on creation, never gets change
 invite | bit | whether this is a pending invite | gets changed when invite accepted | NOT NULL
 
 MySQL create table query:  
-`CREATE TABLE correlations(id BIGINT NOT NULL AUTO_INCREMENT, usertoken TEXT NOT NULL, lobbytoken TEXT NOT NULL, invite BIT NOT NULL, PRIMARY KEY (id)`
+`CREATE TABLE correlations(id BIGINT NOT NULL AUTO_INCREMENT, usertoken TEXT NOT NULL, lobbytoken TEXT NOT NULL, invite BIT NOT NULL, PRIMARY KEY (id))`

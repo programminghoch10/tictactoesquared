@@ -30,13 +30,14 @@ function connect() {
     createNewUser()
     return
   }
+  if ( self().name != name ) changeName(name)
 }
 try {
-connect()
+    connect()
 } catch {}
 
 function createNewUser() {
-    let request = post("/createUser", { name: name })
+    let request = post("/api/createUser", { name: name })
 
     let user = JSON.parse(request.responseText)
 
@@ -64,7 +65,7 @@ function isUserTokenValid() {
   }
 
   // make a post request that returns 1 if the token is availabe
-  let availabe = post("/doesUserTokenExist", { token: token }).responseText
+  let availabe = post("/api/doesUserTokenExist", { token: token }).responseText
 
   if (availabe != "true") {
     return false
@@ -74,7 +75,7 @@ function isUserTokenValid() {
 }
 
 function changeName(newName) {
-    let request = post("/changeName", { token: token })
+    let request = post("/api/changeName", { token: token, name: name })
     
     let status = request.statusText
 
@@ -85,7 +86,7 @@ function changeName(newName) {
 
 function createLobby(name, description, password) {
     // TODO: hash password
-    let lobbyToken = post("/createLobby", {
+    let lobbyToken = post("/api/createLobby", {
         name: name,
         description: description,
         password: password,
@@ -97,15 +98,15 @@ function createLobby(name, description, password) {
 }
 
 function self() {
-  return JSON.parse(post("/getUser", { token: token }).responseText)
+  return JSON.parse(post("/api/getUser", { token: token }).responseText)
 }
 
 function other(_token) {
-  return JSON.parse(post("/getUser", { token: _token }).responseText)
+  return JSON.parse(post("/api/getUser", { token: _token }).responseText)
 }
 
 function getLobby(lobbyToken) {
-  return JSON.parse(post("/getLobby", { token: lobbyToken }).responseText)
+  return JSON.parse(post("/api/getLobby", { token: lobbyToken }).responseText)
 }
 
 function getJoinedLobbies() {

@@ -1,11 +1,11 @@
 const express = require('express')
 let router = express.Router()
 
-const common = require('./common.js')
-const classes = require('./classes.js')
-const sql = require('./sql.js')
+const common = require('../common.js')
+const classes = require('../classes.js')
+const sql = require('../sql.js')
 
-router.post('/createLobby', async function(req, res) {
+router.post('/api/createLobby', async function(req, res) {
     let name = req.body.name
     let description = req.body.description
     let password = req.body.password

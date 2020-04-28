@@ -1,10 +1,10 @@
 const express = require('express')
 let router = express.Router()
 
-const common = require('./common.js')
-const sql = require('./sql.js')
+const common = require('../common.js')
+const sql = require('../sql.js')
 
-router.post('/getLobby', async function(req, res) {
+router.post('/api/getLobby', async function(req, res) {
     let token = req.body.token
 
     let lobby = await sql.getLobbyByToken(token)
