@@ -4,6 +4,7 @@ body {
 
   --default: #ddd;
   --default-alt: #ccc;
+  --default-alt2: #ddd;
 
   --player1: rgb(44, 202, 176);
   --player2: rgb(255, 123, 0);
@@ -32,4 +33,5 @@ svg, a, p, h1, h2 {
 
   --default: #444;
   --default-alt: #555;
+  --default-alt2: #666;
 }

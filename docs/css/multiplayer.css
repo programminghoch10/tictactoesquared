@@ -33,6 +33,53 @@
   cursor: pointer;
 }
 
+.multiplayer .groups-nav {
+  margin-top: 100px;
+}
+
+.multiplayer .groups-nav .group {
+  display: flex;
+  align-items: center;
+
+  height: 80px;
+
+  margin: 20px 0;
+
+  background: var(--default-alt);
+
+  cursor: pointer;
+}
+
+.multiplayer .groups-nav .group p {
+  width: 100%;
+
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--player1);
+
+  text-align: center;
+}
+
+.multiplayer .groups-nav .alt .group p {
+  color: var(--player2);
+}
+
+.multiplayer .groups-nav .current {
+  background: var(--player1);
+}
+
+.multiplayer .groups-nav .current p {
+  color: var(--default-alt);
+}
+
+.multiplayer .groups-nav .alt .current {
+  background: var(--player2);
+}
+
+.multiplayer .groups-nav .alt .current p {
+  color: var(--default-alt);
+}
+
 .multiplayer .groups {
   width: 100%;
   height: 100%;
