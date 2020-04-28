@@ -41,7 +41,7 @@ router.post('/api/joinLobby', async function(req, res) {
         await sql.updateLobby(lobby)
     }
 
-    res.sendStatus(200)
+    res.sendStatus(202)
 })
 
 module.exports = router
