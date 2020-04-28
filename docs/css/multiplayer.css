@@ -95,9 +95,12 @@
 
   margin: 20px;
 
-  border: 2px dotted white;
-
   overflow: scroll;
+}
+
+
+.multiplayer .groups .hide {
+  display: none;
 }
 
 .multiplayer .group h1 {
@@ -105,11 +108,67 @@
 }
 
 .multiplayer .group .game {
+  position: relative;
+
   width: calc(100% - 40px);
-  height: 60px;
+  height: 120px;
   margin: 20px;
   border-radius: 10px;
   background: var(--default);
+
+  /* overflow: hidden; */
+}
+
+.multiplayer .group .game .title {
+  display: flex;
+}
+
+.multiplayer .group .game .title h2 {
+  transform: translate(20px, 0px);
+  color: var(--player1);
+
+  margin-right: 20px;
+}
+
+.multiplayer .group .game .title p {
+  transform: translate(20px, 9px);
+
+  margin-right: 10px;
+
+  font-size: 16x;
+  font-weight: bold;
+
+  color: var(--player1);
+}
+
+.multiplayer .group .game .title i {
+  transform: translate(10px, 26px);
+
+  margin-right: 20px;
+
+  color: var(--player1);
+}
+
+.multiplayer .group .game h3 {
+  width: calc(100% - 150px);
+
+  transform: translate(20px, -20px);
+  color: var(--player2);
+  font-size: 16px;
+}
+
+.multiplayer .group .game button {
+  position: absolute;
+
+  right: 0;
+  top: 0;
+
+  transform: translate(-12px, 20px);
+
+  width: 80px;
+  height: 80px;
+  
+  background: var(--default-alt);
 }
 
 .multiplayer .flex {

@@ -69,15 +69,21 @@
                         <a href="inputname.html"><i class="fas fa-edit"></i></a>
                     </div>
                     <div class="groups-nav">
-                        <div class="group current">
+                        <div class="group current"
+                             id="navgroup0"
+                             onclick="changeGroup(0)">
                             <p>CURRENT GAMES</p>
                         </div>
                         <div class="alt">
-                            <div class="group">
+                            <div class="group"
+                                 id="navgroup1"
+                                 onclick="changeGroup(1)">
                                 <p>INVITED GAMES</p>
                             </div>
                         </div>
-                        <div class="group">
+                        <div class="group"
+                             id="navgroup2"
+                             onclick="changeGroup(2)">
                             <p>ALL GAMES</p>
                         </div>
                         <div class="alt">
@@ -89,52 +95,62 @@
                 </div>
                 <div class="groups">
                     <div class="group"
-                         id="currentgame">
-                        <h1>Current games</h1>
+                         id="group0">
+                        <h1>CURRENT GAMES</h1>
                         <div class="game">
-                            <h2>TITLE</h2>
-                            <h3>DESCRIPTION</h3>
-                            <h4>STATUS</h4>
-                            <button>Join</button>
+                            <div class="title">
+                                <h2>TITLE</h2>
+                                <i class="fas fa-lock"></i>
+                                <p>Fieldsize: 4</p>
+                            </div>
+                            <h3>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa iste maxime inventore
+                                architecto temporibus quia voluptatibus autem consectetur corporis! Suscipit.</h3>
+                            <button>PLAY</button>
                         </div>
                     </div>
-                    <div class="group"
-                         id="invitedgames">
-                        <h1>Current games</h1>
+                    <div class="group hide"
+                         id="group1">
+                        <h1>INVITED GAMES</h1>
                         <div class="game">
-                            <h2>TITLE</h2>
-                            <h3>DESCRIPTION</h3>
-                            <h4>STATUS</h4>
-                            <button>Join</button>
+                            <div class="title">
+                                <h2>TITLE</h2>
+                                <i class="fas fa-lock"></i>
+                                <p>Fieldsize: 4</p>
+                            </div>
+                            <h3>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa iste maxime inventore
+                                architecto temporibus quia voluptatibus autem consectetur corporis! Suscipit.</h3>
+                            <button>PLAY</button>
                         </div>
                     </div>
-                    <div class="group"
-                         id="currentgame">
-                        <h1>Current games</h1>
+                    <div class="group hide"
+                         id="group2">
+                        <h1>ALL GAMES</h1>
                         <div class="game">
-                            <h2>TITLE</h2>
-                            <h3>DESCRIPTION</h3>
-                            <h4>STATUS</h4>
-                            <button>Join</button>
+                            <div class="title">
+                                <h2>TITLE</h2>
+                                <i class="fas fa-lock"></i>
+                                <p>Fieldsize: 4</p>
+                            </div>
+                            <h3>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa iste maxime inventore
+                                architecto temporibus quia voluptatibus autem consectetur corporis! Suscipit.</h3>
+                            <button>PLAY</button>
                         </div>
                     </div>
+                    </>
                 </div>
             </div>
-        </div>
-        <script src="scripts/cookie.js"></script>
-        <script src="scripts/colortheme.js"></script>
-        <script type="text/javascript"
-                id="cookieinfo"
-                src="//cookieinfoscript.com/js/cookieinfo.min.js"
-                data-message="We use cookies mainly to save your game. (It's ok, everyone does.)"
-                data-cookie="cookies-accepted"
-                data-close-text="Accept"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="scripts/cookie.js"></script>
-        <script src="scripts/multiplayerclient.js"></script>
-        <script>
-
-        </script>
+            <script src="scripts/cookie.js"></script>
+            <script src="scripts/colortheme.js"></script>
+            <script type="text/javascript"
+                    id="cookieinfo"
+                    src="//cookieinfoscript.com/js/cookieinfo.min.js"
+                    data-message="We use cookies mainly to save your game. (It's ok, everyone does.)"
+                    data-cookie="cookies-accepted"
+                    data-close-text="Accept"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+            <script src="scripts/cookie.js"></script>
+            <script src="scripts/multiplayerclient.js"></script>
+            <script src="scripts/lobbypage.js"></script>
     </body>
 
 </html>
