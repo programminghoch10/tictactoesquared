@@ -1,18 +1,38 @@
 .multiplayer {
-  height: calc(100% - 20px);
+  position: relative;
 
-  margin: 0;
+  overflow: hidden;
 }
 
 .multiplayer .sidebar {
-  width: 400px;
+  transform: translateX(-110%);
+}
+
+.burger .multiplayer .sidebar {
+  transform: translate(0);
+}
+
+.multiplayer .sidebar {
+  z-index: 2;
+  position: absolute;
+  width: 300px;
   height: 100%;
 
   padding-top: 50px; 
 
   background-color: var(--default);
 
+  -webkit-box-shadow: 5px 0px 5px 0px rgba(0,0,0,0.5);
+  -moz-box-shadow: 5px 0px 5px 0px rgba(0,0,0,0.5);
+  box-shadow: 5px 0px 5px 0px rgba(0,0,0,0.5);
+
   text-align: center;
+
+  transition: transform 200ms ease-in-out;
+}
+
+.multiplayer .sidebar .nav {
+  transform: translateY(-24px);
 }
 
 .multiplayer .sidebar .nav i::before {
@@ -86,6 +106,15 @@
 
   display: flex;
   flex-direction: column;
+
+  transition: width 200ms ease-in-out, transform 200ms ease-in-out;
+}
+
+@media only screen and (min-width: 1200px) {
+  .burger .multiplayer .groups {
+    width: calc(100% - 300px);
+    transform: translateX(300px);
+  }
 }
 
 .multiplayer .groups .group {
@@ -95,9 +124,15 @@
 
   margin: 20px;
 
-  border: 2px dotted white;
-
   overflow: scroll;
+}
+
+.multiplayer .groups .group::-webkit-scrollbar {
+  display: none;
+  }
+
+.multiplayer .groups .hide {
+  display: none;
 }
 
 .multiplayer .group h1 {
@@ -105,11 +140,105 @@
 }
 
 .multiplayer .group .game {
+  position: relative;
+
   width: calc(100% - 40px);
-  height: 60px;
+  height: 120px;
   margin: 20px;
   border-radius: 10px;
   background: var(--default);
+
+  overflow: hidden;
+}
+
+.multiplayer .group .game .title {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+}
+
+@media only screen and (max-width: 600px) {
+  .multiplayer .group .game .title {
+    display: block;
+    margin-bottom: 50px;
+  }
+}
+
+.multiplayer .group .game .title h2 {
+  transform: translate(20px, 0px);
+  color: var(--player1);
+
+  margin-right: 20px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.multiplayer .group .game .title p {
+  transform: translate(20px, 9px);
+
+  margin-right: 10px;
+  margin-top: 0;
+  margin-bottom: 0;
+
+  font-size: 16x;
+  font-weight: bold;
+
+  color: var(--player1);
+}
+
+.multiplayer .group .game .title i {
+  transform: translate(10px, 0);
+
+  color: var(--player1);
+}
+
+.multiplayer .group .game h3 {
+  width: calc(100% - 150px);
+
+  transform: translate(20px, -20px);
+  color: var(--player2);
+  font-size: 16px;
+}
+
+
+@media only screen and (max-width: 900px) {
+  .multiplayer .group .game {
+    height: 140px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .multiplayer .group .game {
+    height: 200px;
+  }
+
+  .multiplayer .group .game h3 {
+    width: 85%;
+    font-size: 14px;
+    font-weight: normal;
+  }
+}
+
+.multiplayer .group .game button {
+  position: absolute;
+
+  right: 0;
+  top: 0;
+
+  transform: translate(-12px, 20px);
+
+  width: 80px;
+  height: 80px;
+  
+  background: var(--default-alt);
+
+  border: none;
+  border-radius: 10px;
+
+  font-family: "Roboto", sans-serif;
+  color: var(--player1);
+  font-weight: bold;
+  font-size: 18px;
 }
 
 .multiplayer .flex {
@@ -145,52 +274,37 @@
   height: 50px;
 }
 
-.multiplayer input[type="text"] {
-  flex: 5;
+.multiplayer .burger {
+  position: absolute;
+  z-index: 10;
 
-  width: 100%;
-  height: 100%;
+  top: 20px;
+  left: 20px;
 
-  margin: 0 10px;
+  width: 40px;
+  height: 40px;
 
-  background: var(--default);
-  border: none;
-  
-  border-radius: 10px;
-
-  color: var(--player1);
-  font-family: "Roboto", sans-serif;
-  font-size: 16px;
-  font-weight: bold;
-  text-align: center;
+  cursor: pointer;
 }
 
-.multiplayer button {
-  flex: 1;
+.multiplayer .burger div, .multiplayer .burger div::before, .multiplayer .burger div::after {
+  content: "";
+
+  display: block;
+
+  transform: translateY(200%);
 
   width: 100%;
-  height: 100%;
+  height: 5px;
 
-  margin: 0 10px;
+  background: white;
 
-  background: var(--default);
-  border: none;
-  border-radius: 10px;
-
-  color: var(--player2);
-  font-family: "Roboto", sans-serif;
-  font-size: 16px;
-  font-weight: bold;
-  text-align: center;
+  border-radius: 2px;
 }
 
-@media only screen and (max-width: 600px) {
-  .multiplayer .nameinput {
-    width: inherit;
-    display: block !important;
-  }
-
-  .multiplayer button, .multiplayer input[type="text"] {
-    margin: 10px 0;
-  }
+.multiplayer .burger div::before {
+  transform: translateY(-200%);
+}
+.multiplayer .burger div::after {
+  transform: translateY(100%);
 }
