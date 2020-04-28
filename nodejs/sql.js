@@ -32,6 +32,8 @@ function init() {
     queueLimit: 0,
   });
 
+  // dbreset();
+
   /*con.connect(function(err) {
     if (err) throw err;
     console.log("Connected to sql!");
@@ -46,6 +48,13 @@ function init() {
       throw err;
     }
   });*/
+}
+
+async function dbreset() {
+  let tables = ["lobbies", "users", "correlations"];
+  for (let i = 0; i < tables.length; i++) {
+    rawQuery("DELETE FROM " + tables[i]);
+  }
 }
 
 async function cleanUp() {
