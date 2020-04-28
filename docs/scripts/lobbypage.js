@@ -38,6 +38,8 @@ function newLobby() {
     getel("newLobbyButton").style.display = "none"
     getel("newLobbyPanel").classList.add("newLobbyPanel-active")
 
+    getel("lobbyname").focus()
+
     if (currentBurger == true) burger()
 }
 
@@ -53,4 +55,63 @@ function _createLobby() {
     let password = getel("lobbypassword").value
     let fieldSize = getel("lobbyfieldsize").value
     createLobby(name, description, password, fieldSize)
+}
+
+function loadJoinedLobbies() {
+    let joinedLobbies = getJoinedLobbies()
+
+    let innerHTML = ""
+
+    for (let i = 0; i < joinedLobbies.length; i++) {
+        const lobby = joinedLobbies[i]
+        const userName = other(lobby.correlations[0].usertoken).name
+
+        if (lobby.game == undefined || lobby.game == "") lobby.game = "4-"
+        const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
+
+        innerHTML += getGame(lobby.name, lobby.description, lobby.password != null && lobby.password != "", userName, fieldSize)
+    }
+
+    getel("group0").innerHTML = innerHTML
+}
+
+function loadInvitedLobbies() {
+
+}
+
+function loadAllLobbies() {
+    
+}
+
+const WAITINGFORPLAYERSSTRING = "waiting for players"
+
+function getGame(title, description, password, by, fieldsize) {
+    let html = ""
+
+    if (by != WAITINGFORPLAYERSSTRING) {
+        by = "by " + by
+    }
+
+    if (fieldsize != "3") {
+        fieldsize = "fieldsize " + fieldsize
+    }
+
+    let lock = ""
+    if (password) {
+        lock = `<i class="fas fa-lock"></i>`
+    }
+
+    html = `
+    <div class="game">
+        <div class="title">
+            <h2>${title}${lock}</h2>
+            <p>${by}</p>
+            <p>${fieldsize}</p>
+        </div>
+        <h3>${description}</h3>
+        <button>PLAY</button>
+    </div>
+    `
+
+    return html
 }

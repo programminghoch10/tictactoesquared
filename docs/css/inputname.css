@@ -34,6 +34,12 @@
   text-align: left;
 }
 
+.inputname form {
+    display: flex;
+    width: 100%;
+    height: 50px;
+}
+
 .inputname .nameinput {
   display: flex;
 
@@ -42,7 +48,7 @@
   height: 50px;
 }
 
-.inputname input[type="text"] {
+.inputname input {
   flex: 5;
 
   width: 100%;
@@ -60,6 +66,10 @@
   font-size: 16px;
   font-weight: bold;
   text-align: center;
+}
+
+.inputname input[type="submit"] {
+    flex: 1;
 }
 
 .inputname button {
@@ -82,12 +92,16 @@
 }
 
 @media only screen and (max-width: 600px) {
-  .inputname .nameinput {
+  .inputname form {
     width: inherit;
     display: block !important;
   }
 
-  .inputname button, .inputname input[type="text"] {
+  .inputname button, .inputname input {
     margin: 10px 0;
+  }
+
+  .inputname h1 {
+      text-align: center;
   }
 }
