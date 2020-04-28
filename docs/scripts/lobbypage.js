@@ -38,6 +38,8 @@ function newLobby() {
     getel("newLobbyButton").style.display = "none"
     getel("newLobbyPanel").classList.add("newLobbyPanel-active")
 
+    getel("lobbyname").focus()
+
     if (currentBurger == true) burger()
 }
 

@@ -377,7 +377,8 @@
   transform: translate(-50%, -50%) scale(0);
 
   width: 500px;
-  height: 500px;
+
+  padding-bottom: 20px;
 
   border-radius: 10px;
 
@@ -386,6 +387,10 @@
   pointer-events: none;
   opacity: 0;
   transition: opacity 200ms linear;
+}
+
+.multiplayer .newLobbyPanel form {
+    position: relative;
 }
 
 .multiplayer .newLobbyPanel-active {
@@ -401,12 +406,14 @@
 
 .multiplayer .newLobbyPanel h3 {
   color: var(--player2);
+  height: 23px;
 }
 
 .multiplayer .newLobbyPanel .entry {
   position: relative;
   
   display: flex;
+  height: 60px;
   margin: 10px 20px;
 }
 
@@ -414,12 +421,7 @@
   margin-left: auto;
 }
 
-.multiplayer .newLobbyPanel button {
-  position: absolute;
-
-  right: 20px;
-  bottom: 20px;
-
+.multiplayer .newLobbyPanel input[type="submit"] {
   width: 200px;
   height: 40px;
 
@@ -461,7 +463,6 @@
 @media only screen and (max-width: 600px) {
   .multiplayer .newLobbyPanel {
     width: 90%;
-    height: 80%;
   }
 
   .multiplayer .newLobbyPanel .entry {

@@ -154,12 +154,13 @@
                 <div class="newLobbyPanel"
                      id="newLobbyPanel">
                     <h2>Create a lobby</h2>
-                    <form onsubmit="_createLobby()">
+                    <form onsubmit="_createLobby()"
+                          action="javascript:submit();">
                         <div class="entry">
                             <h3>Lobby name:</h3>
                             <input type="text"
-                                   value="new lobby"
-                                   id="lobbyname">
+                                   id="lobbyname"
+                                   required>
                         </div>
                         <div class="entry">
                             <h3>Lobby description (optional):</h3>
@@ -182,7 +183,10 @@
                                    max="5"
                                    value="3">
                         </div>
-                        <input type="submit">
+                        <div class="entry">
+                            <h3></h3>
+                            <input type="submit">
+                        </div>
                     </form>
                 </div>
             </div>
