@@ -16,10 +16,12 @@ router.post('/api/createUser', async function(req, res) {
     // prevents creation of two users with the same name
     // TODO: implement some sort of differentiation with the token for two users with the name to exist
     let users = await sql.getUsers()
-    users = users.filter(function(user) {return user.name == name})
-    if (users.length > 0) {
-        res.sendStatus(409)
-        return
+    if (users) {
+        users = users.filter(function(user) {return user.name == name})
+        if (users.length > 0) {
+            res.sendStatus(409)
+            return
+        }
     }
 
     // create a new user
