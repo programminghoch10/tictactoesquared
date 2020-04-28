@@ -55,6 +55,11 @@
                      onclick="burger()">
                     <div></div>
                 </div>
+                <div class="add"
+                     id="newLobbyButton"
+                     onclick="newLobby()">
+                    <i class="fas fa-plus fa-2x"></i>
+                </div>
                 <div class="sidebar">
                     <div class="nav">
                         <a href="index.html">
@@ -97,6 +102,11 @@
                         </div>
                     </div>
                 </div>
+                <div class="overlay"
+                     id="newlobbyoverlay"
+                     onclick="returnNewLobby()"></div>
+                <div class="overlay burgeroverlay"
+                     onclick="burger()"></div>
                 <div class="groups">
                     <div class="group"
                          id="group0">
@@ -140,7 +150,40 @@
                             <button>PLAY</button>
                         </div>
                     </div>
-                    </>
+                </div>
+                <div class="newLobbyPanel"
+                     id="newLobbyPanel">
+                    <h2>Create a lobby</h2>
+                    <form>
+                        <div class="entry">
+                            <h3>Lobby name:</h3>
+                            <input type="text"
+                                   value="new lobby"
+                                   id="lobbyname">
+                        </div>
+                        <div class="entry">
+                            <h3>Lobby description (optional):</h3>
+                            <input type="text"
+                                   id="lobbydescription">
+                        </div>
+                        <div class="entry">
+                            <h3>Lobby password (optional):</h3>
+                            <input type="text"
+                                   id="lobbypassword">
+                        </div>
+                        <!-- <div class="entry">
+                            <h3>Invite player (optional):</h3>
+                            <input type="text">
+                        </div> -->
+                        <div class="entry">
+                            <h3>Field size (from 3 to 5):</h3>
+                            <input type="number"
+                                   min="3"
+                                   max="5"
+                                   value="3">
+                        </div>
+                        <button onclick="_createLobby()">SUBMIT</button>
+                    </form>
                 </div>
             </div>
             <script src="scripts/cookie.js"></script>

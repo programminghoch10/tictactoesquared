@@ -13,7 +13,7 @@
 }
 
 .multiplayer .sidebar {
-  z-index: 2;
+  z-index: 9;
   position: absolute;
   width: 300px;
   height: 100%;
@@ -22,9 +22,9 @@
 
   background-color: var(--default);
 
-  -webkit-box-shadow: 5px 0px 5px 0px rgba(0,0,0,0.5);
-  -moz-box-shadow: 5px 0px 5px 0px rgba(0,0,0,0.5);
-  box-shadow: 5px 0px 5px 0px rgba(0,0,0,0.5);
+  -webkit-box-shadow: 3px 0px 3px 0px rgba(0,0,0,0.2);
+  -moz-box-shadow: 3px 0px 3px 0px rgba(0,0,0,0.2);
+  box-shadow: 3px 0px 3px 0px rgba(0,0,0,0.2);
 
   text-align: center;
 
@@ -51,6 +51,36 @@
 .multiplayer .sidebar .name i {
   transform: translate(0, -12px);
   cursor: pointer;
+}
+
+.multiplayer .overlay {
+  z-index: 1;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100vh;
+
+  transition: background 200ms linear;
+
+  pointer-events: none;
+}
+
+.multiplayer .overlay-active {
+  width: 100vw;
+  background: rgba(0, 0, 0, 0.5);
+  
+  pointer-events: all;
+}
+
+@media only screen and (max-width: 1199px) {
+  .burger .multiplayer .burgeroverlay {
+    width: 100vw;
+    background: rgba(0, 0, 0, 0.5);
+
+    pointer-events: all;
+  }
 }
 
 .multiplayer .groups-nav {
@@ -307,4 +337,143 @@
 }
 .multiplayer .burger div::after {
   transform: translateY(100%);
+}
+
+.multiplayer .add {
+  z-index: 2;
+
+  position: absolute;
+
+  bottom: 80px;
+  right: 40px;
+
+  width: 80px;
+  height: 80px;
+
+  border-radius: 50%;
+
+  background: var(--player1);
+
+  -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.24);
+  -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.24);
+  box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.24);
+  
+  cursor: pointer;
+}
+
+.multiplayer .add i {
+  transform: translate(calc(40px - 14px), calc(40px - 16px));
+
+  color: white;
+}
+
+.multiplayer .newLobbyPanel {
+  z-index: 3;
+  position: fixed;
+  
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%) scale(0);
+
+  width: 500px;
+  height: 500px;
+
+  border-radius: 10px;
+
+  background: var(--default);
+
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 200ms linear;
+}
+
+.multiplayer .newLobbyPanel-active {
+  pointer-events: all;
+  transform: scale(1) translate(-50%, -50%);
+  opacity: 1;
+}
+
+.multiplayer .newLobbyPanel h2 {
+  color: var(--player1);
+  text-align: center;
+}
+
+.multiplayer .newLobbyPanel h3 {
+  color: var(--player2);
+}
+
+.multiplayer .newLobbyPanel .entry {
+  position: relative;
+  
+  display: flex;
+  margin: 10px 20px;
+}
+
+.multiplayer .newLobbyPanel .entry input {
+  margin-left: auto;
+}
+
+.multiplayer .newLobbyPanel button {
+  position: absolute;
+
+  right: 20px;
+  bottom: 20px;
+
+  width: 200px;
+  height: 40px;
+
+  background: var(--default-alt);
+  border: none;
+  border-radius: 10px;
+
+  color: var(--player2);
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.multiplayer input {
+  position: absolute;
+  
+  top: 50%;
+  right: 0;
+
+  transform: translateY(-50%);
+
+  width: 200px;
+  height: 40px;
+
+  background: var(--default-alt);
+  border: none;
+  
+  border-radius: 10px;
+
+  color: var(--player1);
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+}
+
+
+@media only screen and (max-width: 600px) {
+  .multiplayer .newLobbyPanel {
+    width: 90%;
+    height: 80%;
+  }
+
+  .multiplayer .newLobbyPanel .entry {
+    display: block;
+    margin: 20px;
+  }
+
+  .multiplayer .newLobbyPanel input {
+    position: static;
+    width: 100%;
+    margin: 0;
+    margin-top: 10px;
+
+  }
 }
