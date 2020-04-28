@@ -1,10 +1,13 @@
 const express = require('express')
 let router = express.Router()
 
-const common = require('./common.js')
-const sql = require('./sql.js')
+const common = require('../common.js')
+const sql = require('../sql.js')
 
-router.post('/doesPlayerTokenExist', async function(req, res) {
+router.post('/api/joinLobby', async function(req, res) {
+
+    //TODO: adapt for join lobby
+
     let lobbytoken = req.body.lobbytoken
     let playertoken = req.body.playertoken
     let password = req.body.password

@@ -1,11 +1,11 @@
 const express = require('express')
 let router = express.Router()
 
-const common = require('./common.js')
-const classes = require('./classes.js')
-const sql = require('./sql.js')
+const common = require('../common.js')
+const classes = require('../classes.js')
+const sql = require('../sql.js')
 
-router.post('/createUser', async function(req, res) {
+router.post('/api/createUser', async function(req, res) {
     const name = req.body.name
 
     if (name == undefined || common.isStringEmpty(name)) {

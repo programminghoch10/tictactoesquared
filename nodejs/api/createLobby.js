@@ -1,11 +1,11 @@
 const express = require('express')
 let router = express.Router()
 
-const common = require('./common.js')
-const classes = require('./classes.js')
-const sql = require('./sql.js')
+const common = require('../common.js')
+const classes = require('../classes.js')
+const sql = require('../sql.js')
 
-router.post('/createLobby', async function(req, res) {
+router.post('/api/createLobby', async function(req, res) {
     let name = req.body.name
     let description = req.body.description
     let password = req.body.password
@@ -29,10 +29,8 @@ router.post('/createLobby', async function(req, res) {
     // if invite token is not null
     // the lobby's privacy is closed
     let privacy = "open"
-    if (inviteToken != null && !common.isStringEmpty(inviteToken)) {
+    if (!common.isStringEmpty(inviteToken)) {
         privacy = "closed"
-
-        //TODO: invite the player
     }
 
     let lobby = new classes.Lobby()
@@ -41,7 +39,23 @@ router.post('/createLobby', async function(req, res) {
     lobby.password = password
     lobby.privacy = privacy
 
-    await sql.createLobby(lobby)
+    lobby = await sql.createLobby(lobby)
+
+    let ownCorrelation = new classes.Correlation()
+    ownCorrelation.lobbytoken = lobby.token
+    ownCorrelation.usertoken = ownToken
+    ownCorrelation.invite = false
+    sql.createCorrelation(ownCorrelation)
+
+    if (!common.isStringEmpty(inviteToken)) {
+        let inviteCorrelation = new classes.Correlation()
+        inviteCorrelation.lobbytoken = lobby.token
+        inviteCorrelation.usertoken = inviteToken
+        inviteCorrelation.invite = true
+        sql.createCorrelation(inviteCorrelation)
+    }
+
+    lobby = sql.getLobbyByToken(lobby.token)
 
     res.send(JSON.stringify(lobby))
 })

@@ -208,6 +208,8 @@ async function deleteLobby(lobby) {
 
 async function createCorrelation(correlation) {
   if (correlation.constructor.name != classes.Correlation.name) return false;
+  if (! await getUserByToken(correlation.usertoken)) return false;
+  if (! await getLobbyByToken(correlation.lobbytoken)) return false;
   console.log("Adding correlation to database.");
   pool.query({
     sql: "INSERT INTO `correlations` ( \

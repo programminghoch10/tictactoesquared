@@ -14,12 +14,12 @@ app.use(bodyParser.json())
 
 // to import another router
 // app.use(require("./nodejs/test.js"))
-app.use(require("./nodejs/createUser.js"))
-app.use(require("./nodejs/doesUserTokenExist.js"))
-app.use(require("./nodejs/createLobby.js"))
-app.use(require("./nodejs/changeName.js"))
-app.use(require("./nodejs/getUser.js"))
-app.use(require("./nodejs/getLobby.js"))
+app.use(require("./nodejs/api/createUser.js"))
+app.use(require("./nodejs/api/doesUserTokenExist.js"))
+app.use(require("./nodejs/api/createLobby.js"))
+app.use(require("./nodejs/api/changeName.js"))
+app.use(require("./nodejs/api/getUser.js"))
+app.use(require("./nodejs/api/getLobby.js"))
 
 const DIR = "./docs/"
 
@@ -43,6 +43,6 @@ app.listen(5500, '127.0.0.1')
 async function process() {
     //console.log( await sql.getUserByToken("abc"))
     //console.log( await sql.getLobbies());
-    // console.log(await sql.getUsers())
+     console.log(await sql.getUsers())
     // console.log(await sql.getLobbies())
 }
