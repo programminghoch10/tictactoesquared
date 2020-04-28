@@ -54,6 +54,7 @@ function _createLobby() {
     let description = getel("lobbydescription").value
     let password = getel("lobbypassword").value
     createLobby(name, description, password)
+    returnNewLobby()
 }
 
 function loadJoinedLobbies() {
@@ -63,7 +64,12 @@ function loadJoinedLobbies() {
 
     for (let i = 0; i < joinedLobbies.length; i++) {
         const lobby = joinedLobbies[i]
-        const userName = other(lobby.correlations[0].usertoken).name
+        let userName = other(lobby.correlations[0].usertoken).name
+        if (userName == self().name) {
+            if (lobby.correlations.length == 1) {
+                userName = WAITINGFORPLAYERSSTRING
+            }
+        }
 
         if (lobby.game == undefined || lobby.game == "") lobby.game = "4-"
         const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
@@ -100,6 +106,8 @@ function getGame(title, description, password, by, fieldsize) {
         lock = `<i class="fas fa-lock"></i>`
     }
 
+    let leave = `<div class="button">LEAVE</div>`
+
     html = `
     <div class="game">
         <div class="title">
@@ -108,7 +116,8 @@ function getGame(title, description, password, by, fieldsize) {
             <p>${fieldsize}</p>
         </div>
         <h3>${description}</h3>
-        <button>PLAY</button>
+        ${leave}
+        <div class="button">PLAY</div>
     </div>
     `
 
