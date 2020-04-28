@@ -51,7 +51,7 @@ Name | Type | Description | Particularities | SQL specific
 id | bigint | makes table entry unique | assigned on creation, never gets changed | NOT NULL AUTO_INCREMENT PRIMARY KEY
 usertoken | text | token of the user | assigned on creation, never gets changed | NOT NULL
 lobbytoken | text | token of the lobby | assigned on creation, never gets changed | NOT NULL
-invite | bit | whether this is a pending invite | gets changed when invite accepted | NOT NULL
+invite | boolean | whether this is a pending invite | gets changed when invite accepted | NOT NULL
 
 MySQL create table query:  
-`CREATE TABLE correlations(id BIGINT NOT NULL AUTO_INCREMENT, usertoken TEXT NOT NULL, lobbytoken TEXT NOT NULL, invite BIT NOT NULL, PRIMARY KEY (id))`
+`CREATE TABLE correlations(id BIGINT NOT NULL AUTO_INCREMENT, usertoken TEXT NOT NULL, lobbytoken TEXT NOT NULL, invite BOOLEAN NOT NULL, PRIMARY KEY (id))`

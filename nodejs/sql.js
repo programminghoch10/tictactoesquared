@@ -32,6 +32,8 @@ function init() {
     queueLimit: 0,
   });
 
+  // dbreset();
+
   /*con.connect(function(err) {
     if (err) throw err;
     console.log("Connected to sql!");
@@ -46,6 +48,13 @@ function init() {
       throw err;
     }
   });*/
+}
+
+async function dbreset() {
+  let tables = ["lobbies", "users", "correlations"];
+  for (let i = 0; i < tables.length; i++) {
+    rawQuery("DELETE FROM " + tables[i]);
+  }
 }
 
 async function cleanUp() {
@@ -276,11 +285,15 @@ async function getCorrelationsByToken(type, token) {
   if (token == "" || !(type == "lobby" || type == "user")) return false;
   type = type + "token";
   console.log("Searching correlations for " + type + ": " + token);
-  return (await pool.query({
+  let correlations = (await pool.query({
     sql: "SELECT * FROM correlations WHERE ??=?",
     timeout: sqltimeout,
     values: [type, token]
   }))[0];
+  for (let i = 0; i < correlations.length; i++) {
+    correlations[i] = convertSqlToCorrelation(correlations[i]);
+  }
+  return correlations;
 }
 
 async function getByToken(table, token) {
