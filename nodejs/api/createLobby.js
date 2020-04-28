@@ -18,6 +18,18 @@ router.post('/api/createLobby', async function(req, res) {
         res.sendStatus(400)
         return
     }
+
+    // if field size is valid
+    try {
+        let num = parseInt(fieldSize)
+        if (num < 3 || num > 5) {
+            res.sendStatus(400)
+            return
+        }
+    } catch {
+        res.sendStatus(400)
+        return
+    }
     
     // if token does not exist
     let user = await sql.getUserByToken(ownToken)
