@@ -53,9 +53,12 @@
             <div class="center flex-column">
                 <h1>Enter your name:</h1>
                 <div class="nameinput">
-                    <input type="text"
-                           id="username">
-                    <button onclick="submit()"> SUBMIT </button>
+                    <form action="javascript:submit();">
+                        <input type="text"
+                               id="username"
+                               autofocus>
+                        <input type="submit">
+                    </form>
                 </div>
             </div>
         </div>
@@ -70,6 +73,7 @@
         <script>
             function submit() {
                 let name = document.getElementById("username").value
+                if (name == "") return false;
                 setGlobalCookie("name", name)
                 document.location.href = "./multiplayer.html"
             }
