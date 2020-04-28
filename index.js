@@ -43,6 +43,6 @@ app.listen(5500, '127.0.0.1')
 async function process() {
     //console.log( await sql.getUserByToken("abc"))
     //console.log( await sql.getLobbies());
-     console.log(await sql.getUsers())
+    //console.log(await sql.getUsers())
     // console.log(await sql.getLobbies())
 }
