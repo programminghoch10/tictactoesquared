@@ -39,12 +39,12 @@ try {
 function createNewUser() {
     let request = post("/api/createUser", { name: name })
 
-    let status = request.statusText
+    let status = request.status
     switch(status) {
         case 409:
         case 400:
             saveName("")
-            document.location.href = document.location.href
+            document.location.reload()
             return
         default:
         case 200:
@@ -91,14 +91,14 @@ function isUserTokenValid() {
 function changeName(newName) {
     let request = post("/api/changeName", { token: token, name: name })
     
-    let status = request.statusText
+    let status = request.status
     switch(status) {
         case 409:
             document.location.href =  "./inputname.html"
             return
         case 400:
             saveToken("")
-            document.location.href = document.location.href
+            document.location.reload()
             return
         default:
         case 200:
