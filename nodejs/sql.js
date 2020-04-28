@@ -136,7 +136,7 @@ async function deleteUser(user) {
 async function getLobbyByToken(token) {
   let result = await getByToken("lobbies", token);
   if (!result) return false;
-  return await convertSqlToUser(result);
+  return await convertSqlToLobby(result);
 }
 
 async function getLobbies() {
@@ -318,10 +318,10 @@ async function convertSqlToUser(row) {
   let user = new classes.User();
   user.id = row.id;
   user.token = row.token;
-  user.humanid = row.humanid;
   user.name = row.name;
   user.creationtime = row.creationtime;
   user.lastacttime = row.lastacttime;
+  user.timeout = row.timeout;
   user.correlations = await getCorrelationsByUserToken(user.token);
   return user;
 }
@@ -330,7 +330,6 @@ async function convertSqlToLobby(row) {
   let lobby = new classes.Lobby();
   lobby.id = row.id;
   lobby.token = row.token;
-  lobby.humanid = row.humanid;
   lobby.game = row.game;
   lobby.name = row.name;
   lobby.description = row.description;
