@@ -28,8 +28,10 @@ class Game {
     try {
       this.size = parseInt(size);
     } catch {
-      this.size = 3
+      this.size = 3;
     }
+    if (this.size <= 1) this.size = 3;
+    if (!isFinite(this.size)) this.size = 3;
 
     this.init();
   }

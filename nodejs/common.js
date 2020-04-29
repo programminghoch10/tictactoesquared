@@ -19,10 +19,8 @@ module.exports = {
     if (!lobby.correlations) return false
     if (lobby.correlations.length < 1) return false
 
-    if (lobby.correlations[0].usertoken == userToken) {
-      return "X"
-    }
-
-    return "O"
+    if (lobby.correlations[0].usertoken == userToken) return "X"
+    if (lobby.correlations.length > 1) if (lobby.correlations[1].usertoken == userToken) return "O"
+    return false
   }
 }

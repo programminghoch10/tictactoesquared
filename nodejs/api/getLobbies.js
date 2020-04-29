@@ -4,6 +4,7 @@ let router = express.Router()
 const common = require('../common.js')
 const classes = require('../classes.js')
 const sql = require('../sql.js')
+const Game = require('../../docs/scripts/game.js')
 
 router.post('/api/getLobbies', async function (req, res) {
 
@@ -110,6 +111,11 @@ router.post('/api/getLobbies', async function (req, res) {
         }
         return invited
       })
+    }
+    for (let i = 0; i < lobbies.length; i++) {
+      let game = new Game();
+      game.fromString(lobbies[i].game)
+      lobbies[i].isyourturn = (common.getPlayer(lobbies[i], usertokenFilter) == game.currentPlayer)
     }
   }
 
