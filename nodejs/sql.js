@@ -161,9 +161,9 @@ async function getLobbies() {
   let results = await getAll("lobbies");
   let correlations = await getCorrelations();
   if (results.length == 0) return false;
-  for (let i = 0; i < results.length; i++) {
-    results[i] = await convertSqlToLobby(results[i], correlations);
-  }
+  results = await Promise.all(results.map(async function (result) {
+    return await _convertSqlToLobby(result, correlations);
+  }));
   return results;
 }
 
@@ -390,7 +390,7 @@ async function convertSqlToLobby(row) {
   return lobby;
 }
 
-function convertSqlToLobby(row, correlations) {
+function _convertSqlToLobby(row, correlations) {
   let lobby = new classes.Lobby();
   lobby.id = row.id;
   lobby.token = row.token;
