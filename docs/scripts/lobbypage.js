@@ -79,7 +79,11 @@ function _createLobby() {
 }
 
 function _joinLobby(lobby) {
-  joinLobby(lobby.token)
+  joinLobby(lobby)
+}
+
+function _leaveLobby(lobby) {
+  leaveLobby(lobby)
 }
 
 function loadJoinedLobbies() {
@@ -169,10 +173,10 @@ function getGame(lobby, password, by, args, flags) {
 
   let buttons = ""
   if (flags.leave) {
-    buttons += `<div class="button">LEAVE</div>`
+    buttons += `<div class="button" onclick="_leaveLobby('${lobby.token}')">LEAVE</div>`
   }
   if (flags.join) {
-    buttons += `<div class="button" onclick="_joinLobby('${lobby}')">JOIN</div>`
+    buttons += `<div class="button" onclick="_joinLobby('${lobby.token}')">JOIN</div>`
   }
   if (flags.play) {
     buttons += `<div class="button">PLAY</div>`
