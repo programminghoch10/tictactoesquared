@@ -37,6 +37,7 @@ class Game {
   }
 
   init() {
+    if (isNaN(this.size)) this.size = 3
     this.fields = Array(this.size).fill(null).map(() => new Array(this.size).fill(null).map(() => new Array(this.size).fill(null).map(() => new Array(this.size).fill(null).map(() => 0))));
     this.globalField = Array(this.size).fill(null).map(() => new Array(this.size).fill(null).map(() => 0));
 
@@ -50,6 +51,7 @@ class Game {
 
     this.end = false; // will be true if the game is over
     this.won = 0;
+    this.wonhow = null;
     this.score = 0;
     this.progress = 0;
 
@@ -243,11 +245,11 @@ class Game {
   toString() {
     let saveGame = "";
 
-    if (this.won) {
-      this.size += "!"
-    }
-
     saveGame += this.size + "-";
+
+    if (this.end) {
+      saveGame += "!" + this.won.substring(0, 1) + "w"
+    }
 
     for (let x = 0; x < this.size; x++) {
       for (let y = 0; y < this.size; y++) {
@@ -277,9 +279,20 @@ class Game {
 
     this.size = parseInt(saveGame.substring(0, saveGame.indexOf("-")));
 
-    this.init();
-
     saveGame = saveGame.substring(saveGame.indexOf("-") + 1);
+
+    if (saveGame.substring(0, 1) == "!") {
+      this.end = true
+      this.won = saveGame.substring(1, 2)
+      if (this.won == "d") this.won = "draw"
+      this.wonhow = saveGame.substring(2, 3)
+
+      this.frontendinterface.globalWin(this.won + this.wonhow)
+
+      saveGame = saveGame.substring(3)
+    }
+
+    this.init();
 
     saveGame = saveGame.replace(/([^-XO012])+/g, "");
     saveGame = saveGame.split("-").join(" ");
