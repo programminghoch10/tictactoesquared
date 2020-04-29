@@ -382,9 +382,11 @@ function _convertSqlToUser(row, correlations) {
   user.creationtime = row.creationtime;
   user.lastacttime = row.lastacttime;
   user.timeout = row.timeout;
-  user.correlations = correlations.filter(function (correlation) {
-    return correlation.usertoken == user.token;
-  });
+  if (correlations) {
+    user.correlations = correlations.filter(function (correlation) {
+      return correlation.usertoken == user.token;
+    });
+  }
   return user;
 }
 
@@ -418,9 +420,11 @@ function _convertSqlToLobby(row, correlations) {
   lobby.creationtime = row.creationtime;
   lobby.lastacttime = row.lastacttime;
   lobby.timeout = row.timeout;
-  lobby.correlations = correlations.filter(function (correlation) {
-    return correlation.lobbytoken == lobby.token;
-  });
+  if (correlations) {
+    lobby.correlations = correlations.filter(function (correlation) {
+      return correlation.lobbytoken == lobby.token;
+    });
+  }
   return lobby;
 }
 
