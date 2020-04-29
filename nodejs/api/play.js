@@ -58,6 +58,7 @@ router.post('/api/play', async function (req, res) {
   }
 
   gameString = game.toString()
+  console.log(gameString)
   lobby.game = gameString
   sql.updateLobby(lobby)
 

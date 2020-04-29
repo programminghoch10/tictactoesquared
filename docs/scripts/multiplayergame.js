@@ -3,6 +3,23 @@ let lobby = getLobby(lobbyToken)
 let size = lobby.game.substring(0, lobby.game.indexOf("-"))
 let listen = true
 
+getel("lobbytitle").innerHTML = lobby.name
+getel("opponent").innerHTML = "vs: " + lobby.opponentname
+
+let owner = lobby.correlations[0].usertoken
+let amIX = owner == token
+
+if (amIX) {
+  getel("oturn").innerHTML = lobby.opponentname + " turn"
+  getel("xturn").innerHTML = "your turn"
+} else {
+  getel("xturn").innerHTML = lobby.opponentname + " turn"
+  getel("oturn").innerHTML = "your turn"
+}
+
+// FRONTEND INTERFACE
+
+
 let frontendInterface = {
   setTile: (x, y, a, b, currentPlayer) => {
     let el = getel(getid(x, y, a, b));
@@ -39,11 +56,19 @@ let frontendInterface = {
     el.classList.add("win" + player);
   },
   globalWin: (player) => {
-    getel("win").classList.add("win-active");
-    getel("win-text").innerHTML = "Won";
-    getel("win-player").classList.add(player);
+    let winText = ""
+    if ((player == "Xw" && amIX) || (player == "Ow" && !amIX)) {
+      winText = "You win"
+    } else if ((player == "Ow" && amIX) || (player == "Xw" && !amIX)) {
+      winText = lobby.opponentname + " wins"
+    } else if (player == "dw" || player == "df") {
+      winText = "Draw"
+    } else if ((player == "Xf" && !amIX) || (player == "Of" && amIX)) {
+      winText = "Your opponent gave up"
+    }
 
-    deleteGameCookie();
+    getel("win").classList.add("win-active");
+    getel("win-text").innerHTML = winText;
   },
   draw: () => {
     getel("win").classList.add("win-active");
@@ -51,18 +76,8 @@ let frontendInterface = {
   }
 }
 
-getel("lobbytitle").innerHTML = lobby.name
-getel("opponent").innerHTML = "vs: " + lobby.opponentname
+// HTML PAGE
 
-let owner = lobby.correlations[0].usertoken
-
-if (owner == token) {
-  getel("oturn").innerHTML = lobby.opponentname + " turn"
-  getel("xturn").innerHTML = "your turn"
-} else {
-  getel("xturn").innerHTML = lobby.opponentname + " turn"
-  getel("oturn").innerHTML = "your turn"
-}
 
 getel("wrapper").innerHTML += "<table id=field></table>";
 let table = "";
