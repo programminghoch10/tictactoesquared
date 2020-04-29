@@ -151,10 +151,13 @@ function loadAllLobbies() {
   for (let i = 0; i < lobbies.length; i++) {
     const lobby = lobbies[i]
     try {
+      let userName = ""
       if (lobby.correlations[0].usertoken == token) {
         if (lobby.correlations.length == 1) {
           userName = "yourself"
         }
+      } else {
+        userName = other(lobby.correlations[0].usertoken).name
       }
 
       if (lobby.game == undefined || lobby.game == "") lobby.game = "3-"

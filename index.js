@@ -42,11 +42,6 @@ app.get('/', function (req, res) {
   res.render(DIR + 'index.html')
 })
 
-app.post('/test', function (req, res) {
-  console.log(req.body)
-  res.sendStatus(200)
-})
-
 app.listen(5500, '0.0.0.0')
 
 async function process() {

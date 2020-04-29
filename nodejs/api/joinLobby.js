@@ -25,7 +25,6 @@ router.post('/api/joinLobby', async function (req, res) {
     return
   }
 
-  console.log(req.body)
   if (lobby.password != null && password != lobby.password) {
     res.sendStatus(401)
     return

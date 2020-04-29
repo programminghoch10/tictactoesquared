@@ -153,6 +153,7 @@
   height: 100%;
 
   margin: 20px;
+  padding-bottom: 120px;
 
   overflow: scroll;
 }
