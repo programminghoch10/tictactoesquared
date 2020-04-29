@@ -16,6 +16,7 @@ var pool; //mysql connection pool
 const sqltimeout = 10000; //10s
 const usertimeout = 60 * 60 * 24 * 31; //in seconds
 const lobbytimeout = 60 * 60 * 24 * 14; //in seconds
+const SQLDEBUG = true;
 
 function init() {
   let logindata = require('./sqllogin.js')
@@ -32,7 +33,9 @@ function init() {
     queueLimit: 0,
   });
 
-  dbreset();
+  if (SQLDEBUG) console.log("SQL Connection initialized")
+
+  // dbreset();
 
   /*con.connect(function(err) {
     if (err) throw err;
@@ -51,6 +54,7 @@ function init() {
 }
 
 async function dbreset() {
+  if (SQLDEBUG) console.log("Resetting database")
   let tables = ["lobbies", "users", "correlations"];
   for (let i = 0; i < tables.length; i++) {
     rawQuery("DELETE FROM " + tables[i]);
@@ -59,7 +63,7 @@ async function dbreset() {
 
 async function cleanUp() {
   //cleans users and lobbies which are overdue
-  console.log("Performing cleanup");
+  if (SQLDEBUG) console.log("Performing cleanup");
   let now = common.getTime();
   let lobbies = getLobbies();
   for (let i = 0; i < lobbies.length; i++) {
@@ -72,7 +76,7 @@ async function cleanUp() {
 }
 
 async function rawQuery(query) {
-  console.log("Querying: " + query)
+  if (SQLDEBUG) console.log("Querying: " + query)
   return (await pool.query(query))[0];
 }
 
@@ -99,7 +103,7 @@ async function createUser(user) {
   user.token = common.hash(user.name + user.creationtime);
   user.lobbytokens = "";
   user.lobbyinvitetokens = "";
-  console.log("Adding user " + user.name + " to database.");
+  if (SQLDEBUG) console.log("Adding user " + user.name + " to database.");
   pool.query({
     sql: "INSERT INTO `users` (token, name, creationtime, lastacttime, timeout) \
      VALUES (?, ?, ?, ?, ?)",
@@ -119,7 +123,7 @@ async function updateUser(user) {
   user.lastacttime = common.getTime();
   user.timeout = user.lastacttime + usertimeout;
   user.id = olduser.id;
-  console.log("Updating user " + user.name);
+  if (SQLDEBUG) console.log("Updating user " + user.name);
   pool.query({
     sql: "UPDATE `users` \
       SET `lastacttime`=?, `name`=?, `timeout`=? \
@@ -133,7 +137,7 @@ async function updateUser(user) {
 async function deleteUser(user) {
   if (user.constructor.name != classes.User.name) return false;
   if (common.isStringEmpty(user.token)) return false;
-  console.log("Deleting user " + user.name)
+  if (SQLDEBUG) console.log("Deleting user " + user.name)
   pool.query({
     sql: "DELETE FROM users WHERE `token`=?",
     timeout: sqltimeout,
@@ -165,7 +169,7 @@ async function createLobby(lobby) {
   lobby.timeout = lobby.lastacttime + lobbytimeout;
   lobby.token = common.hash(lobby.name + lobby.creationtime);
   if (!checkPrivacyFlag(lobby.privacy)) return false;
-  console.log("Adding lobby " + lobby.name + " to database.");
+  if (SQLDEBUG) console.log("Adding lobby " + lobby.name + " to database.");
   pool.query({
     sql: "INSERT INTO `lobbies` ( \
       token, name, game, gameflags, description, password, \
@@ -191,7 +195,7 @@ async function updateLobby(lobby) {
   lobby.timeout = lobby.lastacttime + lobbytimeout;
   lobby.id = oldlobby.id;
   if (!checkPrivacyFlag(lobby.privacy)) return false;
-  console.log("Updating lobby " + lobby.name);
+  if (SQLDEBUG) console.log("Updating lobby " + lobby.name);
   pool.query({
     sql: "UPDATE `lobbies` \
       SET `name`=?, `game`=?, `gameflags`=?, \
@@ -208,7 +212,7 @@ async function updateLobby(lobby) {
 async function deleteLobby(lobby) {
   if (lobby.constructor.name != classes.Lobby.name) return false;
   if (common.isStringEmpty(lobby.token)) return false;
-  console.log("Deleting Lobby " + lobby.name);
+  if (SQLDEBUG) console.log("Deleting Lobby " + lobby.name);
   pool.query({
     sql: "DELETE FROM lobbies WHERE `token`=?",
     timeout: sqltimeout,
@@ -222,7 +226,7 @@ async function createCorrelation(correlation) {
   if (correlation.constructor.name != classes.Correlation.name) return false;
   if (! await getUserByToken(correlation.usertoken)) return false;
   if (! await getLobbyByToken(correlation.lobbytoken)) return false;
-  console.log("Adding correlation to database.");
+  if (SQLDEBUG) console.log("Adding correlation to database.");
   pool.query({
     sql: "INSERT INTO `correlations` ( \
       usertoken, lobbytoken, invite) \
@@ -235,7 +239,7 @@ async function createCorrelation(correlation) {
 
 async function updateCorrelation(correlation) {
   if (correlation.constructor.name != classes.Correlation.name) return false;
-  console.log("Updating correlation.");
+  if (SQLDEBUG) console.log("Updating correlation.");
   pool.query({
     sql: "UPDATE `correlations` \
       SET `usertoken`=?, `lobbytoken`=?, `invite`=? \
@@ -249,7 +253,7 @@ async function updateCorrelation(correlation) {
 
 async function deleteCorrelation(correlation) {
   if (correlation.constructor.name != classes.Correlation.name) return false;
-  console.log("Deleting a correlation");
+  if (SQLDEBUG) console.log("Deleting a correlation");
   pool.query({
     sql: "DELETE FROM correlations WHERE `id`=?",
     timeout: sqltimeout,
@@ -269,7 +273,7 @@ async function deleteCorrelationsByLobbyToken(lobbytoken) {
 async function deleteCorrelationsByToken(type, token) {
   if (token == "" || !(type == "lobby" || type == "user")) return false;
   type = type + "token";
-  console.log("Deleting correlations where " + type + " is " + token);
+  if (SQLDEBUG) console.log("Deleting correlations where " + type + " is " + token);
   return (await pool.query({
     sql: "DELETE FROM correlations WHERE ??=?",
     timeout: sqltimeout,
@@ -288,7 +292,7 @@ async function getCorrelationsByLobbyToken(lobbytoken) {
 async function getCorrelationsByToken(type, token) {
   if (token == "" || !(type == "lobby" || type == "user")) return false;
   type = type + "token";
-  console.log("Searching correlations for " + type + ": " + token);
+  if (SQLDEBUG) console.log("Searching correlations for " + type + ": " + token);
   let correlations = (await pool.query({
     sql: "SELECT * FROM correlations WHERE ??=?",
     timeout: sqltimeout,
@@ -302,7 +306,7 @@ async function getCorrelationsByToken(type, token) {
 
 async function getCorrelation(usertoken, lobbytoken) {
   if (common.isStringEmpty(usertoken) || common.isStringEmpty(lobbytoken)) return false;
-  console.log("Searching for correlation with usertoken: " + usertoken + " and lobbytoken: " + lobbytoken);
+  if (SQLDEBUG) console.log("Searching for correlation with usertoken: " + usertoken + " and lobbytoken: " + lobbytoken);
   let results = (await pool.query({
     sql: "SELECT * FROM correlations WHERE `usertoken`=? AND `lobbytoken`=?",
     timeout: sqltimeout,
@@ -314,7 +318,7 @@ async function getCorrelation(usertoken, lobbytoken) {
 
 async function getByToken(table, token) {
   if (token == "" || !(table == "lobbies" || table == "users")) return false;
-  console.log("Searching " + table + " with token: " + token);
+  if (SQLDEBUG) console.log("Searching " + table + " with token: " + token);
   let results = (await pool.query({
     sql: "SELECT * FROM ?? WHERE `token`=?",
     timeout: sqltimeout,
