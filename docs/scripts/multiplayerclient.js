@@ -159,7 +159,7 @@ function getInvitedLobbies() {
 }
 
 function getLobbies() {
-    return JSON.parse(post("/api/getLobbies").responseText)
+    return JSON.parse(post("/api/getLobbies", {ownToken: token}).responseText)
 }
 
 function searchLobbies(filter) {

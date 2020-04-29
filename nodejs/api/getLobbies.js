@@ -12,6 +12,7 @@ router.post('/api/getLobbies', async function(req, res) {
     let nameFilter = req.body.name
     let hasPasswordFilter = req.body.hasPassword
     let usertokenFilter = req.body.usertoken
+    let ownTokenFilter = req.body.ownToken
 
     let lobbies = await sql.getLobbies()
     if (!lobbies) {
@@ -50,6 +51,20 @@ router.post('/api/getLobbies', async function(req, res) {
                 }
             }
             return containsUserToken
+        })
+    }
+
+    if (!common.isStringEmpty(ownTokenFilter)) {
+        lobbies = lobbies.filter(function(lobby) {
+            let containsOwnToken = false
+            for (let i = 0; i < lobby.correlations.length; i++) {
+                const correlation = lobby.correlations[i]
+                if (correlation.usertoken == ownTokenFilter) {
+                    containsOwnToken = true
+                    break
+                }
+            }
+            return !containsOwnToken
         })
     }
 
