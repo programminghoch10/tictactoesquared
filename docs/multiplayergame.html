@@ -18,14 +18,16 @@
     <link rel="stylesheet"
           href="css/game.css" />
   </head>
-  <>
-    <header>
-    </header>
+
+  <body>
     <div class="game"
          id="game">
       <div class="outer">
         <div class="icons">
           <div>
+            <a href="multiplayer.html">
+              <i class="fas fa-arrow-left home"></i>
+            </a>
             <a href="index.html">
               <i class="fas fa-home home"></i>
             </a>
@@ -40,8 +42,12 @@
               <p>turn</p>
             </i>
             <i id="debug-notice"></i>
+            <div class="lobbyinfo">
+              <b id="lobbytitle"></b>
+              <b id="opponent"></b>
+            </div>
           </div>
-          <div class="right">
+          <div class="icon-right">
             <i class="fas fa-moon darkmode"
                onclick="dark()"></i>
             <i class="fas fa-sun lightmode"
@@ -71,6 +77,6 @@
             data-message="We use cookies mainly to save your game. (It's ok, everyone does.)"
             data-cookie="cookies-accepted"
             data-close-text="Accept"></script>
-    </body>
+  </body>
 
 </html>
