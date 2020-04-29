@@ -44,8 +44,6 @@ let frontendInterface = {
 let lobbyToken = getCookie("currentLobbyToken")
 let lobby = getLobby(lobbyToken)
 let size = lobby.game.substring(0, lobby.game.indexOf("-"))
-let game = new Game(frontendInterface, size);
-game.fromString(lobby.game)
 
 getel("wrapper").innerHTML += "<table id=field></table>";
 let table = "";
@@ -86,3 +84,6 @@ function mousedown(a, b, x, y) {
     game.fromString(gameString)
   }
 }
+
+let game = new Game(frontendInterface, size);
+game.fromString(lobby.game)
