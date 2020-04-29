@@ -48,7 +48,7 @@ function createNewUser() {
       return
     default:
       console.log("createNewUser got unexpected status code " + status)
-    case 200:
+    case 201:
       break
   }
 
