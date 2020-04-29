@@ -23,15 +23,17 @@ router.post('/api/getLobby', async function (req, res) {
     let game = new Game();
     game.fromString(lobby.game)
     lobby.isyourturn = (common.getPlayer(lobby, usertoken) == game.currentPlayer)
-    lobby.opponentname = users.filter(function (user) {
-      let isUserCorrelated = false
-      for (let j = 0; j < lobby.correlations.length; j++) {
-        if (user.token == lobby.correlations[j].usertoken) isUserCorrelated = true
-      }
-      return isUserCorrelated
-    }).filter(function (user) {
-      return (user.token != ownTokenFilter)
-    })[0].name
+    try {
+      lobby.opponentname = users.filter(function (user) {
+        let isUserCorrelated = false
+        for (let j = 0; j < lobby.correlations.length; j++) {
+          if (user.token == lobby.correlations[j].usertoken) isUserCorrelated = true
+        }
+        return isUserCorrelated
+      }).filter(function (user) {
+        return (user.token != ownTokenFilter)
+      })[0].name
+    } catch { }
   }
 
   res.send(JSON.stringify(lobby))
