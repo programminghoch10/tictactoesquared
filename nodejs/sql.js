@@ -170,7 +170,7 @@ async function createLobby(lobby) {
   lobby.token = common.hash(lobby.name + lobby.creationtime);
   if (!checkPrivacyFlag(lobby.privacy)) return false;
   if (SQLDEBUG) console.log("Adding lobby " + lobby.name + " to database.");
-  pool.query({
+  await pool.query({
     sql: "INSERT INTO `lobbies` ( \
       token, name, game, gameflags, description, password, \
       privacy, creationtime, lastacttime, timeout) \
