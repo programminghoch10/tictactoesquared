@@ -1,7 +1,9 @@
 const WAITINGFORPLAYERSSTRING = "waiting for players"
+const LISTUPDATETIME = 60 //in seconds
 
 let currentGroup = getCookie("currentGroup")
 let currentBurger = false
+let reloadhandler = null
 
 async function changeGroup(i) {
   if (i == undefined || currentGroup == "undefined" || i == "" || i < 0 || i > 2) i = 0
@@ -21,12 +23,16 @@ async function changeGroup(i) {
   currentGroup = i
   setLocalCookie("currentGroup", currentGroup)
 
+  clearInterval(reloadhandler)
   if (currentGroup == 0) {
     setTimeout(loadJoinedLobbies, 200)
+    reloadhandler = setInterval(loadJoinedLobbies, LISTUPDATETIME * 1000)
   } else if (currentGroup == 1) {
     setTimeout(loadInvitedLobbies, 200)
+    reloadhandler = setInterval(loadInvitedLobbies, LISTUPDATETIME * 1000)
   } else if (currentGroup == 2) {
     setTimeout(loadAllLobbies, 200)
+    reloadhandler = setInterval(loadAllLobbies, LISTUPDATETIME * 1000)
   }
   if (currentBurger) burger()
 }
