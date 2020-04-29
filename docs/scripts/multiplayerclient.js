@@ -173,12 +173,11 @@ function requestPlay(lobbyToken, a, b, x, y) {
 
   switch (status) {
     case 400:
-    case 401:
-    case 402:
     case 403:
     case 406:
       return
     default:
+      console.log("play got unexpected status code " + status)
     case 202:
       break
   }
@@ -189,25 +188,20 @@ function requestPlay(lobbyToken, a, b, x, y) {
 }
 
 function spectate(lobbyToken) {
-  let req = post("/api/spectate", { lobbyToken: lobbyToken })
+  let req = post("/api/spectate", { lobbyToken: lobbyToken, userToken: token })
 
   let status = req.status
 
   switch (status) {
     case 400:
-    case 401:
-    case 402:
-    case 403:
-    case 406:
       return
     default:
+      console.log("spectate got unexpected status code " + status)
     case 200:
       break
   }
 
-  let res = req.responseText
-
-  return res
+  return JSON.parse(req.responseText)
 }
 
 function leaveLobby(lobbyToken) {

@@ -83,6 +83,7 @@ getel("field").innerHTML = table;
 getel("game").style.setProperty("--tilesize", size);
 
 function mousedown(a, b, x, y) {
+  if (!lobby.isyourturn) return
   let gameString = requestPlay(lobbyToken, a, b, x, y)
 
   if (gameString && gameString != "undefined") {
@@ -95,7 +96,8 @@ let game = new Game(frontendInterface, size);
 game.fromString(lobby.game)
 
 function update() {
-  let gameString = spectate(lobbyToken)
+  lobby = spectate(lobbyToken)
+  let gameString = lobby.game
 
   if (gameString && gameString != "undefined") {
     game.fromString(gameString)
