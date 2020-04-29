@@ -121,16 +121,11 @@ function loadJoinedLobbies() {
   for (let i = 0; i < joinedLobbies.length; i++) {
     try {
       const lobby = joinedLobbies[i]
-      if (lobby.correlations[0].usertoken == token) {
-        if (lobby.correlations.length == 1) {
-          userName = WAITINGFORPLAYERSSTRING
-        }
-      }
 
       if (lobby.game == undefined || lobby.game == "") lobby.game = "3-"
       const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
 
-      innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", userName, fieldSize, { cog: true, leave: true, play: true })
+      innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", WAITINGFORPLAYERSSTRING, fieldSize, { cog: true, leave: true, play: true })
     } catch (err) {
       console.log(err)
     }
