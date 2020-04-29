@@ -271,9 +271,9 @@ class Game {
   fromString(saveGame) {
     if (saveGame == "") return false;
 
-    this.init();
-
     this.size = parseInt(saveGame.substring(0, saveGame.indexOf("-")));
+
+    this.init();
 
     saveGame = saveGame.substring(saveGame.indexOf("-") + 1);
 
