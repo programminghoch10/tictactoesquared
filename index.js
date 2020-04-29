@@ -22,6 +22,7 @@ app.use(require("./nodejs/api/getUser.js"))
 app.use(require("./nodejs/api/getLobby.js"))
 app.use(require("./nodejs/api/getLobbies.js"))
 app.use(require("./nodejs/api/leaveLobby.js"))
+app.use(require("./nodejs/api/joinLobby.js"))
 
 const DIR = "./docs/"
 

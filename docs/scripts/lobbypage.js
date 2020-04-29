@@ -96,9 +96,9 @@ function loadJoinedLobbies() {
             if (lobby.game == undefined || lobby.game == "") lobby.game = "3-"
             const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
 
-            innerHTML += getGame(lobby.name, lobby.description, lobby.password != null && lobby.password != "", userName, fieldSize, true)
-        } catch {
-
+            innerHTML += getGame(lobby.token, lobby.name, lobby.description, lobby.password != null && lobby.password != "", userName, fieldSize, { cog: true, leave: true, play: true })
+        } catch (err) {
+            console.log(err)
         }
     }
 
@@ -127,51 +127,59 @@ function loadAllLobbies() {
             if (lobby.game == undefined || lobby.game == "") lobby.game = "3-"
             const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
 
-            innerHTML += getGame(lobby.name, lobby.description, lobby.password != null && lobby.password != "", userName, fieldSize, false)
-        } catch {
-            
+            innerHTML += getGame(lobby.token, lobby.name, lobby.description, lobby.password != null && lobby.password != "", userName, fieldSize, { join: true })
+        } catch (err) {
+            console.log(err)
         }
     }
 
     getel("group2inner").innerHTML = innerHTML
 }
 
-function getGame(title, description, password, by, fieldsize, cog) {
+function getGame(token, title, description, password, by, args, flags) {
     let html = ""
 
     if (by != WAITINGFORPLAYERSSTRING) {
         by = "by " + by
     }
 
-    if (fieldsize != "3") {
-        fieldsize = "fieldsize " + fieldsize
+    if (args != "3") {
+        args = "fieldsize " + args
     } else {
-        fieldsize = ""
+        args = ""
     }
 
     let lock = ""
     if (password) {
         lock = `<i class="fas fa-lock fa-xs"></i>`
     }
-    if (cog) {
-        cog = `<i class="fas fa-cog fa-xs"></i>`
+    if (flags.cog) {
+        flags.cog = `<i class="fas fa-cog fa-xs"></i>`
     } else {
-        cog = ""
+        flags.cog = ""
     }
 
-    let leave = `<div class="button">LEAVE</div>`
+    let buttons = ""
+    if (flags.leave) {
+        buttons += `<div class="button">LEAVE</div>`
+    }
+    if (flags.join) {
+        buttons += `<div class="button" onclick="joinLobby('${token}')">JOIN</div>`
+    }
+    if (flags.play) {
+        buttons += `<div class="button">PLAY</div>`
+    }
 
     html = `
     <div class="game">
         <div class="title">
-            <h2>${cog}${lock}<div>${title}</div></h2>
+            <h2>${flags.cog}${lock}<div>${title}</div></h2>
             <p>${by}</p>
-            <p>${fieldsize}</p>
+            <p>${args}</p>
         </div>
         <h3>${description}</h3>
         <div class="buttons">
-            ${leave}
-            <div class="button">PLAY</div>
+            ${buttons}
         </div>
     </div>
     `
