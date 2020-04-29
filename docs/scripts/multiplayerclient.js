@@ -20,7 +20,10 @@ let name = getCookie("name")
 let token = getCookie("token")
 
 function connect() {
-  // TODO: check if the cookies are accepted
+  if (!cookiesAccepted()) {
+    document.location.href = "./cookiesdisabled.html"
+    return
+  }
   name = loadName()
   token = loadToken()
 

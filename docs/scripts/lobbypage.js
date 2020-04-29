@@ -98,7 +98,6 @@ function publicLobbyButtonPressed() {
 }
 
 function _createLobby() {
-  //TODO: add invite only lobbies
   let name = getel("lobbyname").value
   let description = getel("lobbydescription").value
   let password = getel("lobbypassword").value
