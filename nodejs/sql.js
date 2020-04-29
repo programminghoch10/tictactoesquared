@@ -65,13 +65,17 @@ async function cleanUp() {
   //cleans users and lobbies which are overdue
   if (SQLDEBUG) console.log("Performing cleanup");
   let now = common.getTime();
-  let lobbies = getLobbies();
-  for (let i = 0; i < lobbies.length; i++) {
-    if (lobbies[i].timeout <= now) deleteLobby(lobbies[i]);
+  let lobbies = await getLobbies();
+  if (lobbies) {
+    for (let i = 0; i < lobbies.length; i++) {
+      if (lobbies[i].timeout <= now) deleteLobby(lobbies[i]);
+    }
   }
-  let users = getUsers();
-  for (let i = 0; i < users.length; i++) {
-    if (users[i].timeout <= now) deleteUser(users[i]);
+  let users = await getUsers();
+  if (users) {
+    for (let i = 0; i < users.length; i++) {
+      if (users[i].timeout <= now) deleteUser(users[i]);
+    }
   }
 }
 
