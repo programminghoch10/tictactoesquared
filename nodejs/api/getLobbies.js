@@ -18,6 +18,12 @@ router.post('/api/getLobbies', async function (req, res) {
   let ownJoinedOnlyFilter = (req.body.joinedOnly == "true")
   let ownInvitedOnlyFilter = (req.body.invitedOnly == "true")
 
+  //TODO: adapt to not leak data
+  if (privacyFilter == null) {
+    if (!(ownJoinedOnlyFilter || ownInvitedOnlyFilter))
+      privacyFilter = "open"
+  }
+
   let lobbies = await sql.getLobbies()
   if (!lobbies) {
     res.sendStatus(204)
