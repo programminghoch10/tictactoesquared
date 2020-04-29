@@ -47,8 +47,9 @@ function createNewUser() {
       document.location.reload()
       return
     default:
+      console.log("createNewUser got unexpected status code " + status)
     case 200:
-      break;
+      break
   }
 
   // TODO: check if valid
@@ -101,8 +102,9 @@ function changeName(newName) {
       document.location.reload()
       return
     case 200:
-      break;
+      break
     default:
+      console.log("changeName got unexpected status code " + status)
     case 304:
       return
   }
