@@ -27,6 +27,7 @@ app.use(require("./nodejs/api/getLobby.js"))
 app.use(require("./nodejs/api/getLobbies.js"))
 app.use(require("./nodejs/api/leaveLobby.js"))
 app.use(require("./nodejs/api/joinLobby.js"))
+app.use(require("./nodejs/api/play.js"))
 
 const DIR = "./docs/"
 

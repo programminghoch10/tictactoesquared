@@ -178,9 +178,28 @@ function joinLobby(lobbyToken, password) {
   return (post("/api/joinLobby", { lobbytoken: lobbyToken, usertoken: token, password: password }).status == 202)
 }
 
-function requestPlay() {
+function requestPlay(lobbyToken, a, b, x, y) {
+  let req = post("/api/play", { userToken: token, lobbyToken: lobbyToken, a: a, b: b, x: x, y: y })
 
+  let status = req.status
+
+  switch (status) {
+    case 400:
+    case 401:
+    case 402:
+    case 403:
+    case 406:
+      return
+    default:
+    case 202:
+      break
+  }
+
+  let res = req.responseText
+
+  return res
 }
+
 function leaveLobby(lobbyToken) {
   return (post("/api/leaveLobby", { lobbytoken: lobbyToken, usertoken: token }).status == 200)
 }
