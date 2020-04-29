@@ -132,17 +132,19 @@ router.post('/api/getLobbies', async function (req, res) {
     lobbies[i].ownername = users.filter(function (user) {
       return (user.token == lobbies[i].correlations[0].usertoken)
     })[0].name
-    if (!common.isStringEmpty(ownTokenFilter)) {
-      lobbies[i].opponentname = users.filter(function (user) {
-        let isUserCorrelated = false
-        for (let j = 0; j < lobbies[i].correlations.length; j++) {
-          if (user.token == lobbies[i].correlations[j].usertoken) isUserCorrelated = true
-        }
-        return isUserCorrelated
-      }).filter(function (user) {
-        return (user.token != ownTokenFilter)
-      })[0].name
-    }
+    try {
+      if (!common.isStringEmpty(ownTokenFilter)) {
+        lobbies[i].opponentname = users.filter(function (user) {
+          let isUserCorrelated = false
+          for (let j = 0; j < lobbies[i].correlations.length; j++) {
+            if (user.token == lobbies[i].correlations[j].usertoken) isUserCorrelated = true
+          }
+          return isUserCorrelated
+        }).filter(function (user) {
+          return (user.token != ownTokenFilter)
+        })[0].name
+      }
+    } catch { }
   }
 
   if (lobbies.length == 0) {
