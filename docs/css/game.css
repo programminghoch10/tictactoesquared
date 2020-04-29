@@ -29,6 +29,8 @@
 }
 
 .game .icons {
+  position: relative;
+
   display: flex;
   width: calc(100% - 42px);
   height: 12px;
@@ -39,13 +41,17 @@
 }
 
 .game .icons .lobbyinfo {
-  transform: translate(100px, -18px);
-  display: flex;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40%;
+  position: absolute;
+  text-align: center;
 }
 
 @media only screen and (max-width: 600px) {
   .game .icons .lobbyinfo {
-    transform: translate(-20px, -48px);
+    transform: translate(-50%, -48px);
   }
 }
 
