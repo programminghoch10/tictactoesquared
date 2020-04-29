@@ -32,7 +32,7 @@ function init() {
     queueLimit: 0,
   });
 
-  dbreset();
+//   dbreset();
 
   /*con.connect(function(err) {
     if (err) throw err;
