@@ -92,10 +92,11 @@ async function getUserByToken(token) {
 
 async function getUsers() {
   let results = await getAll("users");
+  let correlations = await getCorrelations();
   if (results.length == 0) return false;
-  for (let i = 0; i < results.length; i++) {
-    results[i] = await convertSqlToUser(results[i]);
-  }
+  results = await Promise.all(results.map(async function (result) {
+    return _convertSqlToUser(result, correlations);
+  }));
   return results;
 }
 
@@ -162,7 +163,7 @@ async function getLobbies() {
   let correlations = await getCorrelations();
   if (results.length == 0) return false;
   results = await Promise.all(results.map(async function (result) {
-    return await _convertSqlToLobby(result, correlations);
+    return _convertSqlToLobby(result, correlations);
   }));
   return results;
 }
@@ -370,6 +371,20 @@ async function convertSqlToUser(row) {
   user.lastacttime = row.lastacttime;
   user.timeout = row.timeout;
   user.correlations = await getCorrelationsByUserToken(user.token);
+  return user;
+}
+
+function _convertSqlToUser(row, correlations) {
+  let user = new classes.User();
+  user.id = row.id;
+  user.token = row.token;
+  user.name = row.name;
+  user.creationtime = row.creationtime;
+  user.lastacttime = row.lastacttime;
+  user.timeout = row.timeout;
+  user.correlations = correlations.filter(function (correlation) {
+    return correlation.usertoken == user.token;
+  });
   return user;
 }
 

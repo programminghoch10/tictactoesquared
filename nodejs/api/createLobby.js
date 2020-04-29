@@ -12,7 +12,9 @@ router.post('/api/createLobby', async function (req, res) {
   let password = req.body.password
   let fieldSize = req.body.fieldSize
   let ownToken = req.body.ownToken
-  let inviteToken = req.body.inviteToken
+  let inviteName = req.body.inviteName
+
+  console.log(req.body)
 
   if (common.isStringEmpty(name)) {
     res.sendStatus(400)
@@ -39,10 +41,11 @@ router.post('/api/createLobby', async function (req, res) {
   }
 
   let invite = false
-  // if invite token is not null
+  // if invite name is not null
   // the lobby's privacy is closed
+  //TODO: switch to using tokens to support duplicate names
   let privacy = "open"
-  if (!common.isStringEmpty(inviteToken)) {
+  if (!common.isStringEmpty(inviteName)) {
     invite = true
     privacy = "closed"
   }
@@ -66,11 +69,17 @@ router.post('/api/createLobby', async function (req, res) {
   await sql.createCorrelation(ownCorrelation)
 
   if (invite) {
-    let inviteCorrelation = new classes.Correlation()
-    inviteCorrelation.lobbytoken = lobby.token
-    inviteCorrelation.usertoken = inviteToken
-    inviteCorrelation.invite = true
-    await sql.createCorrelation(inviteCorrelation)
+    let users = await sql.getUsers()
+    users = users.filter(function (user) {
+      return (user.name == inviteName)
+    })
+    if (users[0]) {
+      let inviteCorrelation = new classes.Correlation()
+      inviteCorrelation.lobbytoken = lobby.token
+      inviteCorrelation.usertoken = users[0].token
+      inviteCorrelation.invite = true
+      await sql.createCorrelation(inviteCorrelation)
+    }
   }
 
   lobby = await sql.getLobbyByToken(lobby.token)
