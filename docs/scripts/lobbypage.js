@@ -56,6 +56,8 @@ function newLobby() {
   getel("lobbyname").focus()
 
   if (currentBurger == true) burger()
+
+  publicLobbyButtonPressed()
 }
 
 function returnNewLobby() {
@@ -69,28 +71,35 @@ function returnNewLobby() {
   getel("newLobbyPanel").classList.remove("newLobbyPanel-active")
 }
 
+var newLobbyPrivacy = ""
+
 function inviteOnlyButtonPressed() {
   getel("inviteonlybutton").classList.add("active-button")
   getel("publiclobbybutton").classList.remove("active-button")
-  getel("inviteplayerentry").classList.remove("entry-hide")
-  getel("inviteplayer").setAttribute("required", "")
+  getel("lobbyinviteplayerentry").classList.remove("entry-hide")
+  getel("lobbyinviteplayer").setAttribute("required", "")
   getel("lobbypasswordentry").classList.add("entry-hide")
+  newLobbyPrivacy = "closed"
 }
 
 function publicLobbyButtonPressed() {
   getel("inviteonlybutton").classList.remove("active-button")
   getel("publiclobbybutton").classList.add("active-button")
-  getel("inviteplayerentry").classList.add("entry-hide")
-  getel("inviteplayer").removeAttribute("required")
+  getel("lobbyinviteplayerentry").classList.add("entry-hide")
+  getel("lobbyinviteplayer").removeAttribute("required")
   getel("lobbypasswordentry").classList.remove("entry-hide")
+  newLobbyPrivacy = "open"
 }
 
 function _createLobby() {
+  //TODO: add invite only lobbies
   let name = getel("lobbyname").value
   let description = getel("lobbydescription").value
   let password = getel("lobbypassword").value
   let fieldSize = getel("lobbyfieldsize").value
-  createLobby(name, description, password, fieldSize)
+  let privacy = newLobbyPrivacy
+  let invitePlayer = getel("lobbyinviteplayer").value
+  createLobby(name, description, password, fieldSize, invitePlayer, privacy)
   returnNewLobby()
   changeGroup(0)
 }
