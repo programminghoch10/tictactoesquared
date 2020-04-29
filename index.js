@@ -5,6 +5,10 @@ let fs = require('fs')
 const sql = require("./nodejs/sql.js")
 sql.init()
 
+const CLEANUP_INTERVAL = 10; //in minutes
+const cleanup = require("./nodejs/cleanup.js")
+var cleanuphandler = setInterval(cleanup, CLEANUP_INTERVAL * 60 * 1000)
+
 process()
 
 var bodyParser = require('body-parser')
