@@ -135,7 +135,8 @@ function loadJoinedLobbies() {
 }
 
 function loadInvitedLobbies() {
-
+  let invitedLobbies = getInvitedLobbies()
+  //TODO: display invited lobbies
 }
 
 function loadAllLobbies() {

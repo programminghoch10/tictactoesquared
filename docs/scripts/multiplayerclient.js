@@ -11,6 +11,11 @@ function post(url, data) {
   return request
 }
 
+function parseJSON(json) {
+  if (json == "") json = "[]"
+  return JSON.parse(json)
+}
+
 let name = getCookie("name")
 let token = getCookie("token")
 
@@ -141,11 +146,11 @@ function getLobby(lobbyToken) {
 }
 
 function getJoinedLobbies() {
-  return JSON.parse(post("/api/getLobbies", { ownToken: token, joinedOnly: true }).responseText)
+  return parseJSON(post("/api/getLobbies", { ownToken: token, joinedOnly: true }).responseText)
 }
 
 function getInvitedLobbies() {
-  return JSON.parse(post("/api/getLobbies", { ownToken: token, invitedOnly: true }).responseText)
+  return parseJSON(post("/api/getLobbies", { ownToken: token, invitedOnly: true }).responseText)
 }
 
 function getLobbies() {
@@ -153,7 +158,7 @@ function getLobbies() {
   if (req.status != 200) return []
   let res = req.responseText
   if (res == null || res == "") return []
-  return JSON.parse(res)
+  return parseJSON(res)
 }
 
 function searchLobbies(filter) {
@@ -172,12 +177,11 @@ function requestPlay(lobbyToken, a, b, x, y) {
 
   switch (status) {
     case 400:
-    case 401:
-    case 402:
     case 403:
     case 406:
       return
     default:
+      console.log("play got unexpected status code " + status)
     case 202:
       break
   }
@@ -188,25 +192,20 @@ function requestPlay(lobbyToken, a, b, x, y) {
 }
 
 function spectate(lobbyToken) {
-  let req = post("/api/spectate", { lobbyToken: lobbyToken })
+  let req = post("/api/spectate", { lobbyToken: lobbyToken, userToken: token })
 
   let status = req.status
 
   switch (status) {
     case 400:
-    case 401:
-    case 402:
-    case 403:
-    case 406:
       return
     default:
+      console.log("spectate got unexpected status code " + status)
     case 200:
       break
   }
 
-  let res = req.responseText
-
-  return res
+  return JSON.parse(req.responseText)
 }
 
 function leaveLobby(lobbyToken) {

@@ -7,6 +7,7 @@ const Game = require('../../docs/scripts/game.js')
 
 router.post('/api/spectate', async function (req, res) {
   let lobbyToken = req.body.lobbyToken
+  let userToken = req.body.userToken
 
   // if lobby exist
   let lobby = await sql.getLobbyByToken(lobbyToken)
@@ -15,10 +16,14 @@ router.post('/api/spectate', async function (req, res) {
     return
   }
 
-  let gameString = lobby.game
+  if (userToken) {
+    let game = new Game();
+    game.fromString(lobby.game)
+    lobby.isyourturn = (common.getPlayer(lobby, userToken) == game.currentPlayer)
+  }
 
   res.status(200)
-  res.send(gameString)
+  res.send(lobby)
 })
 
 module.exports = router
