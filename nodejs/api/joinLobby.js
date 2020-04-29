@@ -38,6 +38,12 @@ router.post('/api/joinLobby', async function (req, res) {
     }
   }
 
+  //check if lobby full
+  if (lobby.correlations.length == 2) {
+    res.sendStatus(406)
+    return
+  }
+
   let correlation = await sql.getCorrelation(user.token, lobby.token);
   if (correlation) {
     correlation.invite = false
