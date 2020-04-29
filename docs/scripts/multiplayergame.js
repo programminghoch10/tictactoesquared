@@ -79,6 +79,6 @@ for (let i = 0; i < size; i++) {
 getel("field").innerHTML = table;
 getel("game").style.setProperty("--tilesize", size);
 
-function mousedown() {
-
+function mousedown(a, b, x, y) {
+  requestPlay(lobbyToken, a, b, x, y)
 }
