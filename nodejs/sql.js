@@ -200,7 +200,7 @@ async function updateLobby(lobby) {
       WHERE `token`=?",
     timeout: sqltimeout,
     values: [lobby.name, lobby.game, lobby.flags, lobby.description, lobby.password, 
-      lobby.privacy, lobby.lastacttime, lobby.timeout]
+      lobby.privacy, lobby.lastacttime, lobby.timeout, lobby.token]
   });
   return lobby;
 }
