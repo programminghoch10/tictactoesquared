@@ -11,6 +11,11 @@ function post(url, data) {
   return request
 }
 
+function parseJSON(json) {
+  if (json == "") json = "[]"
+  return JSON.parse(json)
+}
+
 let name = getCookie("name")
 let token = getCookie("token")
 
@@ -141,11 +146,12 @@ function getLobby(lobbyToken) {
 }
 
 function getJoinedLobbies() {
-  return JSON.parse(post("/api/getLobbies", { ownToken: token, joinedOnly: true }).responseText)
+  return parseJSON(post("/api/getLobbies", { ownToken: token, joinedOnly: true }).responseText)
 }
 
 function getInvitedLobbies() {
-  return JSON.parse(post("/api/getLobbies", { ownToken: token, invitedOnly: true }).responseText)
+  console.log(post("/api/getLobbies", { ownToken: token, invitedOnly: true }))
+  return parseJSON(post("/api/getLobbies", { ownToken: token, invitedOnly: true }).responseText)
 }
 
 function getLobbies() {
@@ -154,7 +160,7 @@ function getLobbies() {
   let res = req.responseText
   if (res == null || res == "") return []
   console.log(res)
-  return JSON.parse(res)
+  return parseJSON(res)
 }
 
 function searchLobbies(filter) {
