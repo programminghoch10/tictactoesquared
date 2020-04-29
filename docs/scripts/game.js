@@ -243,6 +243,10 @@ class Game {
   toString() {
     let saveGame = "";
 
+    if (this.won) {
+      this.size += "!"
+    }
+
     saveGame += this.size + "-";
 
     for (let x = 0; x < this.size; x++) {

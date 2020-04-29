@@ -152,7 +152,7 @@ function other(_token) {
 }
 
 function getLobby(lobbyToken) {
-  return JSON.parse(post("/api/getLobby", { lobbytoken: lobbyToken, usertoken: token }).responseText)
+  return parseJSON(post("/api/getLobby", { lobbytoken: lobbyToken, usertoken: token }).responseText)
 }
 
 function getJoinedLobbies() {
