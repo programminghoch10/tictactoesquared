@@ -60,12 +60,6 @@
              onclick="newLobby()">
           <i class="fas fa-plus fa-2x"></i>
         </div>
-        <div class="add"
-             id="newLobbyButton"
-             onclick="newLobby()"
-             style="transform: translate(-150%, 0)">
-          <i class="fas fa-user fa-2x"></i>
-        </div>
         <div class="sidebar">
           <div class="nav">
             <a href="index.html">
@@ -141,20 +135,33 @@
                      id="lobbyname"
                      required>
             </div>
-            <div class="entry">
+            <div class="entry"
+                 style="display: block; height: initial">
               <h3>Lobby description (optional):</h3>
-              <input type="text"
-                     id="lobbydescription">
+              <textarea id="lobbydescription"></textarea>
             </div>
-            <div class="entry">
+            <div class="entry button-entry">
+              <input type="button"
+                     id="publiclobbybutton"
+                     onclick="publicLobbyButtonPressed()"
+                     value="public lobby">
+              <input type="button"
+                     onclick="inviteOnlyButtonPressed()"
+                     id="inviteonlybutton"
+                     value="invite only">
+            </div>
+            <div class="entry"
+                 id="lobbypasswordentry">
               <h3>Lobby password (optional):</h3>
               <input type="text"
                      id="lobbypassword">
             </div>
-            <!-- <div class="entry">
-                            <h3>Invite player (optional):</h3>
-                            <input type="text">
-                        </div> -->
+            <div class="entry"
+                 id="inviteplayerentry">
+              <h3>Invite player:</h3>
+              <input type="text"
+                     id="inviteplayer">
+            </div>
             <div class="entry">
               <h3>Field size (from 3 to 5):</h3>
               <input type="number"
@@ -165,7 +172,8 @@
             </div>
             <div class="entry">
               <h3></h3>
-              <input type="submit">
+              <input type="submit"
+                     value="SUBMIT">
             </div>
           </form>
         </div>

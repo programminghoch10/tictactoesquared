@@ -165,7 +165,6 @@ function getLobbies() {
   if (req.status != 200) return []
   let res = req.responseText
   if (res == null || res == "") return []
-  console.log(res)
   return JSON.parse(res)
 }
 

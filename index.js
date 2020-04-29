@@ -47,7 +47,7 @@ app.post('/test', function (req, res) {
   res.sendStatus(200)
 })
 
-app.listen(5500, '127.0.0.1')
+app.listen(5500, '0.0.0.0')
 
 async function process() {
   //console.log( await sql.getUserByToken("abc"))
