@@ -3,7 +3,7 @@ const WAITINGFORPLAYERSSTRING = "waiting for players"
 let currentGroup = getCookie("currentGroup")
 let currentBurger = false
 
-function changeGroup(i) {
+async function changeGroup(i) {
   if (i == undefined || currentGroup == "undefined" || i == "" || i < 0 || i > 2) i = 0
   if (currentGroup == undefined || currentGroup == "undefined" || currentGroup == "" || currentGroup < 0 || currentGroup > 2) currentGroup = 0
 
@@ -22,12 +22,13 @@ function changeGroup(i) {
   setLocalCookie("currentGroup", currentGroup)
 
   if (currentGroup == 0) {
-    loadJoinedLobbies()
+    setTimeout(loadJoinedLobbies, 200)
   } else if (currentGroup == 1) {
-    loadInvitedLobbies()
+    setTimeout(loadInvitedLobbies, 200)
   } else if (currentGroup == 2) {
-    loadAllLobbies()
+    setTimeout(loadAllLobbies, 200)
   }
+  if (currentBurger) burger()
 }
 
 function burger() {
@@ -40,10 +41,6 @@ function burger() {
   }
 
   currentBurger = !currentBurger
-}
-
-if (window.innerWidth > 1200) {
-  burger()
 }
 
 function newLobby() {
@@ -113,7 +110,7 @@ function play(lobby) {
   document.location.href = "./multiplayergame.html"
 }
 
-function loadJoinedLobbies() {
+async function loadJoinedLobbies() {
   let joinedLobbies = getJoinedLobbies()
 
   let innerHTML = ""
@@ -134,12 +131,12 @@ function loadJoinedLobbies() {
   getel("group0inner").innerHTML = innerHTML
 }
 
-function loadInvitedLobbies() {
+async function loadInvitedLobbies() {
   let invitedLobbies = getInvitedLobbies()
   //TODO: display invited lobbies
 }
 
-function loadAllLobbies() {
+async function loadAllLobbies() {
   let lobbies = getLobbies()
 
   let innerHTML = ""
@@ -223,5 +220,19 @@ function getGame(lobby, password, by, args, flags) {
   return html
 }
 
+window.onresize = resize
+
+function resize() {
+  if (window.innerWidth > 1200) {
+    getel("burger").classList.add("burger")
+    getel("burgerbutton").style.display = "none"
+  } else {
+    getel("burger").classList.remove("burger")
+    getel("burgerbutton").style.display = "block"
+
+  }
+}
+
+resize()
 publicLobbyButtonPressed()
 changeGroup(currentGroup)

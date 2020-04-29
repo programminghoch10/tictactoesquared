@@ -36,7 +36,7 @@
 }
 
 .multiplayer .sidebar .nav i::before {
-  color: var(--color);
+  color: var(--font-color);
   margin: 5px;
 }
 
@@ -57,7 +57,7 @@
 }
 
 .multiplayer .sidebar .name i::before {
-  color: var(--color);
+  color: var(--font-color);
 }
 
 .multiplayer .sidebar .name i {
@@ -394,7 +394,7 @@
   width: 100%;
   height: 5px;
 
-  background: white;
+  background: var(--font-color);
 
   border-radius: 2px;
 }
