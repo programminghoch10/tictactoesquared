@@ -159,9 +159,10 @@ async function getLobbyByToken(token) {
 
 async function getLobbies() {
   let results = await getAll("lobbies");
+  let correlations = await getCorrelations();
   if (results.length == 0) return false;
   for (let i = 0; i < results.length; i++) {
-    results[i] = await convertSqlToLobby(results[i]);
+    results[i] = await convertSqlToLobby(results[i], correlations);
   }
   return results;
 }
@@ -308,6 +309,15 @@ async function getCorrelationsByToken(type, token) {
   return correlations;
 }
 
+async function getCorrelations() {
+  let results = await getAll("correlations");
+  if (results.length == 0) return false;
+  for (let i = 0; i < results.length; i++) {
+    results[i] = convertSqlToCorrelation(results[i]);
+  }
+  return results;
+}
+
 async function getCorrelation(usertoken, lobbytoken) {
   if (common.isStringEmpty(usertoken) || common.isStringEmpty(lobbytoken)) return false;
   if (SQLDEBUG) console.log("Searching for correlation with usertoken: " + usertoken + " and lobbytoken: " + lobbytoken);
@@ -379,6 +389,26 @@ async function convertSqlToLobby(row) {
   lobby.correlations = await getCorrelationsByLobbyToken(lobby.token);
   return lobby;
 }
+
+function convertSqlToLobby(row, correlations) {
+  let lobby = new classes.Lobby();
+  lobby.id = row.id;
+  lobby.token = row.token;
+  lobby.game = row.game;
+  lobby.flags = row.gameflags;
+  lobby.name = row.name;
+  lobby.description = row.description;
+  lobby.password = row.password;
+  lobby.privacy = row.privacy;
+  lobby.creationtime = row.creationtime;
+  lobby.lastacttime = row.lastacttime;
+  lobby.timeout = row.timeout;
+  lobby.correlations = correlations.filter(function (correlation) {
+    return correlation.lobbytoken == lobby.token;
+  });
+  return lobby;
+}
+
 
 function convertSqlToCorrelation(row) {
   let correlation = new classes.Correlation();
