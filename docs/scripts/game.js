@@ -140,6 +140,14 @@ class Game {
     return true;
   }
 
+  _set(x, y, a, b, player) {
+    if (player == this.currentPlayer) {
+      return this.set(x, y, a, b)
+    }
+
+    return false
+  }
+
   win(x, y, a, b, player) {
     this.globalField[x][y] = player;
 
@@ -263,7 +271,7 @@ class Game {
 
     this.init();
 
-    this.size = saveGame.substring(0, saveGame.indexOf("-"));
+    this.size = parseInt(saveGame.substring(0, saveGame.indexOf("-")));
 
     saveGame = saveGame.substring(saveGame.indexOf("-") + 1);
 

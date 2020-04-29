@@ -80,5 +80,9 @@ getel("field").innerHTML = table;
 getel("game").style.setProperty("--tilesize", size);
 
 function mousedown(a, b, x, y) {
-  requestPlay(lobbyToken, a, b, x, y)
+  let gameString = requestPlay(lobbyToken, a, b, x, y)
+
+  if (gameString && gameString != "undefined") {
+    game.fromString(gameString)
+  }
 }

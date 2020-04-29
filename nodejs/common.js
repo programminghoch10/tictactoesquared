@@ -15,4 +15,14 @@ module.exports = {
     str = str.split(" ").join("")
     return str.length == 0
   },
+  getPlayer: (lobby, userToken) => {
+    if (!lobby.correlations) return false
+    if (lobby.correlations.length < 1) return false
+
+    if (lobby.correlations[0].usertoken == userToken) {
+      return "X"
+    }
+
+    return "O"
+  }
 }
