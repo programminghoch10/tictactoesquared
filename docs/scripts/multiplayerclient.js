@@ -130,7 +130,7 @@ function createLobby(name, description, password, fieldSize, inviteName, privacy
       password = null
       break
   }
-  let lobbyToken = post("/api/createLobby", {
+  let req = post("/api/createLobby", {
     name: name,
     description: description,
     password: password,
@@ -138,6 +138,7 @@ function createLobby(name, description, password, fieldSize, inviteName, privacy
     fieldSize: fieldSize,
     inviteName: inviteName,
   })
+  return (req.status == 201)
 }
 
 function self() {
