@@ -24,7 +24,12 @@ router.post('/api/leaveLobby', async function (req, res) {
   await sql.deleteCorrelation(await sql.getCorrelation(user.token, lobby.token))
 
   lobby = await sql.getLobbyByToken(lobby.token)
-  if (lobby.correlations.length == 0) sql.deleteLobby(lobby)
+  if (lobby.correlations.length == 0) {
+    sql.deleteLobby(lobby)
+  } else if (lobby.correlations.length == 1 && lobby.correlations[0].invite) {
+    sql.deleteCorrelation(await sql.getCorrelation(lobby.correlations[0].usertoken, lobby.correlations[0].lobbytoken))
+    sql.deleteLobby(lobby)
+  }
 
   res.sendStatus(200)
 })
