@@ -48,7 +48,7 @@ function createNewUser() {
       return
     default:
       console.log("createNewUser got unexpected status code " + status)
-    case 200:
+    case 201:
       break
   }
 
@@ -137,27 +137,15 @@ function other(_token) {
 }
 
 function getLobby(lobbyToken) {
-  return JSON.parse(post("/api/getLobby", { token: lobbyToken }).responseText)
+  return JSON.parse(post("/api/getLobby", { lobbytoken: lobbyToken, usertoken: token }).responseText)
 }
 
 function getJoinedLobbies() {
-  let correlations = self().correlations
-  correlations.filter(function (correlation) { return !correlation.invite })
-  let lobbies = new Array(correlations.length)
-  for (let i = 0; i < correlations.length; i++) {
-    lobbies[i] = getLobby(correlations[i].lobbytoken)
-  }
-  return lobbies
+  return JSON.parse(post("/api/getLobbies", { ownToken: token, joinedOnly: true }).responseText)
 }
 
 function getInvitedLobbies() {
-  let correlations = self().correlations
-  correlations.filter(function (correlation) { return correlation.invite })
-  let lobbies = new Array(correlations.length)
-  for (let i = 0; i < correlations.length; i++) {
-    lobbies[i] = getLobby(correlations[i].lobbytoken)
-  }
-  return lobbies
+  return JSON.parse(post("/api/getLobbies", { ownToken: token, invitedOnly: true }).responseText)
 }
 
 function getLobbies() {

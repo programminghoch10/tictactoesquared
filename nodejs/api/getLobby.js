@@ -4,11 +4,13 @@ let router = express.Router()
 const common = require('../common.js')
 const classes = require('../classes.js')
 const sql = require('../sql.js')
+const Game = require('../../docs/scripts/game.js')
 
 router.post('/api/getLobby', async function (req, res) {
-  let token = req.body.token
+  let lobbytoken = req.body.lobbytoken
+  let usertoken = req.body.usertoken
 
-  let lobby = await sql.getLobbyByToken(token)
+  let lobby = await sql.getLobbyByToken(lobbytoken)
 
   if (!lobby) {
     res.sendStatus(400)
@@ -16,6 +18,12 @@ router.post('/api/getLobby', async function (req, res) {
   }
 
   lobby.password = ""
+
+  if (usertoken) {
+    let game = new Game();
+    game.fromString(lobby.game)
+    lobby.isyourturn = (common.getPlayer(lobby, usertoken) == game.currentPlayer)
+  }
 
   res.send(JSON.stringify(lobby))
 })

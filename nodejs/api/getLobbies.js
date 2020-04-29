@@ -4,6 +4,7 @@ let router = express.Router()
 const common = require('../common.js')
 const classes = require('../classes.js')
 const sql = require('../sql.js')
+const Game = require('../../docs/scripts/game.js')
 
 router.post('/api/getLobbies', async function (req, res) {
 
@@ -12,7 +13,10 @@ router.post('/api/getLobbies', async function (req, res) {
   let nameFilter = req.body.name
   let hasPasswordFilter = req.body.hasPassword
   let usertokenFilter = req.body.usertoken
+
   let ownTokenFilter = req.body.ownToken
+  let ownJoinedOnlyFilter = (req.body.joinedOnly == "true")
+  let ownInvitedOnlyFilter = (req.body.invitedOnly == "true")
 
   let lobbies = await sql.getLobbies()
   if (!lobbies) {
@@ -54,7 +58,7 @@ router.post('/api/getLobbies', async function (req, res) {
     })
   }
 
-  if (!common.isStringEmpty(ownTokenFilter)) {
+  if (!common.isStringEmpty(ownTokenFilter) && !(ownJoinedOnlyFilter || ownInvitedOnlyFilter)) {
     lobbies = lobbies.filter(function (lobby) {
       let containsOwnToken = false
       for (let i = 0; i < lobby.correlations.length; i++) {
@@ -66,6 +70,53 @@ router.post('/api/getLobbies', async function (req, res) {
       }
       return !containsOwnToken
     })
+  }
+
+  if (!common.isStringEmpty(ownTokenFilter) && (ownJoinedOnlyFilter || ownInvitedOnlyFilter)) {
+    lobbies = lobbies.filter(function (lobby) {
+      let containsOwnToken = false
+      for (let i = 0; i < lobby.correlations.length; i++) {
+        const correlation = lobby.correlations[i]
+        if (correlation.usertoken == ownTokenFilter) {
+          containsOwnToken = true
+          break
+        }
+      }
+      return containsOwnToken
+    })
+    if (ownJoinedOnlyFilter) {
+      lobbies = lobbies.filter(function (lobby) {
+        let joined = false
+        for (let i = 0; i < lobby.correlations.length; i++) {
+          const correlation = lobby.correlations[i]
+          if (correlation.usertoken == ownTokenFilter
+            && correlation.invite == false) {
+            joined = true
+            break
+          }
+        }
+        return joined
+      })
+    }
+    if (ownInvitedOnlyFilter) {
+      lobbies = lobbies.filter(function (lobby) {
+        let invited = false
+        for (let i = 0; i < lobby.correlations.length; i++) {
+          const correlation = lobby.correlations[i]
+          if (correlation.usertoken == ownTokenFilter
+            && correlation.invite == true) {
+            invited = true
+            break
+          }
+        }
+        return invited
+      })
+    }
+    for (let i = 0; i < lobbies.length; i++) {
+      let game = new Game();
+      game.fromString(lobbies[i].game)
+      lobbies[i].isyourturn = (common.getPlayer(lobbies[i], usertokenFilter) == game.currentPlayer)
+    }
   }
 
   for (let i = 0; i < lobbies.length; i++) {
