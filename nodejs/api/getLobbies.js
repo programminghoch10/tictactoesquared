@@ -16,7 +16,7 @@ router.post('/api/getLobbies', async function (req, res) {
 
   let lobbies = await sql.getLobbies()
   if (!lobbies) {
-    res.sendStatus(500)
+    res.sendStatus(204)
     return
   }
 
