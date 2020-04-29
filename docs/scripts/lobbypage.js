@@ -78,6 +78,10 @@ function _createLobby() {
     returnNewLobby()
 }
 
+function _joinLobby(lobby) {
+    joinLobby(lobby.token)
+}
+
 function loadJoinedLobbies() {
     let joinedLobbies = getJoinedLobbies()
 
@@ -96,7 +100,7 @@ function loadJoinedLobbies() {
             if (lobby.game == undefined || lobby.game == "") lobby.game = "3-"
             const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
 
-            innerHTML += getGame(lobby.token, lobby.name, lobby.description, lobby.password != null && lobby.password != "", userName, fieldSize, { cog: true, leave: true, play: true })
+            innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", userName, fieldSize, { cog: true, leave: true, play: true })
         } catch (err) {
             console.log(err)
         }
@@ -115,8 +119,8 @@ function loadAllLobbies() {
     let innerHTML = ""
 
     for (let i = 0; i < lobbies.length; i++) {
+        const lobby = lobbies[i]
         try {
-            const lobby = lobbies[i]
             let userName = other(lobby.correlations[0].usertoken).name
             if (userName == self().name) {
                 if (lobby.correlations.length == 1) {
@@ -127,17 +131,21 @@ function loadAllLobbies() {
             if (lobby.game == undefined || lobby.game == "") lobby.game = "3-"
             const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
 
-            innerHTML += getGame(lobby.token, lobby.name, lobby.description, lobby.password != null && lobby.password != "", userName, fieldSize, { join: true })
+            innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", userName, fieldSize, { join: true })
         } catch (err) {
             console.log(err)
+            console.log(lobby)
         }
     }
 
     getel("group2inner").innerHTML = innerHTML
 }
 
-function getGame(token, title, description, password, by, args, flags) {
+function getGame(lobby, password, by, args, flags) {
     let html = ""
+
+    let title = lobby.name
+    let description = lobby.description
 
     if (by != WAITINGFORPLAYERSSTRING) {
         by = "by " + by
@@ -164,7 +172,7 @@ function getGame(token, title, description, password, by, args, flags) {
         buttons += `<div class="button">LEAVE</div>`
     }
     if (flags.join) {
-        buttons += `<div class="button" onclick="joinLobby('${token}')">JOIN</div>`
+        buttons += `<div class="button" onclick="_joinLobby('${lobby}')">JOIN</div>`
     }
     if (flags.play) {
         buttons += `<div class="button">PLAY</div>`

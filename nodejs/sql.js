@@ -44,8 +44,8 @@ function init() {
   //no inital connect needed, because a query automatically starts the connection
   /*con.on('error', function(err) {
     //console.log('db error', err);
-    if(err.code === 'PROTOCOL_CONNECTION_LOST') { 
-      //init(); 
+    if(err.code === 'PROTOCOL_CONNECTION_LOST') {
+      //init();
       //no automatic reconnect, because a query automatically starts a connection
     } else {
       throw err;
@@ -177,7 +177,7 @@ async function createLobby(lobby) {
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
     timeout: sqltimeout,
     values: [lobby.token, lobby.name, lobby.game, lobby.flags, lobby.description, lobby.password,
-      lobby.privacy, lobby.creationtime, lobby.lastacttime, lobby.timeout]
+    lobby.privacy, lobby.creationtime, lobby.lastacttime, lobby.timeout]
   });
   return await getLobbyByToken(lobby.token);
 }
@@ -203,8 +203,8 @@ async function updateLobby(lobby) {
       `privacy`=?, `lastacttime`=?, `timeout`=? \
       WHERE `token`=?",
     timeout: sqltimeout,
-    values: [lobby.name, lobby.game, lobby.flags, lobby.description, lobby.password, 
-      lobby.privacy, lobby.lastacttime, lobby.timeout, lobby.token]
+    values: [lobby.name, lobby.game, lobby.flags, lobby.description, lobby.password,
+    lobby.privacy, lobby.lastacttime, lobby.timeout, lobby.token]
   });
   return lobby;
 }
@@ -244,9 +244,9 @@ async function updateCorrelation(correlation) {
     sql: "UPDATE `correlations` \
       SET `usertoken`=?, `lobbytoken`=?, `invite`=? \
       WHERE `id`=?",
-      timeout: sqltimeout,
-      values: [correlation.usertoken, correlation.lobbytoken, 
-      correlation.invite, correlation.id]
+    timeout: sqltimeout,
+    values: [correlation.usertoken, correlation.lobbytoken,
+    correlation.invite, correlation.id]
   });
   return true;
 }
