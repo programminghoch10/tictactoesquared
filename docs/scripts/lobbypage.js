@@ -150,7 +150,8 @@ async function loadAllLobbies() {
           userName = "yourself"
         }
       } else {
-        userName = other(lobby.correlations[0].usertoken).name
+        //userName = other(lobby.correlations[0].usertoken).name
+        userName = lobby.ownername
       }
 
       if (lobby.game == undefined || lobby.game == "") lobby.game = "3-"

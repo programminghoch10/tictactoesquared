@@ -119,8 +119,13 @@ router.post('/api/getLobbies', async function (req, res) {
     }
   }
 
+  let users = await sql.getUsers();
+
   for (let i = 0; i < lobbies.length; i++) {
     lobbies[i].password = ""
+    lobbies[i].ownername = users.filter(function (user) {
+      return (user.token == lobbies[i].correlations[0].usertoken)
+    })[0].name
   }
 
   if (lobbies.length == 0) {
