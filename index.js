@@ -42,12 +42,7 @@ app.get('/', function (req, res) {
   res.render(DIR + 'index.html')
 })
 
-app.post('/test', function (req, res) {
-  console.log(req.body)
-  res.sendStatus(200)
-})
-
-app.listen(5500, '127.0.0.1')
+app.listen(5500, '0.0.0.0')
 
 async function process() {
   //console.log( await sql.getUserByToken("abc"))

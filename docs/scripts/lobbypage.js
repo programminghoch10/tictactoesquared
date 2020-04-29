@@ -29,7 +29,6 @@ function changeGroup(i) {
     loadAllLobbies()
   }
 }
-changeGroup(currentGroup)
 
 function burger() {
   let body = document.body
@@ -71,6 +70,22 @@ function returnNewLobby() {
     el.style.display = "block"
   }
   getel("newLobbyPanel").classList.remove("newLobbyPanel-active")
+}
+
+function inviteOnlyButtonPressed() {
+  getel("inviteonlybutton").classList.add("active-button")
+  getel("publiclobbybutton").classList.remove("active-button")
+  getel("inviteplayerentry").classList.remove("entry-hide")
+  getel("inviteplayer").setAttribute("required", "")
+  getel("lobbypasswordentry").classList.add("entry-hide")
+}
+
+function publicLobbyButtonPressed() {
+  getel("inviteonlybutton").classList.remove("active-button")
+  getel("publiclobbybutton").classList.add("active-button")
+  getel("inviteplayerentry").classList.add("entry-hide")
+  getel("inviteplayer").removeAttribute("required")
+  getel("lobbypasswordentry").classList.remove("entry-hide")
 }
 
 function _createLobby() {
@@ -137,10 +152,13 @@ function loadAllLobbies() {
   for (let i = 0; i < lobbies.length; i++) {
     const lobby = lobbies[i]
     try {
+      let userName = ""
       if (lobby.correlations[0].usertoken == token) {
         if (lobby.correlations.length == 1) {
           userName = "yourself"
         }
+      } else {
+        userName = other(lobby.correlations[0].usertoken).name
       }
 
       if (lobby.game == undefined || lobby.game == "") lobby.game = "3-"
@@ -209,3 +227,6 @@ function getGame(lobby, password, by, args, flags) {
 
   return html
 }
+
+publicLobbyButtonPressed()
+changeGroup(currentGroup)
