@@ -47,6 +47,8 @@ router.post('/api/createLobby', async function(req, res) {
         privacy = "closed"
     }
 
+    if (common.isStringEmpty(password)) password = null;
+
     let lobby = new classes.Lobby()
     lobby.name = name
     lobby.description = description
