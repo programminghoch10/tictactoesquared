@@ -30,47 +30,47 @@ function connect() {
     createNewUser()
     return
   }
-  if ( self().name != name ) changeName(name)
+  if (self().name != name) changeName(name)
 }
 try {
-    connect()
-} catch {}
+  connect()
+} catch { }
 
 function createNewUser() {
-    let request = post("/api/createUser", { name: name })
+  let request = post("/api/createUser", { name: name })
 
-    let status = request.status
-    switch(status) {
-        case 409:
-        case 400:
-            saveName("")
-            document.location.reload()
-            return
-        default:
-        case 200:
-            break;
-    }
+  let status = request.status
+  switch (status) {
+    case 409:
+    case 400:
+      saveName("")
+      document.location.reload()
+      return
+    default:
+    case 200:
+      break;
+  }
 
-    // TODO: check if valid
+  // TODO: check if valid
 
-    let user = JSON.parse(request.responseText)
+  let user = JSON.parse(request.responseText)
 
-    saveToken(user.token)
+  saveToken(user.token)
 }
 
 function loadName() { return getCookie("name") }
 function loadToken() { return getCookie("token") }
 function saveName(_name) {
-    name = _name
-    setGlobalCookie("name", name)
+  name = _name
+  setGlobalCookie("name", name)
 }
 function saveToken(_token) {
-    token = _token
-    setGlobalCookie("token", token)
+  token = _token
+  setGlobalCookie("token", token)
 }
 
 function isEmpty(str) {
-    return str.split(" ").join("").length == 0
+  return str.split(" ").join("").length == 0
 }
 
 function isUserTokenValid() {
@@ -89,41 +89,41 @@ function isUserTokenValid() {
 }
 
 function changeName(newName) {
-    let request = post("/api/changeName", { token: token, name: name })
-    
-    let status = request.status
-    switch(status) {
-        case 409:
-            document.location.href =  "./inputname.html"
-            return
-        case 400:
-            saveToken("")
-            document.location.reload()
-            return
-        case 200:
-            break;
-        default:
-        case 304:
-            return
-    }
+  let request = post("/api/changeName", { token: token, name: name })
 
-    name = request.responseText
+  let status = request.status
+  switch (status) {
+    case 409:
+      document.location.href = "./inputname.html"
+      return
+    case 400:
+      saveToken("")
+      document.location.reload()
+      return
+    case 200:
+      break;
+    default:
+    case 304:
+      return
+  }
 
-    setGlobalCookie("name", name)
+  name = request.responseText
+
+  setGlobalCookie("name", name)
 }
 
 function createLobby(name, description, password, fieldSize) {
-    // TODO: hash password
-    let lobbyToken = post("/api/createLobby", {
-        name: name,
-        description: description,
-        password: password,
-        ownToken: token,
-        fieldSize: fieldSize,
-        inviteToken: null,
-    })
+  // TODO: hash password
+  let lobbyToken = post("/api/createLobby", {
+    name: name,
+    description: description,
+    password: password,
+    ownToken: token,
+    fieldSize: fieldSize,
+    inviteToken: null,
+  })
 
-    console.log(JSON.parse(lobbyToken.responseText))
+  console.log(JSON.parse(lobbyToken.responseText))
 }
 
 function self() {
@@ -139,43 +139,43 @@ function getLobby(lobbyToken) {
 }
 
 function getJoinedLobbies() {
-    let correlations = self().correlations
-    correlations.filter(function(correlation) {return !correlation.invite})
-    let lobbies = new Array(correlations.length)
-    for (let i = 0; i < correlations.length; i++) {
-        lobbies[i] = getLobby(correlations[i].lobbytoken)
-    }
-    return lobbies
+  let correlations = self().correlations
+  correlations.filter(function (correlation) { return !correlation.invite })
+  let lobbies = new Array(correlations.length)
+  for (let i = 0; i < correlations.length; i++) {
+    lobbies[i] = getLobby(correlations[i].lobbytoken)
+  }
+  return lobbies
 }
 
 function getInvitedLobbies() {
-    let correlations = self().correlations
-    correlations.filter(function(correlation) {return correlation.invite})
-    let lobbies = new Array(correlations.length)
-    for (let i = 0; i < correlations.length; i++) {
-        lobbies[i] = getLobby(correlations[i].lobbytoken)
-    }
-    return lobbies
+  let correlations = self().correlations
+  correlations.filter(function (correlation) { return correlation.invite })
+  let lobbies = new Array(correlations.length)
+  for (let i = 0; i < correlations.length; i++) {
+    lobbies[i] = getLobby(correlations[i].lobbytoken)
+  }
+  return lobbies
 }
 
 function getLobbies() {
-    return JSON.parse(post("/api/getLobbies", {ownToken: token}).responseText)
+  return JSON.parse(post("/api/getLobbies", { ownToken: token }).responseText)
 }
 
 function searchLobbies(filter) {
-    //TODO: add search for lobbies request to server
+  //TODO: add search for lobbies request to server
 }
 
-function joinLobby(lobbyToken) {return joinLobby(lobbyToken)}
+function joinLobby(lobbyToken) { return joinLobby(lobbyToken) }
 function joinLobby(lobbyToken, password) {
-    return (post("/api/joinLobby", {lobbytoken: lobbyToken, usertoken: token, password: password}).status == 202)
+  return (post("/api/joinLobby", { lobbytoken: lobbyToken, usertoken: token, password: password }).status == 202)
 }
 
 function requestPlay() {
-  
+
 }
 function leaveLobby(lobbyToken) {
-    return (post("/api/leaveLobby", {lobbytoken: lobbyToken, usertoken: token}).status == 200)
+  return (post("/api/leaveLobby", { lobbytoken: lobbyToken, usertoken: token }).status == 200)
 }
 
 console.log(name)

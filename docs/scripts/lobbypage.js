@@ -4,109 +4,109 @@ let currentGroup = 0
 let currentBurger = false
 
 function changeGroup(i) {
-    let oldNavEl = getel("navgroup" + currentGroup)
-    let currentNavEl = getel("navgroup" + i)
-    let oldEl = getel("group" + currentGroup)
-    let el = getel("group" + i)
+  let oldNavEl = getel("navgroup" + currentGroup)
+  let currentNavEl = getel("navgroup" + i)
+  let oldEl = getel("group" + currentGroup)
+  let el = getel("group" + i)
 
-    oldNavEl.classList.remove("current")
-    currentNavEl.classList.add("current")
-    
-    oldEl.classList.add("hide")
-    el.classList.remove("hide")
+  oldNavEl.classList.remove("current")
+  currentNavEl.classList.add("current")
 
-    currentGroup = i
+  oldEl.classList.add("hide")
+  el.classList.remove("hide")
 
-    if (currentGroup == 0) {
-        loadJoinedLobbies()
-    } else if (currentGroup == 1) {
-        loadInvitedLobbies()
-    } else if (currentGroup == 2) {
-        loadAllLobbies()
-    }
+  currentGroup = i
+
+  if (currentGroup == 0) {
+    loadJoinedLobbies()
+  } else if (currentGroup == 1) {
+    loadInvitedLobbies()
+  } else if (currentGroup == 2) {
+    loadAllLobbies()
+  }
 }
 changeGroup(0)
 
 function burger() {
-    let body = document.body
+  let body = document.body
 
-    if (currentBurger) {
-        body.classList.remove("burger")
-    } else {
-        body.classList.add("burger")
-    }
+  if (currentBurger) {
+    body.classList.remove("burger")
+  } else {
+    body.classList.add("burger")
+  }
 
-    currentBurger = !currentBurger
+  currentBurger = !currentBurger
 }
 
 if (window.innerWidth > 1200) {
-    burger()
+  burger()
 }
 
 function newLobby() {
-    getel("newlobbyoverlay").classList.add("overlay-active")
-    let els = document.getElementsByClassName("add")
-    for (let i = 0; i < els.length; i++) {
-        const el = els[i];
-        
-        el.style.display = "none"
-    }
-    getel("newLobbyPanel").classList.add("newLobbyPanel-active")
+  getel("newlobbyoverlay").classList.add("overlay-active")
+  let els = document.getElementsByClassName("add")
+  for (let i = 0; i < els.length; i++) {
+    const el = els[i];
 
-    getel("lobbyname").focus()
+    el.style.display = "none"
+  }
+  getel("newLobbyPanel").classList.add("newLobbyPanel-active")
 
-    if (currentBurger == true) burger()
+  getel("lobbyname").focus()
+
+  if (currentBurger == true) burger()
 }
 
 function returnNewLobby() {
-    getel("newlobbyoverlay").classList.remove("overlay-active")
-    let els = document.getElementsByClassName("add")
-    for (let i = 0; i < els.length; i++) {
-        const el = els[i];
-        
-        el.style.display = "block"
-    }
-    getel("newLobbyPanel").classList.remove("newLobbyPanel-active")
+  getel("newlobbyoverlay").classList.remove("overlay-active")
+  let els = document.getElementsByClassName("add")
+  for (let i = 0; i < els.length; i++) {
+    const el = els[i];
+
+    el.style.display = "block"
+  }
+  getel("newLobbyPanel").classList.remove("newLobbyPanel-active")
 }
 
 function _createLobby() {
-    let name = getel("lobbyname").value
-    let description = getel("lobbydescription").value
-    let password = getel("lobbypassword").value
-    let fieldSize = getel("lobbyfieldsize").value
-    createLobby(name, description, password, fieldSize)
-    returnNewLobby()
+  let name = getel("lobbyname").value
+  let description = getel("lobbydescription").value
+  let password = getel("lobbypassword").value
+  let fieldSize = getel("lobbyfieldsize").value
+  createLobby(name, description, password, fieldSize)
+  returnNewLobby()
 }
 
 function _joinLobby(lobby) {
-    joinLobby(lobby.token)
+  joinLobby(lobby.token)
 }
 
 function loadJoinedLobbies() {
-    let joinedLobbies = getJoinedLobbies()
+  let joinedLobbies = getJoinedLobbies()
 
-    let innerHTML = ""
+  let innerHTML = ""
 
-    for (let i = 0; i < joinedLobbies.length; i++) {
-        try {
-            const lobby = joinedLobbies[i]
-            let userName = other(lobby.correlations[0].usertoken).name
-            if (userName == self().name) {
-                if (lobby.correlations.length == 1) {
-                    userName = WAITINGFORPLAYERSSTRING
-                }
-            }
-
-            if (lobby.game == undefined || lobby.game == "") lobby.game = "3-"
-            const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
-
-            innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", userName, fieldSize, { cog: true, leave: true, play: true })
-        } catch (err) {
-            console.log(err)
+  for (let i = 0; i < joinedLobbies.length; i++) {
+    try {
+      const lobby = joinedLobbies[i]
+      let userName = other(lobby.correlations[0].usertoken).name
+      if (userName == self().name) {
+        if (lobby.correlations.length == 1) {
+          userName = WAITINGFORPLAYERSSTRING
         }
-    }
+      }
 
-    getel("group0inner").innerHTML = innerHTML
+      if (lobby.game == undefined || lobby.game == "") lobby.game = "3-"
+      const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
+
+      innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", userName, fieldSize, { cog: true, leave: true, play: true })
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  getel("group0inner").innerHTML = innerHTML
 }
 
 function loadInvitedLobbies() {
@@ -114,71 +114,71 @@ function loadInvitedLobbies() {
 }
 
 function loadAllLobbies() {
-    let lobbies = getLobbies()
+  let lobbies = getLobbies()
 
-    let innerHTML = ""
+  let innerHTML = ""
 
-    for (let i = 0; i < lobbies.length; i++) {
-        const lobby = lobbies[i]
-        try {
-            let userName = other(lobby.correlations[0].usertoken).name
-            if (userName == self().name) {
-                if (lobby.correlations.length == 1) {
-                    userName = "yourself"
-                }
-            }
-
-            if (lobby.game == undefined || lobby.game == "") lobby.game = "3-"
-            const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
-
-            innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", userName, fieldSize, { join: true })
-        } catch (err) {
-            console.log(err)
-            console.log(lobby)
+  for (let i = 0; i < lobbies.length; i++) {
+    const lobby = lobbies[i]
+    try {
+      let userName = other(lobby.correlations[0].usertoken).name
+      if (userName == self().name) {
+        if (lobby.correlations.length == 1) {
+          userName = "yourself"
         }
-    }
+      }
 
-    getel("group2inner").innerHTML = innerHTML
+      if (lobby.game == undefined || lobby.game == "") lobby.game = "3-"
+      const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
+
+      innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", userName, fieldSize, { join: true })
+    } catch (err) {
+      console.log(err)
+      console.log(lobby)
+    }
+  }
+
+  getel("group2inner").innerHTML = innerHTML
 }
 
 function getGame(lobby, password, by, args, flags) {
-    let html = ""
+  let html = ""
 
-    let title = lobby.name
-    let description = lobby.description
+  let title = lobby.name
+  let description = lobby.description
 
-    if (by != WAITINGFORPLAYERSSTRING) {
-        by = "by " + by
-    }
+  if (by != WAITINGFORPLAYERSSTRING) {
+    by = "by " + by
+  }
 
-    if (args != "3") {
-        args = "fieldsize " + args
-    } else {
-        args = ""
-    }
+  if (args != "3") {
+    args = "fieldsize " + args
+  } else {
+    args = ""
+  }
 
-    let lock = ""
-    if (password) {
-        lock = `<i class="fas fa-lock fa-xs"></i>`
-    }
-    if (flags.cog) {
-        flags.cog = `<i class="fas fa-cog fa-xs"></i>`
-    } else {
-        flags.cog = ""
-    }
+  let lock = ""
+  if (password) {
+    lock = `<i class="fas fa-lock fa-xs"></i>`
+  }
+  if (flags.cog) {
+    flags.cog = `<i class="fas fa-cog fa-xs"></i>`
+  } else {
+    flags.cog = ""
+  }
 
-    let buttons = ""
-    if (flags.leave) {
-        buttons += `<div class="button">LEAVE</div>`
-    }
-    if (flags.join) {
-        buttons += `<div class="button" onclick="_joinLobby('${lobby}')">JOIN</div>`
-    }
-    if (flags.play) {
-        buttons += `<div class="button">PLAY</div>`
-    }
+  let buttons = ""
+  if (flags.leave) {
+    buttons += `<div class="button">LEAVE</div>`
+  }
+  if (flags.join) {
+    buttons += `<div class="button" onclick="_joinLobby('${lobby}')">JOIN</div>`
+  }
+  if (flags.play) {
+    buttons += `<div class="button">PLAY</div>`
+  }
 
-    html = `
+  html = `
     <div class="game">
         <div class="title">
             <h2>${flags.cog}${lock}<div>${title}</div></h2>
@@ -192,5 +192,5 @@ function getGame(lobby, password, by, args, flags) {
     </div>
     `
 
-    return html
+  return html
 }

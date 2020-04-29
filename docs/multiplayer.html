@@ -1,187 +1,187 @@
 <html lang="en">
 
-    <head>
-        <title>TTT² </title>
-        <!--
+  <head>
+    <title>TTT² </title>
+    <!--
             Prerender & prefetch
         -->
-        <link rel="prerender"
-              href="game.html" />
-        <link rel="prefetch"
-              href="css/game.css" />
-        <link rel="prefetch"
-              href="scripts/localgame.js" />
-        <link rel="prefetch"
-              href="game.html" />
-        <link rel="prefetch"
-              href="settings.html" />
-        <link rel="prefetch"
-              href="scripts/ai.js" />
-        <link rel="prefetch"
-              href="scripts/againstai.js" />
-        <link rel="prefetch"
-              href="https://github.com/programminghoch10/tictactoesquared" />
-        <!--
+    <link rel="prerender"
+          href="game.html" />
+    <link rel="prefetch"
+          href="css/game.css" />
+    <link rel="prefetch"
+          href="scripts/localgame.js" />
+    <link rel="prefetch"
+          href="game.html" />
+    <link rel="prefetch"
+          href="settings.html" />
+    <link rel="prefetch"
+          href="scripts/ai.js" />
+    <link rel="prefetch"
+          href="scripts/againstai.js" />
+    <link rel="prefetch"
+          href="https://github.com/programminghoch10/tictactoesquared" />
+    <!--
             Viewport
         -->
-        <meta name="viewport"
-              content="width=device-width, initial-scale=1" />
-        <!--
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1" />
+    <!--
             Scripts
         -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!--
             Styles
         -->
-        <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
-              rel="stylesheet" />
-        <link rel="stylesheet"
-              href="fontawesome/css/all.css">
-        <link rel="stylesheet"
-              href="./css/style.css" />
-        <link rel="stylesheet"
-              href="./css/multiplayer.css" />
-        <!--
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
+          rel="stylesheet" />
+    <link rel="stylesheet"
+          href="fontawesome/css/all.css">
+    <link rel="stylesheet"
+          href="./css/style.css" />
+    <link rel="stylesheet"
+          href="./css/multiplayer.css" />
+    <!--
             Manifest
         -->
-        <link rel="manifest"
-              href="manifest.json" />
-    </head>
+    <link rel="manifest"
+          href="manifest.json" />
+  </head>
 
-    <body>
-        <div class="multiplayer">
-            <div class="flex">
-                <div class="burger"
-                     onclick="burger()">
-                    <div></div>
-                </div>
-                <div class="add"
-                     id="newLobbyButton"
-                     onclick="newLobby()">
-                    <i class="fas fa-plus fa-2x"></i>
-                </div>
-                <div class="add"
-                     id="newLobbyButton"
-                     onclick="newLobby()"
-                     style="transform: translate(-150%, 0)">
-                    <i class="fas fa-user fa-2x"></i>
-                </div>
-                <div class="sidebar">
-                    <div class="nav">
-                        <a href="index.html">
-                            <i class="fas fa-home home"></i>
-                        </a>
-                        <i class="fas fa-moon darkmode"
-                           onclick="dark()"></i>
-                        <i class="fas fa-sun lightmode"
-                           onclick="light()"></i>
-                        <i class=" fab fa-github github"
-                           onclick="document.location.href='https://github.com/programminghoch10/tictactoesquared'"
-                           target="_blank"></i>
-                    </div>
-                    <div class="name">
-                        <h2 class="username"
-                            id="username"></h2>
-                        <a href="inputname.html"><i class="fas fa-edit"></i></a>
-                    </div>
-                    <div class="groups-nav">
-                        <div class="group current"
-                             id="navgroup0"
-                             onclick="changeGroup(0)">
-                            <p>CURRENT GAMES</p>
-                        </div>
-                        <div class="alt">
-                            <div class="group"
-                                 id="navgroup1"
-                                 onclick="changeGroup(1)">
-                                <p>INVITED GAMES</p>
-                            </div>
-                        </div>
-                        <div class="group"
-                             id="navgroup2"
-                             onclick="changeGroup(2)">
-                            <p>ALL GAMES</p>
-                        </div>
-                        <div class="alt">
-                            <div class="group">
-                                <p>QUICK GAME</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="overlay"
-                     id="newlobbyoverlay"
-                     onclick="returnNewLobby()"></div>
-                <div class="overlay burgeroverlay"
-                     onclick="burger()"></div>
-                <div class="groups">
-                    <div class="group"
-                         id="group0">
-                        <h1>CURRENT GAMES</h1>
-                        <div id="group0inner"></div>
-                    </div>
-                    <div class="group hide"
-                         id="group1">
-                        <h1>INVITED GAMES</h1>
-                        <div id="group1inner"></div>
-                    </div>
-                    <div class="group hide"
-                         id="group2">
-                        <h1>ALL GAMES</h1>
-                        <div id="group2inner"></div>
-                    </div>
-                </div>
-                <div class="newLobbyPanel"
-                     id="newLobbyPanel">
-                    <h2>Create a lobby</h2>
-                    <form action="javascript:_createLobby();">
-                        <div class="entry">
-                            <h3>Lobby name:</h3>
-                            <input type="text"
-                                   id="lobbyname"
-                                   required>
-                        </div>
-                        <div class="entry">
-                            <h3>Lobby description (optional):</h3>
-                            <input type="text"
-                                   id="lobbydescription">
-                        </div>
-                        <div class="entry">
-                            <h3>Lobby password (optional):</h3>
-                            <input type="text"
-                                   id="lobbypassword">
-                        </div>
-                        <!-- <div class="entry">
+  <body>
+    <div class="multiplayer">
+      <div class="flex">
+        <div class="burger"
+             onclick="burger()">
+          <div></div>
+        </div>
+        <div class="add"
+             id="newLobbyButton"
+             onclick="newLobby()">
+          <i class="fas fa-plus fa-2x"></i>
+        </div>
+        <div class="add"
+             id="newLobbyButton"
+             onclick="newLobby()"
+             style="transform: translate(-150%, 0)">
+          <i class="fas fa-user fa-2x"></i>
+        </div>
+        <div class="sidebar">
+          <div class="nav">
+            <a href="index.html">
+              <i class="fas fa-home home"></i>
+            </a>
+            <i class="fas fa-moon darkmode"
+               onclick="dark()"></i>
+            <i class="fas fa-sun lightmode"
+               onclick="light()"></i>
+            <i class=" fab fa-github github"
+               onclick="document.location.href='https://github.com/programminghoch10/tictactoesquared'"
+               target="_blank"></i>
+          </div>
+          <div class="name">
+            <h2 class="username"
+                id="username"></h2>
+            <a href="inputname.html"><i class="fas fa-edit"></i></a>
+          </div>
+          <div class="groups-nav">
+            <div class="group current"
+                 id="navgroup0"
+                 onclick="changeGroup(0)">
+              <p>CURRENT GAMES</p>
+            </div>
+            <div class="alt">
+              <div class="group"
+                   id="navgroup1"
+                   onclick="changeGroup(1)">
+                <p>INVITED GAMES</p>
+              </div>
+            </div>
+            <div class="group"
+                 id="navgroup2"
+                 onclick="changeGroup(2)">
+              <p>ALL GAMES</p>
+            </div>
+            <div class="alt">
+              <div class="group">
+                <p>QUICK GAME</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="overlay"
+             id="newlobbyoverlay"
+             onclick="returnNewLobby()"></div>
+        <div class="overlay burgeroverlay"
+             onclick="burger()"></div>
+        <div class="groups">
+          <div class="group"
+               id="group0">
+            <h1>CURRENT GAMES</h1>
+            <div id="group0inner"></div>
+          </div>
+          <div class="group hide"
+               id="group1">
+            <h1>INVITED GAMES</h1>
+            <div id="group1inner"></div>
+          </div>
+          <div class="group hide"
+               id="group2">
+            <h1>ALL GAMES</h1>
+            <div id="group2inner"></div>
+          </div>
+        </div>
+        <div class="newLobbyPanel"
+             id="newLobbyPanel">
+          <h2>Create a lobby</h2>
+          <form action="javascript:_createLobby();">
+            <div class="entry">
+              <h3>Lobby name:</h3>
+              <input type="text"
+                     id="lobbyname"
+                     required>
+            </div>
+            <div class="entry">
+              <h3>Lobby description (optional):</h3>
+              <input type="text"
+                     id="lobbydescription">
+            </div>
+            <div class="entry">
+              <h3>Lobby password (optional):</h3>
+              <input type="text"
+                     id="lobbypassword">
+            </div>
+            <!-- <div class="entry">
                             <h3>Invite player (optional):</h3>
                             <input type="text">
                         </div> -->
-                        <div class="entry">
-                            <h3>Field size (from 3 to 5):</h3>
-                            <input type="number"
-                                   min="3"
-                                   max="5"
-                                   value="3"
-                                   id="lobbyfieldsize">
-                        </div>
-                        <div class="entry">
-                            <h3></h3>
-                            <input type="submit">
-                        </div>
-                    </form>
-                </div>
+            <div class="entry">
+              <h3>Field size (from 3 to 5):</h3>
+              <input type="number"
+                     min="3"
+                     max="5"
+                     value="3"
+                     id="lobbyfieldsize">
             </div>
-            <script src="scripts/cookie.js"></script>
-            <script src="scripts/colortheme.js"></script>
-            <script type="text/javascript"
-                    id="cookieinfo"
-                    src="//cookieinfoscript.com/js/cookieinfo.min.js"
-                    data-message="We use cookies mainly to save your game. (It's ok, everyone does.)"
-                    data-cookie="cookies-accepted"
-                    data-close-text="Accept"></script>
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-            <script src="scripts/cookie.js"></script>
-            <script src="scripts/multiplayerclient.js"></script>
-            <script src="scripts/lobbypage.js"></script>
-    </body>
+            <div class="entry">
+              <h3></h3>
+              <input type="submit">
+            </div>
+          </form>
+        </div>
+      </div>
+      <script src="scripts/cookie.js"></script>
+      <script src="scripts/colortheme.js"></script>
+      <script type="text/javascript"
+              id="cookieinfo"
+              src="//cookieinfoscript.com/js/cookieinfo.min.js"
+              data-message="We use cookies mainly to save your game. (It's ok, everyone does.)"
+              data-cookie="cookies-accepted"
+              data-close-text="Accept"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+      <script src="scripts/cookie.js"></script>
+      <script src="scripts/multiplayerclient.js"></script>
+      <script src="scripts/lobbypage.js"></script>
+  </body>
 
 </html>

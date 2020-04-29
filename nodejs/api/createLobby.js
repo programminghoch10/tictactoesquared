@@ -6,77 +6,77 @@ const classes = require('../classes.js')
 const sql = require('../sql.js')
 const Game = require('../../docs/scripts/game.js')
 
-router.post('/api/createLobby', async function(req, res) {
-    let name = req.body.name
-    let description = req.body.description
-    let password = req.body.password
-    let fieldSize = req.body.fieldSize
-    let ownToken = req.body.ownToken
-    let inviteToken = req.body.inviteToken
+router.post('/api/createLobby', async function (req, res) {
+  let name = req.body.name
+  let description = req.body.description
+  let password = req.body.password
+  let fieldSize = req.body.fieldSize
+  let ownToken = req.body.ownToken
+  let inviteToken = req.body.inviteToken
 
-    if (common.isStringEmpty(name)) {
-        res.sendStatus(400)
-        return
+  if (common.isStringEmpty(name)) {
+    res.sendStatus(400)
+    return
+  }
+
+  // if field size is valid
+  try {
+    let num = parseInt(fieldSize)
+    if (num < 3 || num > 5) {
+      res.sendStatus(400)
+      return
     }
+  } catch {
+    res.sendStatus(400)
+    return
+  }
 
-    // if field size is valid
-    try {
-        let num = parseInt(fieldSize)
-        if (num < 3 || num > 5) {
-            res.sendStatus(400)
-            return
-        }
-    } catch {
-        res.sendStatus(400)
-        return
-    }
-    
-    // if token does not exist
-    let user = await sql.getUserByToken(ownToken)
-    if (!user) {
-        res.sendStatus(400)
-        return
-    }
+  // if token does not exist
+  let user = await sql.getUserByToken(ownToken)
+  if (!user) {
+    res.sendStatus(400)
+    return
+  }
 
-    let invite = false
-    // if invite token is not null
-    // the lobby's privacy is closed
-    let privacy = "open"
-    if (!common.isStringEmpty(inviteToken)) {
-        invite = true
-        privacy = "closed"
-    }
+  let invite = false
+  // if invite token is not null
+  // the lobby's privacy is closed
+  let privacy = "open"
+  if (!common.isStringEmpty(inviteToken)) {
+    invite = true
+    privacy = "closed"
+  }
 
-    if (common.isStringEmpty(password)) password = null;
+  if (common.isStringEmpty(password)) password = null;
 
-    let lobby = new classes.Lobby()
-    lobby.name = name
-    lobby.description = description
-    lobby.password = password
-    lobby.privacy = privacy
+  let lobby = new classes.Lobby()
+  lobby.name = name
+  lobby.description = description
+  lobby.password = password
+  lobby.privacy = privacy
 
-    lobby.game = (new Game(null, fieldSize)).toString()
+  lobby.game = (new Game(null, fieldSize)).toString()
 
-    lobby = await sql.createLobby(lobby)
+  lobby = await sql.createLobby(lobby)
 
-    let ownCorrelation = new classes.Correlation()
-    ownCorrelation.lobbytoken = lobby.token
-    ownCorrelation.usertoken = ownToken
-    ownCorrelation.invite = false
-    await sql.createCorrelation(ownCorrelation)
+  let ownCorrelation = new classes.Correlation()
+  ownCorrelation.lobbytoken = lobby.token
+  ownCorrelation.usertoken = ownToken
+  ownCorrelation.invite = false
+  await sql.createCorrelation(ownCorrelation)
 
-    if (invite) {
-        let inviteCorrelation = new classes.Correlation()
-        inviteCorrelation.lobbytoken = lobby.token
-        inviteCorrelation.usertoken = inviteToken
-        inviteCorrelation.invite = true
-        await sql.createCorrelation(inviteCorrelation)
-    }
+  if (invite) {
+    let inviteCorrelation = new classes.Correlation()
+    inviteCorrelation.lobbytoken = lobby.token
+    inviteCorrelation.usertoken = inviteToken
+    inviteCorrelation.invite = true
+    await sql.createCorrelation(inviteCorrelation)
+  }
 
-    lobby = await sql.getLobbyByToken(lobby.token)
+  lobby = await sql.getLobbyByToken(lobby.token)
 
-    res.status(201)
-    res.send(JSON.stringify(lobby))
+  res.status(201)
+  res.send(JSON.stringify(lobby))
 })
 
 module.exports = router

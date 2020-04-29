@@ -1,37 +1,37 @@
 {
-"name": "Tic-Tac-Toe-Squared",
-"short_name": "TTT²",
-"lang": "en-US",
-"icons": [
-  {
-    "src": "favicons/favicon-32x32.png",
-    "sizes": "32x32",
-    "type": "image/png",
-    "density": 1.0
-  },
-  {
-    "src": "webapp/pictures/logo.png",
-    "sizes": "512x512",
-    "type": "image/png",
-    "density": 5.0
-  }
-],
-"related_applications": [
-  {
-    "platform": "play",
-    "url": "https://play.google.com/store/apps/details?id=com.JJ.tictactoesquared",
-    "id": "com.JJ.tictactoesquared"
-  },
-  {
-    "platform": "web",
-    "url": "https://programminghoch10.github.io/tictactoesquared"
-  }
-],
-"prefer_related_applications": true,
-"scope": "https://programminghoch10.github.io/tictactoesquared/",
-"start_url": "https://programminghoch10.github.io/tictactoesquared/",
-"display": "standalone",
-"orientation": "any",
-"background_color": "white",
-"theme_color": "rgb(44,202,176)"
+  "name": "Tic-Tac-Toe-Squared",
+  "short_name": "TTT²",
+  "lang": "en-US",
+  "icons": [
+    {
+      "src": "favicons/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png",
+      "density": 1.0
+    },
+    {
+      "src": "webapp/pictures/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "density": 5.0
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.JJ.tictactoesquared",
+      "id": "com.JJ.tictactoesquared"
+    },
+    {
+      "platform": "web",
+      "url": "https://programminghoch10.github.io/tictactoesquared"
+    }
+  ],
+  "prefer_related_applications": true,
+  "scope": "https://programminghoch10.github.io/tictactoesquared/",
+  "start_url": "https://programminghoch10.github.io/tictactoesquared/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "white",
+  "theme_color": "rgb(44,202,176)"
 }

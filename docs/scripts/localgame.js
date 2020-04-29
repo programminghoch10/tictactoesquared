@@ -90,11 +90,11 @@ function save() {
 }
 
 function load() {
-	let cookie = getGameCookie();
+  let cookie = getGameCookie();
 
-	if (!game.fromString(cookie)) {
-		deleteGameCookie();
-	}
+  if (!game.fromString(cookie)) {
+    deleteGameCookie();
+  }
 }
 
 getel("wrapper").innerHTML += "<table id=field></table>";

@@ -31,7 +31,7 @@ class Game {
 
   init() {
     this.fields = Array(this.size).fill(null).map(() => new Array(this.size).fill(null).map(() => new Array(this.size).fill(null).map(() => new Array(this.size).fill(null).map(() => 0))));
-    this.globalField = Array(this.size).fill(null).map(() => new Array(this.size).fill(null).map(() =>0));
+    this.globalField = Array(this.size).fill(null).map(() => new Array(this.size).fill(null).map(() => 0));
 
     this.currentField = {
       all: true,

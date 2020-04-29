@@ -1,83 +1,83 @@
 <html lang="en">
 
-    <head>
-        <title>TTT² </title>
-        <!--
+  <head>
+    <title>TTT² </title>
+    <!--
             Prerender & prefetch
         -->
-        <link rel="prerender"
-              href="game.html" />
-        <link rel="prefetch"
-              href="css/game.css" />
-        <link rel="prefetch"
-              href="scripts/localgame.js" />
-        <link rel="prefetch"
-              href="game.html" />
-        <link rel="prefetch"
-              href="settings.html" />
-        <link rel="prefetch"
-              href="scripts/ai.js" />
-        <link rel="prefetch"
-              href="scripts/againstai.js" />
-        <link rel="prefetch"
-              href="https://github.com/programminghoch10/tictactoesquared" />
-        <!--
+    <link rel="prerender"
+          href="game.html" />
+    <link rel="prefetch"
+          href="css/game.css" />
+    <link rel="prefetch"
+          href="scripts/localgame.js" />
+    <link rel="prefetch"
+          href="game.html" />
+    <link rel="prefetch"
+          href="settings.html" />
+    <link rel="prefetch"
+          href="scripts/ai.js" />
+    <link rel="prefetch"
+          href="scripts/againstai.js" />
+    <link rel="prefetch"
+          href="https://github.com/programminghoch10/tictactoesquared" />
+    <!--
             Viewport
         -->
-        <meta name="viewport"
-              content="width=device-width, initial-scale=1" />
-        <!--
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1" />
+    <!--
             Scripts
         -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!--
             Styles
         -->
-        <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
-              rel="stylesheet" />
-        <link rel="stylesheet"
-              href="fontawesome/css/all.css">
-        <link rel="stylesheet"
-              href="./css/style.css" />
-        <link rel="stylesheet"
-              href="./css/inputname.css" />
-        <!--
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
+          rel="stylesheet" />
+    <link rel="stylesheet"
+          href="fontawesome/css/all.css">
+    <link rel="stylesheet"
+          href="./css/style.css" />
+    <link rel="stylesheet"
+          href="./css/inputname.css" />
+    <!--
             Manifest
         -->
-        <link rel="manifest"
-              href="manifest.json" />
-    </head>
+    <link rel="manifest"
+          href="manifest.json" />
+  </head>
 
-    <body>
-        <div class="inputname">
-            <div class="center flex-column">
-                <h1>Enter your name:</h1>
-                <div class="nameinput">
-                    <form action="javascript:submit();">
-                        <input type="text"
-                               id="username"
-                               autofocus>
-                        <input type="submit">
-                    </form>
-                </div>
-            </div>
+  <body>
+    <div class="inputname">
+      <div class="center flex-column">
+        <h1>Enter your name:</h1>
+        <div class="nameinput">
+          <form action="javascript:submit();">
+            <input type="text"
+                   id="username"
+                   autofocus>
+            <input type="submit">
+          </form>
         </div>
-        <script src="scripts/cookie.js"></script>
-        <script src="scripts/colortheme.js"></script>
-        <script type="text/javascript"
-                id="cookieinfo"
-                src="//cookieinfoscript.com/js/cookieinfo.min.js"
-                data-message="We use cookies mainly to save your game. (It's ok, everyone does.)"
-                data-cookie="cookies-accepted"
-                data-close-text="Accept"></script>
-        <script>
-            function submit() {
-                let name = document.getElementById("username").value
-                if (name == "") return false;
-                setGlobalCookie("name", name)
-                document.location.href = "./multiplayer.html"
-            }
-        </script>
-    </body>
+      </div>
+    </div>
+    <script src="scripts/cookie.js"></script>
+    <script src="scripts/colortheme.js"></script>
+    <script type="text/javascript"
+            id="cookieinfo"
+            src="//cookieinfoscript.com/js/cookieinfo.min.js"
+            data-message="We use cookies mainly to save your game. (It's ok, everyone does.)"
+            data-cookie="cookies-accepted"
+            data-close-text="Accept"></script>
+    <script>
+      function submit() {
+        let name = document.getElementById("username").value
+        if (name == "") return false;
+        setGlobalCookie("name", name)
+        document.location.href = "./multiplayer.html"
+      }
+    </script>
+  </body>
 
 </html>
