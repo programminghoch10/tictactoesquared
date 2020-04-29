@@ -106,8 +106,7 @@ function loadJoinedLobbies() {
   for (let i = 0; i < joinedLobbies.length; i++) {
     try {
       const lobby = joinedLobbies[i]
-      let userName = other(lobby.correlations[0].usertoken).name
-      if (userName == self().name) {
+      if (lobby.correlations[0].usertoken == token) {
         if (lobby.correlations.length == 1) {
           userName = WAITINGFORPLAYERSSTRING
         }
@@ -137,8 +136,7 @@ function loadAllLobbies() {
   for (let i = 0; i < lobbies.length; i++) {
     const lobby = lobbies[i]
     try {
-      let userName = other(lobby.correlations[0].usertoken).name
-      if (userName == self().name) {
+      if (lobby.correlations[0].usertoken == token) {
         if (lobby.correlations.length == 1) {
           userName = "yourself"
         }
