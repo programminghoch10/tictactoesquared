@@ -24,7 +24,12 @@ function getid(x, y, a, b) {
 class Game {
   constructor(frontendinterface, size) {
     this.frontendinterface = frontendinterface == null ? EMPTYFRONTENDINTERFACE : frontendinterface;
-    this.size = parseInt(size);
+
+    try {
+      this.size = parseInt(size);
+    } catch {
+      this.size = 3
+    }
 
     this.init();
   }
@@ -314,4 +319,8 @@ class Game {
   }
 }
 
-module.exports = Game;
+try {
+  module.exports = Game;
+} catch {
+
+}

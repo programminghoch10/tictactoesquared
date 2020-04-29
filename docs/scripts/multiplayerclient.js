@@ -182,6 +182,3 @@ function requestPlay() {
 function leaveLobby(lobbyToken) {
   return (post("/api/leaveLobby", { lobbytoken: lobbyToken, usertoken: token }).status == 200)
 }
-
-console.log(name)
-getel("username").innerHTML = name

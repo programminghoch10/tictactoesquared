@@ -21,6 +21,10 @@ function setThemeCookie(value) {
   setCookie(themecookiename, value, cookiesavedays, "");
 }
 
+function setLocalCookie(name, value) {
+  setCookie(name, value, cookiesavedays, window.location.pathname);
+}
+
 function setGlobalCookie(name, value) {
   setCookie(name, value, cookiesavedays, "");
 }

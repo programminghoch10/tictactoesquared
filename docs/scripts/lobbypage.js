@@ -1,9 +1,12 @@
 const WAITINGFORPLAYERSSTRING = "waiting for players"
 
-let currentGroup = 0
+let currentGroup = getCookie("currentGroup")
 let currentBurger = false
 
 function changeGroup(i) {
+  if (i == undefined || currentGroup == "undefined" || i == "" || i < 0 || i > 2) i = 0
+  if (currentGroup == undefined || currentGroup == "undefined" || currentGroup == "" || currentGroup < 0 || currentGroup > 2) currentGroup = 0
+
   let oldNavEl = getel("navgroup" + currentGroup)
   let currentNavEl = getel("navgroup" + i)
   let oldEl = getel("group" + currentGroup)
@@ -16,6 +19,7 @@ function changeGroup(i) {
   el.classList.remove("hide")
 
   currentGroup = i
+  setLocalCookie("currentGroup", currentGroup)
 
   if (currentGroup == 0) {
     loadJoinedLobbies()
@@ -25,7 +29,7 @@ function changeGroup(i) {
     loadAllLobbies()
   }
 }
-changeGroup(0)
+changeGroup(currentGroup)
 
 function burger() {
   let body = document.body
@@ -76,14 +80,22 @@ function _createLobby() {
   let fieldSize = getel("lobbyfieldsize").value
   createLobby(name, description, password, fieldSize)
   returnNewLobby()
+  changeGroup(0)
 }
 
 function _joinLobby(lobby) {
   joinLobby(lobby)
+  changeGroup(currentGroup)
 }
 
 function _leaveLobby(lobby) {
   leaveLobby(lobby)
+  changeGroup(currentGroup)
+}
+
+function play(lobby) {
+  setGlobalCookie("currentLobbyToken", lobby)
+  document.location.href = "./multiplayergame.html"
 }
 
 function loadJoinedLobbies() {
@@ -179,7 +191,7 @@ function getGame(lobby, password, by, args, flags) {
     buttons += `<div class="button" onclick="_joinLobby('${lobby.token}')">JOIN</div>`
   }
   if (flags.play) {
-    buttons += `<div class="button">PLAY</div>`
+    buttons += `<div class="button" onclick="play('${lobby.token}')">PLAY</div>`
   }
 
   html = `

@@ -85,7 +85,7 @@
             <a href="inputname.html"><i class="fas fa-edit"></i></a>
           </div>
           <div class="groups-nav">
-            <div class="group current"
+            <div class="group"
                  id="navgroup0"
                  onclick="changeGroup(0)">
               <p>CURRENT GAMES</p>
@@ -115,7 +115,7 @@
         <div class="overlay burgeroverlay"
              onclick="burger()"></div>
         <div class="groups">
-          <div class="group"
+          <div class="group hide"
                id="group0">
             <h1>CURRENT GAMES</h1>
             <div id="group0inner"></div>
@@ -182,6 +182,9 @@
       <script src="scripts/cookie.js"></script>
       <script src="scripts/multiplayerclient.js"></script>
       <script src="scripts/lobbypage.js"></script>
+      <script>
+        getel("username").innerHTML = name
+      </script>
   </body>
 
 </html>
