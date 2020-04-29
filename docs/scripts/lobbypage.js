@@ -106,7 +106,7 @@ function _createLobby() {
 
 function _joinLobby(lobby) {
   joinLobby(lobby)
-  changeGroup(currentGroup)
+  changeGroup(0)
 }
 
 function _leaveLobby(lobby) {
@@ -131,7 +131,10 @@ async function loadJoinedLobbies() {
       if (lobby.game == undefined || lobby.game == "") lobby.game = "3-"
       const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
 
-      innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", WAITINGFORPLAYERSSTRING, fieldSize, { cog: true, leave: true, play: true })
+      let username = ""
+      if (lobby.correlations.length == 1) username = WAITINGFORPLAYERSSTRING
+
+      innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", username, fieldSize, { cog: true, leave: true, play: true })
     } catch (err) {
       console.log(err)
     }
@@ -142,7 +145,32 @@ async function loadJoinedLobbies() {
 
 async function loadInvitedLobbies() {
   let invitedLobbies = getInvitedLobbies()
-  //TODO: display invited lobbies
+
+  let innerHTML = ""
+
+  for (let i = 0; i < invitedLobbies.length; i++) {
+    const lobby = invitedLobbies[i]
+    try {
+      let userName = ""
+      if (lobby.correlations[0].usertoken == token) {
+        if (lobby.correlations.length == 1) {
+          userName = "yourself"
+        }
+      } else {
+        userName = other(lobby.correlations[0].usertoken).name
+      }
+
+      if (lobby.game == undefined || lobby.game == "") lobby.game = "3-"
+      const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
+
+      innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", userName, fieldSize, { join: true })
+    } catch (err) {
+      console.log(err)
+      console.log(lobby)
+    }
+  }
+
+  getel("group1inner").innerHTML = innerHTML
 }
 
 async function loadAllLobbies() {
@@ -182,7 +210,7 @@ function getGame(lobby, password, by, args, flags) {
   let title = lobby.name
   let description = lobby.description
 
-  if (by != WAITINGFORPLAYERSSTRING) {
+  if (by != WAITINGFORPLAYERSSTRING && by != "") {
     by = "by " + by
   }
 
