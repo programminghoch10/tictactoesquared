@@ -1,6 +1,7 @@
 body {
   --color: black;
   --background-color: whitesmoke;
+  --font-color: #555;
 
   --default: #ddd;
   --default-alt: #ccc;
@@ -23,13 +24,14 @@ body {
 }
 
 svg, a, p, h1, h2 {
-  color: var(--color);
+  color: var(--font-color);
   text-decoration: none;
 }
 
 .dark {
   --color: white;
   --background-color: #333;
+  --font-color: #aaa;
 
   --default: #444;
   --default-alt: #555;
