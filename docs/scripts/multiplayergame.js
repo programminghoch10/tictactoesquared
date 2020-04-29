@@ -19,6 +19,11 @@ let frontendInterface = {
     el.classList.remove("current");
   },
   setCurrentFieldAfter: (x, y) => {
+    for (let _x = 0; _x < game.size; _x++) {
+      for (let _y = 0; _y < game.size; _y++) {
+        getel(getglobalid(_x, _y)).classList.remove("current");
+      }
+    }
     let el = getel(getglobalid(x, y));
     el.classList.add("current");
   },
@@ -85,5 +90,15 @@ function mousedown(a, b, x, y) {
   }
 }
 
+const UPDATEDTIMER = 1
 let game = new Game(frontendInterface, size);
 game.fromString(lobby.game)
+
+function update() {
+  let gameString = spectate(lobbyToken)
+
+  if (gameString && gameString != "undefined") {
+    game.fromString(gameString)
+  }
+}
+setInterval(update, UPDATEDTIMER * 1000)

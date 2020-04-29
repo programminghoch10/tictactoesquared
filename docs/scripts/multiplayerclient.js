@@ -200,6 +200,28 @@ function requestPlay(lobbyToken, a, b, x, y) {
   return res
 }
 
+function spectate(lobbyToken) {
+  let req = post("/api/spectate", { lobbyToken: lobbyToken })
+
+  let status = req.status
+
+  switch (status) {
+    case 400:
+    case 401:
+    case 402:
+    case 403:
+    case 406:
+      return
+    default:
+    case 200:
+      break
+  }
+
+  let res = req.responseText
+
+  return res
+}
+
 function leaveLobby(lobbyToken) {
   return (post("/api/leaveLobby", { lobbytoken: lobbyToken, usertoken: token }).status == 200)
 }
