@@ -150,7 +150,6 @@ function getJoinedLobbies() {
 }
 
 function getInvitedLobbies() {
-  console.log(post("/api/getLobbies", { ownToken: token, invitedOnly: true }))
   return parseJSON(post("/api/getLobbies", { ownToken: token, invitedOnly: true }).responseText)
 }
 
