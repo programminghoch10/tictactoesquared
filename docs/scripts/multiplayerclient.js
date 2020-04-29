@@ -166,7 +166,7 @@ function searchLobbies(filter) {
     //TODO: add search for lobbies request to server
 }
 
-function joinLobby(lobbyToken) {return joinLobby(lobbyToken, null)}
+function joinLobby(lobbyToken) {return joinLobby(lobbyToken)}
 function joinLobby(lobbyToken, password) {
     return (post("/api/joinLobby", {lobbytoken: lobbyToken, usertoken: token, password: password}).status == 202)
 }
