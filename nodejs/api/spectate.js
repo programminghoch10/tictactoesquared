@@ -20,6 +20,17 @@ router.post('/api/spectate', async function (req, res) {
     let game = new Game();
     game.fromString(lobby.game)
     lobby.isyourturn = (common.getPlayer(lobby, userToken) == game.currentPlayer)
+    try {
+      lobby.opponentname = users.filter(function (user) {
+        let isUserCorrelated = false
+        for (let j = 0; j < lobby.correlations.length; j++) {
+          if (user.token == lobby.correlations[j].usertoken) isUserCorrelated = true
+        }
+        return isUserCorrelated
+      }).filter(function (user) {
+        return (user.token != ownTokenFilter)
+      })[0].name
+    } catch { }
   }
 
   res.status(200)
