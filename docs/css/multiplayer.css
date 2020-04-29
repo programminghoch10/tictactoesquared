@@ -294,6 +294,14 @@
   color: var(--player1);
   font-weight: bold;
   font-size: 18px;
+
+  cursor: pointer;
+
+  transition: background 200ms linear;
+}
+
+.multiplayer .group .game .button:hover {
+  background: var(--default-alt2);
 }
 
 @media only screen and (min-width: 799px) {

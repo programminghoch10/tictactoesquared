@@ -12,7 +12,7 @@ function post(url, data) {
 }
 
 function parseJSON(json) {
-  if (json == "") json = "[]"
+  if (json == "" || json == null || json == "undefined") json = "[]"
   return JSON.parse(json)
 }
 
@@ -138,8 +138,6 @@ function createLobby(name, description, password, fieldSize, inviteName, privacy
     fieldSize: fieldSize,
     inviteName: inviteName,
   })
-
-  console.log(JSON.parse(lobbyToken.responseText))
 }
 
 function self() {
@@ -147,7 +145,10 @@ function self() {
 }
 
 function other(_token) {
-  return JSON.parse(post("/api/getUser", { token: _token }).responseText)
+  let req = post("/api/getUser", { token: _token })
+  if (req.status != 200) return ""
+  let res = req.responseText
+  return parseJSON(res)
 }
 
 function getLobby(lobbyToken) {

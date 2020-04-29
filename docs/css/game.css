@@ -9,9 +9,9 @@
   --thickness: 7px;
 
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 
   height: 100%;
   overflow: hidden;
@@ -38,31 +38,46 @@
   color: var(--default-alt);
 }
 
+.game .icons .lobbyinfo {
+  transform: translate(100px, -18px);
+  display: flex;
+}
+
+@media only screen and (max-width: 600px) {
+  .game .icons .lobbyinfo {
+    transform: translate(-20px, -48px);
+  }
+}
+
+.game .icons b {
+  display: inline;
+  margin-left: 20px;
+}
+
 .game .icons i::before {
   color: var(--default-alt);
 }
 
-.game .icons .right {
+.game .icons .icon-right {
   margin-left: auto;
 }
 
 .game .icons i {
-    position: relative;
+  position: relative;
 
-    white-space: nowrap;
+  white-space: nowrap;
 }
 .game .icons i:hover::after {
-    opacity: 1;
-    
+  opacity: 1;
 }
 .game .icons .lightmode {
-    display: none;
+  display: none;
 }
 .dark .game .icons .darkmode {
-    display: none;
+  display: none;
 }
 .dark .game .icons .lightmode {
-    display: initial;
+  display: initial;
 }
 
 .game .icons .reload, .game .icons .reset, .game .icons .github, .game .icons .darkmode, .game .icons .lightmode, .game .icons .debug, .game .icons .home {
@@ -89,7 +104,7 @@
     color: var(--background-color);
 
     border-radius: calc(var(--size) / 100);
-    font-family: "Roboto", sans-serif; 
+    font-family: "Roboto", sans-serif;
     font-weight: bold;
 
     transition: opacity 200ms linear;
@@ -324,7 +339,7 @@
 
   .game table td {
     padding: 1px;
-  } 
+  }
 
   .game table .current::after {
     transform: translate(-5px, calc(-100% + 4px));
