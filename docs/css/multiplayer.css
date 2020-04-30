@@ -159,15 +159,59 @@
   }
 }
 
+.multiplayer input, .multiplayer textarea {
+  position: absolute;
+
+  top: 50%;
+  right: 0;
+
+  transform: translateY(-50%);
+
+  width: 200px;
+  height: 40px;
+
+  background: var(--default-alt);
+  border: none;
+
+  border-radius: 10px;
+
+  color: var(--player1);
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+}
+
 .multiplayer .groups .nav {
+  display: flex;
+  align-items: center;
+
   width: 100%;
-  height: 70px;
+  height: 65px;
 
   background: var(--default-alt);
 }
 
 .multiplayer .groups .nav h2 {
   margin-left: 100px;
+}
+
+.multiplayer .groups .nav input {
+  position: static;
+
+  transform: translate(0, 0);
+
+  margin: 0 20px;
+  padding-left: 15px;
+
+  background: var(--default-alt2);
+  text-align: left;
+}
+
+.multiplayer .groups .nav h3 {
+  color: var(--font-color);
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .multiplayer .groups .group {
@@ -543,29 +587,6 @@
 .multiplayer .panel .active-button {
   background: var(--player1);
   color: var(--default);
-}
-
-.multiplayer input, .multiplayer textarea {
-  position: absolute;
-
-  top: 50%;
-  right: 0;
-
-  transform: translateY(-50%);
-
-  width: 200px;
-  height: 40px;
-
-  background: var(--default-alt);
-  border: none;
-
-  border-radius: 10px;
-
-  color: var(--player1);
-  font-family: "Roboto", sans-serif;
-  font-size: 16px;
-  font-weight: bold;
-  text-align: center;
 }
 
 .multiplayer textarea {

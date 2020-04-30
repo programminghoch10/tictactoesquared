@@ -26,6 +26,8 @@ async function changeGroup(i) {
   currentGroup = i
   setLocalCookie("currentGroup", currentGroup)
 
+  getel("grouptitle").innerHTML = ["JOINED LOBBIES", "INVITED LOBBIES", "ALL LOBBIES"][currentGroup]
+
   clearInterval(reloadhandler)
   if (currentGroup == 0) {
     setTimeout(loadJoinedLobbies, 200)
