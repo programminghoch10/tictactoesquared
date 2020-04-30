@@ -228,3 +228,7 @@ function spectate(lobbyToken) {
 function leaveLobby(lobbyToken) {
   return (post("/api/leaveLobby", { lobbytoken: lobbyToken, usertoken: token }).status == 200)
 }
+
+function rematch(lobbyToken) {
+  return (post("/api/rematch", { lobbyToken: lobbyToken, userToken: token }))
+}

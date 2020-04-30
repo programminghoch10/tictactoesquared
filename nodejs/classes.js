@@ -28,19 +28,26 @@ class Lobby {
     this.timeout = 0;
     this.correlations = null;
   }
+  parse(json) {
+    try {
+      return JSON.parse(json)
+    } catch {
+      return []
+    }
+  }
   hasFlag(flag) {
-    return JSON.parse(flags).includes(flag)
+    return this.parse(this.flags).includes(flag)
   }
   setFlag(flag) {
-    let obj = JSON.parse(flags)
+    let obj = this.parse(this.flags)
     if (this.hasFlag(flag)) return
     obj.push(flag)
     this.flags = JSON.stringify(obj)
   }
   removeFlag(flag) {
-    let obj = JSON.parse(flags)
+    let obj = this.parse(this.flags)
     if (!this.hasFlag(flag)) return
-    obj.pop(flag)
+    obj.splice(obj.indexOf(flag), 1)
     this.flags = JSON.stringify(obj)
   }
 }
