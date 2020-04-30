@@ -132,9 +132,13 @@ router.post('/api/getLobbies', async function (req, res) {
 
   for (let i = 0; i < lobbies.length; i++) {
     lobbies[i].password = !common.isStringEmpty(lobbies[i].password)
-    lobbies[i].ownername = users.filter(function (user) {
-      return (user.token == lobbies[i].correlations[0].usertoken)
-    })[0].name
+    try {
+      lobbies[i].ownername = users.filter(function (user) {
+        return (user.token == lobbies[i].correlations[0].usertoken)
+      })[0].name
+    } catch {
+      lobbies[i].ownername = "unknown"
+    }
     try {
       if (!common.isStringEmpty(ownTokenFilter)) {
         lobbies[i].opponentname = users.filter(function (user) {
