@@ -32,9 +32,9 @@ router.post('/api/rematch', async function (req, res) {
   }
 
   // get the id of the user
-  let uesrId = lobby.correlations.indexOf(lobby.correlations.find(el => el.usertoken == userToken))
+  let userId = lobby.correlations.indexOf(lobby.correlations.find(el => el.usertoken == userToken))
 
-  lobby.setFlag("rematch" + uesrId)
+  lobby.setFlag("rematch" + userId)
 
   // if both requested a rematch
   if (lobby.hasFlag("rematch0") && lobby.hasFlag("rematch1")) {
