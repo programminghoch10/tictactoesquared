@@ -203,9 +203,7 @@ function requestPlay(lobbyToken, a, b, x, y) {
       break
   }
 
-  let res = req.responseText
-
-  return res
+  return parseJSON(req.responseText)
 }
 
 function spectate(lobbyToken) {

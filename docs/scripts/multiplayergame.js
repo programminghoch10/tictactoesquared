@@ -127,10 +127,10 @@ function mousedown(a, b, x, y) {
     listen = true
   }, UPDATEDTIMER * 1000)
   if (!lobby.isyourturn) return
-  let gameString = requestPlay(lobbyToken, a, b, x, y)
+  lobby = requestPlay(lobbyToken, a, b, x, y)
 
-  if (gameString && gameString != "undefined") {
-    game.fromString(gameString)
+  if (lobby.game && lobby.game != "undefined") {
+    game.fromString(lobby.game)
   }
 }
 

@@ -65,7 +65,7 @@ router.post('/api/play', async function (req, res) {
   sql.updateUserLastActivity(userToken)
 
   res.status(202)
-  res.send(gameString)
+  res.send(lobby)
 })
 
 module.exports = router
