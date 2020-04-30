@@ -15,6 +15,14 @@ router.post('/api/spectate', async function (req, res) {
     return
   }
 
+  // if the lobby is closed and there is only one player
+  if (lobby.privacy == "closed" && lobby.correlations.length == 1) {
+    let game = new Game()
+    game.fromString(lobby.game)
+    game.giveUp()
+    lobby.game = game.toString()
+  }
+
   if (userToken) {
     sql.updateUserLastActivity(userToken)
     lobby = await common.extendLobbyInfo(lobby, userToken)

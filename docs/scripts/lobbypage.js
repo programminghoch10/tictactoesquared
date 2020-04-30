@@ -5,6 +5,9 @@ let currentGroup = getCookie("currentGroup")
 let currentBurger = false
 let reloadhandler = null
 
+let newLobbyPrivacy = ""
+let currentLobbyToken
+
 async function changeGroup(i) {
   if (i == undefined || currentGroup == "undefined" || i == "" || i < 0 || i > 2) i = 0
   if (currentGroup == undefined || currentGroup == "undefined" || currentGroup == "" || currentGroup < 0 || currentGroup > 2) currentGroup = 0
@@ -57,7 +60,7 @@ function newLobby() {
 
     el.style.display = "none"
   }
-  getel("newLobbyPanel").classList.add("newLobbyPanel-active")
+  getel("newLobbyPanel").classList.add("panel-active")
 
   getel("lobbyname").focus()
 
@@ -74,10 +77,8 @@ function returnNewLobby() {
 
     el.style.display = "block"
   }
-  getel("newLobbyPanel").classList.remove("newLobbyPanel-active")
+  getel("newLobbyPanel").classList.remove("panel-active")
 }
-
-var newLobbyPrivacy = ""
 
 function inviteOnlyButtonPressed() {
   getel("inviteonlybutton").classList.add("active-button")
@@ -97,6 +98,17 @@ function publicLobbyButtonPressed() {
   newLobbyPrivacy = "open"
 }
 
+function openPasswordView() {
+  getel("passwordInputOverlay").classList.add("overlay-active")
+  getel("passwordInput").classList.add("panel-active")
+  getel("password").value = ""
+}
+
+function closePasswordView() {
+  getel("passwordInputOverlay").classList.remove("overlay-active")
+  getel("passwordInput").classList.remove("panel-active")
+}
+
 function _createLobby() {
   let name = getel("lobbyname").value
   let description = getel("lobbydescription").value
@@ -109,9 +121,25 @@ function _createLobby() {
   changeGroup(0)
 }
 
-function _joinLobby(lobby) {
+function _joinLobby(lobby, hasPassword) {
+  if (hasPassword) {
+    openPasswordView()
+    currentLobbyToken = lobby
+    return
+  }
+
   joinLobby(lobby)
   changeGroup(0)
+}
+
+function _joinLobbyWithPassword() {
+  let req = joinLobby(currentLobbyToken, getel("password").value)
+
+  if (req == true) {
+    changeGroup(0)
+  }
+
+  closePasswordView()
 }
 
 function _leaveLobby(lobby) {
@@ -240,7 +268,8 @@ function getGame(lobby, password, by, args, flags) {
     buttons += `<div class="button" onclick="_leaveLobby('${lobby.token}')">LEAVE</div>`
   }
   if (flags.join) {
-    buttons += `<div class="button" onclick="_joinLobby('${lobby.token}')">JOIN</div>`
+    console.log(lobby)
+    buttons += `<div class="button" onclick="_joinLobby('${lobby.token}', ${lobby.password})">JOIN</div>`
   }
   if (flags.play) {
     buttons += `<div class="button" onclick="play('${lobby.token}')">PLAY</div>`
