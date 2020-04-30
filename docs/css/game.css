@@ -130,6 +130,7 @@
   position: absolute;
 
   display: flex;
+  flex-direction: column;
 
   justify-content: center;
   align-items: center;
@@ -149,6 +150,10 @@
   transition: background 200ms linear, color 200ms linear;
 }
 
+.game .win-screen .win-indicator {
+  display: flex;
+}
+
 .game .win-screen i {
   position: relative;
 
@@ -156,8 +161,12 @@
   height: 60px;
 }
 
+.game .win-screen #win-player {
+  transform: translate(0px, 80px);
+}
+
 .game .win-screen .o {
-    transform: translate(0, 8px);
+  transform: translate(-20px, 80px) !important;
 }
 
 .game .win-screen .o::before {
@@ -177,6 +186,26 @@
   pointer-events: all;
 }
 
+.game .win-screen .buttons {
+  display: flex;
+}
+
+.game .win-screen .button {
+  margin: 20px;
+  padding: 20px;
+  border-radius: 10px;
+  background: var(--default);
+  color: var(--font-color);
+  font-size: 32px;
+  cursor: pointer;
+
+  opacity: 0;
+  transition: opacity 200ms linear;
+}
+
+.game .win-active .button {
+  opacity: 1;
+}
 
 .game #win-text {
   color: var(--font-color);

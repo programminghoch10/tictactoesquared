@@ -146,3 +146,8 @@ function update() {
   }
 }
 setInterval(update, UPDATEDTIMER * 1000)
+
+function leave() {
+  leaveLobby(lobbyToken)
+  document.location.href = "./multiplayer.html"
+}
