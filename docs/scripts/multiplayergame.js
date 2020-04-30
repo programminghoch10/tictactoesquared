@@ -16,14 +16,6 @@ function getopponentname(suffix) {
   }
 }
 
-if (amIX) {
-  getel("oturn").innerHTML = getopponentname(" turn")
-  getel("xturn").innerHTML = "your turn"
-} else {
-  getel("xturn").innerHTML = getopponentname(" turn")
-  getel("oturn").innerHTML = "your turn"
-}
-
 // FRONTEND INTERFACE
 
 
@@ -147,6 +139,14 @@ function update() {
 
   if (gameString && gameString != "undefined") {
     game.fromString(gameString)
+  }
+
+  if (amIX) {
+    getel("oturn").innerHTML = getopponentname(" turn")
+    getel("xturn").innerHTML = "your turn"
+  } else {
+    getel("xturn").innerHTML = getopponentname(" turn")
+    getel("oturn").innerHTML = "your turn"
   }
 }
 setInterval(update, UPDATEDTIMER * 1000)
