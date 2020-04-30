@@ -301,7 +301,7 @@ class Game {
     this.won = won
     this.wonhow = wonhow
 
-    saveGame = saveGame.replace(/([^-XO012])+/g, "");
+    //saveGame = saveGame.replace(/([^-XO012])+/g, ""); //TODO: fix regex for fieldsize > 3
     saveGame = saveGame.split("-").join(" ");
 
     let expectedSaveGameLength = (this.size * this.size * this.size * this.size + this.size * this.size + 4);
