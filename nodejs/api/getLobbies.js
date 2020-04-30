@@ -127,6 +127,12 @@ router.post('/api/getLobbies', async function (req, res) {
     return await common.extendLobbyInfo(lobby, ownToken, users)
   }));
 
+  lobbies.sort(function (a, b) {
+    let lastactdiff = b.lastacttime - a.lastacttime
+    if (lastactdiff == 0) return b.id - a.id
+    return lastactdiff
+  })
+
   if (lobbies.length == 0) {
     res.status(204)
   } else {
