@@ -127,6 +127,7 @@ function mousedown(a, b, x, y) {
     listen = true
   }, UPDATEDTIMER * 1000)
   if (!lobby.isyourturn) return
+  //FIXME: check if move is valid on client side to prevent info popup
   lobby = requestPlay(lobbyToken, a, b, x, y)
 
   if (lobby.game && lobby.game != "undefined") {

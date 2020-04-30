@@ -18,7 +18,7 @@ router.post('/api/getLobby', async function (req, res) {
 
   if (usertoken) {
     sql.updateUserLastActivity(usertoken)
-    lobby = await common.extendLobbyInfo(lobby, usertoken)
+    lobby = await common.extendLobbyInfo(lobby, usertoken, await sql.getUsers())
   }
 
   res.send(JSON.stringify(lobby))

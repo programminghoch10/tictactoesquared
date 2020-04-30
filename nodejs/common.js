@@ -32,7 +32,7 @@ module.exports = {
     lobby.password = !this.isStringEmpty(lobby.password)
     try {
       lobby.ownername = users.filter(function (user) {
-        return (user.token == lobbies[i].correlations[0].usertoken)
+        return (user.token == lobby.correlations[0].usertoken)
       })[0].name
     } catch {
       lobby.ownername = "unknown"
@@ -42,7 +42,6 @@ module.exports = {
       game.fromString(lobby.game)
       lobby.isyourturn = (this.getPlayer(lobby, usertoken) == game.currentPlayer)
       try {
-        if (!users) users = await sql.getUsers()
         lobby.opponentname = users.filter(function (user) {
           let isUserCorrelated = false
           for (let j = 0; j < lobby.correlations.length; j++) {

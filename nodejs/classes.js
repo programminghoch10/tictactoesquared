@@ -5,7 +5,6 @@ class User {
   constructor() {
     this.id = 0;
     this.token = "";
-    this.humanid = "";
     this.name = "";
     this.creationtime = 0;
     this.lastacttime = 0;
@@ -19,7 +18,6 @@ class Lobby {
   constructor() {
     this.id = 0;
     this.token = "";
-    this.humanid = "";
     this.game = "";
     this.flags = "";
     this.name = "";

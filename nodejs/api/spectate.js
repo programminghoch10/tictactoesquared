@@ -26,7 +26,7 @@ router.post('/api/spectate', async function (req, res) {
 
   if (userToken) {
     sql.updateUserLastActivity(userToken)
-    lobby = await common.extendLobbyInfo(lobby, userToken)
+    lobby = await common.extendLobbyInfo(lobby, userToken, await sql.getUsers())
   }
 
   res.status(200)
