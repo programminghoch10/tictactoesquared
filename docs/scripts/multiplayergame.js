@@ -80,6 +80,9 @@ let frontendInterface = {
   draw: () => {
     getel("win").classList.add("win-active");
     getel("win-text").innerHTML = "Draw";
+  },
+  rematch: () => {
+    document.location.href = document.location.href
   }
 }
 
@@ -150,4 +153,8 @@ setInterval(update, UPDATEDTIMER * 1000)
 function leave() {
   leaveLobby(lobbyToken)
   document.location.href = "./multiplayer.html"
+}
+
+function _rematch() {
+  rematch(lobbyToken)
 }

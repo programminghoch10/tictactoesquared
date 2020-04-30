@@ -8,7 +8,8 @@ const EMPTYFRONTENDINTERFACE = {
   setCurrentFieldAfter: (x, y) => { },
   win: (x, y, a, b, player) => { },
   globalWin: (player) => { },
-  draw: () => { }
+  draw: () => { },
+  rematch: () => { },
 }
 
 const player1 = "X";
@@ -136,6 +137,8 @@ class Game {
     this.checkWin(x, y, a, b, this.currentPlayer);
 
     this.setCurrentField(a, b);
+
+    this.globalWin(0, 0, this.currentPlayer)
 
     this.switchPlayers();
 
@@ -289,6 +292,8 @@ class Game {
       this.frontendinterface.globalWin(won)
 
       saveGame = saveGame.substring(2)
+    } else if (this.end) {
+      this.rematch()
     }
 
     this.init();
@@ -351,6 +356,10 @@ class Game {
     this.won = "f";
 
     this.frontendinterface.globalWin(this.currentPlayer);
+  }
+
+  rematch() {
+    this.frontendinterface.rematch()
   }
 }
 
