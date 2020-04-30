@@ -16,6 +16,7 @@ var pool; //mysql connection pool
 const sqltimeout = 10000; //10s
 const usertimeout = 60 * 60 * 24 * 31; //in seconds
 const lobbytimeout = 60 * 60 * 24 * 14; //in seconds
+const lobbycreatetimeout = 60 * 60 * 24 * 1 //in seconds, when a new created but never used lobby gets deleted
 const SQLDEBUG = true;
 
 function init() {
@@ -184,7 +185,7 @@ async function createLobby(lobby) {
   if (lobby.constructor.name != classes.Lobby.name) return false;
   lobby.creationtime = common.getTime();
   lobby.lastacttime = lobby.creationtime;
-  lobby.timeout = lobby.lastacttime + lobbytimeout;
+  lobby.timeout = lobby.lastacttime + lobbycreatetimeout;
   lobby.token = common.hash(lobby.name + lobby.creationtime);
   if (!checkPrivacyFlag(lobby.privacy)) return false;
   if (SQLDEBUG) console.log("Adding lobby " + lobby.name + " to database.");
