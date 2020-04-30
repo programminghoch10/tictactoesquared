@@ -11,8 +11,6 @@
 const classes = require("./classes.js")
 const common = require("./common.js")
 
-//TODO: sort response by time, new to old
-
 var mysql;
 var pool; //mysql connection pool
 const sqltimeout = 10000; //10s
