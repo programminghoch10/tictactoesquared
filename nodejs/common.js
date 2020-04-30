@@ -30,6 +30,13 @@ module.exports = {
   },
   extendLobbyInfo: async function (lobby, usertoken, users) {
     lobby.password = !this.isStringEmpty(lobby.password)
+    try {
+      lobbies[i].ownername = users.filter(function (user) {
+        return (user.token == lobbies[i].correlations[0].usertoken)
+      })[0].name
+    } catch {
+      lobbies[i].ownername = "unknown"
+    }
     if (usertoken) {
       let game = new Game()
       game.fromString(lobby.game)
