@@ -13,7 +13,7 @@
 }
 
 .multiplayer .sidebar {
-  z-index: 9;
+  z-index: 30;
   position: absolute;
   width: 300px;
   height: 100%;

@@ -1,6 +1,7 @@
 const express = require('express')
 let router = express.Router()
 
+const Game = require("../../docs/scripts/game.js")
 const common = require('../common.js')
 const sql = require('../sql.js')
 
