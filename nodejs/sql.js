@@ -11,12 +11,14 @@
 const classes = require("./classes.js")
 const common = require("./common.js")
 
+//TODO: sort response by time, new to old
+
 var mysql;
 var pool; //mysql connection pool
 const sqltimeout = 10000; //10s
 const usertimeout = 60 * 60 * 24 * 31; //in seconds
 const lobbytimeout = 60 * 60 * 24 * 14; //in seconds
-const lobbycreatetimeout = 60 * 60 * 24 * 1 //in seconds, when a new created but never used lobby gets deleted
+const lobbycreatetimeout = 60 * 60 * 24 * 5 //in seconds, when a new created but never used lobby gets deleted
 const SQLDEBUG = true;
 
 function init() {
