@@ -56,4 +56,8 @@ module.exports = {
     }
     return lobby
   },
+  parseJSON: (json) => {
+    if (json == "" || json == null || json == "undefined") return []
+    return JSON.parse(json)
+  }
 }

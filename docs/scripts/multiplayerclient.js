@@ -12,7 +12,7 @@ function post(url, data) {
 }
 
 function parseJSON(json) {
-  if (json == "" || json == null || json == "undefined") json = "[]"
+  if (json == "" || json == null || json == "undefined") return []
   return JSON.parse(json)
 }
 
