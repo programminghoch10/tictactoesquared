@@ -109,6 +109,9 @@
           <div class="overlay"
                id="newlobbyoverlay"
                onclick="returnNewLobby()"></div>
+          <div class="overlay"
+               id="passwordInputOverlay"
+               onclick="closePasswordView()"></div>
           <div class="overlay burgeroverlay"
                onclick="burger()"></div>
           <div class="groups">
@@ -130,7 +133,7 @@
               <div id="group2inner"></div>
             </div>
           </div>
-          <div class="newLobbyPanel"
+          <div class="panel"
                id="newLobbyPanel">
             <h2>Create a lobby</h2>
             <form action="javascript:_createLobby();">
@@ -158,7 +161,7 @@
               <div class="entry"
                    id="lobbypasswordentry">
                 <h3>Lobby password (optional):</h3>
-                <input type="text"
+                <input type="password"
                        id="lobbypassword">
               </div>
               <div class="entry"
@@ -179,6 +182,24 @@
                 <h3></h3>
                 <input type="submit"
                        value="SUBMIT">
+              </div>
+            </form>
+          </div>
+          <div class="panel"
+               id="passwordInput">
+            <h2>Enter the password</h2>
+            <form action="javascript:_joinLobbyWithPassword();">
+              <div class="entry">
+                <h3></h3>
+                <input type="password"
+                       class="fullsize"
+                       id="password"
+                       required>
+              </div>
+              <div class="entry">
+                <h3></h3>
+                <input type="submit"
+                       value="JOIN">
               </div>
             </form>
           </div>

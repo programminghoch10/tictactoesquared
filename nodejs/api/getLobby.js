@@ -17,7 +17,7 @@ router.post('/api/getLobby', async function (req, res) {
     return
   }
 
-  lobby.password = ""
+  lobby.password = !common.isStringEmpty(lobby.password)
 
   if (usertoken) {
     let game = new Game();

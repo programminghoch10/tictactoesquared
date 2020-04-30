@@ -449,7 +449,7 @@
   color: white;
 }
 
-.multiplayer .newLobbyPanel {
+.multiplayer .panel {
   z-index: 3;
   position: fixed;
 
@@ -473,31 +473,31 @@
   transition: opacity 200ms linear;
 }
 
-.multiplayer .newLobbyPanel::-webkit-scrollbar {
+.multiplayer .panel::-webkit-scrollbar {
   display: none;
 }
 
-.multiplayer .newLobbyPanel form {
+.multiplayer .panel form {
     position: relative;
 }
 
-.multiplayer .newLobbyPanel-active {
+.multiplayer .panel-active {
   pointer-events: all;
   transform: scale(1) translate(-50%, -50%);
   opacity: 1;
 }
 
-.multiplayer .newLobbyPanel h2 {
+.multiplayer .panel h2 {
   color: var(--player1);
   text-align: center;
 }
 
-.multiplayer .newLobbyPanel h3 {
+.multiplayer .panel h3 {
   color: var(--player2);
   height: 23px;
 }
 
-.multiplayer .newLobbyPanel .entry {
+.multiplayer .panel .entry {
   position: relative;
 
   display: flex;
@@ -505,11 +505,11 @@
   margin: 10px 20px;
 }
 
-.multiplayer .newLobbyPanel .entry input {
+.multiplayer .panel .entry input {
   margin-left: auto;
 }
 
-.multiplayer .newLobbyPanel input[type="submit"] {
+.multiplayer .panel input[type="submit"] {
   width: 200px;
   height: 40px;
 
@@ -524,19 +524,19 @@
   text-align: center;
 }
 
-.multiplayer .newLobbyPanel input[type="button"] {
+.multiplayer .panel input[type="button"] {
   position: relative;
   margin: 0 15px;
 }
 
 @media only screen and (max-width: 600px) {
-  .multiplayer .newLobbyPanel input[type="button"] {
+  .multiplayer .panel input[type="button"] {
     transform: translateY(-42px);
     margin: 5px 0;
   }
 }
 
-.multiplayer .newLobbyPanel .active-button {
+.multiplayer .panel .active-button {
   background: var(--player1);
   color: var(--default);
 }
@@ -583,22 +583,26 @@
   display: none;
 }
 
+.multiplayer .fullsize {
+  width: calc(100%);
+}
+
 @media only screen and (max-width: 600px) {
-  .multiplayer .newLobbyPanel {
+  .multiplayer .panel {
     width: 90%;
   }
 
-  .multiplayer .newLobbyPanel .entry {
+  .multiplayer .panel .entry {
     display: block;
     height: 80px;
     margin: 20px;
   }
 
-  .multiplayer .newLobbyPanel .button-entry {
+  .multiplayer .panel .button-entry {
     height: 100px;
   }
 
-  .multiplayer .newLobbyPanel input {
+  .multiplayer .panel input {
     position: static;
     width: 100%;
     margin: 0;
@@ -607,6 +611,6 @@
   }
 }
 
-.multiplayer .newLobbyPanel .entry-hide {
+.multiplayer .panel .entry-hide {
   display: none;
 }
