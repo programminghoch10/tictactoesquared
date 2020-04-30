@@ -83,6 +83,7 @@ router.post('/api/getLobbies', async function (req, res) {
   if (!common.isStringEmpty(ownToken) && (ownJoinedOnlyFilter || ownInvitedOnlyFilter)) {
     lobbies = lobbies.filter(function (lobby) {
       let containsOwnToken = false
+      if (!lobby.correlations) return false
       for (let i = 0; i < lobby.correlations.length; i++) {
         const correlation = lobby.correlations[i]
         if (correlation.usertoken == ownToken) {
