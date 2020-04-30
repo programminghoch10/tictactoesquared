@@ -83,6 +83,7 @@ router.post('/api/getLobbies', async function (req, res) {
   if (!common.isStringEmpty(ownToken) && (ownJoinedOnlyFilter || ownInvitedOnlyFilter)) {
     lobbies = lobbies.filter(function (lobby) {
       let containsOwnToken = false
+      if (!lobby.correlations) return false
       for (let i = 0; i < lobby.correlations.length; i++) {
         const correlation = lobby.correlations[i]
         if (correlation.usertoken == ownToken) {
@@ -126,6 +127,12 @@ router.post('/api/getLobbies', async function (req, res) {
   lobbies = await Promise.all(lobbies.map(async function (lobby) {
     return await common.extendLobbyInfo(lobby, ownToken, users)
   }));
+
+  lobbies.sort(function (a, b) {
+    let lastactdiff = b.lastacttime - a.lastacttime
+    if (lastactdiff == 0) return b.id - a.id
+    return lastactdiff
+  })
 
   if (lobbies.length == 0) {
     res.status(204)
