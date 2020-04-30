@@ -162,11 +162,12 @@
 }
 
 .game .win-screen #win-player {
-  transform: translate(0px, 80px);
+  position: absolute;
+  transform: translate(-60px, 20px);
 }
 
 .game .win-screen .o {
-  transform: translate(-20px, 80px) !important;
+  transform: translate(-80px, 20px) !important;
 }
 
 .game .win-screen .o::before {
@@ -182,7 +183,7 @@
 .game .win-active {
   z-index: 10;
   background: rgba(0, 0, 0, 0.6);
-  color: var(--font-color);
+  color: #aaaaaa;
   pointer-events: all;
 }
 
@@ -194,9 +195,9 @@
   margin: 20px;
   padding: 20px;
   border-radius: 10px;
-  background: var(--default);
-  color: var(--font-color);
-  font-size: 32px;
+  background: #444;
+  color: #aaa;
+  font-size: 16px;
   cursor: pointer;
 
   opacity: 0;
@@ -208,7 +209,16 @@
 }
 
 .game #win-text {
-  color: var(--font-color);
+  color: #aaaaaa;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+@media screen and (max-width: 600px) {
+  .game #win-text {
+    color: #aaaaaa;
+    font-size: 20px;
+  }
 }
 
 .game #icon-x, .game #icon-o {
