@@ -37,3 +37,27 @@ svg, a, p, h1, h2 {
   --default-alt: #555;
   --default-alt2: #666;
 }
+
+.noscript {
+  position: fixed;
+  z-index: 99999;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 100%;
+
+  background: black;
+  color: white;
+
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.noscript p {
+  color: white;
+  width: 70%;
+  text-align: center;
+}
