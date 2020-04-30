@@ -30,6 +30,7 @@ app.use(require("./nodejs/api/joinLobby.js"))
 app.use(require("./nodejs/api/play.js"))
 app.use(require("./nodejs/api/spectate.js"))
 app.use(require("./nodejs/api/rematch.js"))
+app.use(require("./nodejs/api/doesUserExist.js"))
 
 const DIR = "./docs/"
 
