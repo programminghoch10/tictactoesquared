@@ -54,11 +54,12 @@ function init() {
 }
 
 async function dbreset() {
-  if (SQLDEBUG) console.log("Resetting database")
+  console.log("Resetting database")
   let tables = ["lobbies", "users", "correlations"];
   for (let i = 0; i < tables.length; i++) {
-    rawQuery("DELETE FROM " + tables[i]);
+    await rawQuery("DELETE FROM " + tables[i]);
   }
+  console.log("Database reset finished!")
 }
 
 async function cleanUp() {
@@ -119,11 +120,22 @@ async function createUser(user) {
 }
 
 async function updateUserLastActivity(token) {
-  return await updateUser(await getUserByToken(token));
+  if (common.isStringEmpty("token")) return false;
+  let lastacttime = common.getTime();
+  let timeout = lastacttime + usertimeout;
+  pool.query({
+    sql: "UPDATE `users` \
+      SET `lastacttime`=?, `timeout`=? \
+      WHERE `token`=?",
+    timeout: sqltimeout,
+    values: [lastacttime, timeout, token]
+  });
+  return true;
 }
 async function updateUser(user) {
   if (user.constructor.name != classes.User.name) return false;
   let olduser = await getUserByToken(user.token);
+  if (!olduser) return false
   user.creationtime = olduser.creationtime;
   user.lastacttime = common.getTime();
   user.timeout = user.lastacttime + usertimeout;

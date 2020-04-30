@@ -20,6 +20,7 @@ router.post('/api/getLobby', async function (req, res) {
   lobby.password = ""
 
   if (usertoken) {
+    sql.updateUserLastActivity(usertoken)
     let game = new Game();
     game.fromString(lobby.game)
     lobby.isyourturn = (common.getPlayer(lobby, usertoken) == game.currentPlayer)

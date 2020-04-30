@@ -62,6 +62,8 @@ router.post('/api/play', async function (req, res) {
   lobby.game = gameString
   sql.updateLobby(lobby)
 
+  sql.updateUserLastActivity(userToken)
+
   res.status(202)
   res.send(gameString)
 })

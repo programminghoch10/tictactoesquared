@@ -25,6 +25,8 @@ router.post('/api/joinLobby', async function (req, res) {
     return
   }
 
+  sql.updateUserLastActivity(usertoken)
+
   if (lobby.password != null && password != lobby.password) {
     res.sendStatus(401)
     return
