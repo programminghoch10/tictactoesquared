@@ -19,9 +19,9 @@ function addInfo(title, text, callback, timeoutCallback) {
 
   let id = infos.length - 1
 
-  // setTimeout(function () {
-  //   removeInfo(id, timeoutCallback)
-  // }, 10000)
+  setTimeout(function () {
+    removeInfo(id, timeoutCallback)
+  }, 10000)
 
   generateInner()
 }
