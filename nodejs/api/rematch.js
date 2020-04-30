@@ -27,7 +27,7 @@ router.post('/api/rematch', async function (req, res) {
   // check if the user is inside the lobby
   let correlation = await sql.getCorrelation(userToken, lobbyToken)
   if (!correlation) {
-    res.sendStatus(403)
+    res.sendStatus(401)
     return
   }
 

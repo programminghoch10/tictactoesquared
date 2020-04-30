@@ -19,6 +19,124 @@ function parseJSON(json) {
 let name = getCookie("name")
 let token = getCookie("token")
 
+function _addInfo(origin, code) {
+  function unknownCode(origin, code) {
+    addInfo(code, "An unknown error occured in " + origin + "!", 1)
+    console.log("Encountered unexpected " + code + " in " + origin)
+  }
+  function badRequest() {
+    addInfo("Bad request", "Something went wrong, please try again later.", 2)
+  }
+  function unauthorized() {
+    addInfo("Unautorized", "It seems like you are not authorized to perform this action.", 3)
+  }
+  function forbidden() {
+    addInfo("Forbidden", "You cannot perform this action.", 3)
+  }
+  function tooManyRequests() {
+    addInfo("Too Many Requests", "Woah! Settle down a bit!", 2)
+  }
+  function tooManyLobbies() {
+    addInfo("Too Many Games", "You reached the maximum number of games. Leave some and try again.", 2)
+  }
+  switch (origin) {
+    default:
+      unknownCode(origin, code)
+      break
+    case "createLobby":
+      switch (code) {
+        case 429:
+          tooManyLobbies()
+          break
+        case 400:
+          badRequest()
+          break
+        default:
+          unknownCode(origin, code)
+          break
+      }
+      break
+    case "getLobbies":
+      switch (code) {
+        case 204:
+          addInfo("No Lobbies", "There are no lobbies matching your query!", 1)
+          break
+        default:
+          unknownCode(origin, code)
+          break
+      }
+      break
+    case "joinLobby":
+      switch (code) {
+        case 400:
+          badRequest()
+          break
+        case 401:
+          unauthorized()
+          break
+        case 426:
+          tooManyLobbies()
+          break
+        case 406:
+          addInfo("Lobby full", "This lobby is full and cannot be joined!", 2)
+          break
+        default:
+          unknownCode(origin, code)
+          break
+      }
+      break
+    case "play":
+      switch (code) {
+        case 400:
+          badRequest()
+          break
+        case 403:
+          forbidden()
+          break
+        case 406:
+          addInfo("Oh No!", "You cannot make this move right now.", 2)
+          break
+        default:
+          unknownCode(origin, code)
+          break
+      }
+      break
+    case "spectate":
+      switch (code) {
+        case 400:
+          badRequest()
+          break
+        default:
+          unknownCode(origin, code)
+          break
+      }
+      break
+    case "leaveLobby":
+      switch (code) {
+        case 400:
+          badRequest()
+          break
+        default:
+          unknownCode(origin, code)
+          break
+      }
+      break
+    case "rematch":
+      switch (code) {
+        case 400:
+          badRequest()
+          break
+        case 401:
+          unauthorized()
+          break
+        default:
+          unknownCode(origin, code)
+          break
+      }
+      break
+  }
+}
+
 function connect() {
   if (!cookiesAccepted()) {
     document.location.href = "./cookiesdisabled.html"
@@ -141,6 +259,7 @@ function createLobby(name, description, password, fieldSize, inviteName, privacy
     fieldSize: fieldSize,
     inviteName: inviteName,
   })
+  if (req.status != 201) _addInfo("createLobby", req.status)
   return (req.status == 201)
 }
 
@@ -150,8 +269,8 @@ function self() {
 
 function other(_token) {
   let req = post("/api/getUser", { token: _token })
-  if (req.status != 200) return ""
   let res = req.responseText
+  if (req.status != 200) res = null
   return parseJSON(res)
 }
 
@@ -169,9 +288,11 @@ function getInvitedLobbies() {
 
 function getLobbies() {
   let req = post("/api/getLobbies", { ownToken: token })
-  if (req.status != 200) return []
   let res = req.responseText
-  if (res == null || res == "") return []
+  if (req.status != 200) {
+    res = null
+    _addInfo("getLobbies", req.status)
+  }
   return parseJSON(res)
 }
 
@@ -181,52 +302,30 @@ function searchLobbies(filter) {
 
 function joinLobby(lobbyToken, password) {
   let req = post("/api/joinLobby", { lobbytoken: lobbyToken, usertoken: token, password: password })
-
-  let status = req.status
-
-  return status == 202
+  if (req.status != 202) _addInfo("joinLobby", req.status)
+  return (req.status == 202)
 }
 
 function requestPlay(lobbyToken, a, b, x, y) {
   let req = post("/api/play", { userToken: token, lobbyToken: lobbyToken, a: a, b: b, x: x, y: y })
-
-  let status = req.status
-
-  switch (status) {
-    case 400:
-    case 403:
-    case 406:
-      return
-    default:
-      console.log("play got unexpected status code " + status)
-    case 202:
-      break
-  }
-
+  if (req.status != 202) _addInfo("play", req.status)
   return parseJSON(req.responseText)
 }
 
 function spectate(lobbyToken) {
   let req = post("/api/spectate", { lobbyToken: lobbyToken, userToken: token })
-
-  let status = req.status
-
-  switch (status) {
-    case 400:
-      return
-    default:
-      console.log("spectate got unexpected status code " + status)
-    case 200:
-      break
-  }
-
-  return JSON.parse(req.responseText)
+  if (req.status != 200) _addInfo("spectate", req.status)
+  return parseJSON(req.responseText)
 }
 
 function leaveLobby(lobbyToken) {
-  return (post("/api/leaveLobby", { lobbytoken: lobbyToken, usertoken: token }).status == 200)
+  let req = post("/api/leaveLobby", { lobbytoken: lobbyToken, usertoken: token })
+  if (req.status != 200) _addInfo("leaveLobby", req.status)
+  return (req.status == 200)
 }
 
 function rematch(lobbyToken) {
-  return (post("/api/rematch", { lobbyToken: lobbyToken, userToken: token }))
+  let req = post("/api/rematch", { lobbyToken: lobbyToken, userToken: token })
+  if (req.status != 200) _addInfo("rematch", req.status)
+  return (req.status == 200)
 }

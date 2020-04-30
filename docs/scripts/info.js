@@ -7,6 +7,12 @@ let infoel = getel("infos")
 
 let infos = []
 
+// info level:
+// 0 - none (grey)
+// 1 - info (blue)
+// 2 - warning (yellow)
+// 3 - error (red)
+
 function addInfo(title, text, level, callback, timeoutCallback) {
   let info = {
     title: title,
@@ -34,7 +40,8 @@ function removeInfo(id, callback) {
     generateInner()
   }, 200)
 
-  getel("info" + id).style.opacity = 0
+  let info = getel("info" + id)
+  if (info) info.style.opacity = 0
 }
 
 function _close(i) {
