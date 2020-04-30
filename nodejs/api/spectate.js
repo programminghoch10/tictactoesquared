@@ -17,6 +17,7 @@ router.post('/api/spectate', async function (req, res) {
   }
 
   if (userToken) {
+    sql.updateUserLastActivity(userToken)
     let game = new Game();
     game.fromString(lobby.game)
     lobby.isyourturn = (common.getPlayer(lobby, userToken) == game.currentPlayer)

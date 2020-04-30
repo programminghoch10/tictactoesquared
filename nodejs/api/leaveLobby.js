@@ -21,6 +21,8 @@ router.post('/api/leaveLobby', async function (req, res) {
     return
   }
 
+  sql.updateUserLastActivity(usertoken)
+
   await sql.deleteCorrelation(await sql.getCorrelation(user.token, lobby.token))
 
   lobby = await sql.getLobbyByToken(lobby.token)
