@@ -51,7 +51,7 @@ router.post('/api/joinLobby', async function (req, res) {
   }
 
   //check if lobby full
-  if (lobby.correlations.length == 2) {
+  if (lobby.correlations.length == 2 && !lobby.correlations[1].invite) {
     res.sendStatus(406)
     return
   }
