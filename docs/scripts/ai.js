@@ -1,4 +1,3 @@
-// FIXME: fix the game size
 
 function iterate(i, g, player) {
   if (i <= 0) {
