@@ -24,6 +24,7 @@ function connect() {
     document.location.href = "./cookiesdisabled.html"
     return
   }
+
   name = loadName()
   token = loadToken()
 
@@ -40,9 +41,6 @@ function connect() {
   }
   if (self().name != name) changeName(name)
 }
-try {
-  connect()
-} catch { }
 
 function createNewUser() {
   let request = post("/api/createUser", { name: name })

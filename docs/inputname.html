@@ -41,6 +41,8 @@
           href="./css/style.css" />
     <link rel="stylesheet"
           href="./css/inputname.css" />
+    <link rel="stylesheet"
+          href="./css/info.css" />
     <!--
             Manifest
         -->
@@ -64,16 +66,26 @@
     </div>
     <script src="scripts/cookie.js"></script>
     <script src="scripts/colortheme.js"></script>
-    <script type="text/javascript"
-            id="cookieinfo"
-            src="//cookieinfoscript.com/js/cookieinfo.min.js"
-            data-message="We use cookies mainly to save your game. (It's ok, everyone does.)"
-            data-cookie="cookies-accepted"
-            data-close-text="Accept"></script>
+    <script src="scripts/multiplayerclient.js"></script>
+    <script src="scripts/info.js"></script>
     <script>
       function submit() {
         let name = document.getElementById("username").value
-        if (name == "") return false;
+        document.getElementById("username").value = ""
+
+        // check if the name is empty
+        if (name == "" || name.split(" ").join("") == "") {
+          addInfo("Invalid username", "The name may not be empty.", 2)
+          return
+        }
+
+        // check if the user already exist
+        let req = post("/api/doesUserExist", { userName: name })
+        if (req.status != 404) {
+          addInfo("Invalid username", "A user with the name '" + name + "' already exist", 2)
+          return
+        }
+
         setGlobalCookie("name", name)
         document.location.href = "./multiplayer.html"
       }
