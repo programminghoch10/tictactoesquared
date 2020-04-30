@@ -64,13 +64,13 @@ let frontendInterface = {
   },
   globalWin: (player) => {
     let winText = ""
-    if ((player == "Xw" && amIX) || (player == "Ow" && !amIX)) {
+    if ((player == "X" && amIX) || (player == "O" && !amIX)) {
       winText = "You win"
-    } else if ((player == "Ow" && amIX) || (player == "Xw" && !amIX)) {
+    } else if ((player == "O" && amIX) || (player == "X" && !amIX)) {
       winText = getopponentname(" wins")
-    } else if (player == "dw" || player == "df") {
+    } else if (player == "d") {
       winText = "Draw"
-    } else if ((player == "Xf" && !amIX) || (player == "Of" && amIX)) {
+    } else if (player == "f") {
       winText = "Your opponent gave up"
     }
 

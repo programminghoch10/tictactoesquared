@@ -50,7 +50,6 @@ class Game {
 
     this.end = false; // will be true if the game is over
     this.won = 0;
-    this.wonhow = null;
     this.score = 0;
     this.progress = 0;
 
@@ -247,7 +246,7 @@ class Game {
     saveGame += this.size + "-";
 
     if (this.end) {
-      saveGame += "!" + this.won.substring(0, 1) + "w"
+      saveGame += "!" + this.won.substring(0, 1)
     }
 
     for (let x = 0; x < this.size; x++) {
@@ -282,22 +281,19 @@ class Game {
 
     let end = false
     let won = ""
-    let wonhow = ""
     if (saveGame.substring(0, 1) == "!") {
       end = true
       won = saveGame.substring(1, 2)
       if (won == "d") won = "draw"
-      wonhow = saveGame.substring(2, 3)
 
-      this.frontendinterface.globalWin(won + wonhow)
+      this.frontendinterface.globalWin(won)
 
-      saveGame = saveGame.substring(3)
+      saveGame = saveGame.substring(2)
     }
 
     this.init();
     this.end = end
     this.won = won
-    this.wonhow = wonhow
 
     //saveGame = saveGame.replace(/([^-XO012])+/g, ""); //TODO: fix regex for fieldsize > 3
     saveGame = saveGame.split("-").join(" ");
@@ -348,6 +344,13 @@ class Game {
     }
 
     return true;
+  }
+
+  giveUp() {
+    this.end = true;
+    this.won = "f";
+
+    this.frontendinterface.globalWin(this.currentPlayer);
   }
 }
 
