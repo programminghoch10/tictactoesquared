@@ -4,7 +4,6 @@ let router = express.Router()
 const common = require('../common.js')
 const classes = require('../classes.js')
 const sql = require('../sql.js')
-const Game = require('../../docs/scripts/game.js')
 
 router.post('/api/getLobbies', async function (req, res) {
 
@@ -14,12 +13,12 @@ router.post('/api/getLobbies', async function (req, res) {
   let hasPasswordFilter = req.body.hasPassword
   let usertokenFilter = req.body.usertoken
 
-  let ownTokenFilter = req.body.ownToken
+  let ownToken = req.body.ownToken
   let ownJoinedOnlyFilter = (req.body.joinedOnly == "true")
   let ownInvitedOnlyFilter = (req.body.invitedOnly == "true")
 
-  if (!common.isStringEmpty(ownTokenFilter)) {
-    sql.updateUserLastActivity(ownTokenFilter)
+  if (!common.isStringEmpty(ownToken)) {
+    sql.updateUserLastActivity(ownToken)
   }
 
   //TODO: adapt to not leak data
@@ -67,12 +66,12 @@ router.post('/api/getLobbies', async function (req, res) {
     })
   }
 
-  if (!common.isStringEmpty(ownTokenFilter) && !(ownJoinedOnlyFilter || ownInvitedOnlyFilter)) {
+  if (!common.isStringEmpty(ownToken) && !(ownJoinedOnlyFilter || ownInvitedOnlyFilter)) {
     lobbies = lobbies.filter(function (lobby) {
       let containsOwnToken = false
       for (let i = 0; i < lobby.correlations.length; i++) {
         const correlation = lobby.correlations[i]
-        if (correlation.usertoken == ownTokenFilter) {
+        if (correlation.usertoken == ownToken) {
           containsOwnToken = true
           break
         }
@@ -81,12 +80,12 @@ router.post('/api/getLobbies', async function (req, res) {
     })
   }
 
-  if (!common.isStringEmpty(ownTokenFilter) && (ownJoinedOnlyFilter || ownInvitedOnlyFilter)) {
+  if (!common.isStringEmpty(ownToken) && (ownJoinedOnlyFilter || ownInvitedOnlyFilter)) {
     lobbies = lobbies.filter(function (lobby) {
       let containsOwnToken = false
       for (let i = 0; i < lobby.correlations.length; i++) {
         const correlation = lobby.correlations[i]
-        if (correlation.usertoken == ownTokenFilter) {
+        if (correlation.usertoken == ownToken) {
           containsOwnToken = true
           break
         }
@@ -98,7 +97,7 @@ router.post('/api/getLobbies', async function (req, res) {
         let joined = false
         for (let i = 0; i < lobby.correlations.length; i++) {
           const correlation = lobby.correlations[i]
-          if (correlation.usertoken == ownTokenFilter
+          if (correlation.usertoken == ownToken
             && correlation.invite == false) {
             joined = true
             break
@@ -112,7 +111,7 @@ router.post('/api/getLobbies', async function (req, res) {
         let invited = false
         for (let i = 0; i < lobby.correlations.length; i++) {
           const correlation = lobby.correlations[i]
-          if (correlation.usertoken == ownTokenFilter
+          if (correlation.usertoken == ownToken
             && correlation.invite == true) {
             invited = true
             break
@@ -121,38 +120,12 @@ router.post('/api/getLobbies', async function (req, res) {
         return invited
       })
     }
-    for (let i = 0; i < lobbies.length; i++) {
-      let game = new Game();
-      game.fromString(lobbies[i].game)
-      lobbies[i].isyourturn = (common.getPlayer(lobbies[i], usertokenFilter) == game.currentPlayer)
-    }
   }
 
   let users = await sql.getUsers();
-
-  for (let i = 0; i < lobbies.length; i++) {
-    lobbies[i].password = !common.isStringEmpty(lobbies[i].password)
-    try {
-      lobbies[i].ownername = users.filter(function (user) {
-        return (user.token == lobbies[i].correlations[0].usertoken)
-      })[0].name
-    } catch {
-      lobbies[i].ownername = "unknown"
-    }
-    try {
-      if (!common.isStringEmpty(ownTokenFilter)) {
-        lobbies[i].opponentname = users.filter(function (user) {
-          let isUserCorrelated = false
-          for (let j = 0; j < lobbies[i].correlations.length; j++) {
-            if (user.token == lobbies[i].correlations[j].usertoken) isUserCorrelated = true
-          }
-          return isUserCorrelated
-        }).filter(function (user) {
-          return (user.token != ownTokenFilter)
-        })[0].name
-      }
-    } catch { }
-  }
+  lobbies = await Promise.all(lobbies.map(async function (lobby) {
+    return await common.extendLobbyInfo(lobby, ownToken, users)
+  }));
 
   if (lobbies.length == 0) {
     res.status(204)

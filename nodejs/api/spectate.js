@@ -3,7 +3,6 @@ let router = express.Router()
 
 const common = require('../common.js')
 const sql = require('../sql.js')
-const Game = require('../../docs/scripts/game.js')
 
 router.post('/api/spectate', async function (req, res) {
   let lobbyToken = req.body.lobbyToken
@@ -26,21 +25,7 @@ router.post('/api/spectate', async function (req, res) {
 
   if (userToken) {
     sql.updateUserLastActivity(userToken)
-    let game = new Game();
-    game.fromString(lobby.game)
-    lobby.isyourturn = (common.getPlayer(lobby, userToken) == game.currentPlayer)
-    try {
-      let users = await sql.getUsers();
-      lobby.opponentname = users.filter(function (user) {
-        let isUserCorrelated = false
-        for (let j = 0; j < lobby.correlations.length; j++) {
-          if (user.token == lobby.correlations[j].usertoken) isUserCorrelated = true
-        }
-        return isUserCorrelated
-      }).filter(function (user) {
-        return (user.token != userToken)
-      })[0].name
-    } catch { }
+    lobby = await common.extendLobbyInfo(lobby, userToken)
   }
 
   res.status(200)

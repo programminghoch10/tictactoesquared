@@ -5,6 +5,8 @@ const common = require('../common.js')
 const classes = require('../classes.js')
 const sql = require('../sql.js')
 
+const USER_LIMIT = common.USER_LIMIT
+
 router.post('/api/joinLobby', async function (req, res) {
 
   let lobbytoken = req.body.lobbytoken
@@ -26,6 +28,14 @@ router.post('/api/joinLobby', async function (req, res) {
   }
 
   sql.updateUserLastActivity(usertoken)
+
+  // limit max lobbies per user
+  if (user.correlations) {
+    if (user.correlations.length > USER_LIMIT) {
+      res.sendStatus(429)
+      return
+    }
+  }
 
   if (lobby.password != null && password != lobby.password) {
     res.sendStatus(401)

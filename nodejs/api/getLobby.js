@@ -4,7 +4,6 @@ let router = express.Router()
 const common = require('../common.js')
 const classes = require('../classes.js')
 const sql = require('../sql.js')
-const Game = require('../../docs/scripts/game.js')
 
 router.post('/api/getLobby', async function (req, res) {
   let lobbytoken = req.body.lobbytoken
@@ -17,25 +16,9 @@ router.post('/api/getLobby', async function (req, res) {
     return
   }
 
-  lobby.password = !common.isStringEmpty(lobby.password)
-
   if (usertoken) {
     sql.updateUserLastActivity(usertoken)
-    let game = new Game();
-    game.fromString(lobby.game)
-    lobby.isyourturn = (common.getPlayer(lobby, usertoken) == game.currentPlayer)
-    try {
-      let users = await sql.getUsers();
-      lobby.opponentname = users.filter(function (user) {
-        let isUserCorrelated = false
-        for (let j = 0; j < lobby.correlations.length; j++) {
-          if (user.token == lobby.correlations[j].usertoken) isUserCorrelated = true
-        }
-        return isUserCorrelated
-      }).filter(function (user) {
-        return (user.token != usertoken)
-      })[0].name
-    } catch { }
+    lobby = await common.extendLobbyInfo(lobby, usertoken)
   }
 
   res.send(JSON.stringify(lobby))

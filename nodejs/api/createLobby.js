@@ -6,6 +6,8 @@ const classes = require('../classes.js')
 const sql = require('../sql.js')
 const Game = require('../../docs/scripts/game.js')
 
+const USER_LIMIT = common.USER_LIMIT
+
 router.post('/api/createLobby', async function (req, res) {
   let name = req.body.name
   let description = req.body.description
@@ -13,8 +15,6 @@ router.post('/api/createLobby', async function (req, res) {
   let fieldSize = req.body.fieldSize
   let ownToken = req.body.ownToken
   let inviteName = req.body.inviteName
-
-  console.log(req.body)
 
   if (common.isStringEmpty(name)) {
     res.sendStatus(400)
@@ -38,6 +38,14 @@ router.post('/api/createLobby', async function (req, res) {
   if (!user) {
     res.sendStatus(400)
     return
+  }
+
+  // limit max lobbies per user
+  if (user.correlations) {
+    if (user.correlations.length > USER_LIMIT) {
+      res.sendStatus(429)
+      return
+    }
   }
 
   let invite = false
