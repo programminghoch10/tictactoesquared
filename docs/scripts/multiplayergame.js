@@ -4,16 +4,23 @@ let size = lobby.game.substring(0, lobby.game.indexOf("-"))
 let listen = true
 
 getel("lobbytitle").innerHTML = lobby.name
-getel("opponent").innerHTML = "vs: " + lobby.opponentname
 
 let owner = lobby.correlations[0].usertoken
 let amIX = owner == token
 
+function getopponentname(suffix) {
+  if (lobby.opponentname == undefined) {
+    return "waiting for players"
+  } else {
+    return lobby.opponentname + suffix
+  }
+}
+
 if (amIX) {
-  getel("oturn").innerHTML = lobby.opponentname + " turn"
+  getel("oturn").innerHTML = getopponentname(" turn")
   getel("xturn").innerHTML = "your turn"
 } else {
-  getel("xturn").innerHTML = lobby.opponentname + " turn"
+  getel("xturn").innerHTML = getopponentname(" turn")
   getel("oturn").innerHTML = "your turn"
 }
 
@@ -60,7 +67,7 @@ let frontendInterface = {
     if ((player == "Xw" && amIX) || (player == "Ow" && !amIX)) {
       winText = "You win"
     } else if ((player == "Ow" && amIX) || (player == "Xw" && !amIX)) {
-      winText = lobby.opponentname + " wins"
+      winText = getopponentname(" wins")
     } else if (player == "dw" || player == "df") {
       winText = "Draw"
     } else if ((player == "Xf" && !amIX) || (player == "Of" && amIX)) {
