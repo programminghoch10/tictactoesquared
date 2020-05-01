@@ -174,7 +174,6 @@
               data-message="We use cookies mainly to save your game. (It's ok, everyone does.)"
               data-cookie="cookies-accepted"
               data-close-text="Accept"></script>
-      <script async>
             // if (cookiesAccepted()) {
             //     if ('serviceWorker' in navigator) {
             //         window.addEventListener('load', function () {
@@ -186,6 +185,7 @@
             //         });
             //     }
             // }
+      <script>
         if (document.location.hostname.endsWith("github.io")) {
           let button = document.getElementById("onlinemultiplayerbutton")
           button.style = "text-decoration: line-through; cursor: not-allowed;"
