@@ -181,6 +181,8 @@
   background: white;
 }
 .game .win-active {
+  width: calc(100% - 8px);
+  height: calc(100% - 8px);
   z-index: 10;
   background: rgba(0, 0, 0, 0.6);
   color: #aaaaaa;
@@ -299,6 +301,10 @@
   border: var(--current) solid 4px;
 
   pointer-events: none;
+}
+
+.nocurrent table .current::after {
+  display: none;
 }
 
 .game table {

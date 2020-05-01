@@ -59,6 +59,7 @@ let frontendInterface = {
   globalWin: (player) => {
     if (won) return
     won = true
+    getel("game").classList.add("nocurrent");
     let winText = ""
     if ((player == "X" && amIX) || (player == "O" && !amIX)) {
       winText = "You win"
@@ -145,6 +146,10 @@ function update() {
     game.fromString(gameString)
   }
 
+  if (lobby.correlations.length == 1) {
+    getel("rematchbutton").style.display = "none"
+  }
+
   if (amIX) {
     getel("oturn").innerHTML = getopponentname(" turn")
     getel("xturn").innerHTML = "your turn"
@@ -172,6 +177,7 @@ function leave() {
 
 function _rematch() {
   rematch(lobbyToken)
+  opponentrequestedrematch = true
   if (lobby.correlations.length == 1) {
     addInfo("Rematch", "There will be no rematch because your opponent left", 2)
   } else {
