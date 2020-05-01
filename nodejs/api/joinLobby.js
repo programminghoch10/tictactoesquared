@@ -42,7 +42,7 @@ router.post('/api/joinLobby', async function (req, res) {
 
   //check if closed with invite and check if that is the user who recieved the invite
   if (lobby.correlations[1]) {
-    if ((lobby.privacy == "closed" && lobby.correlations[1].invite) && lobby.correlations[1].usertoken != usertoken) {
+    if ((lobby.privacy == "closed" && lobby.correlations[1].invite) && lobby.correlations[1].usertoken != user.token) {
       res.sendStatus(403)
       return
     }
