@@ -5,7 +5,7 @@ const common = require('../common.js')
 const sql = require('../sql.js')
 
 // TODO: return eigher true or false
-router.post('/api/doesUserExist', async function (req, res) {
+router.post('/api/doesUserNameExist', async function (req, res) {
   let userName = req.body.userName
 
   if (common.isStringEmpty(userName)) {
