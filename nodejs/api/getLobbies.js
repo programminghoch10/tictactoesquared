@@ -15,18 +15,19 @@ router.post('/api/getLobbies', async function (req, res) {
   }
   sql.updateUserLastActivityBySecret(secret)
 
-  //TODO: rework filters to be understandable
+  //FILTERS:
+  //all filters only apply if their value is not null
+  let privacyFilter = req.body.privacy //only lobbies with this privacy setting
+  let fieldSizeFilter = req.body.fieldSize //only lobbies with this fieldSize
+  let lobbyNameFilter = req.body.lobbyName //only lobbies with this name
+  let userNameFilter = req.body.userName //only lobbies which contain users with this name
+  let userCountFilter = req.body.userCount //only lobbies with this user count
+  let hasPasswordFilter = req.body.hasPassword //only lobbies which match on whether they have a password (only true and false allowed)
+  let usertokenFilter = req.body.usertoken //only lobbies which DO NOT contain correlations with this usertoken
 
-  let privacyFilter = req.body.privacy
-  let fieldSizeFilter = req.body.fieldSize
-  let nameFilter = req.body.name
-  let hasPasswordFilter = req.body.hasPassword
-  let usertokenFilter = req.body.usertoken
-
-  let ownToken = req.body.ownToken
-  let ownJoinedOnlyFilter = (req.body.joinedOnly == "true")
-  let ownInvitedOnlyFilter = (req.body.invitedOnly == "true")
-
+  let ownToken = req.body.ownToken //only lobbies which DO contain correlations with this usertoken
+  let ownJoinedOnlyFilter = (req.body.joinedOnly == "true") //only in combination with ownToken, only lobbies this user has joined
+  let ownInvitedOnlyFilter = (req.body.invitedOnly == "true") //only in combination with ownToken, only lobbies which this user has been invited to
 
 
   //TODO: adapt to not leak data
@@ -39,27 +40,60 @@ router.post('/api/getLobbies', async function (req, res) {
     res.sendStatus(204)
     return
   }
+  let users = await sql.getUsers();
+  if (!users) users = []
 
+  // filter for privacy
   if (!common.isStringEmpty(privacyFilter)) {
     lobbies = lobbies.filter(function (lobby) { return lobby.privacy == privacyFilter })
   }
 
+  // filter for fieldSize
   if (fieldSizeFilter != null) {
     lobbies = lobbies.filter(function (lobby) {
       return lobby.game.substring(0, lobby.game.indexOf("-")) == fieldSizeFilter
     })
   }
 
-  if (!common.isStringEmpty(nameFilter)) {
-    lobbies = lobbies.filter(function (lobby) { return lobby.name == nameFilter })
+  //filter for lobby name
+  if (!common.isStringEmpty(lobbyNameFilter)) {
+    lobbies = lobbies.filter(function (lobby) { return lobby.name.includes(lobbyNameFilter) })
   }
 
+  //filter for user name
+  if (!common.isStringEmpty(userNameFilter)) {
+    let searchusers = users.filter(function (user) { return (user.name.includes(userNameFilter)) })
+    if (searchusers) {
+      lobbies.filter(function (lobby) {
+        if (!lobby.correlations) return false
+        for (let i = 0; i < lobby.correlations.length; i++) {
+          let correlation = lobby.correlations[i];
+          let usersinthiscorrelation = searchusers.filter(function (user) { return (user.token == correlation.usertoken) })
+          for (let j = 0; j < usersinthiscorrelation.length; j++) {
+            let user = usersinthiscorrelation[j];
+            if (user.name.includes(userNameFilter)) return true
+          }
+        }
+        return false
+      })
+    } else {
+      lobbies = []
+    }
+  }
+
+  // filter for user count
+  if (!common.isStringEmpty(userCountFilter)) {
+    lobbies = lobbies.filter(function (lobby) { return (lobby.correlations ? lobby.correlations : []).length == userCountFilter })
+  }
+
+  //filter whether lobby has password
   if (hasPasswordFilter != null) {
     lobbies = lobbies.filter(function (lobby) {
       return hasPasswordFilter == !common.isStringEmpty(lobby.password)
     })
   }
 
+  // filter out lobbies with this token
   if (!common.isStringEmpty(usertokenFilter)) {
     lobbies = lobbies.filter(function (lobby) {
       let containsUserToken = false
@@ -74,21 +108,8 @@ router.post('/api/getLobbies', async function (req, res) {
     })
   }
 
-  if (!common.isStringEmpty(ownToken) && !(ownJoinedOnlyFilter || ownInvitedOnlyFilter)) {
-    lobbies = lobbies.filter(function (lobby) {
-      let containsOwnToken = false
-      for (let i = 0; i < lobby.correlations.length; i++) {
-        const correlation = lobby.correlations[i]
-        if (correlation.usertoken == ownToken) {
-          containsOwnToken = true
-          break
-        }
-      }
-      return !containsOwnToken
-    })
-  }
-
-  if (!common.isStringEmpty(ownToken) && (ownJoinedOnlyFilter || ownInvitedOnlyFilter)) {
+  //only retain lobbies with this token and additionally filter for joined and invited lobbies
+  if (!common.isStringEmpty(ownToken)) {
     lobbies = lobbies.filter(function (lobby) {
       let containsOwnToken = false
       if (!lobby.correlations) return false
@@ -131,12 +152,12 @@ router.post('/api/getLobbies', async function (req, res) {
     }
   }
 
-  let users = await sql.getUsers();
-  if (!users) users = []
+  //extend lobby info for every remaining lobby
   lobbies = await Promise.all(lobbies.map(async function (lobby) {
     return common.extendLobbyInfo(lobby, user, users)
   }));
 
+  //resort lobbies pimarily after last activity (new to old) and secondarily after their id (new to old)
   lobbies.sort(function (a, b) {
     let lastactdiff = b.lastacttime - a.lastacttime
     if (lastactdiff == 0) return b.id - a.id

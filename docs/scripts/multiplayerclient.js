@@ -356,7 +356,7 @@ function getInvitedLobbies() {
 }
 
 function getLobbies() {
-  let req = post("/api/getLobbies", { ownToken: token, secret: secret })
+  let req = post("/api/getLobbies", { usertoken: token, secret: secret })
   let res = req.responseText
   if (req.status == 401) resetIdentity()
   if (req.status != 200) {
