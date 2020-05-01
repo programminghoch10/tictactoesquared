@@ -14,6 +14,7 @@ router.post('/api/doesUserTokenExist', async function (req, res) {
   let thisuser = users.filter(function (user) { return (user.secret == secret) })[0]
   if (!thisuser) {
     res.sendStatus(401)
+    return
   }
 
   let user = users.filter(function (user) { return (user.token == token) })[0]
