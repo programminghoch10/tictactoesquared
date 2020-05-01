@@ -7,6 +7,8 @@ const sql = require('../sql.js')
 const Game = require('../../docs/scripts/game.js')
 
 const USER_LIMIT = common.USER_LIMIT
+const MIN_FIELD_SIZE = 3
+const MAX_FIELD_SIZE = 5
 
 router.post('/api/createLobby', async function (req, res) {
 
@@ -32,7 +34,7 @@ router.post('/api/createLobby', async function (req, res) {
   // if field size is valid
   try {
     let num = parseInt(fieldSize)
-    if (num < 3 || num > 5) {
+    if (num < MIN_FIELD_SIZE || num > MAX_FIELD_SIZE) {
       res.sendStatus(400)
       return
     }
