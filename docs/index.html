@@ -100,6 +100,7 @@
                     <tr>
                       <td class="fullwidth">
                         <a class="i alt"
+                           id="onlinemultiplayerbutton"
                            href="multiplayer.html"> ONLINE MULTIPLAYER </a>
                       </td>
                     </tr>
@@ -185,6 +186,11 @@
             //         });
             //     }
             // }
+        if (document.location.hostname.endsWith("github.io")) {
+          let button = document.getElementById("onlinemultiplayerbutton")
+          button.style = "text-decoration: line-through; cursor: not-allowed;"
+          button.removeAttribute("href")
+        }
       </script>
   </body>
 
