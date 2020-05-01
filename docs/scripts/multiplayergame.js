@@ -156,7 +156,7 @@ function update() {
 
     if (lobby.flags.includes("rematch1") && !opponentrequestedrematch) {
       opponentrequestedrematch = true
-      addInfo("Rematch", "You opponent requested a rematch", 1)
+      addInfo("Rematch", "Your opponent requested a rematch", 1)
     }
   } else {
     getel("xturn").innerHTML = getopponentname(" turn")
@@ -164,7 +164,7 @@ function update() {
 
     if (lobby.flags.includes("rematch0") && !opponentrequestedrematch) {
       opponentrequestedrematch = true
-      addInfo("Rematch", "You opponent requested a rematch", 1)
+      addInfo("Rematch", "Your opponent requested a rematch", 1)
     }
   }
 }

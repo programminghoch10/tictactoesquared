@@ -1,9 +1,20 @@
 const WAITINGFORPLAYERSSTRING = "waiting for players"
-const LISTUPDATETIME = 60 //in seconds
+
+// in seconds
+const JOINLOBBIESREFRESHTIME = 10
+const INVITEDLOBBIESREFRESHTIME = 10
+const ALLLOBBIESREFRESHTIME = 60
+
+const JOINLOBBIESREFRESHTIME2 = 5
+const INVITEDLOBBIESREFRESHTIME2 = 5
+const ALLLOBBIESREFRESHTIME2 = 30
+
+let joinlobbyinterval = null
+let invitedlobbiesinterval = null
+let alllobbiesinterval = null
 
 let currentGroup = getCookie("currentGroup")
 let currentBurger = false
-let reloadhandler = null
 
 let newLobbyPrivacy = ""
 let currentLobbyToken
@@ -13,6 +24,9 @@ let filterbyname = ""
 // it's inverted so the function call will invert it again
 let withoutapassword = getCookie("filterpassword") == 1 ? false : true
 let emptylobbies = getCookie("filterprivacy") == 1 ? false : true
+
+let invitedGamesCount = 0
+let yourTurnGamesCount = 0
 
 async function changeGroup(i) {
   if (i == undefined || currentGroup == "undefined" || i == "" || i < 0 || i > 2) i = 0
@@ -34,17 +48,14 @@ async function changeGroup(i) {
 
   getel("grouptitle").innerHTML = ["JOINED LOBBIES", "INVITED LOBBIES", "ALL LOBBIES"][currentGroup]
 
-  clearInterval(reloadhandler)
   if (currentGroup == 0) {
     setTimeout(loadJoinedLobbies, 200)
-    reloadhandler = setInterval(loadJoinedLobbies, LISTUPDATETIME * 1000)
   } else if (currentGroup == 1) {
     setTimeout(loadInvitedLobbies, 200)
-    reloadhandler = setInterval(loadInvitedLobbies, LISTUPDATETIME * 1000)
   } else if (currentGroup == 2) {
     setTimeout(loadAllLobbies, 200)
-    reloadhandler = setInterval(loadAllLobbies, LISTUPDATETIME * 1000)
   }
+  setIntervals(currentGroup)
   if (currentBurger) burger()
 }
 
@@ -170,6 +181,7 @@ function emptyLobbiesButtonPressed() {
 function useFilters() {
   filterbyname = getel("filterviewname").value
   closeFilterView()
+  changeGroup(2)
 }
 
 function leaveLobbyVerificated() {
@@ -229,12 +241,17 @@ function play(lobby) {
 
 async function loadJoinedLobbies() {
   let joinedLobbies = getJoinedLobbies()
+  yourTurnGamesCount = 0
 
   let innerHTML = ""
 
   for (let i = 0; i < joinedLobbies.length; i++) {
     try {
       const lobby = joinedLobbies[i]
+
+      if (lobby.isyourturn) {
+        yourTurnGamesCount++
+      }
 
       if (lobby.game == undefined || lobby.game == "") lobby.game = "3-"
       const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
@@ -250,6 +267,16 @@ async function loadJoinedLobbies() {
   }
 
   getel("group0inner").innerHTML = innerHTML
+
+  setTimeout(function () {
+    if (yourTurnGamesCount == 0) {
+      getel("isyourturn").classList.remove("notificationdot-active")
+    } else {
+      getel("isyourturn").classList.add("notificationdot-active")
+      getel("isyourturn").innerHTML = yourTurnGamesCount > 9 ? "9+" : yourTurnGamesCount
+    }
+  }, 10)
+
 }
 
 async function loadInvitedLobbies() {
@@ -280,6 +307,13 @@ async function loadInvitedLobbies() {
   }
 
   getel("group1inner").innerHTML = innerHTML
+
+  if (invitedLobbies.length == 0) {
+    getel("invitednotice").classList.remove("notificationdot-active")
+  } else {
+    getel("invitednotice").classList.add("notificationdot-active")
+    getel("invitednotice").innerHTML = invitedLobbies.length > 9 ? "9+" : invitedLobbies.length
+  }
 }
 
 async function loadAllLobbies() {
@@ -318,6 +352,18 @@ function getGame(lobby, password, by, args, flags) {
 
   let title = lobby.name
   let description = lobby.description
+  let isyourturn = ""
+
+  if (lobby.isyourturn) {
+    isyourturn = `
+      <div class="notificationdot notificationdot-active"></div>
+    `
+  }
+
+  let playercolor = 1
+  if (lobby.currentPlayer == "o") {
+    playercolor = 2
+  }
 
   if (by != WAITINGFORPLAYERSSTRING && by != "") {
     by = "by " + by
@@ -342,7 +388,7 @@ function getGame(lobby, password, by, args, flags) {
     buttons += `<div class="button" onclick="_joinLobby('${lobby.token}', ${lobby.password}, '${lobby.name}')">JOIN</div>`
   }
   if (flags.play) {
-    buttons += `<div class="button" onclick="play('${lobby.token}')">PLAY</div>`
+    buttons += `<div class="button" style="color: var(--player${playercolor})" onclick="play('${lobby.token}')">PLAY${isyourturn}</div>`
   }
 
   html = `
@@ -380,6 +426,30 @@ function lobbyClosed() {
     setGlobalCookie("lobbyclosed", 0)
     addInfo("The lobby closed", "The lobby closed due to inactivity", 1)
   }
+}
+
+function refreshJoinedLobbies() {
+  loadJoinedLobbies()
+}
+
+function refreshInvitedLobbies() {
+  loadInvitedLobbies()
+}
+
+function refreshAllLobbies() {
+  loadAllLobbies()
+}
+
+function setIntervals(i) {
+  if (joinlobbyinterval != null) clearInterval(joinlobbyinterval)
+  if (invitedlobbiesinterval != null) clearInterval(invitedlobbiesinterval)
+  if (alllobbiesinterval != null) clearInterval(alllobbiesinterval)
+  if (i != 0) joinlobbyinterval = setInterval(refreshJoinedLobbies, JOINLOBBIESREFRESHTIME * 1000)
+  if (i != 1) invitedlobbiesinterval = setInterval(refreshInvitedLobbies, INVITEDLOBBIESREFRESHTIME * 1000)
+  if (i != 2) alllobbiesinterval = setInterval(refreshAllLobbies, ALLLOBBIESREFRESHTIME * 1000)
+  if (i == 0) joinlobbyinterval = setInterval(refreshJoinedLobbies, JOINLOBBIESREFRESHTIME2 * 1000)
+  if (i == 1) invitedlobbiesinterval = setInterval(refreshInvitedLobbies, INVITEDLOBBIESREFRESHTIME2 * 1000)
+  if (i == 2) alllobbiesinterval = setInterval(refreshAllLobbies, ALLLOBBIESREFRESHTIME2 * 1000)
 }
 
 setTimeout(lobbyClosed, 10)
