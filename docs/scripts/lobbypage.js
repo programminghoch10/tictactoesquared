@@ -375,6 +375,14 @@ function resize() {
   }
 }
 
+function lobbyClosed() {
+  if (getCookie("lobbyclosed") == 1) {
+    setGlobalCookie("lobbyclosed", 0)
+    addInfo("The lobby closed", "The lobby closed due to inactivity", 1)
+  }
+}
+
+setTimeout(lobbyClosed, 10)
 resize()
 publicLobbyButtonPressed()
 changeGroup(currentGroup)

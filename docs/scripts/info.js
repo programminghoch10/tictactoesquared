@@ -1,3 +1,5 @@
+function getel(name) { return document.getElementById(name) }
+
 document.body.innerHTML += `
 <div class="infos" id="infos">
 </div>`

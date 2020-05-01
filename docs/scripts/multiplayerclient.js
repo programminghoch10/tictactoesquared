@@ -107,7 +107,9 @@ function _addInfo(origin, code) {
     case "spectate":
       switch (code) {
         case 400:
-          badRequest()
+          // the server got closed
+          setGlobalCookie("lobbyclosed", 1)
+          document.location.href = "multiplayer.html"
           break
         default:
           unknownCode(origin, code)

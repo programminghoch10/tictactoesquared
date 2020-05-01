@@ -202,13 +202,17 @@
   margin-right: 40px;
 }
 
-.multiplayer .groups .nav .filtericon {
-  display: none;
+.multiplayer .groups .nav .icon {
+  display: block;
   color: var(--font-color);
 
   margin: 0 5px;
 
   cursor: pointer;
+}
+
+.multiplayer .groups .nav p {
+  margin: 0 5px;
 }
 
 @media only screen and (max-width: 1200px) {
@@ -218,10 +222,6 @@
 
   .multiplayer .groups .nav .navfilter {
     display: none;
-  }
-
-  .multiplayer .groups .nav .filtericon {
-    display: block;
   }
 }
 
