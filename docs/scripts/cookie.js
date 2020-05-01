@@ -7,6 +7,10 @@ const themecookiename = "theme";
 function setCookie(cname, cvalue, exdays, path) {
   cvalue = btoa(cvalue);
   if (!cookiesAccepted()) return;
+  setRawCookie(cname, cvalue, exdays, path)
+}
+
+function setRawCookie(cname, cvalue, exdays, path) {
   var d = new Date();
   d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
   var expires = "expires=" + d.toUTCString();
