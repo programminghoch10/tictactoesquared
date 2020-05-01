@@ -5,6 +5,7 @@ class User {
   constructor() {
     this.id = 0;
     this.token = "";
+    this.secret = "";
     this.name = "";
     this.creationtime = 0;
     this.lastacttime = 0;

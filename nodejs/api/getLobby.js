@@ -6,20 +6,24 @@ const classes = require('../classes.js')
 const sql = require('../sql.js')
 
 router.post('/api/getLobby', async function (req, res) {
+
+  let secret = req.body.secret
+  let user = await sql.getUserBySecret(secret)
+  if (!user) {
+    res.sendStatus(401)
+    return
+  }
+  sql.updateUserLastActivityBySecret(secret)
+
   let lobbytoken = req.body.lobbytoken
-  let usertoken = req.body.usertoken
 
   let lobby = await sql.getLobbyByToken(lobbytoken)
-
   if (!lobby) {
     res.sendStatus(400)
     return
   }
 
-  if (usertoken) {
-    sql.updateUserLastActivity(usertoken)
-    lobby = await common.extendLobbyInfo(lobby, usertoken, await sql.getUsers())
-  }
+  lobby = common.extendLobbyInfo(lobby, user, await sql.getUsers())
 
   res.send(JSON.stringify(lobby))
 })

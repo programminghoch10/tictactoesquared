@@ -5,17 +5,16 @@ const common = require('../common.js')
 const sql = require('../sql.js')
 
 router.post('/api/changeName', async function (req, res) {
-  let token = req.body.token
-  let name = req.body.name // the new name
-
-  if (common.isStringEmpty(name)) {
-    res.sendStatus(400)
+  let secret = req.body.secret
+  let user = await sql.getUserBySecret(secret)
+  if (!user) {
+    res.sendStatus(401)
     return
   }
 
-  let user = await sql.getUserByToken(token)
+  let name = req.body.name // the new name
 
-  if (!user) {
+  if (common.isStringEmpty(name)) {
     res.sendStatus(400)
     return
   }
@@ -40,8 +39,7 @@ router.post('/api/changeName', async function (req, res) {
 
   sql.updateUser(user)
 
-  res.status(200)
-  res.send(user.name)
+  res.statusStatus(200)
 })
 
 module.exports = router

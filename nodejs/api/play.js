@@ -6,7 +6,14 @@ const sql = require('../sql.js')
 const Game = require('../../docs/scripts/game.js')
 
 router.post('/api/play', async function (req, res) {
-  let userToken = req.body.userToken
+  let secret = req.body.secret
+  let user = await sql.getUserBySecret(secret)
+  if (!user) {
+    res.sendStatus(401)
+    return
+  }
+  sql.updateUserLastActivityBySecret(secret)
+
   let lobbyToken = req.body.lobbyToken
   let a = req.body.a
   let b = req.body.b
@@ -23,13 +30,6 @@ router.post('/api/play', async function (req, res) {
     return
   }
 
-  // if user exist
-  let user = await sql.getUserByToken(userToken)
-  if (!user) {
-    res.sendStatus(400)
-    return
-  }
-
   // if lobby exist
   let lobby = await sql.getLobbyByToken(lobbyToken)
   if (!lobby) {
@@ -37,8 +37,8 @@ router.post('/api/play', async function (req, res) {
     return
   }
 
-  // if user is inside lobby
-  let correlation = await sql.getCorrelation(userToken, lobbyToken)
+  // if user is not inside lobby
+  let correlation = await sql.getCorrelation(user.token, lobbyToken)
   if (!correlation) {
     res.sendStatus(403)
     return
@@ -50,7 +50,7 @@ router.post('/api/play', async function (req, res) {
   game.fromString(gameString)
 
   // get the player
-  let player = common.getPlayer(lobby, userToken)
+  let player = common.getPlayer(lobby, user)
 
   if (!game._set(a, b, x, y, player)) {
     res.sendStatus(406)
@@ -62,7 +62,7 @@ router.post('/api/play', async function (req, res) {
   lobby.game = gameString
   sql.updateLobby(lobby)
 
-  sql.updateUserLastActivity(userToken)
+  lobby = common.extendLobbyInfo(lobby, user, await sql.getUsers())
 
   res.status(202)
   res.send(lobby)

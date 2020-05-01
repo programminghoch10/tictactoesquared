@@ -6,9 +6,16 @@ const sql = require('../sql.js')
 
 router.post('/api/doesUserTokenExist', async function (req, res) {
   let token = req.body.token
+  let secret = req.body.secret
 
-  let user = await sql.getUserByToken(token)
+  let users = await sql.getUsers()
 
+  let thisuser = users.filter(function (user) { return (user.secret == secret) })[0]
+  if (!thisuser) {
+    res.sendStatus(401)
+  }
+
+  let user = users.filter(function (user) { return (user.token == token) })[0]
   if (!user) {
     res.send("false")
     return

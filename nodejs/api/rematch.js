@@ -7,15 +7,15 @@ const sql = require('../sql.js')
 const Game = require('../../docs/scripts/game.js')
 
 router.post('/api/rematch', async function (req, res) {
-  let lobbyToken = req.body.lobbyToken
-  let userToken = req.body.userToken
-
-  // check if the user exist
-  let user = await sql.getUserByToken(userToken)
+  let secret = req.body.secret
+  let user = await sql.getUserBySecret(secret)
   if (!user) {
-    res.sendStatus(400)
+    res.sendStatus(401)
     return
   }
+  sql.updateUserLastActivityBySecret(secret)
+
+  let lobbyToken = req.body.lobbyToken
 
   // check if the lobby exist
   let lobby = await sql.getLobbyByToken(lobbyToken)
@@ -25,14 +25,14 @@ router.post('/api/rematch', async function (req, res) {
   }
 
   // check if the user is inside the lobby
-  let correlation = await sql.getCorrelation(userToken, lobbyToken)
+  let correlation = await sql.getCorrelation(user.token, lobbyToken)
   if (!correlation) {
     res.sendStatus(401)
     return
   }
 
   // get the id of the user
-  let userId = lobby.correlations.indexOf(lobby.correlations.find(el => el.usertoken == userToken))
+  let userId = lobby.correlations.indexOf(lobby.correlations.find(el => el.usertoken == user.token))
 
   lobby.setFlag("rematch" + userId)
 

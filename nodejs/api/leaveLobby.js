@@ -6,30 +6,27 @@ const classes = require('../classes.js')
 const sql = require('../sql.js')
 
 router.post('/api/leaveLobby', async function (req, res) {
-  let lobbytoken = req.body.lobbytoken
-  let usertoken = req.body.usertoken
 
+  let secret = req.body.secret
+  let user = await sql.getUserBySecret(secret)
+  if (!user) {
+    res.sendStatus(401)
+    return
+  }
+  sql.updateUserLastActivityBySecret(secret)
+
+  let lobbytoken = req.body.lobbytoken
   let lobby = await sql.getLobbyByToken(lobbytoken)
   if (!lobby) {
     res.sendStatus(400)
     return
   }
 
-  let user = await sql.getUserByToken(usertoken)
-  if (!user) {
-    res.sendStatus(400)
-    return
-  }
-
-  sql.updateUserLastActivity(usertoken)
-
   await sql.deleteCorrelation(await sql.getCorrelation(user.token, lobby.token))
 
   lobby = await sql.getLobbyByToken(lobby.token)
-  if (lobby.correlations.length == 0) {
-    sql.deleteLobby(lobby)
-  } else if (lobby.correlations.length == 1 && lobby.correlations[0].invite) {
-    sql.deleteCorrelation(await sql.getCorrelation(lobby.correlations[0].usertoken, lobby.correlations[0].lobbytoken))
+  //delete lobby if there are no more users in it or if the only correlation is an invite
+  if (lobby.correlations.length == 0 || (lobby.correlations.length == 1 && lobby.correlations[0].invite)) {
     sql.deleteLobby(lobby)
   }
 

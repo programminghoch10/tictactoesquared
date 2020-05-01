@@ -9,16 +9,16 @@ const USER_LIMIT = common.USER_LIMIT
 
 router.post('/api/joinLobby', async function (req, res) {
 
-  let lobbytoken = req.body.lobbytoken
-  let usertoken = req.body.usertoken
-  let password = req.body.password
-
-  let user = await sql.getUserByToken(usertoken)
-
+  let secret = req.body.secret
+  let user = await sql.getUserBySecret(secret)
   if (!user) {
-    res.sendStatus(400)
+    res.sendStatus(401)
     return
   }
+  sql.updateUserLastActivityBySecret(secret)
+
+  let lobbytoken = req.body.lobbytoken
+  let password = req.body.password
 
   let lobby = await sql.getLobbyByToken(lobbytoken)
 
@@ -26,8 +26,6 @@ router.post('/api/joinLobby', async function (req, res) {
     res.sendStatus(400)
     return
   }
-
-  sql.updateUserLastActivity(usertoken)
 
   // limit max lobbies per user
   if (user.correlations) {

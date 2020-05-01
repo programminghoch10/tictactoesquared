@@ -92,6 +92,18 @@ async function getUserByToken(token) {
   return await convertSqlToUser(result);
 }
 
+async function getUserBySecret(secret) {
+  if (secret == "") return false;
+  if (SQLDEBUG) console.log("Searching users for secret: " + secret);
+  let results = (await pool.query({
+    sql: "SELECT * FROM users WHERE `secret`=?",
+    timeout: sqltimeout,
+    values: [secret]
+  }))[0];
+  if (results.length != 1) return false;
+  return await convertSqlToUser(results[0]);
+}
+
 async function getUsers() {
   let results = await getAll("users");
   let correlations = await getCorrelations();
@@ -107,32 +119,42 @@ async function createUser(user) {
   user.creationtime = common.getTime();
   user.lastacttime = user.creationtime;
   user.timeout = user.lastacttime + usertimeout;
-  user.token = common.hash(user.name + user.creationtime);
+  user.token = common.hash("T" + user.name + user.creationtime + Math.random());
+  user.secret = common.hash("S" + user.creationtime + user.name + Math.random());
   user.lobbytokens = "";
   user.lobbyinvitetokens = "";
   if (SQLDEBUG) console.log("Adding user " + user.name + " to database.");
   pool.query({
-    sql: "INSERT INTO `users` (token, name, creationtime, lastacttime, timeout) \
-     VALUES (?, ?, ?, ?, ?)",
+    sql: "INSERT INTO `users` (token, secret, name, creationtime, lastacttime, timeout) \
+     VALUES (?, ?, ?, ?, ?, ?)",
     timeout: sqltimeout,
-    values: [user.token, user.name, user.creationtime, user.lastacttime, user.timeout]
+    values: [user.token, user.secret, user.name, user.creationtime, user.lastacttime, user.timeout]
   });
   return await getUserByToken(user.token);
 }
 
-async function updateUserLastActivity(token) {
-  if (common.isStringEmpty("token")) return false;
+async function updateUserLastActivityByToken(token) {
+  return await updateUserLastActivity("token", token)
+}
+
+async function updateUserLastActivityBySecret(secret) {
+  return await updateUserLastActivity("secret", secret)
+}
+
+async function updateUserLastActivity(type, value) {
+  if (common.isStringEmpty("value") || !(type == "secret" || type == "token")) return false;
   let lastacttime = common.getTime();
   let timeout = lastacttime + usertimeout;
   pool.query({
     sql: "UPDATE `users` \
       SET `lastacttime`=?, `timeout`=? \
-      WHERE `token`=?",
+      WHERE ??=?",
     timeout: sqltimeout,
-    values: [lastacttime, timeout, token]
+    values: [lastacttime, timeout, type, value]
   });
   return true;
 }
+
 async function updateUser(user) {
   if (user.constructor.name != classes.User.name) return false;
   let olduser = await getUserByToken(user.token);
@@ -141,6 +163,7 @@ async function updateUser(user) {
   user.lastacttime = common.getTime();
   user.timeout = user.lastacttime + usertimeout;
   user.id = olduser.id;
+  user.secret = olduser.secret;
   if (SQLDEBUG) console.log("Updating user " + user.name);
   pool.query({
     sql: "UPDATE `users` \
@@ -379,6 +402,7 @@ async function convertSqlToUser(row) {
   let user = new classes.User();
   user.id = row.id;
   user.token = row.token;
+  user.secret = row.secret;
   user.name = row.name;
   user.creationtime = row.creationtime;
   user.lastacttime = row.lastacttime;
@@ -391,6 +415,7 @@ function _convertSqlToUser(row, correlations) {
   let user = new classes.User();
   user.id = row.id;
   user.token = row.token;
+  user.secret = row.secret;
   user.name = row.name;
   user.creationtime = row.creationtime;
   user.lastacttime = row.lastacttime;
@@ -458,9 +483,11 @@ module.exports = {
 
   getUsers: getUsers,
   getUserByToken: getUserByToken,
+  getUserBySecret: getUserBySecret,
   createUser: createUser,
   updateUser: updateUser,
-  updateUserLastActivity: updateUserLastActivity,
+  updateUserLastActivityByToken: updateUserLastActivityByToken,
+  updateUserLastActivityBySecret: updateUserLastActivityBySecret,
   deleteUser: deleteUser,
 
   getLobbies: getLobbies,

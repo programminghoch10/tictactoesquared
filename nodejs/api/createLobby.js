@@ -9,11 +9,19 @@ const Game = require('../../docs/scripts/game.js')
 const USER_LIMIT = common.USER_LIMIT
 
 router.post('/api/createLobby', async function (req, res) {
+
+  let secret = req.body.secret
+  let user = await sql.getUserBySecret(secret)
+  if (!user) {
+    res.sendStatus(401)
+    return
+  }
+  sql.updateUserLastActivityBySecret(secret)
+
   let name = req.body.name
   let description = req.body.description
   let password = req.body.password
   let fieldSize = req.body.fieldSize
-  let ownToken = req.body.ownToken
   let inviteName = req.body.inviteName
 
   if (common.isStringEmpty(name)) {
@@ -29,13 +37,6 @@ router.post('/api/createLobby', async function (req, res) {
       return
     }
   } catch {
-    res.sendStatus(400)
-    return
-  }
-
-  // if token does not exist
-  let user = await sql.getUserByToken(ownToken)
-  if (!user) {
     res.sendStatus(400)
     return
   }
@@ -72,25 +73,25 @@ router.post('/api/createLobby', async function (req, res) {
 
   let ownCorrelation = new classes.Correlation()
   ownCorrelation.lobbytoken = lobby.token
-  ownCorrelation.usertoken = ownToken
+  ownCorrelation.usertoken = user.token
   ownCorrelation.invite = false
   await sql.createCorrelation(ownCorrelation)
 
+  let users = await sql.getUsers()
   if (invite) {
-    let users = await sql.getUsers()
-    users = users.filter(function (user) {
+    let filteredusers = users.filter(function (user) {
       return (user.name == inviteName)
     })
-    if (users[0]) {
+    if (filteredusers[0]) {
       let inviteCorrelation = new classes.Correlation()
       inviteCorrelation.lobbytoken = lobby.token
-      inviteCorrelation.usertoken = users[0].token
+      inviteCorrelation.usertoken = filteredusers[0].token
       inviteCorrelation.invite = true
       await sql.createCorrelation(inviteCorrelation)
     }
   }
 
-  lobby = await sql.getLobbyByToken(lobby.token)
+  lobby = common.extendLobbyInfo(await sql.getLobbyByToken(lobby.token), user, users)
 
   res.status(201)
   res.send(JSON.stringify(lobby))

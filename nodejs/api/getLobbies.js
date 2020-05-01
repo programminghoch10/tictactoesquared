@@ -7,6 +7,16 @@ const sql = require('../sql.js')
 
 router.post('/api/getLobbies', async function (req, res) {
 
+  let secret = req.body.secret
+  let user = await sql.getUserBySecret(secret)
+  if (!user) {
+    res.sendStatus(401)
+    return
+  }
+  sql.updateUserLastActivityBySecret(secret)
+
+  //TODO: rework filters to be understandable
+
   let privacyFilter = req.body.privacy
   let fieldSizeFilter = req.body.fieldSize
   let nameFilter = req.body.name
@@ -17,9 +27,7 @@ router.post('/api/getLobbies', async function (req, res) {
   let ownJoinedOnlyFilter = (req.body.joinedOnly == "true")
   let ownInvitedOnlyFilter = (req.body.invitedOnly == "true")
 
-  if (!common.isStringEmpty(ownToken)) {
-    sql.updateUserLastActivity(ownToken)
-  }
+
 
   //TODO: adapt to not leak data
   if (privacyFilter == null) {
@@ -125,7 +133,7 @@ router.post('/api/getLobbies', async function (req, res) {
 
   let users = await sql.getUsers();
   lobbies = await Promise.all(lobbies.map(async function (lobby) {
-    return await common.extendLobbyInfo(lobby, ownToken, users)
+    return common.extendLobbyInfo(lobby, user, users)
   }));
 
   lobbies.sort(function (a, b) {
