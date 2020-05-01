@@ -4,6 +4,7 @@ let router = express.Router()
 const common = require('../common.js')
 const sql = require('../sql.js')
 
+// TODO: return eigher true or false
 router.post('/api/doesUserExist', async function (req, res) {
   let userName = req.body.userName
 

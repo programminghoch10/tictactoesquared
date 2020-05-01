@@ -196,12 +196,28 @@
   margin-left: 20px;
 }
 
+.multiplayer .groups .nav .filtericon {
+  display: none;
+  color: var(--font-color);
+  margin-left: auto;
+  margin-right: 40px;
+
+  cursor: pointer;
+}
+
 @media only screen and (max-width: 1200px) {
   .multiplayer .groups .nav h2 {
     margin-left: 100px;
   }
-}
 
+  .multiplayer .groups .nav .navfilter {
+    display: none;
+  }
+
+  .multiplayer .groups .nav .filtericon {
+    display: block;
+  }
+}
 
 .multiplayer .groups .nav input {
   position: static;
