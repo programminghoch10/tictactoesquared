@@ -9,6 +9,11 @@ let newLobbyPrivacy = ""
 let currentLobbyToken
 let currentLobbyName
 
+let filterbyname = ""
+// it's inverted so the function call will invert it again
+let withoutapassword = getCookie("filterpassword") == 1 ? false : true
+let emptylobbies = getCookie("filterprivacy") == 1 ? false : true
+
 async function changeGroup(i) {
   if (i == undefined || currentGroup == "undefined" || i == "" || i < 0 || i > 2) i = 0
   if (currentGroup == undefined || currentGroup == "undefined" || currentGroup == "" || currentGroup < 0 || currentGroup > 2) currentGroup = 0
@@ -43,6 +48,16 @@ async function changeGroup(i) {
   if (currentBurger) burger()
 }
 
+function refresh() {
+  if (currentGroup == 0) {
+    loadJoinedLobbies()
+  } else if (currentGroup == 1) {
+    loadInvitedLobbies()
+  } else if (currentGroup == 2) {
+    loadAllLobbies()
+  }
+}
+
 function burger() {
   let body = document.body
 
@@ -72,7 +87,7 @@ function newLobby() {
   publicLobbyButtonPressed()
 }
 
-function returnNewLobby() {
+function closeNewLobbyView() {
   getel("newlobbyoverlay").classList.remove("overlay-active")
   let els = document.getElementsByClassName("add")
   for (let i = 0; i < els.length; i++) {
@@ -122,6 +137,41 @@ function closeVerificationView() {
   getel("verificationView").classList.remove("panel-active")
 }
 
+function openFilterView() {
+  getel("filterViewOverlay").classList.add("overlay-active")
+  getel("filterView").classList.add("panel-active")
+}
+
+function closeFilterView() {
+  getel("filterViewOverlay").classList.remove("overlay-active")
+  getel("filterView").classList.remove("panel-active")
+}
+
+function withoutPasswordButtonPressed() {
+  withoutapassword = !withoutapassword
+  if (withoutapassword) {
+    getel("filterViewPasswordButton").classList.add("active-button")
+  } else {
+    getel("filterViewPasswordButton").classList.remove("active-button")
+  }
+  setGlobalCookie("filterpassword", withoutapassword ? 1 : 0)
+}
+
+function emptyLobbiesButtonPressed() {
+  emptylobbies = !emptylobbies
+  if (emptylobbies) {
+    getel("filterViewEmptyButton").classList.add("active-button")
+  } else {
+    getel("filterViewEmptyButton").classList.remove("active-button")
+  }
+  setGlobalCookie("filterprivacy", emptylobbies ? 1 : 0)
+}
+
+function useFilters() {
+  filterbyname = getel("filterviewname").value
+  closeFilterView()
+}
+
 function leaveLobbyVerificated() {
   leaveLobby(currentLobbyToken)
   closeVerificationView()
@@ -138,7 +188,7 @@ function _createLobby() {
   let invitePlayer = getel("lobbyinviteplayer").value
   createLobby(name, description, password, fieldSize, invitePlayer, privacy)
   addInfo("Lobby created.", "The lobby '" + name + "' got created", 1)
-  returnNewLobby()
+  closeNewLobbyView()
   changeGroup(0)
 }
 
@@ -192,7 +242,7 @@ async function loadJoinedLobbies() {
       let username = ""
       if (lobby.correlations.length == 1) username = WAITINGFORPLAYERSSTRING
 
-      innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", username, fieldSize, { cog: true, leave: true, play: true })
+      innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", username, fieldSize, { leave: true, play: true })
     } catch (err) {
       console.log(err)
     }
@@ -282,11 +332,6 @@ function getGame(lobby, password, by, args, flags) {
   if (password) {
     lock = `<i class="fas fa-lock fa-xs"></i>`
   }
-  if (flags.cog) {
-    flags.cog = `<i class="fas fa-cog fa-xs"></i>`
-  } else {
-    flags.cog = ""
-  }
 
   let buttons = ""
   if (flags.leave) {
@@ -302,7 +347,7 @@ function getGame(lobby, password, by, args, flags) {
   html = `
     <div class="game">
         <div class="title">
-            <h2>${flags.cog}${lock}<div>${title}</div></h2>
+            <h2>${lock}<div>${title}</div></h2>
             <p>${by}</p>
             <p>${args}</p>
         </div>
@@ -332,3 +377,5 @@ function resize() {
 resize()
 publicLobbyButtonPressed()
 changeGroup(currentGroup)
+withoutPasswordButtonPressed()
+emptyLobbiesButtonPressed()

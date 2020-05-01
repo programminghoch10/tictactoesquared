@@ -59,7 +59,7 @@ function _addInfo(origin, code) {
     case "getLobbies":
       switch (code) {
         case 204:
-          addInfo("No Lobbies", "There are no lobbies matching your query!", 1)
+          // addInfo("No LobbNo Lobbies", "There are no lobbies matching your query!", 1)
           break
         default:
           unknownCode(origin, code)

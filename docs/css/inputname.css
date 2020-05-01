@@ -30,7 +30,11 @@
 
 .inputname h1 {
   width: 800px;
-  max-width: 90%;
+  max-width: 85%;
+
+  transform: translateY(-10px);
+
+  color: var(--font-color);
 
   text-align: left;
 }
@@ -92,7 +96,22 @@
   text-align: center;
 }
 
+.inputname .icons {
+  width: 800px;
+  max-width: 85%;
+  transform: translateY(-20px);
+}
+
+.inputname .icons i {
+  color: var(--default-alt);
+}
+
 @media only screen and (max-width: 600px) {
+  .inputname .icons {
+    width: initial;
+    transform: scale(1.5) translateY(-20px);
+  }
+
   .inputname .nameinput {
     width: 100%;
     display: block;

@@ -118,13 +118,16 @@
           </div>
           <div class="overlay"
                id="newlobbyoverlay"
-               onclick="returnNewLobby()"></div>
+               onclick="closeNewLobbyView()"></div>
           <div class="overlay"
                id="passwordInputOverlay"
                onclick="closePasswordView()"></div>
           <div class="overlay"
                id="verificationViewOverlay"
                onclick="closeVerificationView()"></div>
+          <div class="overlay"
+               id="filterViewOverlay"
+               onclick="closeFilterView()"></div>
           <div class="overlay burgeroverlay"
                onclick="burger()"></div>
           <div class="groups">
@@ -134,7 +137,12 @@
                 <input type="text"
                        placeholder="search">
               </div>
-              <i class="fas fa-filter fa-lg filtericon"></i>
+              <div class="right">
+                <i class="fas fa-filter fa-lg filtericon"
+                   onclick="openFilterView()"></i>
+                <i class="fas fa-sync-alt fa-lg filtericon"
+                   onclick="refresh()"></i>
+              </div>
             </div>
             <div class="group hide"
                  id="group0">
@@ -153,7 +161,7 @@
                id="newLobbyPanel">
             <h2>Create a lobby</h2>
             <div class="closebutton"
-                 onclick="returnNewLobby()">
+                 onclick="closeNewLobbyView()">
               <i class="fas fa-times"></i>
             </div>
             <form action="javascript:_createLobby();">
@@ -243,6 +251,36 @@
                 <input type="submit"
                        class="fullwidthmobile"
                        value="LEAVE LOBBY">
+              </div>
+            </form>
+          </div>
+          <div class="panel"
+               id="filterView">
+            <h2>Filter options</h2>
+            <div class="closebutton"
+                 onclick="closeFilterView()">
+              <i class="fas fa-times"></i>
+            </div>
+            <form action="javascript:useFilters();">
+              <div class="entry">
+                <h3>Search by name:</h3>
+                <input type="text"
+                       id="filterviewname">
+              </div>
+              <div class="entry button-entry">
+                <input type="button"
+                       id="filterViewPasswordButton"
+                       onclick="withoutPasswordButtonPressed()"
+                       value="Without a password">
+                <input type="button"
+                       onclick="emptyLobbiesButtonPressed()"
+                       id="filterViewEmptyButton"
+                       value="Empty lobbies">
+              </div>
+              <div class="entry">
+                <input type="submit"
+                       class="fullwidthmobile"
+                       value="USE FILTERS">
               </div>
             </form>
           </div>

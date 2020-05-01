@@ -196,11 +196,17 @@
   margin-left: 20px;
 }
 
+.multiplayer .groups .nav .right {
+  display: flex;
+  margin-left: auto;
+  margin-right: 40px;
+}
+
 .multiplayer .groups .nav .filtericon {
   display: none;
   color: var(--font-color);
-  margin-left: auto;
-  margin-right: 40px;
+
+  margin: 0 5px;
 
   cursor: pointer;
 }
