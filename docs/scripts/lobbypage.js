@@ -249,7 +249,7 @@ async function loadJoinedLobbies() {
     try {
       const lobby = joinedLobbies[i]
 
-      if (lobby.isyourturn) {
+      if (lobby.isyourturn || (lobby.correlations.length == 1 && lobby.privacy == "closed")) {
         yourTurnGamesCount++
       }
 
@@ -257,8 +257,7 @@ async function loadJoinedLobbies() {
       const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
 
       let username = ""
-      // TODO: check if the opponent left
-      if (lobby.correlations.length == 1) username = WAITINGFORPLAYERSSTRING
+      if (lobby.correlations.length == 1 && lobby.correlations.privacy == "open") username = WAITINGFORPLAYERSSTRING
 
       innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", username, fieldSize, { leave: true, play: true })
     } catch (err) {
@@ -354,14 +353,14 @@ function getGame(lobby, password, by, args, flags) {
   let description = lobby.description
   let isyourturn = ""
 
-  if (lobby.isyourturn) {
+  if (lobby.isyourturn || (lobby.correlations.length == 1 && lobby.privacy == "closed")) {
     isyourturn = `
       <div class="notificationdot notificationdot-active"></div>
     `
   }
 
   let playercolor = 1
-  if (lobby.currentPlayer == "o") {
+  if (lobby.currentPlayer == "O") {
     playercolor = 2
   }
 

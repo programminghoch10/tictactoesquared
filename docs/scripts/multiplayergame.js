@@ -73,6 +73,9 @@ let frontendInterface = {
 
     getel("win").classList.add("win-active");
     getel("win-text").innerHTML = winText;
+
+    getel("icon-o").style.opacity = "0";
+    getel("icon-x").style.opacity = "0";
   },
   draw: () => {
     getel("win").classList.add("win-active");
@@ -184,3 +187,5 @@ function _rematch() {
     addInfo("Rematch", "You requested a rematch.", 1)
   }
 }
+
+update()
