@@ -30,10 +30,30 @@ router.post('/api/getLobbies', async function (req, res) {
   let ownInvitedOnlyFilter = (req.body.invitedOnly == "true") //only in combination with ownToken, only lobbies which this user has been invited to
 
 
-  //TODO: adapt to not leak data
-  if (privacyFilter == null) {
-    if (!(ownJoinedOnlyFilter || ownInvitedOnlyFilter)) privacyFilter = "open"
+
+  // requesting joined or invited lobbies without identifing yourself is invalid
+  if (ownToken == null && (ownJoinedOnlyFilter || ownInvitedOnlyFilter)) {
+    res.sendStatus(400)
+    return
   }
+
+  // fail if ownToken does not match the calling user
+  if (ownToken != user.token && ownToken != null) {
+    res.sendStatus(401)
+    return
+  }
+
+  // fail if ownToken and usertokenFilter are the same,
+  // because this can never result in anything and so will just waste valuable processing time
+  // this fails and doesnt return an empty array to make the caller aware of his mistake
+  if (ownToken == usertokenFilter && (usertokenFilter != null && ownToken != null)) {
+    res.sendStatus(400)
+    return
+  }
+
+  //TODO: adapt to not leak data
+  //check for privacy violations
+  if (!(ownJoinedOnlyFilter || ownInvitedOnlyFilter) || common.isStringEmpty(ownToken)) privacyFilter = "open"
 
   let lobbies = await sql.getLobbies()
   if (!lobbies) {
