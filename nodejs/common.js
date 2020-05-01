@@ -31,6 +31,7 @@ function getPlayer(lobby, user) {
 }
 
 function extendLobbyInfo(lobby, thisUser, users) {
+  if (!users) users = []
   lobby.password = !isStringEmpty(lobby.password)
   try {
     lobby.ownername = users.filter(function (user) {

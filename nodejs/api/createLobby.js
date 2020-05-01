@@ -78,6 +78,7 @@ router.post('/api/createLobby', async function (req, res) {
   await sql.createCorrelation(ownCorrelation)
 
   let users = await sql.getUsers()
+  if (!users) users = []
   if (invite) {
     let filteredusers = users.filter(function (user) {
       return (user.name == inviteName)

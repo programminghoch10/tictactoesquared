@@ -132,6 +132,7 @@ router.post('/api/getLobbies', async function (req, res) {
   }
 
   let users = await sql.getUsers();
+  if (!users) users = []
   lobbies = await Promise.all(lobbies.map(async function (lobby) {
     return common.extendLobbyInfo(lobby, user, users)
   }));
