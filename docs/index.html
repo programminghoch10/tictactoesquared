@@ -168,24 +168,19 @@
       <script src="scripts/colortheme.js"></script>
       <script src="scripts/game.js"></script>
       <script src="scripts/menu.js"></script>
-      <script type="text/javascript"
-              id="cookieinfo"
-              src="//cookieinfoscript.com/js/cookieinfo.min.js"
-              data-message="We use cookies mainly to save your game. (It's ok, everyone does.)"
-              data-cookie="cookies-accepted"
-              data-close-text="Accept"></script>
-            // if (cookiesAccepted()) {
-            //     if ('serviceWorker' in navigator) {
-            //         window.addEventListener('load', function () {
-            //             navigator.serviceWorker.register('./sw.js').then(function (registration) {
-            //                 console.log('ServiceWorker registration successful with scope: ', registration.scope);
-            //             }).catch(function (err) {
-            //                 console.log('ServiceWorker registration failed: ', err);
-            //             });
-            //         });
-            //     }
-            // }
+      <script src="scripts/cookienotice.js"></script>
       <script>
+        // if (cookiesAccepted()) {
+        //     if ('serviceWorker' in navigator) {
+        //         window.addEventListener('load', function () {
+        //             navigator.serviceWorker.register('./sw.js').then(function (registration) {
+        //                 console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        //             }).catch(function (err) {
+        //                 console.log('ServiceWorker registration failed: ', err);
+        //             });
+        //         });
+        //     }
+        // }
         if (document.location.hostname.endsWith("github.io")) {
           let button = document.getElementById("onlinemultiplayerbutton")
           button.style = "text-decoration: line-through; cursor: not-allowed;"

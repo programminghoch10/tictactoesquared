@@ -82,7 +82,7 @@ function notifyUser(origin, code) {
           unavailable()
           break
         case 204:
-          addInfo("No Lobbies", "There are no lobbies matching your query!", 1)
+          // addInfo("No LobbNo Lobbies", "There are no lobbies matching your query!", 1)
           break
         case 401:
           unauthorized()
@@ -146,7 +146,9 @@ function notifyUser(origin, code) {
           unavailable()
           break
         case 400:
-          badRequest()
+          // the server got closed
+          setGlobalCookie("lobbyclosed", 1)
+          document.location.href = "multiplayer.html"
           break
         case 401:
           unauthorized()
