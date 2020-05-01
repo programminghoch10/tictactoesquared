@@ -44,6 +44,7 @@ function extendLobbyInfo(lobby, thisUser, users) {
     let game = new Game()
     game.fromString(lobby.game)
     lobby.isyourturn = (getPlayer(lobby, thisUser) == game.currentPlayer)
+    lobby.currentPlayer = game.currentPlayer
     try {
       lobby.opponentname = users.filter(function (user) {
         let isUserCorrelated = false
