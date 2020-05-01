@@ -104,7 +104,7 @@ router.post('/api/getLobbies', async function (req, res) {
           break
         }
       }
-      return containsUserToken
+      return !containsUserToken
     })
   }
 
