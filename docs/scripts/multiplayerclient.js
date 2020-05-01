@@ -20,6 +20,16 @@ let name = getCookie("name")
 let token = getCookie("token")
 
 function _addInfo(origin, code) {
+  //filter out successful requests, still show info, because this only shows when the according function didnt filter their successful request
+  switch (code) {
+    case 200:
+    case 201:
+    case 202:
+      addInfo("Successful", "Call to " + origin + " returned " + code, 0)
+      return
+    default:
+      break
+  }
   function unknownCode(origin, code) {
     addInfo(code, "An unknown error occured in " + origin + "!", 1)
     console.log("Encountered unexpected " + code + " in " + origin)
