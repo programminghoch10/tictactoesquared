@@ -39,6 +39,9 @@ function _addInfo(origin, code) {
   function tooManyLobbies() {
     addInfo("Too Many Games", "You reached the maximum number of games. Leave some and try again.", 2)
   }
+  function unavailable() {
+    addInfo("Server unavailable", "It seems like the server is currently not available. Is your internet connection working properly?", 3)
+  }
   switch (origin) {
     default:
       unknownCode(origin, code)
@@ -51,6 +54,9 @@ function _addInfo(origin, code) {
         case 400:
           badRequest()
           break
+        case 0:
+          unavailable()
+          break
         default:
           unknownCode(origin, code)
           break
@@ -60,6 +66,9 @@ function _addInfo(origin, code) {
       switch (code) {
         case 204:
           addInfo("No Lobbies", "There are no lobbies matching your query!", 1)
+          break
+        case 0:
+          unavailable()
           break
         default:
           unknownCode(origin, code)
@@ -83,6 +92,9 @@ function _addInfo(origin, code) {
         case 406:
           addInfo("Lobby full", "This lobby is full and cannot be joined!", 2)
           break
+        case 0:
+          unavailable()
+          break
         default:
           unknownCode(origin, code)
           break
@@ -99,6 +111,9 @@ function _addInfo(origin, code) {
         case 406:
           addInfo("Oh No!", "You cannot make this move right now.", 2)
           break
+        case 0:
+          unavailable()
+          break
         default:
           unknownCode(origin, code)
           break
@@ -109,6 +124,9 @@ function _addInfo(origin, code) {
         case 400:
           badRequest()
           break
+        case 0:
+          unavailable()
+          break
         default:
           unknownCode(origin, code)
           break
@@ -118,6 +136,9 @@ function _addInfo(origin, code) {
       switch (code) {
         case 400:
           badRequest()
+          break
+        case 0:
+          unavailable()
           break
         default:
           unknownCode(origin, code)
@@ -131,6 +152,9 @@ function _addInfo(origin, code) {
           break
         case 401:
           unauthorized()
+          break
+        case 0:
+          unavailable()
           break
         default:
           unknownCode(origin, code)
