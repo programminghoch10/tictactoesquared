@@ -19,12 +19,12 @@ router.post('/api/doesUserNameExist', async function (req, res) {
   if (users) {
     users = users.filter(function (user) { return user.name == userName })
     if (users.length > 0) {
-      res.sendStatus(302)
+      res.send("true")
       return
     }
   }
 
-  res.sendStatus(404)
+  res.send("false")
 })
 
 module.exports = router

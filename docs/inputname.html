@@ -98,7 +98,11 @@
 
         // check if the user name already exists
         let req = post("/api/doesUserNameExist", { userName: name })
-        if (req.status != 404 && getCookie("name") != name) {
+        if (req.status != 200) {
+          addInfo("Error " + code, "An error occured whilst checking your name, please try again later.", 3)
+          return
+        }
+        if (req.responseText == "true" && getCookie("name") != name) {
           addInfo("Invalid username", "A user with the name '" + name + "' already exist", 2)
           return
         }
