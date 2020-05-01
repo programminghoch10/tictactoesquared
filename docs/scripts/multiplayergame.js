@@ -2,6 +2,8 @@ let lobbyToken = getCookie("currentLobbyToken")
 let lobby = getLobby(lobbyToken)
 let size = lobby.game.substring(0, lobby.game.indexOf("-"))
 let listen = true
+let opponentrequestedrematch
+let won = false
 
 getel("lobbytitle").innerHTML = lobby.name
 
@@ -55,6 +57,8 @@ let frontendInterface = {
     el.classList.add("win" + player);
   },
   globalWin: (player) => {
+    if (won) return
+    won = true
     let winText = ""
     if ((player == "X" && amIX) || (player == "O" && !amIX)) {
       winText = "You win"
@@ -144,9 +148,19 @@ function update() {
   if (amIX) {
     getel("oturn").innerHTML = getopponentname(" turn")
     getel("xturn").innerHTML = "your turn"
+
+    if (lobby.flags.includes("rematch1") && !opponentrequestedrematch) {
+      opponentrequestedrematch = true
+      addInfo("Rematch", "You opponent requested a rematch", 1)
+    }
   } else {
     getel("xturn").innerHTML = getopponentname(" turn")
     getel("oturn").innerHTML = "your turn"
+
+    if (lobby.flags.includes("rematch0") && !opponentrequestedrematch) {
+      opponentrequestedrematch = true
+      addInfo("Rematch", "You opponent requested a rematch", 1)
+    }
   }
 }
 setInterval(update, UPDATEDTIMER * 1000)
@@ -158,4 +172,9 @@ function leave() {
 
 function _rematch() {
   rematch(lobbyToken)
+  if (lobby.correlations.length == 1) {
+    addInfo("Rematch", "There will be no rematch because your opponent left", 2)
+  } else {
+    addInfo("Rematch", "You requested a rematch.", 1)
+  }
 }

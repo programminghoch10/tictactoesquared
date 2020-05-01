@@ -200,7 +200,7 @@ function _joinLobby(lobby, hasPassword, name) {
     return
   }
 
-  addInfo("Lobby joined.", "You joined the lobby '" + currentLobbyName + "'", 1)
+  addInfo("Lobby joined.", "You joined the lobby '" + name + "'", 1)
   joinLobby(lobby)
   changeGroup(0)
 }
@@ -240,6 +240,7 @@ async function loadJoinedLobbies() {
       const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
 
       let username = ""
+      // TODO: check if the opponent left
       if (lobby.correlations.length == 1) username = WAITINGFORPLAYERSSTRING
 
       innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", username, fieldSize, { leave: true, play: true })
