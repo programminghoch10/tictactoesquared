@@ -7,6 +7,7 @@ let reloadhandler = null
 
 let newLobbyPrivacy = ""
 let currentLobbyToken
+let currentLobbyName
 
 async function changeGroup(i) {
   if (i == undefined || currentGroup == "undefined" || i == "" || i < 0 || i > 2) i = 0
@@ -111,6 +112,23 @@ function closePasswordView() {
   getel("passwordInput").classList.remove("panel-active")
 }
 
+function openVerificationView() {
+  getel("verificationViewOverlay").classList.add("overlay-active")
+  getel("verificationView").classList.add("panel-active")
+}
+
+function closeVerificationView() {
+  getel("verificationViewOverlay").classList.remove("overlay-active")
+  getel("verificationView").classList.remove("panel-active")
+}
+
+function leaveLobbyVerificated() {
+  leaveLobby(currentLobbyToken)
+  closeVerificationView()
+  changeGroup(currentGroup)
+  addInfo("Lobby left.", "You've left the lobby '" + currentLobbyName + "'", 1)
+}
+
 function _createLobby() {
   let name = getel("lobbyname").value
   let description = getel("lobbydescription").value
@@ -119,17 +137,20 @@ function _createLobby() {
   let privacy = newLobbyPrivacy
   let invitePlayer = getel("lobbyinviteplayer").value
   createLobby(name, description, password, fieldSize, invitePlayer, privacy)
+  addInfo("Lobby created.", "The lobby '" + name + "' got created", 1)
   returnNewLobby()
   changeGroup(0)
 }
 
-function _joinLobby(lobby, hasPassword) {
+function _joinLobby(lobby, hasPassword, name) {
   if (hasPassword) {
     openPasswordView()
     currentLobbyToken = lobby
+    currentLobbyName = name
     return
   }
 
+  addInfo("Lobby joined.", "You joined the lobby '" + currentLobbyName + "'", 1)
   joinLobby(lobby)
   changeGroup(0)
 }
@@ -139,14 +160,16 @@ function _joinLobbyWithPassword() {
 
   if (req == true) {
     changeGroup(0)
+    addInfo("Lobby joined.", "You've joined the lobby '" + currentLobbyName + "'", 1)
   }
 
   closePasswordView()
 }
 
-function _leaveLobby(lobby) {
-  leaveLobby(lobby)
-  changeGroup(currentGroup)
+function _leaveLobby(lobby, name) {
+  currentLobbyToken = lobby
+  currentLobbyName = name
+  openVerificationView()
 }
 
 function play(lobby) {
@@ -267,11 +290,10 @@ function getGame(lobby, password, by, args, flags) {
 
   let buttons = ""
   if (flags.leave) {
-    buttons += `<div class="button" onclick="_leaveLobby('${lobby.token}')">LEAVE</div>`
+    buttons += `<div class="button" onclick="_leaveLobby('${lobby.token}', '${lobby.name}')">LEAVE</div>`
   }
   if (flags.join) {
-    console.log(lobby)
-    buttons += `<div class="button" onclick="_joinLobby('${lobby.token}', ${lobby.password})">JOIN</div>`
+    buttons += `<div class="button" onclick="_joinLobby('${lobby.token}', ${lobby.password}, '${lobby.name}')">JOIN</div>`
   }
   if (flags.play) {
     buttons += `<div class="button" onclick="play('${lobby.token}')">PLAY</div>`

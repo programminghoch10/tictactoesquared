@@ -72,7 +72,10 @@ function _addInfo(origin, code) {
           badRequest()
           break
         case 401:
-          unauthorized()
+          addInfo("Incorrect password", "", 2)
+          break
+        case 403:
+          forbidden()
           break
         case 426:
           tooManyLobbies()

@@ -436,7 +436,7 @@
 
 .multiplayer .burger {
   position: absolute;
-  z-index: 10;
+  z-index: 40;
 
   top: 20px;
   left: 20px;
@@ -484,9 +484,9 @@
 
   background: var(--player1);
 
-  -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.24);
-  -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.24);
-  box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.24);
+  -webkit-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.24);
+  -moz-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.24);
+  box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.24);
 
   cursor: pointer;
 }
@@ -525,6 +525,27 @@
   display: none;
 }
 
+.multiplayer .panel .closebutton {
+  position: absolute;
+
+  top: 15px;
+  right: 15px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 40px;
+  height: 40px;
+
+  background: var(--default-alt);
+  color: var(--player2);
+
+  border-radius: 10px;
+
+  cursor: pointer;
+}
+
 .multiplayer .panel form {
     position: relative;
 }
@@ -557,6 +578,18 @@
   margin-left: auto;
 }
 
+.multiplayer .panel .entry input[type="text"], .multiplayer .panel .entry input[type="password"] {
+  padding-left: 12px;
+  text-align: left;
+}
+
+.multiplayer .panel .entry .iconinput i {
+  position: absolute;
+  right: 0;
+  /* transform: translate(14px, -48px); */
+  color: rgba(0, 0, 0, 0.2);
+}
+
 .multiplayer .panel input[type="submit"] {
   width: 200px;
   height: 40px;
@@ -570,11 +603,15 @@
   font-size: 16px;
   font-weight: bold;
   text-align: center;
+
+  cursor: pointer;
 }
 
 .multiplayer .panel input[type="button"] {
   position: relative;
   margin: 0 15px;
+
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 600px) {

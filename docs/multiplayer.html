@@ -122,6 +122,9 @@
           <div class="overlay"
                id="passwordInputOverlay"
                onclick="closePasswordView()"></div>
+          <div class="overlay"
+               id="verificationViewOverlay"
+               onclick="closeVerificationView()"></div>
           <div class="overlay burgeroverlay"
                onclick="burger()"></div>
           <div class="groups">
@@ -146,6 +149,10 @@
           <div class="panel"
                id="newLobbyPanel">
             <h2>Create a lobby</h2>
+            <div class="closebutton"
+                 onclick="returnNewLobby()">
+              <i class="fas fa-times"></i>
+            </div>
             <form action="javascript:_createLobby();">
               <div class="entry">
                 <h3>Lobby name:</h3>
@@ -198,6 +205,10 @@
           <div class="panel"
                id="passwordInput">
             <h2>Enter the password</h2>
+            <div class="closebutton"
+                 onclick="closePasswordView()">
+              <i class="fas fa-times"></i>
+            </div>
             <form action="javascript:_joinLobbyWithPassword();">
               <div class="entry">
                 <h3></h3>
@@ -210,6 +221,24 @@
                 <h3></h3>
                 <input type="submit"
                        value="JOIN">
+              </div>
+            </form>
+          </div>
+          <div class="panel"
+               id="verificationView">
+            <h2>Are you sure?</h2>
+            <div class="closebutton"
+                 onclick="closeVerificationView()">
+              <i class="fas fa-times"></i>
+            </div>
+            <form action="javascript:leaveLobbyVerificated();">
+              <div class="entry">
+                <input type="button"
+                       onclick="closeVerificationView()"
+                       style="margin: 0;"
+                       value="NO">
+                <input type="submit"
+                       value="YES">
               </div>
             </form>
           </div>
