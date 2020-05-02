@@ -49,7 +49,7 @@ async function changeGroup(i) {
   currentGroup = i
   setLocalCookie("currentGroup", currentGroup)
 
-  getel("grouptitle").innerHTML = ["CURRENT GAMES", "INVITED LOBBIES", "ALL LOBBIES"][currentGroup]
+  getel("grouptitle").innerHTML = ["CURRENT GAMES", "INVITED GAMES", "ALL GAMES"][currentGroup]
 
   let burgerNotification = false
   if (currentGroup == 0) {
