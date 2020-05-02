@@ -32,6 +32,9 @@ let emptylobbies = getCookie("filterprivacy") == 1 ? false : true
 let invitedGamesCount = 0
 let yourTurnGamesCount = 0
 
+let page = 0
+let maxPages = 0
+
 async function changeGroup(i) {
   if (i == undefined || currentGroup == "undefined" || i == "" || i < 0 || i > 2) i = 0
   if (currentGroup == undefined || currentGroup == "undefined" || currentGroup == "" || currentGroup < 0 || currentGroup > 2) currentGroup = 0
@@ -47,10 +50,12 @@ async function changeGroup(i) {
   oldEl.classList.add("hide")
   el.classList.remove("hide")
 
+  getel("grouptitle").innerHTML = ["CURRENT GAMES", "INVITED GAMES", "ALL GAMES"][currentGroup]
+
+  if (currentGroup != i) page = 0
+
   currentGroup = i
   setLocalCookie("currentGroup", currentGroup)
-
-  getel("grouptitle").innerHTML = ["CURRENT GAMES", "INVITED GAMES", "ALL GAMES"][currentGroup]
 
   let burgerNotification = 0
   if (currentGroup == 0) {
@@ -297,8 +302,63 @@ function play(lobby) {
   document.location.href = "./multiplayergame.html"
 }
 
+function setPage(i) {
+  if (i < 0) i = 0
+  if (i > maxPages) i = maxPages
+
+  page = i
+
+  if (currentGroup == 0) {
+    loadJoinedLobbies()
+  } else if (currentGroup == 1) {
+    loadInvitedLobbies()
+  } else if (currentGroup == 2) {
+    loadAllLobbies()
+  }
+}
+
+function prevPage() {
+  getel("group2inner").innerHTML = ""
+  getel("loader").style.display = "block"
+  setTimeout(function () {
+    setPage(page - 1)
+    getel("loader").style.display = "none"
+  }, 10)
+}
+
+function nextPage() {
+  getel("group2inner").innerHTML = ""
+  getel("loader").style.display = "block"
+  setTimeout(function () {
+    setPage(page + 1)
+    getel("loader").style.display = "none"
+  }, 10)
+}
+
+function getLobbyPage(lobbies, page, group) {
+  if (group + "" == currentGroup) {
+    maxPages = Math.floor(lobbies.length / 10)
+
+    if (page < 0) page = 0
+    if (page > maxPages) page = maxPages
+
+    getel("pages").innerHTML = (page + 1) + " / " + (maxPages + 1)
+  }
+
+  let newLobbies = []
+  for (let index = page * 10; index < (page + 1) * 10; index++) {
+    if (index < 0 || index >= lobbies.length) break
+
+    newLobbies.push(lobbies[index])
+  }
+
+  return newLobbies
+}
+
 async function loadJoinedLobbies() {
   let joinedLobbies = getJoinedLobbies()
+  joinedLobbies = getLobbyPage(joinedLobbies, page, 0)
+
   yourTurnGamesCount = 0
 
   let innerHTML = ""
@@ -343,6 +403,7 @@ async function loadJoinedLobbies() {
 
 async function loadInvitedLobbies() {
   let invitedLobbies = getInvitedLobbies()
+  invitedGamesCount = getLobbyPage(invitedGamesCount, page, 1)
 
   let innerHTML = ""
 
@@ -388,6 +449,7 @@ async function loadAllLobbies() {
     userCount = 2
   }
   let lobbies = getLobbies(filterbylobbyname, filterbyusername, filterfieldsize, withoutapassword ? false : null, !emptylobbies ? null : "open", userCount)
+  lobbies = getLobbyPage(lobbies, page, 2)
 
   let innerHTML = ""
 
