@@ -76,7 +76,12 @@ let frontendInterface = {
     } else if (player == "f") {
       winText = "Your opponent gave up"
     } else {
-      winText = getPlayerName(player == "X" ? 0 : 1) + " wins"
+      if (lobby.playernames[player] != null) {
+        winText = lobby.playernames[player] + " wins"
+      } else {
+        winText = "wins"
+        getel("win-player").classList.add(player);
+      }
     }
 
     getel("win").classList.add("win-active");
@@ -179,8 +184,8 @@ function update() {
     }
   } else {
     // TODO: save the user name somehow instead of making a request each update
-    getel("xturn").innerHTML = getPlayerName(0) + " turn"
-    getel("oturn").innerHTML = getPlayerName(1) + " turn"
+    getel("xturn").innerHTML = lobby.playernames.X + " turn"
+    getel("oturn").innerHTML = lobby.playernames.O + " turn"
   }
 }
 setInterval(update, UPDATEDTIMER * 1000)

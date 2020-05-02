@@ -347,7 +347,6 @@ async function loadInvitedLobbies() {
       let ruleText = ""
       const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
       if (fieldSize != 3) ruleText += "Fieldsize: " + fieldSize + "   "
-      if (lobby.flags.includes("playerinverse")) ruleText += "You start.   "
 
       innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", ruleText, fieldSize, { join: true })
     } catch (err) {
@@ -398,7 +397,6 @@ async function loadAllLobbies() {
       let ruleText = ""
       const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
       if (fieldSize != 3) ruleText += "Fieldsize: " + fieldSize + "   "
-      if (lobby.flags.includes("playerinverse")) ruleText += "You start.   "
 
       innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", userName, ruleText, fulllobby ? { spectate: true } : { join: true })
     } catch (err) {
@@ -423,6 +421,10 @@ function getGame(lobby, password, by, args, flags) {
     `
   }
 
+  if (by != "" && args != "") {
+    args = " - " + args
+  }
+
   let playercolor = 1
   if (lobby.currentPlayer == "O") {
     playercolor = 2
@@ -438,7 +440,7 @@ function getGame(lobby, password, by, args, flags) {
     buttons += `<div class="button" onclick="_leaveLobby('${lobby.token}', '${lobby.name}')">LEAVE</div>`
   }
   if (flags.join) {
-    buttons += `<div class="button" onclick="_joinLobby('${lobby.token}', ${lobby.password}, '${lobby.name}')">JOIN</div>`
+    buttons += `<div class="button" style="color: var(--player${playercolor})" onclick="_joinLobby('${lobby.token}', ${lobby.password}, '${lobby.name}')">JOIN</div>`
   }
   if (flags.play) {
     buttons += `<div class="button" style="color: var(--player${playercolor})" onclick="play('${lobby.token}')">PLAY${isyourturn}</div>`
