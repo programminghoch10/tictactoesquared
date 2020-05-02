@@ -249,6 +249,11 @@ function _createLobby() {
     return
   }
 
+  if (!doesUserExist(invitePlayer)) {
+    addInfo("Invitation failed", "The user with the name '" + invitePlayer + "' does not exist.", 2)
+    return
+  }
+
   if (createLobby(lobbyName, description, password, fieldSize, invitePlayer, privacy, mayopponentstart)) {
     addInfo("Lobby created.", "The lobby '" + lobbyName + "' got created", 1)
     changeGroup(0)
