@@ -48,14 +48,22 @@ function extendLobbyInfo(lobby, thisUser, users) {
     try {
       lobby.opponentname = users.filter(function (user) {
         let isUserCorrelated = false
-        for (let j = 0; j < lobby.correlations.length; j++) {
-          if (user.token == lobby.correlations[j].usertoken) isUserCorrelated = true
-        }
+        lobby.correlations.forEach(correlation => {
+          if (user.token == correlation.usertoken) isUserCorrelated = true
+        });
         return isUserCorrelated
       }).filter(function (user) {
         return (user.token != thisUser.token)
       })[0].name
     } catch { }
+  }
+  lobby.playernames = {}
+  try {
+    lobby.playernames.X = users.find(function (user) { return (user.token == lobby.correlations[0].usertoken) }).name
+    lobby.playernames.O = users.find(function (user) { return (user.token == lobby.correlations[1].usertoken) }).name
+  } catch {
+    if (isStringEmpty(lobby.playernames.X)) lobby.playernames.X = null
+    if (isStringEmpty(lobby.playernames.O)) lobby.playernames.O = null
   }
   return lobby
 }
