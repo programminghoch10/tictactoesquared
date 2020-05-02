@@ -251,7 +251,7 @@ function _createLobby() {
 
   if (privacy == "closed") {
     if (isStringEmpty(invitePlayer)) {
-      addInfo("Invitation failed", "You need to invite someone.")
+      addInfo("Invitation failed", "You need to invite someone.", 2)
       return
     }
     if (!doesUserExist(invitePlayer)) {
