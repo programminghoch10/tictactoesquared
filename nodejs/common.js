@@ -31,6 +31,8 @@ function getPlayer(lobby, user) {
 }
 
 function extendLobbyInfo(lobby, thisUser, users) {
+  //we need to copy the original object to not overwrite the password with a bool while it is used somewhere else asynchronisly
+  lobby = JSON.parse(JSON.stringify(lobby))
   if (!users) users = []
   lobby.password = !isStringEmpty(lobby.password)
   try {
