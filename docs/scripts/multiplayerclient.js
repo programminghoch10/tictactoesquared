@@ -406,3 +406,9 @@ function rematch(lobbyToken) {
   if (req.status != 200) notifyUser("rematch", req.status)
   return (req.status == 200)
 }
+
+function doesUserExist(userName) {
+  let req = post("/api/doesUserNameExist", { userName: userName })
+  if (req.status == 400) return false
+  return req.responseText == "true"
+}
