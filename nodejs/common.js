@@ -65,6 +65,11 @@ function extendLobbyInfo(lobby, thisUser, users) {
     if (isStringEmpty(lobby.playernames.X)) lobby.playernames.X = null
     if (isStringEmpty(lobby.playernames.O)) lobby.playernames.O = null
   }
+  if (lobby.currentPlayer == "X") {
+    lobby.currentPlayerName = lobby.playernames.X
+  } else if (lobby.currentPlayer == "O") {
+    lobby.currentPlayerName = lobby.playernames.O
+  }
   return lobby
 }
 
