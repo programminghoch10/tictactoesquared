@@ -309,7 +309,7 @@ function changeName(newName) {
   }
 }
 
-function createLobby(name, description, password, fieldSize, inviteName, privacy) {
+function createLobby(name, description, password, fieldSize, inviteName, privacy, opponentStart) {
   // TODO: hash password
   switch (privacy) {
     default:
@@ -326,7 +326,9 @@ function createLobby(name, description, password, fieldSize, inviteName, privacy
     password: password,
     ownToken: token,
     fieldSize: fieldSize,
-    inviteName: inviteName, secret: secret,
+    inviteName: inviteName,
+    secret: secret,
+    opponentStart: opponentStart
   })
   if (req.status != 201) notifyUser("createLobby", req.status)
   return (req.status == 201)
@@ -355,8 +357,16 @@ function getInvitedLobbies() {
   return parseJSON(post("/api/getLobbies", { ownToken: token, invitedOnly: true, secret: secret }).responseText)
 }
 
-function getLobbies() {
-  let req = post("/api/getLobbies", { usertoken: token, secret: secret })
+function getLobbies(lobbyName, userName, fieldSize, hasPassword, privacy, userCount) {
+  let req = post("/api/getLobbies", {
+    usertoken: token,
+    secret: secret,
+    lobbyName: lobbyName,
+    userName: userName,
+    fieldSize: fieldSize,
+    hasPassword: hasPassword,
+    privacy: privacy,
+  })
   let res = req.responseText
   if (req.status == 401) resetIdentity()
   if (req.status != 200) {

@@ -17,11 +17,15 @@ let currentGroup = getCookie("currentGroup")
 let currentBurger = false
 
 let newLobbyPrivacy = ""
+let mayopponentstart
 let currentLobbyToken
 let currentLobbyName
 
-let filterbyname = ""
+let filterbylobbyname = ""
+let filterbyusername = ""
+let filterfieldsize = 3
 // it's inverted so the function call will invert it again
+if (getCookie("filterprivacy") == "") setGlobalCookie("filterprivacy", 1)
 let withoutapassword = getCookie("filterpassword") == 1 ? false : true
 let emptylobbies = getCookie("filterprivacy") == 1 ? false : true
 
@@ -46,15 +50,35 @@ async function changeGroup(i) {
   currentGroup = i
   setLocalCookie("currentGroup", currentGroup)
 
-  getel("grouptitle").innerHTML = ["JOINED LOBBIES", "INVITED LOBBIES", "ALL LOBBIES"][currentGroup]
+  getel("grouptitle").innerHTML = ["CURRENT GAMES", "INVITED GAMES", "ALL GAMES"][currentGroup]
 
+  let burgerNotification = false
   if (currentGroup == 0) {
     setTimeout(loadJoinedLobbies, 200)
+    if (invitedGamesCount > 0) {
+      burgerNotification = true
+    }
   } else if (currentGroup == 1) {
     setTimeout(loadInvitedLobbies, 200)
+    if (yourTurnGamesCount > 0) {
+      burgerNotification = true
+    }
   } else if (currentGroup == 2) {
     setTimeout(loadAllLobbies, 200)
+    if (invitedGamesCount > 0) {
+      burgerNotification = true
+    }
+    if (yourTurnGamesCount > 0) {
+      burgerNotification = true
+    }
   }
+
+  if (burgerNotification) {
+    getel("burgernotification").classList.add("notificationdot-active")
+  } else {
+    getel("burgernotification").classList.remove("notificationdot-active")
+  }
+
   setIntervals(currentGroup)
   if (currentBurger) burger()
 }
@@ -83,6 +107,11 @@ function burger() {
 
 function newLobby() {
   getel("newlobbyoverlay").classList.add("overlay-active")
+  getel("lobbyname").value = ""
+  getel("lobbydescription").value = ""
+  getel("lobbypassword").value = ""
+  getel("lobbyinviteplayer").value = ""
+  getel("lobbyfieldsize").value = 3
   let els = document.getElementsByClassName("add")
   for (let i = 0; i < els.length; i++) {
     const el = els[i];
@@ -96,6 +125,8 @@ function newLobby() {
   if (currentBurger == true) burger()
 
   publicLobbyButtonPressed()
+  mayopponentstart = true
+  mayopponentstartPressed()
 }
 
 function closeNewLobbyView() {
@@ -125,6 +156,15 @@ function publicLobbyButtonPressed() {
   getel("lobbyinviteplayer").removeAttribute("required")
   getel("lobbypasswordentry").classList.remove("entry-hide")
   newLobbyPrivacy = "open"
+}
+
+function mayopponentstartPressed() {
+  mayopponentstart = !mayopponentstart
+  if (mayopponentstart) {
+    getel("opponentstarts").classList.add("active-button")
+  } else {
+    getel("opponentstarts").classList.remove("active-button")
+  }
 }
 
 function openPasswordView() {
@@ -179,7 +219,9 @@ function emptyLobbiesButtonPressed() {
 }
 
 function useFilters() {
-  filterbyname = getel("filterviewname").value
+  filterbylobbyname = getel("filterviewlobbyname").value
+  filterbyusername = getel("filterviewusername").value
+  filterfieldsize = getel("filterfieldsize").value
   closeFilterView()
   changeGroup(2)
 }
@@ -198,7 +240,7 @@ function _createLobby() {
   let fieldSize = getel("lobbyfieldsize").value
   let privacy = newLobbyPrivacy
   let invitePlayer = getel("lobbyinviteplayer").value
-  createLobby(name, description, password, fieldSize, invitePlayer, privacy)
+  createLobby(name, description, password, fieldSize, invitePlayer, privacy, mayopponentstart)
   addInfo("Lobby created.", "The lobby '" + name + "' got created", 1)
   closeNewLobbyView()
   changeGroup(0)
@@ -254,12 +296,17 @@ async function loadJoinedLobbies() {
       }
 
       if (lobby.game == undefined || lobby.game == "") lobby.game = "3-"
+
+      let ruleText = ""
       const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
+      if (fieldSize != 3) ruleText += "Fieldsize: " + fieldSize + "   "
 
       let username = ""
-      if (lobby.correlations.length == 1 && lobby.correlations.privacy == "open") username = WAITINGFORPLAYERSSTRING
+      if (lobby.correlations.length == 1 && lobby.correlations.privacy == "open" && lobby.correlations[0].usertoken == token) username = WAITINGFORPLAYERSSTRING
+      else if (lobby.correlations[0].usertoken == token) username = "by yourself"
+      else username = "by " + other(lobby.correlations[0].usertoken).name
 
-      innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", username, fieldSize, { leave: true, play: true })
+      innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", username, ruleText, { leave: true, play: true })
     } catch (err) {
       console.log(err)
     }
@@ -289,16 +336,20 @@ async function loadInvitedLobbies() {
       let userName = ""
       if (lobby.correlations[0].usertoken == token) {
         if (lobby.correlations.length == 1) {
-          userName = "yourself"
+          userName = "by yourself"
         }
       } else {
-        userName = other(lobby.correlations[0].usertoken).name
+        userName = "by " + other(lobby.correlations[0].usertoken).name
       }
 
       if (lobby.game == undefined || lobby.game == "") lobby.game = "3-"
-      const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
 
-      innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", userName, fieldSize, { join: true })
+      let ruleText = ""
+      const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
+      if (fieldSize != 3) ruleText += "Fieldsize: " + fieldSize + "   "
+      if (lobby.flags.includes("playerinverse")) ruleText += "You start.   "
+
+      innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", ruleText, fieldSize, { join: true })
     } catch (err) {
       console.log(err)
       console.log(lobby)
@@ -307,6 +358,7 @@ async function loadInvitedLobbies() {
 
   getel("group1inner").innerHTML = innerHTML
 
+  invitedGamesCount = invitedLobbies.length
   if (invitedLobbies.length == 0) {
     getel("invitednotice").classList.remove("notificationdot-active")
   } else {
@@ -316,27 +368,39 @@ async function loadInvitedLobbies() {
 }
 
 async function loadAllLobbies() {
-  let lobbies = getLobbies()
+  let userCount = null
+  if (emptylobbies) {
+    userCount = 2
+  }
+  let lobbies = getLobbies(filterbylobbyname, filterbyusername, filterfieldsize, !withoutapassword, !emptylobbies ? "closed" : "open", userCount)
 
   let innerHTML = ""
 
   for (let i = 0; i < lobbies.length; i++) {
     const lobby = lobbies[i]
+    let fulllobby = false
     try {
       let userName = ""
       if (lobby.correlations[0].usertoken == token) {
         if (lobby.correlations.length == 1) {
-          userName = "yourself"
+          userName = "by yourself"
         }
+      } else if (lobby.correlations.length == 2) {
+        fulllobby = true
+        userName = "This lobby is full"
       } else {
         //userName = other(lobby.correlations[0].usertoken).name
-        userName = lobby.ownername
+        userName = "by " + lobby.ownername
       }
 
       if (lobby.game == undefined || lobby.game == "") lobby.game = "3-"
-      const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
 
-      innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", userName, fieldSize, { join: true })
+      let ruleText = ""
+      const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
+      if (fieldSize != 3) ruleText += "Fieldsize: " + fieldSize + "   "
+      if (lobby.flags.includes("playerinverse")) ruleText += "You start.   "
+
+      innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", userName, ruleText, fulllobby ? { spectate: true } : { join: true })
     } catch (err) {
       console.log(err)
       console.log(lobby)
@@ -364,16 +428,6 @@ function getGame(lobby, password, by, args, flags) {
     playercolor = 2
   }
 
-  if (by != WAITINGFORPLAYERSSTRING && by != "") {
-    by = "by " + by
-  }
-
-  if (args != "3") {
-    args = "fieldsize " + args
-  } else {
-    args = ""
-  }
-
   let lock = ""
   if (password) {
     lock = `<i class="fas fa-lock fa-xs"></i>`
@@ -388,6 +442,9 @@ function getGame(lobby, password, by, args, flags) {
   }
   if (flags.play) {
     buttons += `<div class="button" style="color: var(--player${playercolor})" onclick="play('${lobby.token}')">PLAY${isyourturn}</div>`
+  }
+  if (flags.spectate) {
+    buttons += `<div class="button" style="color: var(--player${playercolor})" onclick="play('${lobby.token}')">WATCH</div>`
   }
 
   html = `
@@ -450,6 +507,9 @@ function setIntervals(i) {
   if (i == 1) invitedlobbiesinterval = setInterval(refreshInvitedLobbies, INVITEDLOBBIESREFRESHTIME2 * 1000)
   if (i == 2) alllobbiesinterval = setInterval(refreshAllLobbies, ALLLOBBIESREFRESHTIME2 * 1000)
 }
+refreshJoinedLobbies()
+refreshInvitedLobbies()
+refreshAllLobbies()
 
 setTimeout(lobbyClosed, 10)
 resize()

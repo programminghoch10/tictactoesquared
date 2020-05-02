@@ -138,6 +138,8 @@ class Game {
 
     this.setCurrentField(a, b);
 
+    this.globalWin(0, 0, this.currentPlayer);
+
     this.switchPlayers();
 
     return true;
@@ -274,7 +276,7 @@ class Game {
   }
 
   fromString(saveGame) {
-    if (saveGame == "") return false;
+    if (saveGame == "" || saveGame == undefined) return false;
 
     this.size = parseInt(saveGame.substring(0, saveGame.indexOf("-")));
 

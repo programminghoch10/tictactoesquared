@@ -39,7 +39,7 @@ router.post('/api/changeName', async function (req, res) {
 
   sql.updateUser(user)
 
-  res.statusStatus(200)
+  res.sendStatus(200)
 })
 
 module.exports = router

@@ -9,6 +9,8 @@ getel("lobbytitle").innerHTML = lobby.name
 
 let owner = lobby.correlations[0].usertoken
 let amIX = owner == token
+let amIO = false
+if (lobby.correlations.length > 1) amIO = lobby.correlations[1].usertoken == token
 
 function getopponentname(suffix) {
   if (lobby.opponentname == undefined) {
@@ -16,6 +18,10 @@ function getopponentname(suffix) {
   } else {
     return lobby.opponentname + suffix
   }
+}
+
+function getPlayerName(i) {
+  return other(lobby.correlations[i].usertoken).name
 }
 
 // FRONTEND INTERFACE
@@ -61,14 +67,16 @@ let frontendInterface = {
     won = true
     getel("game").classList.add("nocurrent");
     let winText = ""
-    if ((player == "X" && amIX) || (player == "O" && !amIX)) {
+    if ((player == "X" && amIX) || (player == "O" && amIO)) {
       winText = "You win"
-    } else if ((player == "O" && amIX) || (player == "X" && !amIX)) {
+    } else if ((player == "O" && amIX) || (player == "X" && amIO)) {
       winText = getopponentname(" wins")
     } else if (player == "d") {
       winText = "Draw"
     } else if (player == "f") {
       winText = "Your opponent gave up"
+    } else {
+      winText = getPlayerName(player == "X" ? 0 : 1) + " wins"
     }
 
     getel("win").classList.add("win-active");
@@ -161,7 +169,7 @@ function update() {
       opponentrequestedrematch = true
       addInfo("Rematch", "Your opponent requested a rematch", 1)
     }
-  } else {
+  } else if (amIO) {
     getel("xturn").innerHTML = getopponentname(" turn")
     getel("oturn").innerHTML = "your turn"
 
@@ -169,6 +177,10 @@ function update() {
       opponentrequestedrematch = true
       addInfo("Rematch", "Your opponent requested a rematch", 1)
     }
+  } else {
+    // TODO: save the user name somehow instead of making a request each update
+    getel("xturn").innerHTML = getPlayerName(0) + " turn"
+    getel("oturn").innerHTML = getPlayerName(1) + " turn"
   }
 }
 setInterval(update, UPDATEDTIMER * 1000)

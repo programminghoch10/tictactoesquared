@@ -41,6 +41,15 @@ router.post('/api/rematch', async function (req, res) {
     let game = new Game()
     game.fromString(lobby.game)
     game.init()
+
+    // switch players
+    if (lobby.hasFlag("playerinverse")) {
+      lobby.removeFlag("playerinverse")
+    } else {
+      lobby.setFlag("playerinverse")
+      game.switchPlayers()
+    }
+
     lobby.game = game.toString()
 
     lobby.removeFlag("rematch0")

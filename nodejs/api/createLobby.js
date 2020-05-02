@@ -25,6 +25,7 @@ router.post('/api/createLobby', async function (req, res) {
   let password = req.body.password
   let fieldSize = req.body.fieldSize
   let inviteName = req.body.inviteName
+  let opponentStart = req.body.opponentStart
 
   if (common.isStringEmpty(name)) {
     res.sendStatus(400)
@@ -69,7 +70,14 @@ router.post('/api/createLobby', async function (req, res) {
   lobby.password = password
   lobby.privacy = privacy
 
-  lobby.game = (new Game(null, fieldSize)).toString()
+  let game = new Game(null, fieldSize)
+
+  if (opponentStart == "true") {
+    lobby.setFlag("playerinverse")
+    game.switchPlayers()
+  }
+
+  lobby.game = game.toString()
 
   lobby = await sql.createLobby(lobby)
 
