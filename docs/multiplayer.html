@@ -65,7 +65,9 @@
           <div class="burger"
                id="burgerbutton"
                onclick="burger()">
-            <div></div>
+            <span></span>
+            <div class="notificationdot"
+                 id="burgernotification"></div>
           </div>
           <div class="add"
                id="newLobbyButton"
@@ -91,32 +93,37 @@
               <a href="inputname.html"><i class="fas fa-edit"></i></a>
             </div>
             <div class="groups-nav">
-              <div class="group"
-                   id="navgroup0"
-                   onclick="changeGroup(0)">
-                <p>CURRENT GAMES</p>
-                <div class="notificationdot"
-                     id="isyourturn"></div>
+              <div class="group current"
+                   onclick="newLobby()">
+                <p>+ CREATE NEW LOBBY</p>
+                <div class="notificationdot"></div>
               </div>
               <div class="alt">
                 <div class="group"
-                     id="navgroup1"
-                     onclick="changeGroup(1)">
-                  <p>INVITED GAMES</p>
+                     id="navgroup0"
+                     onclick="changeGroup(0)">
+                  <p>CURRENT GAMES</p>
                   <div class="notificationdot"
-                       id="invitednotice"></div>
+                       id="isyourturn"></div>
                 </div>
               </div>
               <div class="group"
-                   id="navgroup2"
-                   onclick="changeGroup(2)">
-                <p>ALL GAMES</p>
+                   id="navgroup1"
+                   onclick="changeGroup(1)">
+                <p>INVITED GAMES</p>
+                <div class="notificationdot"
+                     id="invitednotice"></div>
               </div>
               <div class="alt">
                 <div class="group"
-                     style="cursor: not-allowed;">
-                  <p style="color: grey;">QUICK GAME</p>
+                     id="navgroup2"
+                     onclick="changeGroup(2)">
+                  <p>ALL GAMES</p>
                 </div>
+              </div>
+              <div class="group"
+                   style="cursor: not-allowed;">
+                <p style="color: grey;">QUICK GAME</p>
               </div>
             </div>
           </div>
@@ -212,6 +219,13 @@
                        id="lobbyfieldsize">
               </div>
               <div class="entry">
+                <input type="button"
+                       class="fullsize"
+                       id="opponentstarts"
+                       value="The opponent may start"
+                       required>
+              </div>
+              <div class="entry">
                 <h3></h3>
                 <input type="submit"
                        value="SUBMIT">
@@ -268,9 +282,14 @@
             </div>
             <form action="javascript:useFilters();">
               <div class="entry">
-                <h3>Search by name:</h3>
+                <h3>Lobby name:</h3>
                 <input type="text"
-                       id="filterviewname">
+                       id="filterviewlobbyname">
+              </div>
+              <div class="entry">
+                <h3>User name:</h3>
+                <input type="text"
+                       id="filterviewusername">
               </div>
               <div class="entry button-entry">
                 <input type="button"

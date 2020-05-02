@@ -62,11 +62,13 @@
     <div class="inputname">
       <div class="center flex-column">
         <div class="icons">
-          <a href="multiplayer.html">
+          <a href="index.html"
+             id="indexlink">
             <i class="fas fa-arrow-left back"></i>
           </a>
-          <a href="index.html">
-            <i class="fas fa-home home"></i>
+          <a href="multiplayer.html"
+             id="multiplayerlink">
+            <i class="fas fa-arrow-left back"></i>
           </a>
         </div>
         <h1>Enter your name:</h1>
@@ -76,7 +78,7 @@
                    id="username"
                    autofocus>
             <input type="submit"
-                   value="CHANGE NAME">
+                   value="OK">
           </form>
         </div>
       </div>
@@ -109,6 +111,12 @@
 
         setGlobalCookie("name", name)
         document.location.href = "./multiplayer.html"
+      }
+
+      if (getCookie("name") != "") {
+        getel("indexlink").style.display = "none"
+      } else {
+        getel("multiplayerlink").style.display = "none"
       }
     </script>
   </body>

@@ -20,7 +20,8 @@ let newLobbyPrivacy = ""
 let currentLobbyToken
 let currentLobbyName
 
-let filterbyname = ""
+let filterbylobbyname = ""
+let filterbyusername = ""
 // it's inverted so the function call will invert it again
 let withoutapassword = getCookie("filterpassword") == 1 ? false : true
 let emptylobbies = getCookie("filterprivacy") == 1 ? false : true
@@ -46,15 +47,35 @@ async function changeGroup(i) {
   currentGroup = i
   setLocalCookie("currentGroup", currentGroup)
 
-  getel("grouptitle").innerHTML = ["JOINED LOBBIES", "INVITED LOBBIES", "ALL LOBBIES"][currentGroup]
+  getel("grouptitle").innerHTML = ["CURRENT GAMES", "INVITED LOBBIES", "ALL LOBBIES"][currentGroup]
 
+  let burgerNotification = false
   if (currentGroup == 0) {
     setTimeout(loadJoinedLobbies, 200)
+    if (invitedGamesCount > 0) {
+      burgerNotification = true
+    }
   } else if (currentGroup == 1) {
     setTimeout(loadInvitedLobbies, 200)
+    if (yourTurnGamesCount > 0) {
+      burgerNotification = true
+    }
   } else if (currentGroup == 2) {
     setTimeout(loadAllLobbies, 200)
+    if (invitedGamesCount > 0) {
+      burgerNotification = true
+    }
+    if (yourTurnGamesCount > 0) {
+      burgerNotification = true
+    }
   }
+
+  if (burgerNotification) {
+    getel("burgernotification").classList.add("notificationdot-active")
+  } else {
+    getel("burgernotification").classList.remove("notificationdot-active")
+  }
+
   setIntervals(currentGroup)
   if (currentBurger) burger()
 }
@@ -83,6 +104,11 @@ function burger() {
 
 function newLobby() {
   getel("newlobbyoverlay").classList.add("overlay-active")
+  getel("lobbyname").value = ""
+  getel("lobbydescription").value = ""
+  getel("lobbypassword").value = ""
+  getel("lobbyinviteplayer").value = ""
+  publicLobbyButtonPressed()
   let els = document.getElementsByClassName("add")
   for (let i = 0; i < els.length; i++) {
     const el = els[i];
@@ -179,7 +205,8 @@ function emptyLobbiesButtonPressed() {
 }
 
 function useFilters() {
-  filterbyname = getel("filterviewname").value
+  filterbylobbyname = getel("filterviewlobbyname").value
+  filterbyusername = getel("filterviewusername").value
   closeFilterView()
   changeGroup(2)
 }
@@ -307,6 +334,7 @@ async function loadInvitedLobbies() {
 
   getel("group1inner").innerHTML = innerHTML
 
+  invitedGamesCount = invitedLobbies.length
   if (invitedLobbies.length == 0) {
     getel("invitednotice").classList.remove("notificationdot-active")
   } else {
@@ -450,6 +478,9 @@ function setIntervals(i) {
   if (i == 1) invitedlobbiesinterval = setInterval(refreshInvitedLobbies, INVITEDLOBBIESREFRESHTIME2 * 1000)
   if (i == 2) alllobbiesinterval = setInterval(refreshAllLobbies, ALLLOBBIESREFRESHTIME2 * 1000)
 }
+refreshJoinedLobbies()
+refreshInvitedLobbies()
+refreshAllLobbies()
 
 setTimeout(lobbyClosed, 10)
 resize()

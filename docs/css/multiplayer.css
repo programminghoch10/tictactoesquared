@@ -22,13 +22,17 @@
 
   background-color: var(--default);
 
-  -webkit-box-shadow: 3px 0px 3px 0px rgba(0,0,0,0.2);
-  -moz-box-shadow: 3px 0px 3px 0px rgba(0,0,0,0.2);
-  box-shadow: 3px 0px 3px 0px rgba(0,0,0,0.2);
-
   text-align: center;
 
   transition: transform 200ms ease-in-out;
+}
+
+@media only screen and (max-width: 1200px) {
+  .multiplayer .sidebar {
+    -webkit-box-shadow: 3px 0px 3px 0px rgba(0,0,0,0.2);
+    -moz-box-shadow: 3px 0px 3px 0px rgba(0,0,0,0.2);
+    box-shadow: 3px 0px 3px 0px rgba(0,0,0,0.2);
+  }
 }
 
 .multiplayer .sidebar .nav {
@@ -38,6 +42,8 @@
 .multiplayer .sidebar .nav i::before {
   color: var(--font-color);
   margin: 5px;
+
+  cursor: pointer;
 }
 
 .dark .multiplayer .sidebar .darkmode {
@@ -53,7 +59,8 @@
 }
 
 .multiplayer .sidebar .name {
-  margin-top: 50px;
+  display: flex;
+  justify-content: center;
 }
 
 .multiplayer .sidebar .name i::before {
@@ -61,7 +68,7 @@
 }
 
 .multiplayer .sidebar .name i {
-  transform: translate(0, -12px);
+  transform: translate(12px, 26px);
   cursor: pointer;
 }
 
@@ -96,7 +103,10 @@
 }
 
 .multiplayer .groups-nav {
-  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
 }
 
 .multiplayer .groups-nav .group {
@@ -104,19 +114,28 @@
   display: flex;
   align-items: center;
 
-  height: 80px;
+  width: 250px;
+  height: 40px;
 
-  margin: 20px 0;
+  margin: 5px 0;
 
-  background: var(--default-alt);
+  background: var(--default);
+
+  border-radius: 10px;
+
+  text-align: left;
 
   cursor: pointer;
 }
 
+.multiplayer .groups-nav .group:hover {
+  background: var(--default-alt);
+}
+
 .multiplayer .notificationdot {
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: -4px;
+  right: -4px;
 
   display: none;
   align-items: center;
@@ -155,8 +174,15 @@
   background: var(--player1);
 }
 
+.multiplayer .groups-nav .current:hover {
+  background: var(--player1);
+}
+.multiplayer .groups-nav .alt .current:hover {
+  background: var(--player2);
+}
+
 .multiplayer .groups-nav .current p {
-  color: var(--default-alt);
+  color: var(--color);
 }
 
 .multiplayer .groups-nav .alt .current {
@@ -164,7 +190,7 @@
 }
 
 .multiplayer .groups-nav .alt .current p {
-  color: var(--default-alt);
+  color: var(--color);
 }
 
 .multiplayer .groups {
@@ -295,10 +321,13 @@
   position: relative;
 
   width: calc(100% - 40px);
-  height: 120px;
+  min-height: 120px;
+  max-height: 200px;
   margin: 20px;
   border-radius: 10px;
   background: var(--default);
+
+  word-wrap: break-word;
 
   overflow: hidden;
 }
@@ -353,10 +382,6 @@
 }
 
 @media only screen and (max-width: 600px) {
-  .multiplayer .group .game {
-    height: 200px;
-  }
-
   .multiplayer .group .game h3 {
     width: 85%;
     font-size: 14px;
@@ -414,7 +439,7 @@
 
 @media only screen and (max-width: 800px) {
   .multiplayer .group .game {
-    height: 200px;
+    padding-bottom: 60px;
   }
 
   .multiplayer .group .game h3 {
@@ -435,23 +460,12 @@
 }
 
 @media only screen and (max-width: 800px) {
-  .multiplayer .group .game {
-    height: 240px;
-  }
-
   .multiplayer .group .game .title {
     display: block;
   }
 
   .multiplayer .group .game .title h2 {
     display: flex;
-  }
-}
-
-
-@media only screen and (max-width: 450px) {
-  .multiplayer .group .game {
-    height: 260px;
   }
 }
 
@@ -501,7 +515,7 @@
   cursor: pointer;
 }
 
-.multiplayer .burger div, .multiplayer .burger div::before, .multiplayer .burger div::after {
+.multiplayer .burger span, .multiplayer .burger span::before, .multiplayer .burger span::after {
   content: "";
 
   display: block;
@@ -516,10 +530,10 @@
   border-radius: 2px;
 }
 
-.multiplayer .burger div::before {
+.multiplayer .burger span::before {
   transform: translateY(-200%);
 }
-.multiplayer .burger div::after {
+.multiplayer .burger span::after {
   transform: translateY(100%);
 }
 
