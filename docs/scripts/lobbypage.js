@@ -52,29 +52,30 @@ async function changeGroup(i) {
 
   getel("grouptitle").innerHTML = ["CURRENT GAMES", "INVITED GAMES", "ALL GAMES"][currentGroup]
 
-  let burgerNotification = false
+  let burgerNotification = 0
   if (currentGroup == 0) {
     setTimeout(loadJoinedLobbies, 200)
     if (invitedGamesCount > 0) {
-      burgerNotification = true
+      burgerNotification = invitedGamesCount
     }
   } else if (currentGroup == 1) {
     setTimeout(loadInvitedLobbies, 200)
     if (yourTurnGamesCount > 0) {
-      burgerNotification = true
+      burgerNotification = yourTurnGamesCount
     }
   } else if (currentGroup == 2) {
     setTimeout(loadAllLobbies, 200)
     if (invitedGamesCount > 0) {
-      burgerNotification = true
+      burgerNotification = invitedGamesCount
     }
     if (yourTurnGamesCount > 0) {
-      burgerNotification = true
+      burgerNotification += yourTurnGamesCount
     }
   }
 
-  if (burgerNotification) {
+  if (burgerNotification > 0) {
     getel("burgernotification").classList.add("notificationdot-active")
+    getel("burgernotification").innerHTML = burgerNotification > 9 ? "9+" : burgerNotification
   } else {
     getel("burgernotification").classList.remove("notificationdot-active")
   }
@@ -227,23 +228,32 @@ function useFilters() {
 }
 
 function leaveLobbyVerificated() {
-  leaveLobby(currentLobbyToken)
+  if (leaveLobby(currentLobbyToken)) {
+    addInfo("Lobby left.", "You've left the lobby '" + currentLobbyName + "'", 1)
+    changeGroup(currentGroup)
+  }
+
   closeVerificationView()
-  changeGroup(currentGroup)
-  addInfo("Lobby left.", "You've left the lobby '" + currentLobbyName + "'", 1)
 }
 
 function _createLobby() {
-  let name = getel("lobbyname").value
+  let lobbyName = getel("lobbyname").value
   let description = getel("lobbydescription").value
   let password = getel("lobbypassword").value
   let fieldSize = getel("lobbyfieldsize").value
   let privacy = newLobbyPrivacy
   let invitePlayer = getel("lobbyinviteplayer").value
-  createLobby(name, description, password, fieldSize, invitePlayer, privacy, mayopponentstart)
-  addInfo("Lobby created.", "The lobby '" + name + "' got created", 1)
+
+  if (invitePlayer == name) {
+    addInfo("Nice try :)", "You cannot invite yourself.", 2)
+    return
+  }
+
+  if (createLobby(lobbyName, description, password, fieldSize, invitePlayer, privacy, mayopponentstart)) {
+    addInfo("Lobby created.", "The lobby '" + lobbyName + "' got created", 1)
+    changeGroup(0)
+  }
   closeNewLobbyView()
-  changeGroup(0)
 }
 
 function _joinLobby(lobby, hasPassword, name) {
@@ -254,9 +264,10 @@ function _joinLobby(lobby, hasPassword, name) {
     return
   }
 
-  addInfo("Lobby joined.", "You joined the lobby '" + name + "'", 1)
-  joinLobby(lobby)
-  changeGroup(0)
+  if (joinLobby(lobby)) {
+    addInfo("Lobby joined.", "You joined the lobby '" + name + "'", 1)
+    changeGroup(0)
+  }
 }
 
 function _joinLobbyWithPassword() {
