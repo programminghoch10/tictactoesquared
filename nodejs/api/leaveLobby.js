@@ -22,7 +22,12 @@ router.post('/api/leaveLobby', async function (req, res) {
     return
   }
 
-  await sql.deleteCorrelation(await sql.getCorrelation(user.token, lobby.token))
+  let correlation = lobby.correlations.filter(function (correlation) { return (correlation.usertoken == user.token) })[0]
+  if (!correlation) {
+    res.sendStatus(400)
+    return
+  }
+  await sql.deleteCorrelation(correlation)
 
   lobby = await sql.getLobbyByToken(lobby.token)
   //delete lobby if there are no more users in it or if the only correlation is an invite
