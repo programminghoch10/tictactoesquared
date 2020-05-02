@@ -312,7 +312,18 @@
 
 .multiplayer .groups .group::-webkit-scrollbar {
   display: none;
-  }
+}
+
+.multiplayer .groups .group .nogames {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-size: 26px;
+  color: var(--font-color);
+  word-wrap: break-word;
+  text-align: center;
+}
 
 .multiplayer .groups .hide {
   display: none;

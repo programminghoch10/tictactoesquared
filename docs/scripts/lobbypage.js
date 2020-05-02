@@ -59,17 +59,32 @@ async function changeGroup(i) {
 
   let burgerNotification = 0
   if (currentGroup == 0) {
-    setTimeout(loadJoinedLobbies, 200)
+    getel("group0inner").innerHTML = ""
+    getel("loader").style.display = "block"
+    setTimeout(function () {
+      loadJoinedLobbies()
+      getel("loader").style.display = "none"
+    }, 200)
     if (invitedGamesCount > 0) {
       burgerNotification = invitedGamesCount
     }
   } else if (currentGroup == 1) {
-    setTimeout(loadInvitedLobbies, 200)
+    getel("group1inner").innerHTML = ""
+    getel("loader").style.display = "block"
+    setTimeout(function () {
+      loadInvitedLobbies()
+      getel("loader").style.display = "none"
+    }, 200)
     if (yourTurnGamesCount > 0) {
       burgerNotification = yourTurnGamesCount
     }
   } else if (currentGroup == 2) {
-    setTimeout(loadAllLobbies, 200)
+    getel("group2inner").innerHTML = ""
+    getel("loader").style.display = "block"
+    setTimeout(function () {
+      loadAllLobbies()
+      getel("loader").style.display = "none"
+    }, 200)
     if (invitedGamesCount > 0) {
       burgerNotification = invitedGamesCount
     }
@@ -90,13 +105,19 @@ async function changeGroup(i) {
 }
 
 function refresh() {
-  if (currentGroup == 0) {
-    loadJoinedLobbies()
-  } else if (currentGroup == 1) {
-    loadInvitedLobbies()
-  } else if (currentGroup == 2) {
-    loadAllLobbies()
-  }
+  getel("group" + currentGroup + "inner").innerHTML = ""
+  getel("loader").style.display = "block"
+  setTimeout(function () {
+    if (currentGroup == 0) {
+      loadJoinedLobbies()
+    } else if (currentGroup == 1) {
+      loadInvitedLobbies()
+    } else if (currentGroup == 2) {
+      loadAllLobbies()
+    }
+
+    getel("loader").style.display = "none"
+  }, 10)
 }
 
 function burger() {
@@ -349,6 +370,16 @@ function getLobbyPage(lobbies, page, group) {
     if (page > maxPages) page = maxPages
 
     getel("pages").innerHTML = (page + 1) + " / " + (maxPages + 1)
+
+    if (maxPages <= 0 || isNaN(maxPages)) {
+      getel("prevpage").style.opacity = 0
+      getel("pages").style.opacity = 0
+      getel("nextpage").style.opacity = 0
+    } else {
+      getel("prevpage").style.opacity = 1
+      getel("pages").style.opacity = 1
+      getel("nextpage").style.opacity = 1
+    }
   }
 
   let newLobbies = []
@@ -394,6 +425,10 @@ async function loadJoinedLobbies() {
     }
   }
 
+  if (innerHTML == "") {
+    innerHTML = `<div class="nogames">You're currently not playing any games. Let's change that by joining some.</div>`
+  }
+
   getel("group0inner").innerHTML = innerHTML
 
   setTimeout(function () {
@@ -436,6 +471,10 @@ async function loadInvitedLobbies() {
       console.log(err)
       console.log(lobby)
     }
+  }
+
+  if (innerHTML == "") {
+    innerHTML += `<div class="nogames">It seems like no one invited you</div>`
   }
 
   getel("group1inner").innerHTML = innerHTML
@@ -487,6 +526,10 @@ async function loadAllLobbies() {
       console.log(err)
       console.log(lobby)
     }
+  }
+
+  if (innerHTML == "") {
+    innerHTML = `<div class="nogames">There are no lobbies yet. It time to create the first one</div>`
   }
 
   getel("group2inner").innerHTML = innerHTML
