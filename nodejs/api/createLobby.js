@@ -74,6 +74,10 @@ router.post('/api/createLobby', async function (req, res) {
   lobby.password = password
   lobby.privacy = privacy
 
+  if (invite) {
+    lobby.setFlag("invite")
+  }
+
   let game = new Game(null, fieldSize)
 
   if (opponentStart == "true") {

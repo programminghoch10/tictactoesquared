@@ -98,6 +98,8 @@ class Game {
   }
 
   switchPlayers() {
+    if (this.won) return
+
     if (this.currentPlayer == player1) {
       this.setCurrentPlayer(player2);
     } else {
@@ -137,8 +139,6 @@ class Game {
     this.checkWin(x, y, a, b, this.currentPlayer);
 
     this.setCurrentField(a, b);
-
-    this.globalWin(0, 0, this.currentPlayer);
 
     this.switchPlayers();
 

@@ -60,6 +60,9 @@ router.post('/api/joinLobby', async function (req, res) {
     return
   }
 
+  // if the lobby had the 'invite' flag, remove it
+  lobby.removeFlag("invite")
+
   let correlation = await sql.getCorrelation(user.token, lobby.token);
   if (correlation) {
     correlation.invite = false
@@ -74,8 +77,9 @@ router.post('/api/joinLobby', async function (req, res) {
 
   if (lobby.privacy != "closed") {
     lobby.privacy = "closed"
-    await sql.updateLobby(lobby)
   }
+
+  sql.updateLobby(lobby)
 
   res.sendStatus(202)
 })

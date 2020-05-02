@@ -376,10 +376,6 @@ function getLobbies(lobbyName, userName, fieldSize, hasPassword, privacy, userCo
   return parseJSON(res)
 }
 
-function searchLobbies(filter) {
-  //TODO: add search for lobbies request to server
-}
-
 function joinLobby(lobbyToken, password) {
   let req = post("/api/joinLobby", { lobbytoken: lobbyToken, usertoken: token, password: password, secret: secret })
   //no handling for 401, because it can be either wrong password or invalid user
