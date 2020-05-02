@@ -17,6 +17,7 @@ let currentGroup = getCookie("currentGroup")
 let currentBurger = false
 
 let newLobbyPrivacy = ""
+let mayopponentstart
 let currentLobbyToken
 let currentLobbyName
 
@@ -108,7 +109,6 @@ function newLobby() {
   getel("lobbydescription").value = ""
   getel("lobbypassword").value = ""
   getel("lobbyinviteplayer").value = ""
-  publicLobbyButtonPressed()
   let els = document.getElementsByClassName("add")
   for (let i = 0; i < els.length; i++) {
     const el = els[i];
@@ -122,6 +122,8 @@ function newLobby() {
   if (currentBurger == true) burger()
 
   publicLobbyButtonPressed()
+  mayopponentstart = true
+  mayopponentstartPressed()
 }
 
 function closeNewLobbyView() {
@@ -151,6 +153,15 @@ function publicLobbyButtonPressed() {
   getel("lobbyinviteplayer").removeAttribute("required")
   getel("lobbypasswordentry").classList.remove("entry-hide")
   newLobbyPrivacy = "open"
+}
+
+function mayopponentstartPressed() {
+  mayopponentstart = !mayopponentstart
+  if (mayopponentstart) {
+    getel("opponentstarts").classList.add("active-button")
+  } else {
+    getel("opponentstarts").classList.remove("active-button")
+  }
 }
 
 function openPasswordView() {
