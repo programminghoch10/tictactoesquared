@@ -43,6 +43,8 @@
           href="./css/multiplayer.css" />
     <link rel="stylesheet"
           href="./css/info.css" />
+    <link rel="stylesheet"
+          href="./css/loader.css" />
     <!--
             Manifest
         -->
@@ -93,19 +95,19 @@
               <a href="inputname.html"><i class="fas fa-edit"></i></a>
             </div>
             <div class="groups-nav">
-              <div class="group current"
-                   onclick="newLobby()">
-                <p>+ CREATE NEW LOBBY</p>
-                <div class="notificationdot"></div>
-              </div>
               <div class="alt">
-                <div class="group"
-                     id="navgroup0"
-                     onclick="changeGroup(0)">
-                  <p>CURRENT GAMES</p>
-                  <div class="notificationdot"
-                       id="isyourturn"></div>
+                <div class="group current"
+                     onclick="newLobby()">
+                  <p>+ CREATE NEW LOBBY</p>
+                  <div class="notificationdot"></div>
                 </div>
+              </div>
+              <div class="group"
+                   id="navgroup0"
+                   onclick="changeGroup(0)">
+                <p>CURRENT GAMES</p>
+                <div class="notificationdot"
+                     id="isyourturn"></div>
               </div>
               <div class="group"
                    id="navgroup1"
@@ -114,12 +116,10 @@
                 <div class="notificationdot"
                      id="invitednotice"></div>
               </div>
-              <div class="alt">
-                <div class="group"
-                     id="navgroup2"
-                     onclick="changeGroup(2)">
-                  <p>ALL GAMES</p>
-                </div>
+              <div class="group"
+                   id="navgroup2"
+                   onclick="changeGroup(2)">
+                <p>ALL GAMES</p>
               </div>
               <div class="group"
                    style="cursor: not-allowed;">
@@ -154,6 +154,10 @@
                    onclick="refresh()"></i>
               </div>
             </div>
+            <!-- <div class="spinner">
+              <div class="dot1"></div>
+              <div class="dot2"></div>
+            </div> -->
             <div class="group hide"
                  id="group0">
               <div id="group0inner"></div>

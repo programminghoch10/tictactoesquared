@@ -129,7 +129,7 @@
 }
 
 .multiplayer .groups-nav .group:hover {
-  background: var(--default-alt);
+  background: var(--default-alt2);
 }
 
 .multiplayer .notificationdot {
@@ -154,6 +154,11 @@
 
 .multiplayer .notificationdot-active {
   display: flex;
+}
+
+
+.multiplayer .groups-nav .group .notificationdot {
+  transform: translate(-18px, 13px);
 }
 
 .multiplayer .groups-nav .group p {

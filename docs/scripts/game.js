@@ -274,7 +274,7 @@ class Game {
   }
 
   fromString(saveGame) {
-    if (saveGame == "") return false;
+    if (saveGame == "" || saveGame == undefined) return false;
 
     this.size = parseInt(saveGame.substring(0, saveGame.indexOf("-")));
 
