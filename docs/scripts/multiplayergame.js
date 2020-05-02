@@ -74,7 +74,11 @@ let frontendInterface = {
     } else if (player == "d") {
       winText = "Draw"
     } else if (player == "f") {
-      winText = "Your opponent gave up"
+      if (lobby.flags.includes("invite")) {
+        winText = "Your opponent rejected your invite"
+      } else {
+        winText = "Your opponent gave up"
+      }
     } else {
       if (lobby.playernames[player] != null) {
         winText = lobby.playernames[player] + " wins"

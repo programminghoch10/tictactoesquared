@@ -348,7 +348,7 @@ async function loadInvitedLobbies() {
       const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
       if (fieldSize != 3) ruleText += "Fieldsize: " + fieldSize + "   "
 
-      innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", ruleText, fieldSize, { join: true })
+      innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", ruleText, fieldSize, { reject: true, join: true })
     } catch (err) {
       console.log(err)
       console.log(lobby)
@@ -438,6 +438,9 @@ function getGame(lobby, password, by, args, flags) {
   let buttons = ""
   if (flags.leave) {
     buttons += `<div class="button" onclick="_leaveLobby('${lobby.token}', '${lobby.name}')">LEAVE</div>`
+  }
+  if (flags.reject) {
+    buttons += `<div class="button" onclick="_leaveLobby('${lobby.token}', '${lobby.name}')">REJECT</div>`
   }
   if (flags.join) {
     buttons += `<div class="button" style="color: var(--player${playercolor})" onclick="_joinLobby('${lobby.token}', ${lobby.password}, '${lobby.name}')">JOIN</div>`
