@@ -145,19 +145,24 @@
             <div class="nav">
               <h2 id="grouptitle">TITLE</h2>
               <div class="right">
-                <i class="fas fa-caret-left fa-lg icon"></i>
+                <i class="fas fa-caret-left fa-lg icon"
+                   onclick="prevPage()"
+                   id="prevpage"></i>
                 <p id="pages">1 / 1</p>
-                <i class="fas fa-caret-right fa-lg icon"></i>
+                <i class="fas fa-caret-right fa-lg icon"
+                   onclick="nextPage()"
+                   id="nextpage"></i>
                 <i class="fas fa-filter fa-lg icon"
                    onclick="openFilterView()"></i>
                 <i class="fas fa-sync-alt fa-lg icon"
                    onclick="refresh()"></i>
               </div>
             </div>
-            <!-- <div class="spinner">
+            <div class="spinner"
+                 id="loader">
               <div class="dot1"></div>
               <div class="dot2"></div>
-            </div> -->
+            </div>
             <div class="group hide"
                  id="group0">
               <div id="group0inner"></div>

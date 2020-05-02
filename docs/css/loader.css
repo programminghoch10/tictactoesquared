@@ -1,11 +1,16 @@
 .spinner {
+  z-index: 20;
+  top: calc(50% - 20px);
+  left: calc(50% - 20px);
   margin: 0 auto;
   margin-top: 40px;
   margin-bottom: 20px;
   width: 40px;
   height: 40px;
-  position: relative;
+  position: fixed;
   text-align: center;
+  background: transparent;
+  display: none;
 
   -webkit-animation: sk-rotate 2.0s infinite linear;
   animation: sk-rotate 2.0s infinite linear;
@@ -17,7 +22,7 @@
   display: inline-block;
   position: absolute;
   top: 0;
-  background-color: var(--default);
+  background-color: var(--default-alt);
   border-radius: 100%;
 
   -webkit-animation: sk-bounce 2.0s infinite ease-in-out;

@@ -40,6 +40,11 @@
   color: var(--default-alt);
 }
 
+.game .icons b {
+  display: inline;
+  margin-left: 20px;
+}
+
 .game .icons .lobbyinfo {
   top: 0;
   left: 50%;
@@ -49,15 +54,15 @@
   text-align: center;
 }
 
-@media only screen and (max-width: 600px) {
-  .game .icons .lobbyinfo {
-    transform: translate(-50%, -48px);
-  }
+.game .icons .lobbyinfo b {
+  margin: 0;
 }
 
-.game .icons b {
-  display: inline;
-  margin-left: 20px;
+@media only screen and (max-width: 600px) {
+  .game .icons .lobbyinfo {
+    width: 90%;
+    transform: translate(-50%, -48px);
+  }
 }
 
 .game .icons i::before {
@@ -397,7 +402,7 @@
   }
 
   .game .icons {
-      width: 60%;
-      transform: scale(1.5) translate(0, -6px);
+      width: 80%;
+      transform: scale(1.2) translate(0, -6px);
   }
 }
