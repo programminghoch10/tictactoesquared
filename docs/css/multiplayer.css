@@ -387,6 +387,15 @@
     font-size: 14px;
     font-weight: normal;
   }
+
+  .multiplayer .groups .nav h2 {
+    font-size: 16px;
+    margin-left: 80px;
+  }
+
+  .multiplayer .groups .nav .right {
+    margin-right: 20px;
+  }
 }
 
 .multiplayer .group .game .buttons {
