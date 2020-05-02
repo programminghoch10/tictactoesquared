@@ -249,9 +249,15 @@ function _createLobby() {
     return
   }
 
-  if (!doesUserExist(invitePlayer)) {
-    addInfo("Invitation failed", "The user with the name '" + invitePlayer + "' does not exist.", 2)
-    return
+  if (privacy == "closed") {
+    if (isStringEmpty(invitePlayer)) {
+      addInfo("Invitation failed", "You need to invite someone.")
+      return
+    }
+    if (!doesUserExist(invitePlayer)) {
+      addInfo("Invitation failed", "The user with the name '" + invitePlayer + "' does not exist.", 2)
+      return
+    }
   }
 
   if (createLobby(lobbyName, description, password, fieldSize, invitePlayer, privacy, mayopponentstart)) {
