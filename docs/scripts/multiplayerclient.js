@@ -309,7 +309,7 @@ function changeName(newName) {
   }
 }
 
-function createLobby(name, description, password, fieldSize, inviteName, privacy) {
+function createLobby(name, description, password, fieldSize, inviteName, privacy, opponentStart) {
   // TODO: hash password
   switch (privacy) {
     default:
@@ -326,7 +326,9 @@ function createLobby(name, description, password, fieldSize, inviteName, privacy
     password: password,
     ownToken: token,
     fieldSize: fieldSize,
-    inviteName: inviteName, secret: secret,
+    inviteName: inviteName,
+    secret: secret,
+    opponentStart: opponentStart
   })
   if (req.status != 201) notifyUser("createLobby", req.status)
   return (req.status == 201)

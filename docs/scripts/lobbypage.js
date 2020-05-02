@@ -240,7 +240,7 @@ function _createLobby() {
   let fieldSize = getel("lobbyfieldsize").value
   let privacy = newLobbyPrivacy
   let invitePlayer = getel("lobbyinviteplayer").value
-  createLobby(name, description, password, fieldSize, invitePlayer, privacy)
+  createLobby(name, description, password, fieldSize, invitePlayer, privacy, mayopponentstart)
   addInfo("Lobby created.", "The lobby '" + name + "' got created", 1)
   closeNewLobbyView()
   changeGroup(0)
@@ -296,14 +296,17 @@ async function loadJoinedLobbies() {
       }
 
       if (lobby.game == undefined || lobby.game == "") lobby.game = "3-"
+
+      let ruleText = ""
       const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
+      if (fieldSize != 3) ruleText += "Fieldsize: " + fieldSize + "   "
 
       let username = ""
       if (lobby.correlations.length == 1 && lobby.correlations.privacy == "open" && lobby.correlations[0].usertoken == token) username = WAITINGFORPLAYERSSTRING
       else if (lobby.correlations[0].usertoken == token) username = "by yourself"
       else username = "by " + other(lobby.correlations[0].usertoken).name
 
-      innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", username, fieldSize, { leave: true, play: true })
+      innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", username, ruleText, { leave: true, play: true })
     } catch (err) {
       console.log(err)
     }
@@ -340,9 +343,13 @@ async function loadInvitedLobbies() {
       }
 
       if (lobby.game == undefined || lobby.game == "") lobby.game = "3-"
-      const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
 
-      innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", userName, fieldSize, { join: true })
+      let ruleText = ""
+      const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
+      if (fieldSize != 3) ruleText += "Fieldsize: " + fieldSize + "   "
+      if (lobby.flags.includes("playerinverse")) ruleText += "You start.   "
+
+      innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", ruleText, fieldSize, { join: true })
     } catch (err) {
       console.log(err)
       console.log(lobby)
@@ -387,9 +394,13 @@ async function loadAllLobbies() {
       }
 
       if (lobby.game == undefined || lobby.game == "") lobby.game = "3-"
-      const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
 
-      innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", userName, fieldSize, fulllobby ? { spectate: true } : { join: true })
+      let ruleText = ""
+      const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
+      if (fieldSize != 3) ruleText += "Fieldsize: " + fieldSize + "   "
+      if (lobby.flags.includes("playerinverse")) ruleText += "You start.   "
+
+      innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", userName, ruleText, fulllobby ? { spectate: true } : { join: true })
     } catch (err) {
       console.log(err)
       console.log(lobby)
@@ -415,12 +426,6 @@ function getGame(lobby, password, by, args, flags) {
   let playercolor = 1
   if (lobby.currentPlayer == "O") {
     playercolor = 2
-  }
-
-  if (args != "3") {
-    args = "fieldsize " + args
-  } else {
-    args = ""
   }
 
   let lock = ""

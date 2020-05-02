@@ -138,6 +138,8 @@ class Game {
 
     this.setCurrentField(a, b);
 
+    this.globalWin(0, 0, this.currentPlayer);
+
     this.switchPlayers();
 
     return true;

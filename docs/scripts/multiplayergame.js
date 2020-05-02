@@ -9,7 +9,8 @@ getel("lobbytitle").innerHTML = lobby.name
 
 let owner = lobby.correlations[0].usertoken
 let amIX = owner == token
-let amIO = lobby.correlations[1].usertoken == token
+let amIO = false
+if (lobby.correlations.length > 1) amIO = lobby.correlations[1].usertoken == token
 
 function getopponentname(suffix) {
   if (lobby.opponentname == undefined) {
