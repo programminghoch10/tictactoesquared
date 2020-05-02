@@ -17,6 +17,7 @@ const sqltimeout = 10000; //10s
 const usertimeout = 60 * 60 * 24 * 31; //in seconds
 const lobbytimeout = 60 * 60 * 24 * 14; //in seconds
 const lobbycreatetimeout = 60 * 60 * 24 * 5 //in seconds, when a new created but never used lobby gets deleted
+const usercreatetimeout = 60 //in seconds, when a new created user which never interacted with the system gets deleted
 const SQLDEBUG = true;
 
 function init() {
@@ -118,7 +119,7 @@ async function createUser(user) {
   if (user.constructor.name != classes.User.name) return false;
   user.creationtime = common.getTime();
   user.lastacttime = user.creationtime;
-  user.timeout = user.lastacttime + usertimeout;
+  user.timeout = user.lastacttime + usercreatetimeout;
   user.token = common.hash("T" + user.name + user.creationtime + Math.random());
   user.secret = common.hash("S" + user.creationtime + user.name + Math.random());
   user.lobbytokens = "";
