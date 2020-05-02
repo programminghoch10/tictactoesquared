@@ -58,6 +58,10 @@ router.post('/api/createLobby', async function (req, res) {
   //TODO: switch to using tokens to support duplicate names
   let privacy = "open"
   if (!common.isStringEmpty(inviteName)) {
+    if (inviteName == user.name) {
+      res.sendStatus(400)
+      return
+    }
     invite = true
     privacy = "closed"
   }
