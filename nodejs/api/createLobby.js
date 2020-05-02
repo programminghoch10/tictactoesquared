@@ -74,8 +74,14 @@ router.post('/api/createLobby', async function (req, res) {
   lobby.password = password
   lobby.privacy = privacy
 
+  let users = await sql.getUsers()
+  if (!users) users = []
   if (invite) {
     lobby.setFlag("invite")
+    if (!users.find(user => user.name == inviteName)) {
+      res.sendStatus(400)
+      return
+    }
   }
 
   let game = new Game(null, fieldSize)
@@ -95,16 +101,14 @@ router.post('/api/createLobby', async function (req, res) {
   ownCorrelation.invite = false
   await sql.createCorrelation(ownCorrelation)
 
-  let users = await sql.getUsers()
-  if (!users) users = []
   if (invite) {
-    let filteredusers = users.filter(function (user) {
+    let inviteuser = users.find(function (user) {
       return (user.name == inviteName)
     })
-    if (filteredusers[0]) {
+    if (inviteuser) {
       let inviteCorrelation = new classes.Correlation()
       inviteCorrelation.lobbytoken = lobby.token
-      inviteCorrelation.usertoken = filteredusers[0].token
+      inviteCorrelation.usertoken = inviteuser.token
       inviteCorrelation.invite = true
       await sql.createCorrelation(inviteCorrelation)
     }
