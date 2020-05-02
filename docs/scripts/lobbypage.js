@@ -372,7 +372,7 @@ async function loadAllLobbies() {
   if (emptylobbies) {
     userCount = 2
   }
-  let lobbies = getLobbies(filterbylobbyname, filterbyusername, filterfieldsize, !withoutapassword, !emptylobbies ? "closed" : "open", userCount)
+  let lobbies = getLobbies(filterbylobbyname, filterbyusername, filterfieldsize, withoutapassword ? false : null, !emptylobbies ? null : "open", userCount)
 
   let innerHTML = ""
 

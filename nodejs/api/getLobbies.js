@@ -54,6 +54,7 @@ router.post('/api/getLobbies', async function (req, res) {
   //TODO: adapt to not leak data
   //check for privacy violations
   // if (!(ownJoinedOnlyFilter || ownInvitedOnlyFilter) || common.isStringEmpty(ownToken)) privacyFilter = "open"
+  //if (!(privacyFilter == "open" || privacyFilter == "closed")) privacyFilter = "open"
 
   let lobbies = await sql.getLobbies()
   if (!lobbies) {
@@ -64,7 +65,7 @@ router.post('/api/getLobbies', async function (req, res) {
   if (!users) users = []
 
   // filter for privacy
-  if (!common.isStringEmpty(privacyFilter) && privacyFilter == "open") {
+  if (!common.isStringEmpty(privacyFilter)) {
     lobbies = lobbies.filter(function (lobby) { return lobby.privacy == privacyFilter })
   }
 
@@ -87,7 +88,6 @@ router.post('/api/getLobbies', async function (req, res) {
   if (!common.isStringEmpty(userNameFilter)) {
     // get all the users that fit the request
     let searchusers = users.filter(function (user) { return (user.name.toLocaleLowerCase().includes(userNameFilter.toLocaleLowerCase())) })
-
     if (searchusers) {
       lobbies = lobbies.filter(function (lobby) {
         if (!lobby.correlations) return false
@@ -112,8 +112,7 @@ router.post('/api/getLobbies', async function (req, res) {
   }
 
   // filter whether lobby has password
-  // when we want lobbies with passwords don't remove lobbies without one
-  if (hasPasswordFilter != null && hasPasswordFilter == "false") {
+  if (!common.isStringEmpty(hasPasswordFilter)) {
     lobbies = lobbies.filter(function (lobby) {
       return hasPasswordFilter == !common.isStringEmpty(lobby.password) + ""
     })
