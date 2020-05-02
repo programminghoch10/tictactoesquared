@@ -25,7 +25,8 @@ let filterbylobbyname = ""
 let filterbyusername = ""
 let filterfieldsize = 3
 // it's inverted so the function call will invert it again
-let withoutapassword = getCookie("filterpassword") == 1 ? true : false
+if (getCookie("filterprivacy") == "") setGlobalCookie("filterprivacy", 1)
+let withoutapassword = getCookie("filterpassword") == 1 ? false : true
 let emptylobbies = getCookie("filterprivacy") == 1 ? false : true
 
 let invitedGamesCount = 0
@@ -364,7 +365,7 @@ async function loadAllLobbies() {
   if (emptylobbies) {
     userCount = 2
   }
-  let lobbies = getLobbies(filterbylobbyname, filterbyusername, filterfieldsize, withoutapassword, emptylobbies ? "closed" : "open", userCount)
+  let lobbies = getLobbies(filterbylobbyname, filterbyusername, filterfieldsize, !withoutapassword, !emptylobbies ? "closed" : "open", userCount)
 
   let innerHTML = ""
 
