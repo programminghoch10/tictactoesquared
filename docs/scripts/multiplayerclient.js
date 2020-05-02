@@ -110,7 +110,7 @@ function notifyUser(origin, code) {
         case 406:
           addInfo("Lobby full", "This lobby is full and cannot be joined!", 2)
           break
-        case 426:
+        case 429:
           tooManyLobbies()
           break
         default:
