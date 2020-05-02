@@ -77,12 +77,12 @@ router.post('/api/getLobbies', async function (req, res) {
 
   //filter for lobby name
   if (!common.isStringEmpty(lobbyNameFilter)) {
-    lobbies = lobbies.filter(function (lobby) { return lobby.name.includes(lobbyNameFilter) })
+    lobbies = lobbies.filter(function (lobby) { return lobby.name.toLocaleLowerCase().includes(lobbyNameFilter.toLocaleLowerCase()) })
   }
 
   //filter for user name
   if (!common.isStringEmpty(userNameFilter)) {
-    let searchusers = users.filter(function (user) { return (user.name.includes(userNameFilter)) })
+    let searchusers = users.filter(function (user) { return (user.name.toLocaleLowerCase().includes(userNameFilter.toLocaleLowerCase())) })
     if (searchusers) {
       lobbies.filter(function (lobby) {
         if (!lobby.correlations) return false
@@ -91,7 +91,7 @@ router.post('/api/getLobbies', async function (req, res) {
           let usersinthiscorrelation = searchusers.filter(function (user) { return (user.token == correlation.usertoken) })
           for (let j = 0; j < usersinthiscorrelation.length; j++) {
             let user = usersinthiscorrelation[j];
-            if (user.name.includes(userNameFilter)) return true
+            if (user.name.toLocaleLowerCase().includes(userNameFilter.toLocaleLowerCase())) return true
           }
         }
         return false

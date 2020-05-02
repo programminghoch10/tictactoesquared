@@ -23,8 +23,9 @@ let currentLobbyName
 
 let filterbylobbyname = ""
 let filterbyusername = ""
+let filterfieldsize = 3
 // it's inverted so the function call will invert it again
-let withoutapassword = getCookie("filterpassword") == 1 ? false : true
+let withoutapassword = getCookie("filterpassword") == 1 ? true : false
 let emptylobbies = getCookie("filterprivacy") == 1 ? false : true
 
 let invitedGamesCount = 0
@@ -109,6 +110,7 @@ function newLobby() {
   getel("lobbydescription").value = ""
   getel("lobbypassword").value = ""
   getel("lobbyinviteplayer").value = ""
+  getel("lobbyfieldsize").value = 3
   let els = document.getElementsByClassName("add")
   for (let i = 0; i < els.length; i++) {
     const el = els[i];
@@ -218,6 +220,7 @@ function emptyLobbiesButtonPressed() {
 function useFilters() {
   filterbylobbyname = getel("filterviewlobbyname").value
   filterbyusername = getel("filterviewusername").value
+  filterfieldsize = getel("filterfieldsize").value
   closeFilterView()
   changeGroup(2)
 }
@@ -355,7 +358,7 @@ async function loadInvitedLobbies() {
 }
 
 async function loadAllLobbies() {
-  let lobbies = getLobbies()
+  let lobbies = getLobbies(filterbylobbyname, filterbyusername, filterfieldsize)
 
   let innerHTML = ""
 
