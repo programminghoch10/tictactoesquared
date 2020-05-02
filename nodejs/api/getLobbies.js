@@ -53,7 +53,7 @@ router.post('/api/getLobbies', async function (req, res) {
 
   //TODO: adapt to not leak data
   //check for privacy violations
-  if (!(ownJoinedOnlyFilter || ownInvitedOnlyFilter) || common.isStringEmpty(ownToken)) privacyFilter = "open"
+  // if (!(ownJoinedOnlyFilter || ownInvitedOnlyFilter) || common.isStringEmpty(ownToken)) privacyFilter = "open"
 
   let lobbies = await sql.getLobbies()
   if (!lobbies) {
@@ -64,7 +64,7 @@ router.post('/api/getLobbies', async function (req, res) {
   if (!users) users = []
 
   // filter for privacy
-  if (!common.isStringEmpty(privacyFilter)) {
+  if (!common.isStringEmpty(privacyFilter) && privacyFilter == "open") {
     lobbies = lobbies.filter(function (lobby) { return lobby.privacy == privacyFilter })
   }
 
@@ -82,9 +82,11 @@ router.post('/api/getLobbies', async function (req, res) {
 
   //filter for user name
   if (!common.isStringEmpty(userNameFilter)) {
+    // get all the users that fit the request
     let searchusers = users.filter(function (user) { return (user.name.toLocaleLowerCase().includes(userNameFilter.toLocaleLowerCase())) })
+
     if (searchusers) {
-      lobbies.filter(function (lobby) {
+      lobbies = lobbies.filter(function (lobby) {
         if (!lobby.correlations) return false
         for (let i = 0; i < lobby.correlations.length; i++) {
           let correlation = lobby.correlations[i];
@@ -106,10 +108,11 @@ router.post('/api/getLobbies', async function (req, res) {
     lobbies = lobbies.filter(function (lobby) { return (lobby.correlations ? lobby.correlations : []).length == userCountFilter })
   }
 
-  //filter whether lobby has password
-  if (hasPasswordFilter != null) {
+  // filter whether lobby has password
+  // when we want lobbies with passwords don't remove lobbies without one
+  if (hasPasswordFilter != null && hasPasswordFilter == "false") {
     lobbies = lobbies.filter(function (lobby) {
-      return hasPasswordFilter == !common.isStringEmpty(lobby.password)
+      return hasPasswordFilter == !common.isStringEmpty(lobby.password) + ""
     })
   }
 

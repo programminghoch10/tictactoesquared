@@ -355,8 +355,16 @@ function getInvitedLobbies() {
   return parseJSON(post("/api/getLobbies", { ownToken: token, invitedOnly: true, secret: secret }).responseText)
 }
 
-function getLobbies(lobbyName, userName, fieldSizeFilter) {
-  let req = post("/api/getLobbies", { usertoken: token, secret: secret, lobbyName: lobbyName, userName: userName, fieldSizeFilter: fieldSizeFilter })
+function getLobbies(lobbyName, userName, fieldSize, hasPassword, privacy, userCount) {
+  let req = post("/api/getLobbies", {
+    usertoken: token,
+    secret: secret,
+    lobbyName: lobbyName,
+    userName: userName,
+    fieldSize: fieldSize,
+    hasPassword: hasPassword,
+    privacy: privacy,
+  })
   let res = req.responseText
   if (req.status == 401) resetIdentity()
   if (req.status != 200) {
