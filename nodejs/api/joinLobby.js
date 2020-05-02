@@ -54,6 +54,12 @@ router.post('/api/joinLobby', async function (req, res) {
     return
   }
 
+  //check if someone already left from this lobby
+  if (lobby.hasFlag("left")) {
+    res.sendStatus(403)
+    return
+  }
+
   let correlation = await sql.getCorrelation(user.token, lobby.token);
   if (correlation) {
     correlation.invite = false

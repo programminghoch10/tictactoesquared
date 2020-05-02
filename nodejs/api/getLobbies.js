@@ -68,6 +68,9 @@ router.post('/api/getLobbies', async function (req, res) {
     lobbies = lobbies.filter(function (lobby) { return lobby.privacy == privacyFilter })
   }
 
+  // filter every lobby in which someone already left
+  lobbies = lobbies.filter(el => !el.hasFlag("left"))
+
   // filter for fieldSize
   if (fieldSizeFilter != null) {
     lobbies = lobbies.filter(function (lobby) {

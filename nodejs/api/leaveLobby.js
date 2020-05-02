@@ -28,6 +28,11 @@ router.post('/api/leaveLobby', async function (req, res) {
   //delete lobby if there are no more users in it or if the only correlation is an invite
   if (lobby.correlations.length == 0 || (lobby.correlations.length == 1 && lobby.correlations[0].invite)) {
     sql.deleteLobby(lobby)
+  } else {
+    // indicated that a player left from the lobby
+    // after this flag is set the lobby should no longer be visible or accessible
+    lobby.setFlag("left")
+    sql.updateLobby(lobby)
   }
 
   res.sendStatus(200)
