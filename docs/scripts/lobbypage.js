@@ -106,6 +106,12 @@ function burger() {
   currentBurger = !currentBurger
 }
 
+function quickgamebutton() {
+  let lobby = quickgame()
+  setGlobalCookie("currentLobbyToken", lobby.token)
+  document.location.href = "./multiplayergame.html"
+}
+
 function newLobby() {
   getel("newlobbyoverlay").classList.add("overlay-active")
   getel("lobbyname").value = ""

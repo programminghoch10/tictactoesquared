@@ -72,6 +72,17 @@ router.post('/api/getLobbies', async function (req, res) {
   // filter every lobby in which someone already left
   lobbies = lobbies.filter(el => !el.hasFlag("left"))
 
+  //filter every quickgame lobby which has not started yet
+  lobbies = lobbies.filter(function (lobby) {
+    let correlationscount
+    try {
+      correlationscount = lobby.correlations.length
+    } catch {
+      correlationscount = 0
+    }
+    return !(lobby.hasFlag("quickgame") && correlationscount < 2)
+  })
+
   // filter for fieldSize
   if (fieldSizeFilter != null) {
     lobbies = lobbies.filter(function (lobby) {

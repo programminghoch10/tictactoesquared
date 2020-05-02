@@ -25,7 +25,7 @@ router.post('/api/spectate', async function (req, res) {
   }
 
   // if the lobby is closed and there is only one player
-  if (lobby.privacy == "closed" && lobby.correlations.length == 1) {
+  if (lobby.privacy == "closed" && lobby.correlations.length == 1 && !lobby.hasFlag("quickgame")) {
     let game = new Game()
     game.fromString(lobby.game)
     game.giveUp()

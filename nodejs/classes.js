@@ -23,7 +23,7 @@ class Lobby {
     this.flags = "";
     this.name = "";
     this.description = "";
-    this.password = "";
+    this.password = null;
     this.privacy = "";
     this.creationtime = 0;
     this.lastacttime = 0;
@@ -52,7 +52,7 @@ class Correlation {
     this.id = 0;
     this.usertoken = "";
     this.lobbytoken = "";
-    this.invite = 0;
+    this.invite = false;
   }
 }
 

@@ -190,6 +190,22 @@ function notifyUser(origin, code) {
           break
       }
       break
+    case "quickgame":
+      switch (code) {
+        case 0:
+          unavailable()
+          break
+        case 401:
+          unauthorized()
+          break
+        case 429:
+          addInfo("Don't hurry!", "You already have a pending quick game. It will be added to your list as soon as we found an opponent.", 1)
+          break
+        default:
+          unknownCode(origin, code)
+          break
+      }
+      break
   }
 }
 
@@ -411,4 +427,10 @@ function doesUserExist(userName) {
   let req = post("/api/doesUserNameExist", { userName: userName })
   if (req.status == 400) return false
   return req.responseText == "true"
+}
+
+function quickgame() {
+  let req = post("/api/quickgame", { secret: secret })
+  if (!(req.status == 202 || req.status == 201)) notifyUser("quickgame", req.status)
+  return parseJSON(req.responseText)
 }

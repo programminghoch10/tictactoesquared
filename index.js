@@ -31,6 +31,7 @@ app.use(require("./nodejs/api/play.js"))
 app.use(require("./nodejs/api/spectate.js"))
 app.use(require("./nodejs/api/rematch.js"))
 app.use(require("./nodejs/api/doesUserNameExist.js"))
+app.use(require("./nodejs/api/quickgame.js"))
 
 const DIR = "./docs/"
 
