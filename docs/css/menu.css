@@ -1,8 +1,6 @@
 .game {
   --default: #ddd;
   --default-alt: #ccc;
-  --player1: rgb(44, 202, 176);
-  --player2: rgb(255, 123, 0);
   --player1alt: rgba(44, 202, 176, 0.3);
   --player2alt: rgba(255, 123, 0, 0.3);
 
@@ -55,7 +53,7 @@
 }
 .game .icons i:hover::after {
     opacity: 1;
-    
+
 }
 .game .icons .lightmode {
     display: none;
@@ -91,7 +89,7 @@
     color: var(--background-color);
 
     border-radius: calc(var(--size) / 100);
-    font-family: "Roboto", sans-serif; 
+    font-family: "Roboto", sans-serif;
     font-weight: bold;
 
     transition: opacity 200ms linear;
@@ -352,7 +350,7 @@
 
   .game table td {
     padding: 1px;
-  } 
+  }
 
   .game table .current::after {
     transform: translate(-5px, calc(-100% + 4px));

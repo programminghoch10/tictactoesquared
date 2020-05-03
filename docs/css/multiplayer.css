@@ -187,7 +187,7 @@
 }
 
 .multiplayer .groups-nav .current p {
-  color: var(--color);
+  color: white;
 }
 
 .multiplayer .groups-nav .alt .current {
@@ -195,7 +195,7 @@
 }
 
 .multiplayer .groups-nav .alt .current p {
-  color: var(--color);
+  color: white;
 }
 
 .multiplayer .groups {
