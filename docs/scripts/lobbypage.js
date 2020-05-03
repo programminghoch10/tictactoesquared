@@ -59,6 +59,7 @@ async function changeGroup(i) {
 
   let burgerNotification = 0
   if (currentGroup == 0) {
+    getel("filtericon").style.display = "none"
     getel("group0inner").innerHTML = ""
     getel("loader").style.display = "block"
     setTimeout(function () {
@@ -69,6 +70,7 @@ async function changeGroup(i) {
       burgerNotification = invitedGamesCount
     }
   } else if (currentGroup == 1) {
+    getel("filtericon").style.display = "none"
     getel("group1inner").innerHTML = ""
     getel("loader").style.display = "block"
     setTimeout(function () {
@@ -79,6 +81,7 @@ async function changeGroup(i) {
       burgerNotification = yourTurnGamesCount
     }
   } else if (currentGroup == 2) {
+    getel("filtericon").style.display = "block"
     getel("group2inner").innerHTML = ""
     getel("loader").style.display = "block"
     setTimeout(function () {
@@ -422,6 +425,7 @@ async function loadJoinedLobbies() {
 
       let username = ""
       if (lobby.correlations.length == 1 && lobby.correlations.privacy == "open" && lobby.correlations[0].usertoken == token) username = WAITINGFORPLAYERSSTRING
+      else if (lobby.flags.includes("left")) username = "Your opponent left"
       else if (lobby.correlations[0].usertoken == token) username = "by yourself"
       else username = "by " + other(lobby.correlations[0].usertoken).name
 
