@@ -1,8 +1,6 @@
 .game {
   --default: #ddd;
   --default-alt: #ccc;
-  --player1alt: rgba(44, 202, 176, 0.3);
-  --player2alt: rgba(255, 123, 0, 0.3);
 
   --size: 70vh;
   --tilesize: 3;
