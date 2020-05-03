@@ -9,7 +9,10 @@ router.post('/api/doesUserTokenExist', async function (req, res) {
   let secret = req.body.secret
 
   let users = await sql.getUsers()
-  if (!users) return false
+  if (!users) {
+    res.send("false")
+    return
+  }
 
   let thisuser = users.filter(function (user) { return (user.secret == secret) })[0]
   if (!thisuser) {
