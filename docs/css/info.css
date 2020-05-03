@@ -59,6 +59,8 @@
 
 .info h3, .info p {
   margin: 0;
+  display: inline-block;
+  word-break: break-word;
 }
 
 .infos .color1 .text h3, .infos .color1 .svg {

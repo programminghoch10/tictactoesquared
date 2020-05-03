@@ -5,7 +5,15 @@ let listen = true
 let opponentrequestedrematch
 let won = false
 
-getel("lobbytitle").innerHTML = lobby.name
+function clamp(str, len) {
+  if (str.length > len - 3) {
+    str = str.substring(0, len) + "..."
+  }
+
+  return str
+}
+
+getel("lobbytitle").innerHTML = clamp(lobby.name, 30)
 
 let owner = lobby.correlations[0].usertoken
 let amIX = owner == token
@@ -16,7 +24,7 @@ function getopponentname(suffix) {
   if (lobby.opponentname == undefined) {
     return "waiting for players"
   } else {
-    return lobby.opponentname + suffix
+    return clamp(lobby.opponentname, 20) + suffix
   }
 }
 
@@ -187,8 +195,8 @@ function update() {
       addInfo("Rematch", "Your opponent requested a rematch", 1)
     }
   } else {
-    getel("xturn").innerHTML = lobby.playernames.X + " turn"
-    getel("oturn").innerHTML = lobby.playernames.O + " turn"
+    getel("xturn").innerHTML = clamp(lobby.playernames.X, 20) + " turn"
+    getel("oturn").innerHTML = clamp(lobby.playernames.O, 20) + " turn"
   }
 }
 setInterval(update, UPDATEDTIMER * 1000)

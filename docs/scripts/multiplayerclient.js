@@ -68,6 +68,9 @@ function notifyUser(origin, code) {
         case 401:
           unauthorized()
           break
+        case 413:
+          addInfo("Payload Too Large", "One of your inputs is too long", 3)
+          break
         case 429:
           tooManyLobbies()
           break
@@ -238,6 +241,7 @@ function createNewUser() {
 
   let status = request.status
   switch (status) {
+    case 413:
     case 409:
     case 400:
       saveName("")
@@ -311,6 +315,7 @@ function changeName(newName) {
       document.location.reload()
       return
     case 401:
+    case 413:
       resetIdentity()
       return
     case 409:

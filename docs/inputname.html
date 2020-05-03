@@ -76,6 +76,7 @@
           <form action="javascript:submit();">
             <input type="text"
                    id="username"
+                   maxlength="32"
                    autofocus>
             <input type="submit"
                    value="OK">
@@ -95,6 +96,12 @@
         // check if the name is empty
         if (name == "" || name.split(" ").join("") == "") {
           addInfo("Invalid username", "The name may not be empty.", 2)
+          return
+        }
+
+        // check if the name is too long
+        if (name.length > 32) {
+          addInfo("Failed to set name", "Your username is too long", 2)
           return
         }
 

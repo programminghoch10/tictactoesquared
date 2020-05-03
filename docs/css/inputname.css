@@ -100,10 +100,7 @@
   width: 800px;
   max-width: 85%;
   transform: translateY(-20px);
-}
-
-.inputname .icons i {
-  color: var(--default-alt);
+  color: var(--font-color);
 }
 
 @media only screen and (max-width: 600px) {

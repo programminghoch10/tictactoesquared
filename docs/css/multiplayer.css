@@ -323,6 +323,7 @@
   color: var(--font-color);
   word-wrap: break-word;
   text-align: center;
+  opacity: 0.7;
 }
 
 .multiplayer .groups .hide {
@@ -342,6 +343,7 @@
   margin: 20px;
   border-radius: 10px;
   background: var(--default);
+  padding-left: 10px;
 
   word-wrap: break-word;
 
@@ -349,6 +351,10 @@
 }
 
 .multiplayer .group .game .title {
+  display: inline-block;
+  word-wrap: break-word;
+  word-break: break-all;
+  width: calc(100% - 250px);
   margin-top: 20px;
   margin-bottom: 20px;
   display: flex;
@@ -365,10 +371,11 @@
 
 .multiplayer .group .game .title h2 div {
   display: inline;
-  margin-left: 10px;
+  /* margin-left: 10px; */
 }
 
 .multiplayer .group .game .title p {
+  min-width: max-content;
   transform: translate(20px, 5px);
 
   margin-right: 10px;
@@ -392,7 +399,7 @@
 .multiplayer .group .game h3 {
   width: calc(100% - 250px);
 
-  transform: translate(20px, -16px);
+  transform: translate(10px, -16px);
   color: var(--player2);
   font-size: 16px;
 }
@@ -465,10 +472,12 @@
 @media only screen and (max-width: 800px) {
   .multiplayer .group .game {
     padding-bottom: 60px;
+    max-height: 300px;
   }
 
-  .multiplayer .group .game h3 {
+  .multiplayer .group .game h3, .multiplayer .group .game .title {
     width: calc(100% - 40px);
+    padding-bottom: 10px;
   }
 
   .multiplayer .group .game .buttons {

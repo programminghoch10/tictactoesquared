@@ -52,6 +52,17 @@ router.post('/api/createLobby', async function (req, res) {
     }
   }
 
+  // check if the a string is too large
+  if (name.length > 50 || description.length > 250) {
+    res.sendStatus(413)
+    return
+  }
+
+  if (password != null && password.length > 20) {
+    res.sendStatus(413)
+    return
+  }
+
   let invite = false
   // if invite name is not null
   // the lobby's privacy is closed

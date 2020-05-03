@@ -119,7 +119,7 @@
               <div class="group"
                    id="navgroup1"
                    onclick="changeGroup(1)">
-                <p>INVITED GAMES</p>
+                <p>INVITES</p>
                 <div class="notificationdot"
                      id="invitednotice"></div>
               </div>
@@ -192,12 +192,14 @@
                 <h3>Lobby name:</h3>
                 <input type="text"
                        id="lobbyname"
+                       maxlength="50"
                        required>
               </div>
               <div class="entry"
                    style="display: block; height: initial">
                 <h3>Lobby description (optional):</h3>
-                <textarea id="lobbydescription"></textarea>
+                <textarea id="lobbydescription"
+                          maxlength="250"></textarea>
               </div>
               <div class="entry button-entry">
                 <input type="button"
@@ -213,12 +215,14 @@
                    id="lobbypasswordentry">
                 <h3>Lobby password (optional):</h3>
                 <input type="password"
+                       maxlength="20"
                        id="lobbypassword">
               </div>
               <div class="entry"
                    id="lobbyinviteplayerentry">
                 <h3>Invite player:</h3>
                 <input type="text"
+                       maxlength="32"
                        id="lobbyinviteplayer">
               </div>
               <div class="entry">

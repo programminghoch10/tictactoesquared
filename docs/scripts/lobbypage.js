@@ -50,12 +50,12 @@ async function changeGroup(i) {
   oldEl.classList.add("hide")
   el.classList.remove("hide")
 
-  getel("grouptitle").innerHTML = ["CURRENT GAMES", "INVITED GAMES", "ALL GAMES"][currentGroup]
-
   if (currentGroup != i) page = 0
 
   currentGroup = i
   setLocalCookie("currentGroup", currentGroup)
+
+  getel("grouptitle").innerHTML = ["CURRENT GAMES", "INVITES", "ALL GAMES"][currentGroup]
 
   let burgerNotification = 0
   if (currentGroup == 0) {
@@ -484,7 +484,7 @@ async function loadInvitedLobbies() {
   }
 
   if (innerHTML == "") {
-    innerHTML += `<div class="nogames">It seems like no one invited you</div>`
+    innerHTML += `<div class="nogames">No pending invites found</div>`
   }
 
   getel("group1inner").innerHTML = innerHTML
