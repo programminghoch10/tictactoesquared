@@ -62,7 +62,7 @@ app.get('/', function (req, res) {
   res.render(DIR + 'index.html')
 })
 
-app.listen(5500, '0.0.0.0')
+app.listen(80, '0.0.0.0')
 
 async function process() {
   //console.log( await sql.getUserByToken("abc"))
