@@ -1,5 +1,8 @@
 var express = require('express')
 var app = express()
+var hpp = require('hpp')
+var slowDown = require('express-slow-down')
+var helmet = require('helmet')
 let fs = require('fs')
 
 const sql = require("./nodejs/sql.js")
@@ -15,6 +18,20 @@ var bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
+//prevent http parameter pollution
+app.use(hpp())
+
+//slow down requests
+var speedLimiter = slowDown({
+  windowMs: 1000 * 60 * 2, //2 minutes
+  delayAfter: 60 * 3,
+  delayMs: 100 //add 100ms per request
+})
+
+app.use(speedLimiter)
+
+//add helmet for additional security
+app.use(helmet())
 
 // to import another router
 // app.use(require("./nodejs/test.js"))
