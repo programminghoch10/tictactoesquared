@@ -27,7 +27,7 @@ router.post('/api/quickgame', async function (req, res) {
     } catch {
       correlationscount = 0
     }
-    return lobby.hasFlag("quickgame") && correlationscount < 2
+    return lobby.hasFlag("quickgame") && correlationscount < 2 && !lobby.hasFlag("left")
   })
 
   //if user already has a quickgame lobby pending, send it
