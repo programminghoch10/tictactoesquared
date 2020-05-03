@@ -144,7 +144,7 @@ function mousedown(a, b, x, y) {
     listen = true
   }, UPDATEDTIMER * 1000)
   if (!lobby.isyourturn) return
-  //FIXME: check if move is valid on client side to prevent info popup
+  if (!game.isValid(a, b, x, y)) return
   lobby = requestPlay(lobbyToken, a, b, x, y)
 
   if (lobby.game && lobby.game != "undefined") {
@@ -187,7 +187,6 @@ function update() {
       addInfo("Rematch", "Your opponent requested a rematch", 1)
     }
   } else {
-    // TODO: save the user name somehow instead of making a request each update
     getel("xturn").innerHTML = lobby.playernames.X + " turn"
     getel("oturn").innerHTML = lobby.playernames.O + " turn"
   }
