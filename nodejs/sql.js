@@ -31,7 +31,7 @@ function init() {
     password: logindata.password,
     database: logindata.database,
     waitForConnections: true,
-    connectionLimit: 10,
+    connectionLimit: 1000,
     queueLimit: 0,
   });
 
