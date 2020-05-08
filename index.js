@@ -18,6 +18,9 @@ var bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
+//set localhost as trusted proxy
+app.set('trust proxy', 'loopback') // specify a single subnet
+
 //prevent http parameter pollution
 app.use(hpp())
 
