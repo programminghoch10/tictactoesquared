@@ -27,7 +27,7 @@ app.use(hpp())
 //slow down requests
 var speedLimiter = slowDown({
   windowMs: 1000 * 60 * 2, //2 minutes
-  delayAfter: 60 * 3,
+  delayAfter: 1024,
   delayMs: 100 //add 100ms per request
 })
 
