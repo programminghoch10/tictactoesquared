@@ -424,10 +424,11 @@ async function loadJoinedLobbies() {
       if (fieldSize != 3) ruleText += "Fieldsize: " + fieldSize + "   "
 
       let username = ""
-      if (lobby.correlations.length == 1 && lobby.correlations.privacy == "open" && lobby.correlations[0].usertoken == token) username = WAITINGFORPLAYERSSTRING
+      username = "by " + lobby.ownername
+      if (lobby.ownername == name) username = "by yourself"
+      if (lobby.ownername == undefined || lobby.ownername == "undefined") username = ""
+      if (lobby.correlations.length == 1 && lobby.correlations.privacy == "open" && lobby.ownername == name) username = WAITINGFORPLAYERSSTRING
       else if (lobby.flags.includes("left")) username = "Your opponent left"
-      else if (lobby.correlations[0].usertoken == token) username = "by yourself"
-      else username = "by " + other(lobby.correlations[0].usertoken).name
 
       innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", username, ruleText, { leave: true, play: true })
     } catch (err) {
@@ -462,13 +463,9 @@ async function loadInvitedLobbies() {
     const lobby = invitedLobbies[i]
     try {
       let userName = ""
-      if (lobby.correlations[0].usertoken == token) {
-        if (lobby.correlations.length == 1) {
-          userName = "by yourself"
-        }
-      } else {
-        userName = "by " + other(lobby.correlations[0].usertoken).name
-      }
+      username = "by " + lobby.ownername
+      if (lobby.ownername == name) username = "by yourself"
+      if (lobby.ownername == undefined || lobby.ownername == "undefined") username = ""
 
       if (lobby.game == undefined || lobby.game == "") lobby.game = "3-"
 
@@ -476,7 +473,7 @@ async function loadInvitedLobbies() {
       const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
       if (fieldSize != 3) ruleText += "Fieldsize: " + fieldSize + "   "
 
-      innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", ruleText, fieldSize, { reject: true, join: true })
+      innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", username, ruleText, { reject: true, join: true })
     } catch (err) {
       console.log(err)
       console.log(lobby)
@@ -512,17 +509,13 @@ async function loadAllLobbies() {
     const lobby = lobbies[i]
     let fulllobby = false
     try {
-      let userName = ""
-      if (lobby.correlations[0].usertoken == token) {
-        if (lobby.correlations.length == 1) {
-          userName = "by yourself"
-        }
-      } else if (lobby.correlations.length == 2) {
+      let username = ""
+      username = "by " + lobby.ownername
+      if (lobby.ownername == name) username = "by yourself"
+      if (lobby.ownername == undefined || lobby.ownername == "undefined") username = ""
+      if (lobby.correlations.length == 2) {
         fulllobby = true
         userName = "This lobby is full"
-      } else {
-        //userName = other(lobby.correlations[0].usertoken).name
-        userName = "by " + lobby.ownername
       }
 
       if (lobby.game == undefined || lobby.game == "") lobby.game = "3-"
@@ -531,7 +524,7 @@ async function loadAllLobbies() {
       const fieldSize = lobby.game.substring(0, lobby.game.indexOf("-"))
       if (fieldSize != 3) ruleText += "Fieldsize: " + fieldSize + "   "
 
-      innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", userName, ruleText, fulllobby ? { spectate: true } : { join: true })
+      innerHTML += getGame(lobby, lobby.password != null && lobby.password != "", username, ruleText, fulllobby ? { spectate: true } : { join: true })
     } catch (err) {
       console.log(err)
       console.log(lobby)
