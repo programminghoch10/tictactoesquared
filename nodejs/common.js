@@ -80,9 +80,41 @@ function parseJSON(json) {
   return JSON.parse(json)
 }
 
+const ESCAPECHARS = [
+  { in: "&", out: "&amp;" },
+  { in: "<", out: "&lt;" },
+  { in: ">", out: "&gt;" },
+  { in: "\"", out: "&quot;" },
+  { in: "'", out: "&#39;" },
+  { in: "%", out: "&#37;" },
+]
+function sanitizeString(string) {
+  if (string == undefined || string == null || typeof string !== "string") return undefined
+  ESCAPECHARS.forEach(value => string = string.split(value.in).join(value.out))
+  return string
+}
+
 function sanitizeUser(user) {
   user.secret = null
+  user.name = sanitizeString(user.name)
+
   return user
+}
+
+function sanitizeLobby(lobby) {
+  lobby.name = sanitizeString(lobby.name)
+  lobby.description = sanitizeString(lobby.description)
+  lobby.ownername = sanitizeString(lobby.ownername)
+  lobby.currentPlayerName = sanitizeString(lobby.currentPlayerName)
+
+  if (lobby.playernames != undefined && lobby.playernames != null) {
+    lobby.playernames.X = sanitizeString(lobby.playernames.X)
+    lobby.playernames.O = sanitizeString(lobby.playernames.O)
+  }
+
+  lobby.opponentname = sanitizeString(lobby.opponentname)
+
+  return lobby
 }
 
 module.exports = {
@@ -93,5 +125,7 @@ module.exports = {
   getPlayer: getPlayer,
   extendLobbyInfo: extendLobbyInfo,
   parseJSON: parseJSON,
+  sanitizeString: sanitizeString,
   sanitizeUser: sanitizeUser,
+  sanitizeLobby: sanitizeLobby,
 }

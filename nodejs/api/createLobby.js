@@ -126,6 +126,7 @@ router.post('/api/createLobby', async function (req, res) {
   }
 
   lobby = common.extendLobbyInfo(await sql.getLobbyByToken(lobby.token), user, users)
+  lobby = common.sanitizeLobby(lobby)
 
   res.status(201)
   res.send(JSON.stringify(lobby))

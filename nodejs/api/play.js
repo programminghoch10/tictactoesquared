@@ -63,6 +63,7 @@ router.post('/api/play', async function (req, res) {
   sql.updateLobby(lobby)
 
   lobby = common.extendLobbyInfo(lobby, user, await sql.getUsers())
+  lobby = common.sanitizeLobby(lobby)
 
   res.status(202)
   res.send(lobby)

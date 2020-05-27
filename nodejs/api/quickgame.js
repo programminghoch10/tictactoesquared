@@ -62,6 +62,7 @@ router.post('/api/quickgame', async function (req, res) {
   }
 
   lobby = await sql.getLobbyByToken(lobby.token)
+  lobby = common.sanitizeLobby(lobby)
 
   res.send(JSON.stringify(lobby))
 

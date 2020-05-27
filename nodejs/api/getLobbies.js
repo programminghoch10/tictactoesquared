@@ -208,6 +208,12 @@ router.post('/api/getLobbies', async function (req, res) {
     res.status(200)
   }
 
+  for (let i = 0; i < lobbies.length; i++) {
+    const lobby = lobbies[i];
+
+    lobbies[i] = common.sanitizeLobby(lobby)
+  }
+
   res.send(JSON.stringify(lobbies))
 })
 

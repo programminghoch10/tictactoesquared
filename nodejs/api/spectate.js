@@ -33,6 +33,7 @@ router.post('/api/spectate', async function (req, res) {
   }
 
   lobby = common.extendLobbyInfo(lobby, user, await sql.getUsers())
+  lobby = common.sanitizeLobby(lobby)
 
   res.status(200)
   res.send(lobby)
