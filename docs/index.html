@@ -1,0 +1,192 @@
+<html lang="en">
+
+  <head>
+    <title>TTT² </title>
+    <!--
+            Prerender & prefetch
+        -->
+    <link rel="prerender"
+          href="game.html" />
+    <link rel="prefetch"
+          href="css/game.css" />
+    <link rel="prefetch"
+          href="scripts/localgame.js" />
+    <link rel="prefetch"
+          href="game.html" />
+    <link rel="prefetch"
+          href="settings.html" />
+    <link rel="prefetch"
+          href="scripts/ai.js" />
+    <link rel="prefetch"
+          href="scripts/againstai.js" />
+    <link rel="prefetch"
+          href="https://github.com/programminghoch10/tictactoesquared" />
+    <!--
+            Viewport
+        -->
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1" />
+    <!--
+            Scripts
+        -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!--
+            Styles
+        -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
+          rel="stylesheet" />
+    <link rel="stylesheet"
+          href="fontawesome/css/all.css">
+    <link rel="stylesheet"
+          href="./css/style.css" />
+    <link rel="stylesheet"
+          href="./css/menu.css" />
+    <!--
+            Manifest
+        -->
+    <link rel="manifest"
+          href="manifest.json" />
+  </head>
+
+  <body>
+    <noscript>
+      <div class="noscript">
+        <div>
+          <h1>This site requires JavaScript.</h1><br>
+          <p>Please make sure it is enabled.</p>
+        </div>
+      </div>
+    </noscript>
+    <a>
+      <div class="game"
+           id="game">
+        <div class="outer">
+          <div class="icons">
+            <div class="right">
+              <i class="fas fa-moon darkmode"
+                 onclick="dark()"></i>
+              <i class="fas fa-sun lightmode"
+                 onclick="light()"></i>
+              <a href="https://github.com/programminghoch10/tictactoesquared"
+                 target="_blank">
+                <i class="fab fa-github github"></i></a>
+            </div>
+          </div>
+          <div id="wrapper"
+               class="wrapper">
+            <!-- GAME -->
+            <table>
+              <tr>
+                <td class="menufieldfree">
+                </td>
+                <td class="menufieldfree">
+                </td>
+                <td class="menufieldfree">
+                </td>
+              </tr>
+            </table>
+            <table>
+              <tr>
+                <td class="menufieldfree hideable">
+                </td>
+                <td>
+                  <table class="fullwidth-transform">
+                    <tr>
+                      <td class="fullwidth">
+                        <a href="game.html"
+                           class="i"> LOCAL GAME </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fullwidth">
+                        <a class="i alt"
+                           id="onlinemultiplayerbutton"
+                           href="multiplayer.html"> ONLINE MULTIPLAYER </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="fullwidth">
+                        <a class="i"
+                           href="game.html?ai=true"> AGAINST AI </a>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+                <td class="menufieldfree hideable">
+                </td>
+              </tr>
+            </table>
+            <table>
+              <tr>
+                <td class="menufieldfree">
+                </td>
+                <td class="menufieldfree">
+                </td>
+                <td>
+                  <table>
+                    <tr>
+                      <td class="fullwidth">
+                        <div class="i noanimation alt"
+                             id="download-button"> DOWNLOAD </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="i free">
+                        </div>
+                      </td>
+                      <td>
+                        <div id="google-play-button"
+                             class="i sbutton">
+                          <a href="https://play.google.com/store/apps/details?id=com.JJ.tictactoesquared"
+                             target="_blank"
+                             class="fab fa-google-play fa-2x sbuttonicon"></a>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="i free">
+                        </div>
+                      </td>
+                    </tr>
+                    <tr class="menufieldfreerow">
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+            <!-- GAME END -->
+            <div id="win"
+                 class="win-screen">
+              <i id="win-player"></i>
+              <p id="win-text"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      <script src="scripts/cookie.js"></script>
+      <script src="scripts/colortheme.js"></script>
+      <script src="scripts/game.js"></script>
+      <script src="scripts/menu.js"></script>
+      <script src="scripts/cookienotice.js"></script>
+      <script>
+        // if (cookiesAccepted()) {
+        //     if ('serviceWorker' in navigator) {
+        //         window.addEventListener('load', function () {
+        //             navigator.serviceWorker.register('./sw.js').then(function (registration) {
+        //                 console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        //             }).catch(function (err) {
+        //                 console.log('ServiceWorker registration failed: ', err);
+        //             });
+        //         });
+        //     }
+        // }
+        if (document.location.hostname.endsWith("github.io")) {
+          let button = document.getElementById("onlinemultiplayerbutton")
+          button.style = "text-decoration: line-through; cursor: not-allowed;"
+          button.removeAttribute("href")
+        }
+      </script>
+  </body>
+
+</html>

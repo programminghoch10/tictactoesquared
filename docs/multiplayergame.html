@@ -1,0 +1,102 @@
+<html>
+
+  <head>
+    <title>TTT² </title>
+    <link rel="prerender"
+          href="index.html" />
+    <link rel="prefetch"
+          href="index.html" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
+          rel="stylesheet" />
+    <link rel="stylesheet"
+          href="fontawesome/css/all.css">
+    <link rel="stylesheet"
+          href="css/style.css" />
+    <link rel="stylesheet"
+          href="css/game.css" />
+    <link rel="stylesheet"
+          href="./css/info.css" />
+  </head>
+
+  <body>
+    <noscript>
+      <div class="noscript">
+        <div>
+          <h1>This site requires JavaScript.</h1><br>
+          <p>Please make sure it is enabled.</p>
+        </div>
+      </div>
+    </noscript>
+    <div class="game"
+         id="game">
+      <div class="outer">
+        <div class="icons">
+          <div>
+            <a href="multiplayer.html">
+              <i class="fas fa-arrow-left home"></i>
+            </a>
+            <a href="index.html">
+              <i class="fas fa-home home"></i>
+            </a>
+            <i class="fas fa-times"
+               id="icon-x">
+              <p id="xturn">turn</p>
+            </i>
+            <i class="far fa-circle"
+               id="icon-o">
+              <p id="oturn">turn</p>
+            </i>
+            <i id="debug-notice"></i>
+            <div class="lobbyinfo">
+              <b id="lobbytitle"></b>
+            </div>
+          </div>
+          <div class="icon-right">
+            <i class="fas fa-moon darkmode"
+               onclick="dark()"></i>
+            <i class="fas fa-sun lightmode"
+               onclick="light()"></i>
+            <i class=" fab fa-github github"
+               onclick="document.location.href='https://github.com/programminghoch10/tictactoesquared'"></i>
+          </div>
+        </div>
+        <div id="wrapper"
+             class="wrapper">
+          <div id="win"
+               class="win-screen">
+            <div class="win-indicator">
+              <i id="win-player"></i>
+              <p id="win-text"></p>
+            </div>
+            <div class="buttons">
+              <div class="button"
+                   id="rematchbutton"
+                   onclick="_rematch()">REMATCH</div>
+              <div class="button"
+                   onclick="leave()">LEAVE</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="scripts/cookie.js"></script>
+    <script src="scripts/colortheme.js"></script>
+    <script src="scripts/game.js"></script>
+    <script src="scripts/multiplayerclient.js"></script>
+    <script>
+      connect()
+    </script>
+    <script src="scripts/multiplayergame.js"></script>
+    <script src="scripts/info.js"></script>
+    <script type="text/javascript"
+            id="cookieinfo"
+            src="//cookieinfoscript.com/js/cookieinfo.min.js"
+            data-message="We use cookies mainly to save your game. (It's ok, everyone does.)"
+            data-cookie="cookies-accepted"
+            data-close-text="Accept"></script>
+  </body>
+
+</html>

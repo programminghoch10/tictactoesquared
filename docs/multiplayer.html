@@ -1,0 +1,349 @@
+<html lang="en">
+
+  <head>
+    <title>TTT² </title>
+    <!--
+            Prerender & prefetch
+        -->
+    <link rel="prerender"
+          href="game.html" />
+    <link rel="prefetch"
+          href="css/game.css" />
+    <link rel="prefetch"
+          href="scripts/localgame.js" />
+    <link rel="prefetch"
+          href="game.html" />
+    <link rel="prefetch"
+          href="settings.html" />
+    <link rel="prefetch"
+          href="scripts/ai.js" />
+    <link rel="prefetch"
+          href="scripts/againstai.js" />
+    <link rel="prefetch"
+          href="https://github.com/programminghoch10/tictactoesquared" />
+    <!--
+            Viewport
+        -->
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1" />
+    <!--
+            Scripts
+        -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!--
+            Styles
+        -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
+          rel="stylesheet" />
+    <link rel="stylesheet"
+          href="fontawesome/css/all.css">
+    <link rel="stylesheet"
+          href="./css/style.css" />
+    <link rel="stylesheet"
+          href="./css/multiplayer.css" />
+    <link rel="stylesheet"
+          href="./css/info.css" />
+    <link rel="stylesheet"
+          href="./css/loader.css" />
+    <!--
+            Manifest
+        -->
+    <link rel="manifest"
+          href="manifest.json" />
+  </head>
+
+  <body>
+    <noscript>
+      <div class="noscript">
+        <div>
+          <h1>This site requires JavaScript.</h1><br>
+          <p>Please make sure it is enabled.</p>
+        </div>
+      </div>
+    </noscript>
+    <div id="burger">
+      <div class="multiplayer">
+        <div class="flex">
+          <div class="burger"
+               id="burgerbutton"
+               onclick="burger()">
+            <span></span>
+            <div class="notificationdot"
+                 id="burgernotification"></div>
+          </div>
+          <div class="add"
+               id="newLobbyButton"
+               onclick="newLobby()">
+            <i class="fas fa-plus fa-2x"></i>
+          </div>
+          <div class="sidebar">
+            <div class="nav">
+              <a href="index.html">
+                <i class="fas fa-home home"></i>
+              </a>
+              <i class="fas fa-moon darkmode"
+                 onclick="dark()"></i>
+              <i class="fas fa-sun lightmode"
+                 onclick="light()"></i>
+              <i class=" fab fa-github github"
+                 onclick="document.location.href='https://github.com/programminghoch10/tictactoesquared'"
+                 target="_blank"></i>
+            </div>
+            <div class="name">
+              <h2 class="username"
+                  id="username"></h2>
+              <a href="inputname.html"><i class="fas fa-edit"></i></a>
+            </div>
+            <div class="groups-nav">
+              <div class="alt">
+                <div class="group current"
+                     onclick="newLobby()">
+                  <p>+ CREATE NEW LOBBY</p>
+                  <div class="notificationdot"></div>
+                </div>
+              </div>
+              <div class="alt">
+                <div class="group"
+                     onclick="quickgamebutton()">
+                  <p>QUICK GAME</p>
+                </div>
+              </div>
+              <br>
+              <div class="group"
+                   id="navgroup0"
+                   onclick="changeGroup(0)">
+                <p>CURRENT GAMES</p>
+                <div class="notificationdot"
+                     id="isyourturn"></div>
+              </div>
+              <div class="group"
+                   id="navgroup1"
+                   onclick="changeGroup(1)">
+                <p>INVITES</p>
+                <div class="notificationdot"
+                     id="invitednotice"></div>
+              </div>
+              <div class="group"
+                   id="navgroup2"
+                   onclick="changeGroup(2)">
+                <p>ALL GAMES</p>
+              </div>
+            </div>
+          </div>
+          <div class="overlay"
+               id="newlobbyoverlay"
+               onclick="closeNewLobbyView()"></div>
+          <div class="overlay"
+               id="passwordInputOverlay"
+               onclick="closePasswordView()"></div>
+          <div class="overlay"
+               id="verificationViewOverlay"
+               onclick="closeVerificationView()"></div>
+          <div class="overlay"
+               id="filterViewOverlay"
+               onclick="closeFilterView()"></div>
+          <div class="overlay burgeroverlay"
+               onclick="burger()"></div>
+          <div class="groups">
+            <div class="nav">
+              <h2 id="grouptitle">TITLE</h2>
+              <div class="right">
+                <i class="fas fa-caret-left fa-lg icon"
+                   onclick="prevPage()"
+                   id="prevpage"></i>
+                <p id="pages">1 / 1</p>
+                <i class="fas fa-caret-right fa-lg icon"
+                   onclick="nextPage()"
+                   id="nextpage"></i>
+                <i class="fas fa-filter fa-lg icon"
+                   id="filtericon"
+                   onclick="openFilterView()"></i>
+                <i class="fas fa-sync-alt fa-lg icon"
+                   onclick="refresh()"></i>
+              </div>
+            </div>
+            <div class="spinner"
+                 id="loader">
+              <div class="dot1"></div>
+              <div class="dot2"></div>
+            </div>
+            <div class="group hide"
+                 id="group0">
+              <div id="group0inner"></div>
+            </div>
+            <div class="group hide"
+                 id="group1">
+              <div id="group1inner"></div>
+            </div>
+            <div class="group hide"
+                 id="group2">
+              <div id="group2inner"></div>
+            </div>
+          </div>
+          <div class="panel"
+               id="newLobbyPanel">
+            <h2>Create a lobby</h2>
+            <div class="closebutton"
+                 onclick="closeNewLobbyView()">
+              <i class="fas fa-times"></i>
+            </div>
+            <form action="javascript:_createLobby();">
+              <div class="entry">
+                <h3>Lobby name:</h3>
+                <input type="text"
+                       id="lobbyname"
+                       maxlength="50"
+                       required>
+              </div>
+              <div class="entry"
+                   style="display: block; height: initial">
+                <h3>Lobby description (optional):</h3>
+                <textarea id="lobbydescription"
+                          maxlength="250"></textarea>
+              </div>
+              <div class="entry button-entry">
+                <input type="button"
+                       id="publiclobbybutton"
+                       onclick="publicLobbyButtonPressed()"
+                       value="public lobby">
+                <input type="button"
+                       onclick="inviteOnlyButtonPressed()"
+                       id="inviteonlybutton"
+                       value="invite only">
+              </div>
+              <div class="entry"
+                   id="lobbypasswordentry">
+                <h3>Lobby password (optional):</h3>
+                <input type="password"
+                       maxlength="20"
+                       id="lobbypassword">
+              </div>
+              <div class="entry"
+                   id="lobbyinviteplayerentry">
+                <h3>Invite player:</h3>
+                <input type="text"
+                       maxlength="32"
+                       id="lobbyinviteplayer">
+              </div>
+              <div class="entry">
+                <h3>Field size (from 3 to 5):</h3>
+                <input type="number"
+                       min="3"
+                       max="5"
+                       value="3"
+                       id="lobbyfieldsize">
+              </div>
+              <div class="entry">
+                <input type="button"
+                       class="fullsize"
+                       id="opponentstarts"
+                       value="The opponent may start"
+                       onclick="mayopponentstartPressed()"
+                       required>
+              </div>
+              <div class="entry">
+                <h3></h3>
+                <input type="submit"
+                       value="SUBMIT">
+              </div>
+            </form>
+          </div>
+          <div class="panel"
+               id="passwordInput">
+            <h2>Enter the password</h2>
+            <div class="closebutton"
+                 onclick="closePasswordView()">
+              <i class="fas fa-times"></i>
+            </div>
+            <form action="javascript:_joinLobbyWithPassword();">
+              <div class="entry">
+                <h3></h3>
+                <input type="password"
+                       class="fullsize"
+                       id="password"
+                       required>
+              </div>
+              <div class="entry">
+                <h3></h3>
+                <input type="submit"
+                       value="JOIN">
+              </div>
+            </form>
+          </div>
+          <div class="panel"
+               id="verificationView">
+            <h2>Are you sure?</h2>
+            <div class="closebutton"
+                 onclick="closeVerificationView()">
+              <i class="fas fa-times"></i>
+            </div>
+            <form action="javascript:leaveLobbyVerificated();">
+              <div class="entry">
+                <input type="button"
+                       onclick="closeVerificationView()"
+                       style="margin: 0;"
+                       value="NO">
+                <input type="submit"
+                       class="fullwidthmobile"
+                       value="LEAVE LOBBY">
+              </div>
+            </form>
+          </div>
+          <div class="panel"
+               id="filterView">
+            <h2>Filter options</h2>
+            <div class="closebutton"
+                 onclick="closeFilterView()">
+              <i class="fas fa-times"></i>
+            </div>
+            <form action="javascript:useFilters();">
+              <div class="entry">
+                <h3>Lobby name:</h3>
+                <input type="text"
+                       id="filterviewlobbyname">
+              </div>
+              <div class="entry">
+                <h3>User name:</h3>
+                <input type="text"
+                       id="filterviewusername">
+              </div>
+              <div class="entry button-entry">
+                <input type="button"
+                       id="filterViewPasswordButton"
+                       onclick="withoutPasswordButtonPressed()"
+                       value="Without a password">
+                <input type="button"
+                       onclick="emptyLobbiesButtonPressed()"
+                       id="filterViewEmptyButton"
+                       value="Empty lobbies">
+              </div>
+              <div class="entry">
+                <h3>Field size (from 3 to 5):</h3>
+                <input type="number"
+                       min="3"
+                       max="5"
+                       value="3"
+                       id="filterfieldsize">
+              </div>
+              <div class="entry">
+                <input type="submit"
+                       class="fullwidthmobile"
+                       value="USE FILTERS">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <script src="scripts/cookie.js"></script>
+      <script src="scripts/colortheme.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+      <script src="scripts/multiplayerclient.js"></script>
+      <script>
+        connect()
+        getel("username").innerHTML = name
+      </script>
+      <script src="scripts/lobbypage.js"></script>
+      <script src="scripts/info.js"></script>
+  </body>
+
+</html>

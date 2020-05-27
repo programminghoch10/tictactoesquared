@@ -1,0 +1,129 @@
+.inputname .flex {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+}
+
+.inputname {
+  display: block;
+  margin: 20px;
+}
+
+.inputname .flex-column {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.inputname .center {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  width: inherit;
+  height: 100%;
+}
+
+.inputname h1 {
+  width: 800px;
+  max-width: 85%;
+
+  transform: translateY(-10px);
+
+  color: var(--font-color);
+
+  text-align: left;
+}
+
+.inputname form {
+    display: flex;
+    width: 100%;
+    height: 50px;
+}
+
+.inputname .nameinput {
+  display: flex;
+
+  width: 850px;
+  max-width: 90%;
+  min-height: 50px;
+}
+
+.inputname input {
+  flex: 5;
+
+  width: 100%;
+  height: 50px;
+
+  margin: 0 10px;
+
+  background: var(--default);
+  border: none;
+
+  border-radius: 10px;
+
+  color: var(--player1);
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.inputname input[type="submit"] {
+    flex: 1;
+}
+
+.inputname button {
+  flex: 1;
+
+  width: 100%;
+  height: 50px;
+
+  margin: 0 10px;
+
+  background: var(--default);
+  border: none;
+  border-radius: 10px;
+
+  color: var(--player2);
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.inputname .icons {
+  width: 800px;
+  max-width: 85%;
+  transform: translateY(-20px);
+  color: var(--font-color);
+}
+
+@media only screen and (max-width: 600px) {
+  .inputname .icons {
+    width: initial;
+    transform: scale(1.5) translateY(-20px);
+  }
+
+  .inputname .nameinput {
+    width: 100%;
+    display: block;
+  }
+
+  .inputname form {
+    width: inherit;
+    display: block !important;
+  }
+
+  .inputname button, .inputname input {
+    margin: 10px 0;
+  }
+
+  .inputname h1 {
+      text-align: center;
+  }
+}

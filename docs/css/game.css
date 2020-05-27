@@ -3,19 +3,15 @@
 
   --default: #ddd;
   --default-alt: #ccc;
-  --player1: rgb(44, 202, 176);
-  --player2: rgb(255, 123, 0);
-  --player1alt: rgba(44, 202, 176, 0.3);
-  --player2alt: rgba(255, 123, 0, 0.3);
 
   --size: 70vh;
   --tilesize: 3;
   --thickness: 7px;
 
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 
   height: 100%;
   overflow: hidden;
@@ -33,6 +29,8 @@
 }
 
 .game .icons {
+  position: relative;
+
   display: flex;
   width: calc(100% - 42px);
   height: 12px;
@@ -42,31 +40,55 @@
   color: var(--default-alt);
 }
 
+.game .icons b {
+  display: inline;
+  margin-left: 20px;
+}
+
+.game .icons .lobbyinfo {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40%;
+  position: absolute;
+  text-align: center;
+}
+
+.game .icons .lobbyinfo b {
+  margin: 0;
+}
+
+@media only screen and (max-width: 600px) {
+  .game .icons .lobbyinfo {
+    width: 90%;
+    transform: translate(-50%, -28px);
+  }
+}
+
 .game .icons i::before {
   color: var(--default-alt);
 }
 
-.game .icons .right {
+.game .icons .icon-right {
   margin-left: auto;
 }
 
 .game .icons i {
-    position: relative;
+  position: relative;
 
-    white-space: nowrap;
+  white-space: nowrap;
 }
 .game .icons i:hover::after {
-    opacity: 1;
-    
+  opacity: 1;
 }
 .game .icons .lightmode {
-    display: none;
+  display: none;
 }
 .dark .game .icons .darkmode {
-    display: none;
+  display: none;
 }
 .dark .game .icons .lightmode {
-    display: initial;
+  display: initial;
 }
 
 .game .icons .reload, .game .icons .reset, .game .icons .github, .game .icons .darkmode, .game .icons .lightmode, .game .icons .debug, .game .icons .home {
@@ -93,7 +115,7 @@
     color: var(--background-color);
 
     border-radius: calc(var(--size) / 100);
-    font-family: "Roboto", sans-serif; 
+    font-family: "Roboto", sans-serif;
     font-weight: bold;
 
     transition: opacity 200ms linear;
@@ -113,12 +135,13 @@
   position: absolute;
 
   display: flex;
+  flex-direction: column;
 
   justify-content: center;
   align-items: center;
 
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 
   background: transparent;
 
@@ -132,37 +155,77 @@
   transition: background 200ms linear, color 200ms linear;
 }
 
-.game .win-screen i {
-    position: relative;
+.game .win-screen .win-indicator {
+  display: flex;
+}
 
-    width: 60px;
-    height: 60px;
+.game .win-screen i {
+  position: relative;
+
+  width: 60px;
+  height: 60px;
+}
+
+.game .win-screen #win-player {
+  position: absolute;
+  transform: translate(-60px, 20px);
 }
 
 .game .win-screen .o {
-    transform: translate(0, 8px);
+  transform: translate(-80px, 20px) !important;
 }
 
 .game .win-screen .o::before {
-    content: '';
-    border-color: white;
+  content: '';
+  border-color: white;
 }
 
 .game .win-screen .x::before,
 .game .win-screen .x::after {
-    content: '';
-    background: white;
+  content: '';
+  background: white;
 }
 .game .win-active {
+  width: calc(100% - 8px);
+  height: calc(100% - 8px);
   z-index: 10;
   background: rgba(0, 0, 0, 0.6);
-  color: var(--color);
+  color: #aaaaaa;
   pointer-events: all;
 }
 
+.game .win-screen .buttons {
+  display: flex;
+}
+
+.game .win-screen .button {
+  margin: 20px;
+  padding: 20px;
+  border-radius: 10px;
+  background: #444;
+  color: #aaa;
+  font-size: 16px;
+  cursor: pointer;
+
+  opacity: 0;
+  transition: opacity 200ms linear;
+}
+
+.game .win-active .button {
+  opacity: 1;
+}
 
 .game #win-text {
-    color: #fff;
+  color: #aaaaaa;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+@media screen and (max-width: 600px) {
+  .game #win-text {
+    color: #aaaaaa;
+    /* font-size: 20px; */
+  }
 }
 
 .game #icon-x, .game #icon-o {
@@ -243,6 +306,10 @@
   border: var(--current) solid 4px;
 
   pointer-events: none;
+}
+
+.nocurrent table .current::after {
+  display: none;
 }
 
 .game table {
@@ -328,14 +395,14 @@
 
   .game table td {
     padding: 1px;
-  } 
+  }
 
   .game table .current::after {
     transform: translate(-5px, calc(-100% + 4px));
   }
 
   .game .icons {
-      width: 60%;
-      transform: scale(1.5) translate(0, -6px);
+      width: 80%;
+      transform: scale(1.2) translate(0, -6px);
   }
 }
