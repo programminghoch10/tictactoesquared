@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 	
 	String url;
+	String backupUrl;
 	
 	@SuppressLint("SetJavaScriptEnabled")
 	@Override
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 		//imported all webview knowledge from my other project: http://github.com/programminghoch10/weblauncher
 		
 		url = context.getString(R.string.url);
+		backupUrl = context.getString(R.string.backupUrl);
 		
 		//webview setup
 		WebView webView = findViewById(R.id.webview);
@@ -56,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 		});
 		webSettings.setAppCacheEnabled(true);
 		webSettings.setCacheMode(isNetworkConnected() ? WebSettings.LOAD_DEFAULT : WebSettings.LOAD_CACHE_ELSE_NETWORK);
-		webSettings.setUserAgentString("ttts-webapp");
+		webSettings.setUserAgentString("ttts-webapp"); //useragent string is used on the website to know that its accessed over the app
 		webView.setOnLongClickListener(new View.OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
