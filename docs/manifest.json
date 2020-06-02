@@ -24,6 +24,6 @@
   "start_url": "https://programminghoch10.github.io/tictactoesquared/",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "white",
-  "theme_color": "rgb(44,202,176)"
+  "background_color": "black",
+  "theme_color": "#6200ee"
 }
