@@ -1,0 +1,9 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.JJ.tictactoesquared",
+    "sha256_cert_fingerprints":
+    ["30:03:FD:28:1B:F0:14:D1:48:A5:DE:88:3C:49:4B:7E:10:E5:C4:76:00:CD:3A:6D:A0:4E:B8:E9:66:56:1B:F3"]
+  }
+}]
