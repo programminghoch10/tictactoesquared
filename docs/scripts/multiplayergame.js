@@ -15,6 +15,10 @@ function clamp(str, len) {
 
 getel("lobbytitle").innerHTML = clamp(lobby.name, 30)
 
+if (lobby.name.length + lobby.opponentname.length >= 24) {
+  document.body.classList.add("title-top")
+}
+
 let owner = lobby.correlations[0].usertoken
 let amIX = owner == token
 let amIO = false

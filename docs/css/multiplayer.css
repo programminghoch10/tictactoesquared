@@ -27,6 +27,11 @@
   transition: transform 200ms ease-in-out;
 }
 
+.multiplayer .sidebar .username {
+  word-break: break-all;
+  -ms-word-break: break-all;
+}
+
 @media only screen and (max-width: 1200px) {
   .multiplayer .sidebar {
     -webkit-box-shadow: 3px 0px 3px 0px rgba(0,0,0,0.2);
@@ -376,6 +381,7 @@
 
 .multiplayer .group .game .title p {
   min-width: max-content;
+  max-width: 200px;
   transform: translate(20px, 5px);
 
   margin-right: 10px;

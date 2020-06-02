@@ -54,7 +54,7 @@ class Game {
     this.score = 0;
     this.progress = 0;
 
-    this.debug = false;
+    this.debug = true; // TODO: remove
   }
 
   clone() {

@@ -58,6 +58,11 @@
   margin: 0;
 }
 
+.title-top .game .icons .lobbyinfo {
+  width: 90%;
+  transform: translate(-50%, -28px);
+}
+
 @media only screen and (max-width: 600px) {
   .game .icons .lobbyinfo {
     width: 90%;
