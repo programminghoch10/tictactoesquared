@@ -6,6 +6,8 @@ The game is described fairly easily: Its TicTacToe inside TicTacToe.
 
 [Start the game](https://programminghoch10.github.io/tictactoesquared)
 
+[Download on the Play Store](https://play.google.com/store/apps/details?id=com.JJ.tictactoesquared)
+
 ## How to play
 
 The first player placed his marker anywhere. 
@@ -21,6 +23,22 @@ You win the game, by winning small TTTs, which form the big one.
 So if you won the upper left field and the lower right field, 
 you will win the game, if you win the middle field, 
 which would result in you having three in a row in the big field.
+
+## AI
+
+You can force the AI to play for or against you by typing `ai()` into the developer console.
+
+With the addition of the menu, this will become obsolete.
+
+Beating the AI is though, but it is possible to do so.
+
+## Android app
+
+There is an Android app available!
+
+[Download on the Play Store](https://play.google.com/store/apps/details?id=com.JJ.tictactoesquared)
+
+[Click here for more info](webapp/)
 
 ## Cookies
 

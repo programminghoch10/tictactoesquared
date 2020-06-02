@@ -1,0 +1,145 @@
+<html lang="en">
+
+  <head>
+    <title>TTT² </title>
+    <!--
+            Prerender & prefetch
+        -->
+    <link rel="prerender"
+          href="game.html" />
+    <link rel="prefetch"
+          href="css/game.css" />
+    <link rel="prefetch"
+          href="scripts/localgame.js" />
+    <link rel="prefetch"
+          href="game.html" />
+    <link rel="prefetch"
+          href="settings.html" />
+    <link rel="prefetch"
+          href="scripts/ai.js" />
+    <link rel="prefetch"
+          href="scripts/againstai.js" />
+    <link rel="prefetch"
+          href="https://github.com/programminghoch10/tictactoesquared" />
+    <!--
+            Viewport
+        -->
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1" />
+    <!--
+            Scripts
+        -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!--
+            Styles
+        -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
+          rel="stylesheet" />
+    <link rel="stylesheet"
+          href="fontawesome/css/all.css">
+    <link rel="stylesheet"
+          href="./css/style.css" />
+    <link rel="stylesheet"
+          href="./css/inputname.css" />
+    <link rel="stylesheet"
+          href="./css/info.css" />
+    <!--
+            Manifest
+        -->
+    <link rel="manifest"
+          href="manifest.json" />
+  </head>
+
+  <body>
+    <noscript>
+      <div class="noscript">
+        <div>
+          <h1>This site requires JavaScript.</h1><br>
+          <p>Please make sure it is enabled.</p>
+        </div>
+      </div>
+    </noscript>
+    <div class="inputname">
+      <div class="center flex-column">
+        <div class="icons">
+          <a href="index.html"
+             id="indexlink">
+            <i class="fas fa-arrow-left back"></i>
+          </a>
+          <a href="multiplayer.html"
+             id="multiplayerlink">
+            <i class="fas fa-arrow-left back"></i>
+          </a>
+        </div>
+        <h1>Enter your name:</h1>
+        <div class="nameinput">
+          <form action="javascript:submit();">
+            <input type="text"
+                   id="username"
+                   maxlength="32"
+                   autofocus>
+            <input type="submit"
+                   value="OK">
+          </form>
+        </div>
+      </div>
+    </div>
+    <script src="scripts/cookie.js"></script>
+    <script src="scripts/colortheme.js"></script>
+    <script src="scripts/multiplayerclient.js"></script>
+    <script src="scripts/info.js"></script>
+    <script>
+      let params = new URLSearchParams(location.search)
+      if (params.has("token")) {
+        const _secret = params.get("token")
+        const user = getUserBySecret(_secret)
+
+        if (user && user != "") {
+          saveName(user.name)
+          saveToken(user.token)
+          saveSecret(_secret)
+        }
+
+        document.location.href = "./multiplayer.html"
+      }
+
+      function submit() {
+        let name = document.getElementById("username").value
+        document.getElementById("username").value = ""
+
+        // check if the name is empty
+        if (name == "" || name.split(" ").join("") == "") {
+          addInfo("Invalid username", "The name may not be empty.", 2)
+          return
+        }
+
+        // check if the name is too long
+        if (name.length > 32) {
+          addInfo("Failed to set name", "Your username is too long", 2)
+          return
+        }
+
+        // check if the user name already exists
+        let req = post("/api/doesUserNameExist", { userName: name })
+        if (req.status != 200) {
+          addInfo("Error " + code, "An error occured whilst checking your name, please try again later.", 3)
+          return
+        }
+        if (req.responseText == "true" && getCookie("name") != name) {
+          addInfo("Invalid username", "A user with the name '" + name + "' already exists.", 2)
+          return
+        }
+
+        setGlobalCookie("name", name)
+        document.location.href = "./multiplayer.html"
+      }
+
+      if (getCookie("name") != "") {
+        getel("indexlink").style.display = "none"
+      } else {
+        getel("multiplayerlink").style.display = "none"
+      }
+    </script>
+  </body>
+
+</html>

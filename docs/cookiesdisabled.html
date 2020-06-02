@@ -1,0 +1,114 @@
+<html lang="en">
+
+  <head>
+    <title>TTT² </title>
+    <!--
+            Prerender & prefetch
+        -->
+    <link rel="prerender"
+          href="multiplayer.html" />
+    <link rel="prefetch"
+          href="css/game.css" />
+    <link rel="prefetch"
+          href="scripts/multiplayerclient.js" />
+    <link rel="prefetch"
+          href="scripts/multiplayergame.js" />
+    <link rel="prefetch"
+          href="scripts/lobbypage.js" />
+    <link rel="prefetch"
+          href="index.html" />
+    <link rel="prefetch"
+          href="https://github.com/programminghoch10/tictactoesquared" />
+    <!--
+            Viewport
+        -->
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1" />
+    <!--
+            Scripts
+        -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!--
+            Styles
+        -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
+          rel="stylesheet" />
+    <link rel="stylesheet"
+          href="fontawesome/css/all.css">
+    <link rel="stylesheet"
+          href="./css/style.css" />
+    <link rel="stylesheet"
+          href="./css/inputname.css" />
+    <!--
+            Manifest
+        -->
+    <link rel="manifest"
+          href="manifest.json" />
+  </head>
+
+  <body>
+    <noscript>
+      <div class="noscript">
+        <div>
+          <h1>This site requires JavaScript.</h1><br>
+          <p>Please make sure it is enabled.</p>
+        </div>
+      </div>
+    </noscript>
+    <div class="inputname">
+      <div class="center flex-column"
+           style="cursor: default;">
+        <br>
+        <div class="nameinput">
+          <div>
+            <h1>Hey there!</h1>
+            <h2>Your cookies are currently disabled. Cookies are required for the Online Multiplayer to work. </h2>
+          </div>
+        </div>
+        <div class="nameinput">
+          <input type="button"
+                 value="Back"
+                 onclick="cookiesback()"
+                 style="cursor: pointer;">
+          <input type="button"
+                 value="Accept Cookies"
+                 onclick="cookiesaccept()"
+                 style="cursor: pointer;">
+        </div>
+      </div>
+    </div>
+    </div>
+    <script src="scripts/cookie.js"></script>
+    <script src="scripts/colortheme.js"></script>
+    <!--<script type="text/javascript"
+            id="cookieinfo"
+            src="//cookieinfoscript.com/js/cookieinfo.min.js"
+            data-message="We use cookies mainly to save your game. (It's ok, everyone does.)"
+            data-cookie="cookies-accepted"
+            data-close-text="Accept"></script>-->
+    <script>
+      function cookiesback() {
+        document.location.href = "./index.html";
+      }
+      function cookiesaccept() {
+        let cname = "cookies-accepted";
+        let cvalue = 1;
+        let path = "";
+        let exdays = 365 * 1000;
+        let d = new Date();
+        d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+        let expires = "expires=" + d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=" + (path == "" ? "/" : path);
+        cookiesforward();
+      }
+      function cookiesforward() {
+        document.location.href = "./multiplayer.html";
+      }
+      function checkcookiesaccepted() {
+        if (cookiesAccepted()) cookiesforward();
+      }
+      setInterval(checkcookiesaccepted, 500);
+    </script>
+  </body>
+
+</html>
