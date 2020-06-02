@@ -27,9 +27,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:scheme="https"
-                    android:host="ttts.ji-games.com" />
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+                <data android:host="ttts.ji-games.com" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -37,10 +37,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:scheme="https"
-                    android:host="ttts.ji-games.com"
-                    android:path="/inputname" />
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+                <data android:host="ttts.ji-games.com" />
+                <data android:path="/inputname" />
             </intent-filter>
         </activity>
     </application>
