@@ -59,6 +59,11 @@ app.get('/index.html', function (req, res) {
   res.redirect('/')
 })
 
+app.get('/manifest.json', function (req, res) {
+  let options = { root: DIR }
+  res.sendFile("manifest2.json", options)
+})
+
 app.use(express.static(DIR))
 
 app.get('/', function (req, res) {
