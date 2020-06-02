@@ -124,6 +124,14 @@
   }
 
   .inputname h1 {
-      text-align: center;
+    text-align: center;
   }
+}
+
+.inputname .qrcode {
+  background: white;
+  padding: 5px;
+  border-radius: 10px;
+  z-index: -1;
+  margin-top: 20px;
 }

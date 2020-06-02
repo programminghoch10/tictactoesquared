@@ -48,6 +48,7 @@
         -->
     <link rel="manifest"
           href="manifest.json" />
+    <script src="scripts/qrcode.js"></script>
   </head>
 
   <body>
@@ -61,44 +62,32 @@
     </noscript>
     <div class="inputname">
       <div class="center flex-column">
-        <div class="icons">
-          <a href="index.html"
-             id="indexlink">
-            <i class="fas fa-arrow-left back"></i>
-          </a>
-          <a href="multiplayer.html"
-             id="multiplayerlink">
-            <i class="fas fa-arrow-left back"></i>
-          </a>
+        <a href="multiplayer.html"
+           id="multiplayerlink">
+          <i class="fas fa-arrow-left back"></i>
+        </a>
+        <h2>To synchronize another device with your account, scan the qr-code:</h2>
+        <div class="qrcode">
+          <div id="qrcode"></div>
         </div>
-        <!--
-
-         -->
+        <h2>Or alternatively use the following link:</h2>
+        <a id="link"
+           style="background: var(--default); padding: 5px 15px; border-radius: 10px;
+           word-break: break-all;
+           -ms-word-break: break-all;"
+           href="">test</a>
       </div>
     </div>
     <script src="scripts/cookie.js"></script>
     <script src="scripts/colortheme.js"></script>
     <script src="scripts/multiplayerclient.js"></script>
     <script src="scripts/info.js"></script>
-    <script>
-      let params = new URLSearchParams(location.search)
-      if (!params.has("token")) {
-        window.history.back()
-      }
+    <script type="text/javascript">
+      let href = window.location.origin + "/inputname.html?token=" + secret
+      new QRCode(document.getElementById("qrcode"), href)
+      document.getElementById("link").innerHTML = href
+      document.getElementById("link").href = href
 
-      const _secret = params.get("token")
-      const user = getUserBySecret(_secret)
-
-      console.log("1")
-      if (user && user != "") {
-        console.log("2")
-        console.log(user)
-        saveName(user.name)
-        saveToken(user.token)
-        saveSecret(_secret)
-      }
-
-      // window.history.back()
     </script>
   </body>
 
