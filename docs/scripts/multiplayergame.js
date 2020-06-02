@@ -15,7 +15,7 @@ function clamp(str, len) {
 
 getel("lobbytitle").innerHTML = clamp(lobby.name, 30)
 
-if (lobby.name.length + lobby.opponentname.length >= 24) {
+if (lobby.name.length + (lobby.opponentname || "").length >= 24) {
   document.body.classList.add("title-top")
 }
 

@@ -147,14 +147,16 @@ function notifyUser(origin, code) {
       switch (code) {
         case 0:
           unavailable()
+          document.location.href = "./multiplayer.html"
           break
         case 400:
-          // the server got closed
+          // the lobby got closed
           setGlobalCookie("lobbyclosed", 1)
-          document.location.href = "multiplayer.html"
+          document.location.href = "./multiplayer.html"
           break
         case 401:
           unauthorized()
+          document.location.href = "./multiplayer.html"
           break
         default:
           unknownCode(origin, code)
