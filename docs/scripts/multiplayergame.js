@@ -222,3 +222,7 @@ function _rematch() {
 }
 
 update()
+
+let loadingscreen = document.getElementById("loadingscreen");
+loadingscreen.innerHTML = ""
+loadingscreen.style.display = "none"
