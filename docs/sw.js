@@ -8,15 +8,21 @@ var CACHE_NAME = 'TTTS_CACHE';
 var urlsToCache = [
   '/',
   'index.html',
+  'game.html',
+  'game.html?ai=true',
+  'scripts/againstai.js',
   'scripts/ai.js',
   'scripts/colortheme.js',
   'scripts/cookie.js',
+  'scripts/cookienotice.js',
   'scripts/game.js',
   'scripts/localgame.js',
-  'css/game.css',
+  'scripts/menu.js',
+  'scripts/online.js',
   'css/style.css',
+  'css/game.css',
+  'css/menu.css',
   'favicons/favicon-32x32.png',
-  'favicons/favicon-16x16.png',
 ];
 
 self.addEventListener('install', function (event) {
