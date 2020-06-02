@@ -42,7 +42,8 @@ let frontendInterface = {
   }
 }
 
-const size = params.has("size") ? parseInt(params.get("size")) : 3;
+// const size = params.has("size") ? parseInt(params.get("size")) : 3;
+const size = parseInt(getCookie("fieldsize")) || 3
 let game = new Game(frontendInterface, size);
 
 document.title = Array(size).fill(null).map(() => "T").join("") + "²";
@@ -95,6 +96,11 @@ function load() {
 
   if (!game.fromString(cookie)) {
     deleteGameCookie();
+  }
+
+  if (game.size != size) {
+    deleteGameCookie()
+    game = new Game(frontendInterface, size)
   }
 }
 

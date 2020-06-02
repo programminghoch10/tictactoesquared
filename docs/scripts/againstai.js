@@ -41,7 +41,7 @@ let frontendInterface = {
   }
 }
 
-const size = params.has("size") ? parseInt(params.get("size")) : 3;
+const size = parseInt(getCookie("fieldsize")) || 3
 let game = new Game(frontendInterface, size);
 
 function getel(element) {
