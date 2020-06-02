@@ -37,7 +37,7 @@ router.post('/api/createUser', async function (req, res) {
   // create a new user in the database
   await sql.createUser(user)
 
-  user = common.sanitizeUser(user)
+  user.name = common.sanitizeString(user.name)
 
   res.status(201)
   res.send(JSON.stringify(user))
