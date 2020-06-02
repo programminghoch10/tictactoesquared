@@ -4,8 +4,9 @@
 
 var CACHE_NAME = 'TTTS_CACHE';
 
-// urlsToCache: all crucial files absolutely needed to run the game
+// urlsToCache: all crucial files absolutely needed to run the game without the server
 var urlsToCache = [
+  '/',
   'index.html',
   'scripts/ai.js',
   'scripts/colortheme.js',
@@ -28,13 +29,17 @@ self.addEventListener('install', function (event) {
 });
 
 self.addEventListener('fetch', function (event) {
-  event.respondWith((function () {
-    return caches.open(CACHE_NAME).then(function (cache) {
+  if (event.request.url.endsWith("/index.html")) event.request.url.replace("/index.html", "/");
+  event.respondWith((async function () {
+    return caches.open(CACHE_NAME).then(async function (cache) {
       return cache.match(event.request).then(function (response) {
         var fetchPromise = fetch(event.request).then(function (networkResponse) {
           cache.put(event.request, networkResponse.clone());
           return networkResponse;
-        });
+        }).catch((error) => {
+          //Network propably down, no need to complain
+          //console.error('Error:', error);
+        });;
         return response || fetchPromise;
       })
     })
