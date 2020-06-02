@@ -16,6 +16,20 @@ router.post('/api/getUser', async function (req, res) {
 
   let token = req.body.token
 
+  if (common.isStringEmpty(token)) {
+    let user = await sql.getUserBySecret(secret)
+
+    if (!user) {
+      res.sendStatus(400)
+      return
+    }
+
+    user.name = common.sanitizeString(user.name)
+
+    res.send(JSON.stringify(user))
+    return
+  }
+
   let user = await sql.getUserByToken(token)
 
   if (!user) {

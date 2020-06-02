@@ -1,10 +1,9 @@
-// A test route
+const sql = require("./sql")
+sql.init()
 
-// var express = require('express')
-// var router = express.Router()
+async function a() {
+  let user = await sql.getUserBySecret("10cf88945ac60e45fe79896b999c2af540f53135d48f8f0c37566dc5b4cbf04a")
+  console.log(user)
+}
 
-// router.get('/test', function(req, res) {
-//     res.send("Hello, world!")
-// })
-
-// module.exports = router
+a()

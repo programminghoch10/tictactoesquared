@@ -71,17 +71,9 @@
             <i class="fas fa-arrow-left back"></i>
           </a>
         </div>
-        <h1>Enter your name:</h1>
-        <div class="nameinput">
-          <form action="javascript:submit();">
-            <input type="text"
-                   id="username"
-                   maxlength="32"
-                   autofocus>
-            <input type="submit"
-                   value="OK">
-          </form>
-        </div>
+        <!--
+
+         -->
       </div>
     </div>
     <script src="scripts/cookie.js"></script>
@@ -90,55 +82,23 @@
     <script src="scripts/info.js"></script>
     <script>
       let params = new URLSearchParams(location.search)
-      if (params.has("token")) {
-        const _secret = params.get("token")
-        const user = getUserBySecret(_secret)
-
-        if (user && user != "") {
-          saveName(user.name)
-          saveToken(user.token)
-          saveSecret(_secret)
-        }
-
-        document.location.href = "./multiplayer.html"
+      if (!params.has("token")) {
+        window.history.back()
       }
 
-      function submit() {
-        let name = document.getElementById("username").value
-        document.getElementById("username").value = ""
+      const _secret = params.get("token")
+      const user = getUserBySecret(_secret)
 
-        // check if the name is empty
-        if (name == "" || name.split(" ").join("") == "") {
-          addInfo("Invalid username", "The name may not be empty.", 2)
-          return
-        }
-
-        // check if the name is too long
-        if (name.length > 32) {
-          addInfo("Failed to set name", "Your username is too long", 2)
-          return
-        }
-
-        // check if the user name already exists
-        let req = post("/api/doesUserNameExist", { userName: name })
-        if (req.status != 200) {
-          addInfo("Error " + code, "An error occured whilst checking your name, please try again later.", 3)
-          return
-        }
-        if (req.responseText == "true" && getCookie("name") != name) {
-          addInfo("Invalid username", "A user with the name '" + name + "' already exists.", 2)
-          return
-        }
-
-        setGlobalCookie("name", name)
-        document.location.href = "./multiplayer.html"
+      console.log("1")
+      if (user && user != "") {
+        console.log("2")
+        console.log(user)
+        saveName(user.name)
+        saveToken(user.token)
+        saveSecret(_secret)
       }
 
-      if (getCookie("name") != "") {
-        getel("indexlink").style.display = "none"
-      } else {
-        getel("multiplayerlink").style.display = "none"
-      }
+      // window.history.back()
     </script>
   </body>
 

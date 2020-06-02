@@ -368,6 +368,13 @@ function other(_token) {
   return parseJSON(res)
 }
 
+function getUserBySecret(secret) {
+  let req = post("/api/getUser", { secret: secret })
+  let res = req.responseText
+  if (req.status != 200) res = null
+  return parseJSON(res)
+}
+
 function getLobby(lobbyToken) {
   return parseJSON(post("/api/getLobby", { lobbytoken: lobbyToken, usertoken: token, secret: secret }).responseText)
 }
