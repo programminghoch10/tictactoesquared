@@ -18,7 +18,8 @@ let frontendInterface = {
     let el = getel(getglobalid(x, y));
     el.classList.remove("current");
   },
-  setCurrentFieldAfter: (x, y) => {
+  setCurrentFieldAfter: (x, y, all) => {
+    if (all) return
     let el = getel(getglobalid(x, y));
     el.classList.add("current");
   },

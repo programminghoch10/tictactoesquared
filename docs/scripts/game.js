@@ -332,9 +332,7 @@ class Game {
     position++;
     this.currentField.y = saveGame.substring(position, position + 1);
 
-    if (!this.currentField.all) {
-      this.frontendinterface.setCurrentFieldAfter(this.currentField.x, this.currentField.y);
-    }
+    this.frontendinterface.setCurrentFieldAfter(this.currentField.x, this.currentField.y, this.currentField.all);
 
     for (let i = 0; i < this.size; i++) {
       for (let j = 0; j < this.size; j++) {

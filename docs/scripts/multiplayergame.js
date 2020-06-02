@@ -59,12 +59,13 @@ let frontendInterface = {
     let el = getel(getglobalid(x, y));
     el.classList.remove("current");
   },
-  setCurrentFieldAfter: (x, y) => {
+  setCurrentFieldAfter: (x, y, all) => {
     for (let _x = 0; _x < game.size; _x++) {
       for (let _y = 0; _y < game.size; _y++) {
         getel(getglobalid(_x, _y)).classList.remove("current");
       }
     }
+    if (all) return
     let el = getel(getglobalid(x, y));
     el.classList.add("current");
   },
