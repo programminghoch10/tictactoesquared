@@ -84,7 +84,7 @@ let frontendInterface = {
       winText = "You win"
     } else if ((player == "O" && amIX) || (player == "X" && amIO)) {
       winText = getopponentname(" wins")
-    } else if (player == "d") {
+    } else if (player == "draw") {
       winText = "Draw"
     } else if (player == "f") {
       if (lobby.flags.includes("invite")) {

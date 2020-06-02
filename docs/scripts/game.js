@@ -282,8 +282,8 @@ class Game {
 
     saveGame = saveGame.substring(saveGame.indexOf("-") + 1);
 
-    let end = false
     let won = ""
+    let end = false
     if (saveGame.substring(0, 1) == "!") {
       end = true
       won = saveGame.substring(1, 2)
