@@ -560,7 +560,7 @@ function getGame(lobby, password, by, args, flags) {
   let description = lobby.description
   let isyourturn = ""
 
-  if (lobby.isyourturn || (lobby.correlations.length == 1 && lobby.privacy == "closed")) {
+  if (lobby.isyourturn || lobby.flags.includes("left")) {
     isyourturn = `
       <div class="notificationdot notificationdot-active"></div>
     `
