@@ -1,0 +1,72 @@
+body {
+  --color: black;
+  --background-color: whitesmoke;
+  --font-color: #555;
+
+  --default: #ddd;
+  --default-alt: #c0c0c0;
+  --default-alt2: #eee;
+
+  --player1: rgb(44, 112, 202);
+  --player2: rgb(255, 81, 0);
+  --player1alt: rgba(44, 112, 202, 0.3);
+  --player2alt: rgba(255, 81, 0, 0.3);
+
+  --dropshadow: rgba(255, 255, 255, 0.75);
+
+  height: 100vh;
+
+  margin: 0;
+
+  background: var(--background-color);
+
+  font-family: "Roboto", sans-serif;
+
+  overflow: hidden;
+}
+
+svg, a, p, h1, h2 {
+  color: var(--font-color);
+  text-decoration: none;
+}
+
+.dark {
+  --color: white;
+  --background-color: #333;
+  --font-color: #aaa;
+
+  --default: #444;
+  --default-alt: #555;
+  --default-alt2: #666;
+
+  --dropshadow: rgba(0, 0, 0, 0.75);
+
+  --player1: rgb(44, 202, 176);
+  --player2: rgb(255, 123, 0);
+  --player1alt: rgba(44, 202, 176, 0.3);
+  --player2alt: rgba(255, 123, 0, 0.3);
+}
+
+.noscript {
+  position: fixed;
+  z-index: 99999;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 100%;
+
+  background: black;
+  color: white;
+
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.noscript p,h1 {
+  color: white;
+  text-align: center;
+  margin: 0;
+}

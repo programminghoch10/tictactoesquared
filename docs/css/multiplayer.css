@@ -1,0 +1,804 @@
+.multiplayer {
+  position: relative;
+
+  overflow: hidden;
+}
+
+.multiplayer .sidebar {
+  transform: translateX(-110%);
+}
+
+.burger .multiplayer .sidebar {
+  transform: translate(0);
+}
+
+.multiplayer .sidebar {
+  z-index: 30;
+  position: absolute;
+  width: 300px;
+  height: 100%;
+
+  padding-top: 50px;
+
+  background-color: var(--default);
+
+  text-align: center;
+
+  transition: transform 200ms ease-in-out;
+}
+
+.multiplayer .sidebar .username {
+  word-break: break-all;
+  -ms-word-break: break-all;
+}
+
+@media only screen and (max-width: 1200px) {
+  .multiplayer .sidebar {
+    -webkit-box-shadow: 3px 0px 3px 0px rgba(0,0,0,0.2);
+    -moz-box-shadow: 3px 0px 3px 0px rgba(0,0,0,0.2);
+    box-shadow: 3px 0px 3px 0px rgba(0,0,0,0.2);
+  }
+}
+
+.multiplayer .sidebar .nav {
+  transform: translateY(-24px);
+}
+
+.multiplayer .sidebar .nav i::before {
+  color: var(--font-color);
+  margin: 5px;
+
+  cursor: pointer;
+}
+
+.dark .multiplayer .sidebar .darkmode {
+  display: none;
+}
+
+.multiplayer .sidebar .lightmode {
+  display: none;
+}
+
+.dark .multiplayer .sidebar .lightmode {
+  display: initial;
+}
+
+.multiplayer .sidebar .name {
+  display: flex;
+  justify-content: center;
+}
+
+.multiplayer .sidebar .name i::before {
+  color: var(--font-color);
+}
+
+.multiplayer .sidebar .name i {
+  transform: translate(12px, 26px);
+  cursor: pointer;
+}
+
+.multiplayer .overlay {
+  z-index: 1;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100vh;
+
+  transition: background 200ms linear;
+
+  pointer-events: none;
+}
+
+.multiplayer .overlay-active {
+  width: 100vw;
+  background: rgba(0, 0, 0, 0.5);
+
+  pointer-events: all;
+}
+
+@media only screen and (max-width: 1199px) {
+  .burger .multiplayer .burgeroverlay {
+    width: 100vw;
+    background: rgba(0, 0, 0, 0.5);
+
+    pointer-events: all;
+  }
+}
+
+.multiplayer .groups-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.multiplayer .groups-nav .group {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  width: 250px;
+  height: 40px;
+
+  margin: 5px 0;
+
+  background: var(--default);
+
+  border-radius: 10px;
+
+  text-align: left;
+
+  cursor: pointer;
+}
+
+.multiplayer .groups-nav .group:hover {
+  background: var(--default-alt2);
+}
+
+.multiplayer .notificationdot {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  width: 20px;
+  height: 20px;
+
+  border-radius: 50px;
+
+  background: rgb(196, 24, 18);
+
+  color: white;
+  font-size: 10px;
+}
+
+.multiplayer .notificationdot-active {
+  display: flex;
+}
+
+
+.multiplayer .groups-nav .group .notificationdot {
+  transform: translate(-18px, 13px);
+}
+
+.multiplayer .groups-nav .group p {
+  width: 100%;
+
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--player1);
+
+  text-align: center;
+}
+
+.multiplayer .groups-nav .alt .group p {
+  color: var(--player2);
+}
+
+.multiplayer .groups-nav .current {
+  background: var(--player1);
+}
+
+.multiplayer .groups-nav .current:hover {
+  background: var(--player1);
+}
+.multiplayer .groups-nav .alt .current:hover {
+  background: var(--player2);
+}
+
+.multiplayer .groups-nav .current p {
+  color: white;
+}
+
+.multiplayer .groups-nav .alt .current {
+  background: var(--player2);
+}
+
+.multiplayer .groups-nav .alt .current p {
+  color: white;
+}
+
+.multiplayer .groups {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  transition: width 200ms ease-in-out, transform 200ms ease-in-out;
+}
+
+@media only screen and (min-width: 1200px) {
+  .burger .multiplayer .groups {
+    width: calc(100% - 300px);
+    transform: translateX(300px);
+  }
+}
+
+.multiplayer input, .multiplayer textarea {
+  position: absolute;
+
+  top: 50%;
+  right: 0;
+
+  transform: translateY(-50%);
+
+  width: 200px;
+  height: 40px;
+
+  background: var(--default-alt);
+  border: none;
+
+  border-radius: 10px;
+
+  color: var(--player1);
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.multiplayer .groups .nav {
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  height: 65px;
+
+  background: var(--default-alt);
+}
+
+.multiplayer .groups .nav h2 {
+  margin-left: 20px;
+}
+
+.multiplayer .groups .nav .right {
+  display: flex;
+  margin-left: auto;
+  margin-right: 40px;
+}
+
+.multiplayer .groups .nav .icon {
+  display: block;
+  color: var(--font-color);
+
+  margin: 0 5px;
+
+  cursor: pointer;
+}
+
+.multiplayer .groups .nav p {
+  margin: 0 5px;
+}
+
+@media only screen and (max-width: 1200px) {
+  .multiplayer .groups .nav h2 {
+    margin-left: 100px;
+  }
+
+  .multiplayer .groups .nav .navfilter {
+    display: none;
+  }
+}
+
+.multiplayer .groups .nav input {
+  position: static;
+
+  transform: translate(0, 0);
+
+  margin: 0 20px;
+  padding-left: 15px;
+
+  background: var(--default-alt2);
+  text-align: left;
+}
+
+.multiplayer .groups .nav h3 {
+  color: var(--font-color);
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.multiplayer .groups .group {
+  flex: 1;
+
+  height: 100%;
+
+  margin: 20px;
+  padding-bottom: 120px;
+
+  overflow: scroll;
+}
+
+.multiplayer .groups .group::-webkit-scrollbar {
+  display: none;
+}
+
+.multiplayer .groups .group .nogames {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-size: 26px;
+  color: var(--font-color);
+  word-wrap: break-word;
+  text-align: center;
+  opacity: 0.7;
+}
+
+.multiplayer .groups .hide {
+  display: none;
+}
+
+.multiplayer .group h1 {
+  text-align: center;
+}
+
+.multiplayer .group .game {
+  position: relative;
+
+  width: calc(100% - 40px);
+  min-height: 120px;
+  max-height: 200px;
+  margin: 20px;
+  border-radius: 10px;
+  background: var(--default);
+  padding-left: 10px;
+
+  word-wrap: break-word;
+
+  overflow: hidden;
+}
+
+.multiplayer .group .game .title {
+  display: inline-block;
+  word-wrap: break-word;
+  word-break: break-all;
+  width: calc(100% - 250px);
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+}
+
+.multiplayer .group .game .title h2 {
+  transform: translate(10px, 0px);
+  color: var(--player1);
+
+  margin-right: 20px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.multiplayer .group .game .title h2 div {
+  display: inline;
+  /* margin-left: 10px; */
+}
+
+.multiplayer .group .game .title p {
+  min-width: max-content;
+  max-width: 200px;
+  transform: translate(20px, 5px);
+
+  margin-right: 10px;
+  margin-top: 0;
+  margin-bottom: 0;
+
+  font-size: 16x;
+  font-weight: bold;
+
+  color: var(--player1);
+}
+
+.multiplayer .group .game .title i {
+  transform: translate(4px, -4px) scale(0.8);
+
+  margin-right: 10px;
+
+  color: var(--player1);
+}
+
+.multiplayer .group .game h3 {
+  width: calc(100% - 250px);
+
+  transform: translate(10px, -16px);
+  color: var(--player2);
+  font-size: 16px;
+}
+
+@media only screen and (max-width: 600px) {
+  .multiplayer .group .game h3 {
+    width: 85%;
+    font-size: 14px;
+    font-weight: normal;
+  }
+
+  .multiplayer .groups .nav h2 {
+    font-size: 16px;
+    margin-left: 80px;
+  }
+
+  .multiplayer .groups .nav .right {
+    margin-right: 20px;
+  }
+}
+
+.multiplayer .group .game .buttons {
+  position: absolute;
+  right: 0;
+  transform: translate(-12px, 20px);
+  display: flex;
+  width: 200px;
+  margin-left: auto;
+  margin-right: 10px;
+}
+
+.multiplayer .group .game .button {
+  right: 0;
+  top: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 80px;
+  height: 80px;
+
+  margin-left: auto;
+
+  background: var(--default-alt);
+
+  border: none;
+  border-radius: 10px;
+
+  font-family: "Roboto", sans-serif;
+  color: var(--player1);
+  font-weight: bold;
+  font-size: 18px;
+
+  cursor: pointer;
+
+  transition: background 200ms linear;
+}
+
+.multiplayer .group .game .button:hover {
+  background: var(--default-alt2);
+}
+
+@media only screen and (min-width: 799px) {
+  .multiplayer .group .game .buttons {
+    top: 0;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .multiplayer .group .game {
+    padding-bottom: 60px;
+    max-height: 300px;
+  }
+
+  .multiplayer .group .game h3, .multiplayer .group .game .title {
+    width: calc(100% - 40px);
+    padding-bottom: 10px;
+  }
+
+  .multiplayer .group .game .buttons {
+    bottom: 0;
+    transform: translate(-10px, -10px);
+    width: 140px;
+  }
+
+  .multiplayer .group .game .button {
+    width: 60px;
+    height: 60px;
+    font-size: 14px;
+  }
+
+  .multiplayer .group .game .title i {
+    transform: translate(4px, 4px) scale(0.8);
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .multiplayer .group .game .title {
+    display: block;
+  }
+
+  .multiplayer .group .game .title h2 {
+    display: flex;
+  }
+}
+
+.multiplayer .flex {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+}
+
+.multiplayer .flex-column {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.multiplayer .center {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  width: inherit;
+  height: 100%;
+}
+
+.multiplayer .nameinput {
+  display: flex;
+
+  width: 850px;
+  max-width: 90%;
+  height: 50px;
+}
+
+.multiplayer .burger {
+  position: absolute;
+  z-index: 40;
+
+  top: 20px;
+  left: 20px;
+
+  width: 40px;
+  height: 40px;
+
+  cursor: pointer;
+}
+
+.multiplayer .burger span, .multiplayer .burger span::before, .multiplayer .burger span::after {
+  content: "";
+
+  display: block;
+
+  transform: translateY(200%);
+
+  width: 100%;
+  height: 5px;
+
+  background: var(--font-color);
+
+  border-radius: 2px;
+}
+
+.multiplayer .burger span::before {
+  transform: translateY(-200%);
+}
+.multiplayer .burger span::after {
+  transform: translateY(100%);
+}
+
+.multiplayer .add {
+  z-index: 2;
+
+  position: absolute;
+
+  bottom: 80px;
+  right: 40px;
+
+  width: 70px;
+  height: 70px;
+
+  border-radius: 50%;
+
+  background: var(--player1);
+
+  -webkit-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.24);
+  -moz-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.24);
+  box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.24);
+
+  cursor: pointer;
+}
+
+.multiplayer .add i {
+  transform: translate(calc(35px - 14px), calc(35px - 16px));
+
+  color: white;
+}
+
+.multiplayer .panel {
+  z-index: 3;
+  position: fixed;
+
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%) scale(0);
+
+  width: 500px;
+  max-height: 60%;
+  overflow: scroll;
+
+  padding-bottom: 20px;
+
+  border-radius: 10px;
+
+  background: var(--default);
+
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 200ms linear;
+}
+
+.multiplayer .panel::-webkit-scrollbar {
+  display: none;
+}
+
+.multiplayer .panel .closebutton {
+  position: absolute;
+
+  top: 15px;
+  right: 15px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 40px;
+  height: 40px;
+
+  background: var(--default-alt);
+  color: var(--player2);
+
+  border-radius: 10px;
+
+  cursor: pointer;
+}
+
+.multiplayer .panel form {
+    position: relative;
+}
+
+.multiplayer .panel-active {
+  pointer-events: all;
+  transform: scale(1) translate(-50%, -50%);
+  opacity: 1;
+}
+
+.multiplayer .panel h2 {
+  color: var(--player1);
+  text-align: center;
+}
+
+.multiplayer .panel h3 {
+  color: var(--player2);
+  height: 23px;
+}
+
+.multiplayer .panel .entry {
+  position: relative;
+
+  display: flex;
+  height: 60px;
+  margin: 10px 20px;
+}
+
+.multiplayer .panel .entry input {
+  margin-left: auto;
+}
+
+.multiplayer .panel .entry input[type="text"], .multiplayer .panel .entry input[type="password"] {
+  padding-left: 12px;
+  text-align: left;
+}
+
+.multiplayer .panel .entry .iconinput i {
+  position: absolute;
+  right: 0;
+  /* transform: translate(14px, -48px); */
+  color: rgba(0, 0, 0, 0.2);
+}
+
+.multiplayer .panel input[type="submit"] {
+  width: 200px;
+  height: 40px;
+
+  background: var(--default-alt);
+  border: none;
+  border-radius: 10px;
+
+  color: var(--player2);
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+
+  cursor: pointer;
+}
+
+.multiplayer .panel input[type="button"] {
+  position: relative;
+  margin: 0 15px;
+
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 600px) {
+  .multiplayer .panel input[type="button"] {
+    transform: translateY(-42px);
+    margin: 5px 0;
+  }
+
+  .multiplayer .panel .fullwidthmobile {
+    width: 100% !important;
+    margin-top: 30px;
+  }
+}
+
+.multiplayer .panel .active-button {
+  background: var(--player1);
+  color: var(--default);
+}
+
+.multiplayer textarea {
+  position: relative;
+
+  min-width: 100%;
+  max-width: 100%;
+  min-height: 80px;
+  max-height: 80px;
+
+  margin: 40px 0;
+  margin-bottom: -40px;
+  padding: 15px;
+
+  text-align: left;
+}
+
+.multiplayer textarea::-webkit-scrollbar {
+  display: none;
+}
+
+.multiplayer .fullsize {
+  width: calc(100%);
+}
+
+@media only screen and (max-width: 600px) {
+  .multiplayer .panel {
+    width: 100%;
+    min-height: 100%;
+    max-height: 100%;
+    border-radius: 0;
+    padding-top: 20px;
+    z-index: 41;
+  }
+
+  .multiplayer .panel .closebutton {
+    transform: translateY(20px);
+  }
+
+  .multiplayer .panel .entry {
+    display: block;
+    height: 80px;
+    margin: 20px;
+  }
+
+  .multiplayer .panel .button-entry {
+    height: 100px;
+  }
+
+  .multiplayer .panel input {
+    position: static;
+    width: 100%;
+    margin: 0;
+    margin-top: 10px;
+
+  }
+}
+
+.multiplayer .panel .entry-hide {
+  display: none;
+}

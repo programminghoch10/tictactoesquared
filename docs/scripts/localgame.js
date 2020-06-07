@@ -18,7 +18,8 @@ let frontendInterface = {
     let el = getel(getglobalid(x, y));
     el.classList.remove("current");
   },
-  setCurrentFieldAfter: (x, y) => {
+  setCurrentFieldAfter: (x, y, all) => {
+    if (all) return
     let el = getel(getglobalid(x, y));
     el.classList.add("current");
   },
@@ -30,18 +31,21 @@ let frontendInterface = {
   },
   globalWin: (player) => {
     getel("win").classList.add("win-active");
-    getel("win-text").innerHTML = "Won"
+    getel("win-text").innerHTML = "Won";
     getel("win-player").classList.add(player);
 
     deleteGameCookie();
   },
   draw: () => {
     getel("win").classList.add("win-active");
-    getel("win-text").innerHTML = "Draw"
+    getel("win-text").innerHTML = "Draw";
   }
 }
 
-let game = new Game(frontendInterface);
+const size = params.has("size") ? parseInt(params.get("size")) : 3;
+let game = new Game(frontendInterface, size);
+
+document.title = Array(size).fill(null).map(() => "T").join("") + "²";
 
 function getel(element) {
   return document.getElementById(element);
@@ -58,10 +62,6 @@ function reload() {
 
 function mousedown(x, y, a, b) {
   game.set(x, y, a, b);
-
-  if (game.currentPlayer == player2 && !game.debug) {
-    setTimeout(function () { ai(); }, 100);
-  }
 
   if (!game.end) {
     save();
@@ -85,76 +85,16 @@ function switchPlayer() {
 }
 
 function save() {
-  let cookie = "";
-  for (let x = 0; x < size; x++) {
-    for (let y = 0; y < size; y++) {
-      for (let a = 0; a < size; a++) {
-        for (let b = 0; b < size; b++) {
-          let field = game.fields[x][y][a][b];
-          cookie += "" + (field == "" ? "-" : field);
-        }
-      }
-    }
-  }
-  cookie += game.currentPlayer;
-  cookie += game.currentField.all == true ? 1 : 0;
-  cookie += game.currentField.x + "" + game.currentField.y;
-
-  for (let i = 0; i < size; i++) {
-    for (let j = 0; j < size; j++) {
-      cookie += game.globalField[i][j];
-    }
-  }
+  let cookie = game.toString();
 
   setGameCookie(cookie);
 }
 
 function load() {
   let cookie = getGameCookie();
-  cookie = cookie.replace(/([^-XO012])+/g, "");
-  cookie = cookie.split("-").join(" ");
 
-  if (cookie.length != size * size * size * size + size * size + 3) deleteGameCookie();
-  if (cookie == "") return;
-
-  let position = 0;
-  for (let x = 0; x < size; x++) {
-    for (let y = 0; y < size; y++) {
-      for (let a = 0; a < size; a++) {
-        for (let b = 0; b < size; b++) {
-          let char = cookie.substring(position, position + 1);
-          if (char != " " && char != "") {
-            game.fields[x][y][a][b] = char;
-            getel(getid(x, y, a, b)).classList.add(char);
-          }
-          position++;
-        }
-      }
-    }
-  }
-
-  game.currentPlayer = cookie.substring(position, position + 1);
-  position++;
-  game.currentField.all = cookie.substring(position, position + 1) == 1;
-  position++;
-  game.currentField.x = cookie.substring(position, position + 1);
-  position++;
-  game.currentField.y = cookie.substring(position, position + 1);
-
-  if (!game.currentField.all) {
-    getel(getglobalid(game.currentField.x, game.currentField.y)).classList.add("current");
-  }
-
-  for (let i = 0; i < size; i++) {
-    for (let j = 0; j < size; j++) {
-      position++;
-      game.globalField[i][j] = cookie.substring(position, position + 1);
-      if (game.globalField[i][j] == player1) {
-        getel(getglobalid(i, j)).classList.add("winx");
-      } else if (game.globalField[i][j] == player2) {
-        getel(getglobalid(i, j)).classList.add("wino");
-      }
-    }
+  if (!game.fromString(cookie)) {
+    deleteGameCookie();
   }
 }
 

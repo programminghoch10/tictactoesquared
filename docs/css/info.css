@@ -1,0 +1,88 @@
+.infos {
+  z-index: 45;
+  position: fixed;
+
+  display: flex;
+  flex-direction: column-reverse;
+
+  top: 10px;
+  right: 10px;
+}
+
+.info {
+  position: relative;
+
+  display: flex;
+
+  width: 300px;
+
+  margin: 5px;
+  padding: 10px 15px;
+
+  background: var(--default-alt2);
+  color: var(--font-color);
+
+  border-radius: 10px;
+
+  -webkit-box-shadow: 0px 0px 10px 2px var(--dropshadow);
+  -moz-box-shadow: 0px 0px 10px 2px var(--dropshadow);
+  box-shadow: 0px 0px 5px 0.1px var(--dropshadow);
+
+  word-wrap: break-word;
+
+  opacity: 0;
+  transition: opacity 200ms linear;
+}
+
+.info .svg {
+  display: flex;
+
+  margin-right: 20px;
+}
+
+.info .svg i {
+  margin-top: 4px;
+}
+
+.info {
+  opacity: 1;
+}
+
+.info .close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+
+  cursor: pointer;
+  pointer-events: all;
+}
+
+.info h3, .info p {
+  margin: 0;
+  display: inline-block;
+  word-break: break-word;
+}
+
+.infos .color1 .text h3, .infos .color1 .svg {
+  color: #3797ce;
+}
+
+.infos .color2 .text h3, .infos .color2 .svg {
+  color: #c29311;
+}
+
+.infos .color3 .text h3, .infos .color3 .svg {
+  color:  #74270f;
+}
+/*
+.infos .color1 {
+  background: #4d5e77;
+}
+
+.infos .color2 {
+  background: #8a6910;
+}
+
+.infos .color3 {
+  background: #692f28;
+} */
