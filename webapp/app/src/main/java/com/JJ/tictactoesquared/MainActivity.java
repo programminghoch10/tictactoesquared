@@ -8,7 +8,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.util.Base64;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.WebSettings;
@@ -17,9 +17,12 @@ import android.webkit.WebViewClient;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity {
 	
 	String url;
+	String backupUrl;
 	
 	@SuppressLint("SetJavaScriptEnabled")
 	@Override
@@ -30,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 		//imported all webview knowledge from my other project: http://github.com/programminghoch10/weblauncher
 		
 		url = context.getString(R.string.url);
+		backupUrl = context.getString(R.string.backupUrl);
 		
 		//webview setup
 		WebView webView = findViewById(R.id.webview);
@@ -39,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String newurl) {
 				//Log.d("TTT", "shouldOverrideUrlLoading: URL is " + newurl);
-				if (newurl != null && newurl.startsWith(url)){
+				if (newurl != null && newurl.startsWith(url)) {
 					return false;
 				} else {
 					view.getContext().startActivity(
@@ -52,11 +56,12 @@ public class MainActivity extends AppCompatActivity {
 			@Override
 			public void onPageFinished(WebView webView, String url) {
 				setTitle(webView.getTitle());
+				Objects.requireNonNull(getSupportActionBar()).setTitle(webView.getTitle());
 			}
 		});
 		webSettings.setAppCacheEnabled(true);
 		webSettings.setCacheMode(isNetworkConnected() ? WebSettings.LOAD_DEFAULT : WebSettings.LOAD_CACHE_ELSE_NETWORK);
-		webSettings.setUserAgentString("ttts-webapp");
+		webSettings.setUserAgentString("ttts-webapp"); //useragent string is used on the website to know that its accessed over the app
 		webView.setOnLongClickListener(new View.OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
@@ -71,6 +76,16 @@ public class MainActivity extends AppCompatActivity {
 		CookieManager cookieManager = CookieManager.getInstance();
 		cookieManager.acceptCookie();
 		cookieManager.setCookie(url, "cookies-accepted=1");
+		
+		//TODO: handle intent website url -> display in webview
+		Uri appLinkData = getIntent().getData();
+		if (appLinkData != null) {
+			if (appLinkData.getQueryParameter("token") != null && Objects.equals(appLinkData.getEncodedPath(), "/inputname.html")) {
+				//TODO: add confirm question to not make users lose their account without knowledge
+				cookieManager.setCookie(url, "secret=" + Base64.encodeToString(Objects.requireNonNull(appLinkData.getQueryParameter("token")).getBytes(), Base64.DEFAULT));
+				//TODO: do not display this url because token already got set
+			}
+		}
 		
 		//Log.i("TTT", "isNetworkConnected: " + isNetworkConnected());
 		//Log.d("TTT", "onCreate: Currently saved cookies: " + CookieManager.getInstance().getCookie(MainActivity.this.getString(R.string.url)));

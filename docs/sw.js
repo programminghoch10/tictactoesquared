@@ -4,18 +4,25 @@
 
 var CACHE_NAME = 'TTTS_CACHE';
 
-// urlsToCache: all crucial files absolutely needed to run the game
+// urlsToCache: all crucial files absolutely needed to run the game without the server
 var urlsToCache = [
+  '/',
   'index.html',
+  'game.html',
+  'game.html?ai=true',
+  'scripts/againstai.js',
   'scripts/ai.js',
   'scripts/colortheme.js',
   'scripts/cookie.js',
+  'scripts/cookienotice.js',
   'scripts/game.js',
   'scripts/localgame.js',
-  'css/game.css',
+  'scripts/menu.js',
+  'scripts/online.js',
   'css/style.css',
+  'css/game.css',
+  'css/menu.css',
   'favicons/favicon-32x32.png',
-  'favicons/favicon-16x16.png',
 ];
 
 self.addEventListener('install', function (event) {
@@ -28,13 +35,17 @@ self.addEventListener('install', function (event) {
 });
 
 self.addEventListener('fetch', function (event) {
-  event.respondWith((function () {
-    return caches.open(CACHE_NAME).then(function (cache) {
+  if (event.request.url.endsWith("/index.html")) event.request.url.replace("/index.html", "/");
+  event.respondWith((async function () {
+    return caches.open(CACHE_NAME).then(async function (cache) {
       return cache.match(event.request).then(function (response) {
         var fetchPromise = fetch(event.request).then(function (networkResponse) {
           cache.put(event.request, networkResponse.clone());
           return networkResponse;
-        });
+        }).catch((error) => {
+          //Network propably down, no need to complain
+          //console.error('Error:', error);
+        });;
         return response || fetchPromise;
       })
     })

@@ -16,12 +16,12 @@
     },
     {
       "platform": "web",
-      "url": "https://programminghoch10.github.io/tictactoesquared"
+      "url": "https://ttts.ji-games.com/"
     }
   ],
   "prefer_related_applications": true,
-  "scope": "https://programminghoch10.github.io/tictactoesquared/",
-  "start_url": "https://programminghoch10.github.io/tictactoesquared/",
+  "scope": "https://ttts.ji-games.com/",
+  "start_url": "https://ttts.ji-games.com/",
   "display": "standalone",
   "orientation": "any",
   "background_color": "black",

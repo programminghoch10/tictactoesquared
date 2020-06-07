@@ -21,6 +21,8 @@
           href="scripts/againstai.js" />
     <link rel="prefetch"
           href="https://github.com/programminghoch10/tictactoesquared" />
+    <link rel="prefetch"
+          href="https://play.google.com/store/apps/details?id=com.JJ.tictactoesquared" />
     <!--
             Viewport
         -->
@@ -41,11 +43,18 @@
           href="./css/style.css" />
     <link rel="stylesheet"
           href="./css/menu.css" />
+    <meta name="theme-color"
+          content="#6200ee">
     <!--
             Manifest
         -->
     <link rel="manifest"
           href="manifest.json" />
+    <!--
+            Icon
+        -->
+    <link rel="icon"
+          href="logos/tttslogo transparent.svg" />
   </head>
 
   <body>
@@ -62,6 +71,9 @@
            id="game">
         <div class="outer">
           <div class="icons">
+            <div class="offlineinfo">
+              <b id="offlinetitle"></b>
+            </div>
             <div class="right">
             </div>
           </div>
@@ -192,22 +204,18 @@
       <script src="scripts/game.js"></script>
       <script src="scripts/menu.js"></script>
       <script src="scripts/cookienotice.js"></script>
+      <script src="scripts/online.js"></script>
       <script>
-        // if (cookiesAccepted()) {
-        //     if ('serviceWorker' in navigator) {
-        //         window.addEventListener('load', function () {
-        //             navigator.serviceWorker.register('./sw.js').then(function (registration) {
-        //                 console.log('ServiceWorker registration successful with scope: ', registration.scope);
-        //             }).catch(function (err) {
-        //                 console.log('ServiceWorker registration failed: ', err);
-        //             });
-        //         });
-        //     }
-        // }
-        if (document.location.hostname.endsWith("github.io")) {
-          let button = document.getElementById("onlinemultiplayerbutton")
-          button.style = "text-decoration: line-through; cursor: not-allowed;"
-          button.removeAttribute("href")
+        if (cookiesAccepted()) {
+          if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+              navigator.serviceWorker.register('./sw.js').then(function (registration) {
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+              }).catch(function (err) {
+                console.log('ServiceWorker registration failed: ', err);
+              });
+            });
+          }
         }
       </script>
   </body>
