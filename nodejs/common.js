@@ -90,6 +90,7 @@ const ESCAPECHARS = [
 ]
 function sanitizeString(string) {
   if (string == undefined || string == null || typeof string !== "string") return undefined
+  ESCAPECHARS.forEach(value => string = string.split(value.out).join(value.in)) //desanitze first, to prevent multiple sanitizations
   ESCAPECHARS.forEach(value => string = string.split(value.in).join(value.out))
   return string
 }
