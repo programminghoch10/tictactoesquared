@@ -71,11 +71,13 @@
           <div id="qrcode"></div>
         </div>
         <h2>Or alternatively use the following link:</h2>
-        <a id="link"
+        <p id="link"
            style="background: var(--default); padding: 5px 15px; border-radius: 10px;
            word-break: break-all;
-           -ms-word-break: break-all;"
-           href="">test</a>
+           -ms-word-break: break-all;
+           cursor: pointer;"
+           onclick="copy()">link<i class="far fa-copy"
+             style="margin-left: 10px;"></i></p>
       </div>
     </div>
     <script src="scripts/cookie.js"></script>
@@ -83,11 +85,19 @@
     <script src="scripts/multiplayerclient.js"></script>
     <script src="scripts/info.js"></script>
     <script type="text/javascript">
-      let href = window.location.origin + "/inputname.html?token=" + secret
+      const href = window.location.origin + "/inputname.html?token=" + secret
       new QRCode(document.getElementById("qrcode"), href)
-      document.getElementById("link").innerHTML = href
-      document.getElementById("link").href = href
+      document.getElementById("link").innerHTML = document.getElementById("link").innerHTML.replace("link", href)
 
+      function copy() {
+        const el = document.createElement('textarea');
+        el.value = href;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+        addInfo("Link copied to clipboard", "", 1)
+      }
     </script>
   </body>
 
