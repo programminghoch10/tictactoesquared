@@ -8,7 +8,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Base64;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.WebSettings;
@@ -35,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 		url = context.getString(R.string.url);
 		backupUrl = context.getString(R.string.backupUrl);
 		
+		String webViewUrl = url;
 		//webview setup
 		WebView webView = findViewById(R.id.webview);
 		WebSettings webSettings = webView.getSettings();
@@ -70,24 +70,26 @@ public class MainActivity extends AppCompatActivity {
 		});
 		webView.setLongClickable(false);
 		webView.setHapticFeedbackEnabled(true);
-		webView.loadUrl(url);
 		
 		//cookie setup
 		CookieManager cookieManager = CookieManager.getInstance();
 		cookieManager.acceptCookie();
 		cookieManager.setCookie(url, "cookies-accepted=1");
 		
-		//TODO: handle intent website url -> display in webview
+		//TODO: handle intent website url -> display in webview (only if needed)
 		Uri appLinkData = getIntent().getData();
+		//Log.d("TTT", "onCreate: Intent data is " + appLinkData);
 		if (appLinkData != null) {
 			if (appLinkData.getQueryParameter("token") != null && Objects.equals(appLinkData.getEncodedPath(), "/inputname.html")) {
 				//TODO: add confirm question to not make users lose their account without knowledge
-				cookieManager.setCookie(url, "secret=" + Base64.encodeToString(Objects.requireNonNull(appLinkData.getQueryParameter("token")).getBytes(), Base64.DEFAULT));
-				//TODO: do not display this url because token already got set
+				//cookieManager.setCookie(url, "secret=" + Base64.encodeToString(Objects.requireNonNull(appLinkData.getQueryParameter("token")).getBytes(), Base64.NO_WRAP);
+				webViewUrl = appLinkData.toString();
 			}
 		}
 		
-		//Log.i("TTT", "isNetworkConnected: " + isNetworkConnected());
+		webView.loadUrl(webViewUrl);
+		
+		//Log.d("TTT", "isNetworkConnected: " + isNetworkConnected());
 		//Log.d("TTT", "onCreate: Currently saved cookies: " + CookieManager.getInstance().getCookie(MainActivity.this.getString(R.string.url)));
 	}
 	
