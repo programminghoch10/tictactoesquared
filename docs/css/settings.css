@@ -65,3 +65,7 @@
 .settings .setting .button-active i {
   color: var(--default);
 }
+
+.settings .setting i {
+  font-style: normal;
+}
