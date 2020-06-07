@@ -496,7 +496,7 @@ async function loadInvitedLobbies() {
   }
 
   if (innerHTML == "") {
-    innerHTML += `<div class="nogames">No pending invites found</div>`
+    innerHTML += `<div class="nogames">You have no pending invites.</div>`
   }
 
   getel("group1inner").innerHTML = innerHTML
@@ -547,7 +547,7 @@ async function loadAllLobbies() {
   }
 
   if (innerHTML == "") {
-    innerHTML = `<div class="nogames">There are no lobbies yet. It's time to create the first one</div>`
+    innerHTML = `<div class="nogames">There are no lobbies yet. It's time to create the first one.</div>`
   }
 
   getel("group2inner").innerHTML = innerHTML
