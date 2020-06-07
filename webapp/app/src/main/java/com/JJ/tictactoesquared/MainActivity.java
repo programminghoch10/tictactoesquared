@@ -3,6 +3,7 @@ package com.JJ.tictactoesquared;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -15,6 +16,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.webkit.WebSettingsCompat;
+import androidx.webkit.WebViewFeature;
 
 import java.util.Objects;
 
@@ -70,6 +73,15 @@ public class MainActivity extends AppCompatActivity {
 		});
 		webView.setLongClickable(false);
 		webView.setHapticFeedbackEnabled(true);
+		int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+		if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
+			if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
+				WebSettingsCompat.setForceDark(webView.getSettings(), WebSettingsCompat.FORCE_DARK_ON);
+			}
+			if(WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK_STRATEGY)) {
+				WebSettingsCompat.setForceDarkStrategy(webView.getSettings(), WebSettingsCompat.DARK_STRATEGY_WEB_THEME_DARKENING_ONLY);
+			}
+		}
 		
 		//cookie setup
 		CookieManager cookieManager = CookieManager.getInstance();
