@@ -47,6 +47,8 @@ let frontendInterface = {
 const size = parseInt(getCookie("fieldsize")) || 3
 let game = new Game(frontendInterface, size);
 
+document.title = Array(size).fill(null).map(() => "T").join("") + "² - AI";
+
 function getel(element) {
   return document.getElementById(element);
 }
