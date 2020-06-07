@@ -118,7 +118,6 @@ let frontendInterface = {
 
 // HTML PAGE
 
-
 getel("wrapper").innerHTML += "<table id=field></table>";
 let table = "";
 for (let i = 0; i < size; i++) {
@@ -222,6 +221,7 @@ function _rematch() {
 }
 
 update()
+document.title = Array(parseInt(size)).fill(null).map(() => "T").join("") + "² - " + lobby.name;
 
 let loadingscreen = document.getElementById("loadingscreen");
 loadingscreen.innerHTML = ""

@@ -1,7 +1,7 @@
 <html lang="en">
 
   <head>
-    <title>TTT² </title>
+    <title>TTT² - Multiplayer</title>
     <!--
             Prerender & prefetch
         -->
@@ -357,7 +357,7 @@
       <script src="scripts/sanitizeString.js"></script>
       <script>
         connect()
-        getel("username").innerHTML = name
+        getel("username").innerHTML = sanitizeString(name)
       </script>
       <script src="scripts/lobbypage.js"></script>
       <script src="scripts/info.js"></script>

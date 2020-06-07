@@ -8,14 +8,17 @@ const _ESCAPECHARS = [
   { in: "'", out: "&#39;" },
   { in: "%", out: "&#37;" },
 ]
+function sanitizeString(string) {
+  if (string == undefined || string == null || typeof string !== "string") return undefined
+  _ESCAPECHARS.forEach(value => string = string.split(value.in).join(value.out))
+  return string
+}
 
 document.body.innerHTML += `
 <div class="infos" id="infos">
 </div>`
 
 let infoel = getel("infos")
-
-
 let infos = []
 
 // info level:
@@ -97,8 +100,8 @@ function generateInner() {
         break
     }
 
-    info.title = info.title
-    info.text = info.text
+    info.title = sanitizeString(info.title)
+    info.text = sanitizeString(info.text)
 
     inner +=
       `
