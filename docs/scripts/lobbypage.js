@@ -17,6 +17,7 @@ let currentGroup = getCookie("currentGroup")
 let currentBurger = false
 
 let newLobbyPrivacy = ""
+let spectatable = false
 let mayopponentstart
 let currentLobbyToken
 let currentLobbyName
@@ -194,6 +195,20 @@ function publicLobbyButtonPressed() {
   newLobbyPrivacy = "open"
 }
 
+function spectatablePressed() {
+  getel("spectatablebutton").classList.add("active-button")
+  getel("invisiblebutton").classList.remove("active-button")
+
+  spectatable = true
+}
+
+function invisiblePressed() {
+  getel("spectatablebutton").classList.remove("active-button")
+  getel("invisiblebutton").classList.add("active-button")
+
+  spectatable = false
+}
+
 function mayopponentstartPressed() {
   mayopponentstart = !mayopponentstart
   if (mayopponentstart) {
@@ -295,7 +310,7 @@ function _createLobby() {
     }
   }
 
-  if (createLobby(lobbyName, description, password, fieldSize, invitePlayer, privacy, mayopponentstart)) {
+  if (createLobby(lobbyName, description, password, fieldSize, invitePlayer, privacy, mayopponentstart, spectatable)) {
     addInfo("Lobby created.", "The lobby '" + lobbyName + "' got created", 1)
     changeGroup(0)
   }
@@ -649,6 +664,7 @@ refreshAllLobbies()
 setTimeout(lobbyClosed, 10)
 resize()
 publicLobbyButtonPressed()
+spectatablePressed()
 changeGroup(currentGroup)
 withoutPasswordButtonPressed()
 emptyLobbiesButtonPressed()
