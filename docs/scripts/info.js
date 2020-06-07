@@ -1,21 +1,17 @@
 function getel(name) { return document.getElementById(name) }
 
-const _ESCAPECHARS = [
-  { in: "&", out: "&amp;" },
-  { in: "<", out: "&lt;" },
-  { in: ">", out: "&gt;" },
-  { in: "\"", out: "&quot;" },
-  { in: "'", out: "&#39;" },
-  { in: "%", out: "&#37;" },
-]
+
+function sanitizeHtml(string) {
+  if (string == undefined || string == null || typeof string !== "string") return undefined
+  string = string.split("<").join("&lt;")
+  return string
+}
 
 document.body.innerHTML += `
 <div class="infos" id="infos">
 </div>`
 
 let infoel = getel("infos")
-
-
 let infos = []
 
 // info level:
@@ -97,8 +93,8 @@ function generateInner() {
         break
     }
 
-    info.title = info.title
-    info.text = info.text
+    info.title = sanitizeHtml(info.title)
+    info.text = sanitizeHtml(info.text)
 
     inner +=
       `

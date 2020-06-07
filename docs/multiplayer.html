@@ -357,7 +357,7 @@
       <script src="scripts/sanitizeString.js"></script>
       <script>
         connect()
-        getel("username").innerHTML = name
+        getel("username").innerHTML = sanitizeHtml(name)
       </script>
       <script src="scripts/lobbypage.js"></script>
       <script src="scripts/info.js"></script>
