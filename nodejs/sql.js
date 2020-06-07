@@ -215,7 +215,7 @@ async function createLobby(lobby) {
   if (SQLDEBUG) console.log("Adding lobby " + lobby.name + " to database.");
   await pool.query({
     sql: "INSERT INTO `lobbies` ( \
-      token, name, game, gameflags, description, password, \
+      token, name, game, flags, description, password, \
       privacy, creationtime, lastacttime, timeout) \
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
     timeout: sqltimeout,
@@ -241,7 +241,7 @@ async function updateLobby(lobby) {
   if (SQLDEBUG) console.log("Updating lobby " + lobby.name);
   pool.query({
     sql: "UPDATE `lobbies` \
-      SET `name`=?, `game`=?, `gameflags`=?, \
+      SET `name`=?, `game`=?, `flags`=?, \
       `description`=?, `password`=?, \
       `privacy`=?, `lastacttime`=?, `timeout`=? \
       WHERE `token`=?",
@@ -434,7 +434,7 @@ async function convertSqlToLobby(row) {
   lobby.id = row.id;
   lobby.token = row.token;
   lobby.game = row.game;
-  lobby.flags = row.gameflags;
+  lobby.flags = row.flags;
   lobby.name = row.name;
   lobby.description = row.description;
   lobby.password = row.password;
@@ -451,7 +451,7 @@ function _convertSqlToLobby(row, correlations) {
   lobby.id = row.id;
   lobby.token = row.token;
   lobby.game = row.game;
-  lobby.flags = row.gameflags;
+  lobby.flags = row.flags;
   lobby.name = row.name;
   lobby.description = row.description;
   lobby.password = row.password;
