@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
 	String url;
 	String backupUrl;
 	
+	String webViewUrl;
+	
 	@SuppressLint("SetJavaScriptEnabled")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 		url = context.getString(R.string.url);
 		backupUrl = context.getString(R.string.backupUrl);
 		
-		String webViewUrl = url;
+		webViewUrl = url;
 		//webview setup
 		WebView webView = findViewById(R.id.webview);
 		WebSettings webSettings = webView.getSettings();
@@ -88,16 +90,7 @@ public class MainActivity extends AppCompatActivity {
 		cookieManager.acceptCookie();
 		cookieManager.setCookie(url, "cookies-accepted=1");
 		
-		//TODO: handle intent website url -> display in webview (only if needed)
-		Uri appLinkData = getIntent().getData();
-		//Log.d("TTT", "onCreate: Intent data is " + appLinkData);
-		if (appLinkData != null) {
-			if (appLinkData.getQueryParameter("token") != null && Objects.equals(appLinkData.getEncodedPath(), "/inputname.html")) {
-				//TODO: add confirm question to not make users lose their account without knowledge
-				//cookieManager.setCookie(url, "secret=" + Base64.encodeToString(Objects.requireNonNull(appLinkData.getQueryParameter("token")).getBytes(), Base64.NO_WRAP);
-				webViewUrl = appLinkData.toString();
-			}
-		}
+		handleIntent(getIntent());
 		
 		webView.loadUrl(webViewUrl);
 		
@@ -117,5 +110,26 @@ public class MainActivity extends AppCompatActivity {
 		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo networkInfo = cm.getActiveNetworkInfo();
 		return networkInfo != null && networkInfo.isConnected();
+	}
+	
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		handleIntent(intent);
+	}
+	
+	protected void handleIntent(Intent intent) {
+		String previousUrl = webViewUrl;
+		//TODO: handle intent website url -> display in webview (only if needed)
+		Uri appLinkData = intent.getData();
+		//Log.d("TTT", "onCreate: Intent data is " + appLinkData);
+		if (appLinkData != null) {
+			if (appLinkData.getQueryParameter("token") != null && Objects.equals(appLinkData.getEncodedPath(), "/inputname.html")) {
+				//TODO: add confirm question to not make users lose their account without knowledge
+				//cookieManager.setCookie(url, "secret=" + Base64.encodeToString(Objects.requireNonNull(appLinkData.getQueryParameter("token")).getBytes(), Base64.NO_WRAP);
+				webViewUrl = appLinkData.toString();
+			}
+		}
+		if (!previousUrl.equals(webViewUrl)) ((WebView) findViewById(R.id.webview)).loadUrl(webViewUrl);
 	}
 }
