@@ -547,7 +547,7 @@ async function loadAllLobbies() {
   }
 
   if (innerHTML == "") {
-    innerHTML = `<div class="nogames">There are no lobbies yet. It time to create the first one</div>`
+    innerHTML = `<div class="nogames">There are no lobbies yet. It's time to create the first one</div>`
   }
 
   getel("group2inner").innerHTML = innerHTML
