@@ -54,6 +54,7 @@ left | Whether a user already left this lobby
 playerinverse | Whether in this lobby the second player starts rather than the first
 quickgame | Whether this is a quick game lobby
 rematchX | Whether user requested a rematch, X is player index
+spectatable | Whether this lobby is spectatable
 
 ### Correlations
 

@@ -46,15 +46,14 @@ router.post('/api/getLobbies', async function (req, res) {
   // fail if ownToken and usertokenFilter are the same,
   // because this can never result in anything and so will just waste valuable processing time
   // this fails and doesnt return an empty array to make the caller aware of his mistake
-  if (ownToken == usertokenFilter && (usertokenFilter != null && ownToken != null)) {
+  if (ownToken == usertokenFilter && !(common.isStringEmpty(usertokenFilter) && common.isStringEmpty(ownToken))) {
     res.sendStatus(400)
     return
   }
 
   //TODO: adapt to not leak data
   //check for privacy violations
-  // if (!(ownJoinedOnlyFilter || ownInvitedOnlyFilter) || common.isStringEmpty(ownToken)) privacyFilter = "open"
-  //if (!(privacyFilter == "open" || privacyFilter == "closed")) privacyFilter = "open"
+  // if (common.isStringEmpty(ownToken)) privacyFilter = "open"
 
   let lobbies = await sql.getLobbies()
   if (!lobbies) {
@@ -74,16 +73,12 @@ router.post('/api/getLobbies', async function (req, res) {
     lobbies = lobbies.filter(el => !el.hasFlag("left"))
   }
 
-  //filter every quickgame lobby which has not started yet
-  lobbies = lobbies.filter(function (lobby) {
-    let correlationscount
-    try {
-      correlationscount = lobby.correlations.length
-    } catch {
-      correlationscount = 0
-    }
-    return !(lobby.hasFlag("quickgame") && correlationscount < 2)
-  })
+  //filter every lobby without spectatable flag if not searching for correlated lobbies
+  if (common.isStringEmpty(ownToken)) {
+    lobbies = lobbies.filter(function (lobby) {
+      return lobby.hasFlag("spectatable")
+    })
+  }
 
   // filter for fieldSize
   if (fieldSizeFilter != null) {
@@ -195,7 +190,7 @@ router.post('/api/getLobbies', async function (req, res) {
     return common.extendLobbyInfo(lobby, user, users)
   }));
 
-  //resort lobbies pimarily after last activity (new to old) and secondarily after their id (new to old)
+  //sort lobbies pimarily after last activity (new to old) and secondarily after their id (new to old)
   lobbies.sort(function (a, b) {
     let lastactdiff = b.lastacttime - a.lastacttime
     if (lastactdiff == 0) return b.id - a.id

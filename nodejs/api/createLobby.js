@@ -26,6 +26,7 @@ router.post('/api/createLobby', async function (req, res) {
   let fieldSize = req.body.fieldSize
   let inviteName = req.body.inviteName
   let opponentStart = req.body.opponentStart
+  let spectatable = req.body.spectatable
 
   if (common.isStringEmpty(name)) {
     res.sendStatus(400)
@@ -100,6 +101,10 @@ router.post('/api/createLobby', async function (req, res) {
   if (opponentStart == "true") {
     lobby.setFlag("playerinverse")
     game.switchPlayers()
+  }
+
+  if (spectatable == "true") {
+    lobby.setFlag("spectatable")
   }
 
   lobby.game = game.toString()
