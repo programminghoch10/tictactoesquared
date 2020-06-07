@@ -51,10 +51,6 @@ router.post('/api/getLobbies', async function (req, res) {
     return
   }
 
-  //TODO: adapt to not leak data
-  //check for privacy violations
-  // if (common.isStringEmpty(ownToken)) privacyFilter = "open"
-
   let lobbies = await sql.getLobbies()
   if (!lobbies) {
     res.sendStatus(204)
