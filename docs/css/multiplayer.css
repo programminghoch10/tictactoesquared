@@ -395,7 +395,7 @@
 }
 
 .multiplayer .group .game .title i {
-  transform: translate(10px, -4px) scale(0.8);
+  transform: translate(4px, -4px) scale(0.8);
 
   margin-right: 10px;
 
@@ -496,6 +496,10 @@
     width: 60px;
     height: 60px;
     font-size: 14px;
+  }
+
+  .multiplayer .group .game .title i {
+    transform: translate(4px, 4px) scale(0.8);
   }
 }
 
@@ -764,7 +768,16 @@
 
 @media only screen and (max-width: 600px) {
   .multiplayer .panel {
-    width: 90%;
+    width: 100%;
+    min-height: 100%;
+    max-height: 100%;
+    border-radius: 0;
+    padding-top: 20px;
+    z-index: 41;
+  }
+
+  .multiplayer .panel .closebutton {
+    transform: translateY(20px);
   }
 
   .multiplayer .panel .entry {
