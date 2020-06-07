@@ -31,7 +31,7 @@ class Game {
     } catch {
       this.size = 3;
     }
-    if (this.size <= 1) this.size = 3;
+    if (this.size < 1) this.size = 3;
     if (!isFinite(this.size)) this.size = 3;
 
     this.init();
@@ -53,8 +53,6 @@ class Game {
     this.won = 0;
     this.score = 0;
     this.progress = 0;
-
-    this.debug = true; // TODO: remove
   }
 
   clone() {
@@ -358,6 +356,14 @@ class Game {
 
   rematch() {
     this.frontendinterface.rematch()
+  }
+
+  expectSize(saveGame, size) {
+    if (saveGame == "" || saveGame == undefined) return false;
+
+    this.size = parseInt(saveGame.substring(0, saveGame.indexOf("-")));
+
+    return this.size == size
   }
 }
 

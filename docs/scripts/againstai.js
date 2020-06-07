@@ -29,9 +29,12 @@ let frontendInterface = {
     el.classList.add("win" + player);
   },
   globalWin: (player) => {
+    getel("game").classList.add("nocurrent");
     getel("win").classList.add("win-active");
     getel("win-text").innerHTML = "Won"
     getel("win-player").classList.add(player);
+
+    if (size == 1) getel("win-text").innerHTML = "Won (obviously)"
 
     deleteGameCookie();
   },
@@ -41,7 +44,7 @@ let frontendInterface = {
   }
 }
 
-const size = params.has("size") ? parseInt(params.get("size")) : 3;
+const size = parseInt(getCookie("fieldsize")) || 3
 let game = new Game(frontendInterface, size);
 
 function getel(element) {
@@ -94,8 +97,15 @@ function save() {
 function load() {
   let cookie = getGameCookie();
 
+  if (!game.expectSize(cookie, size)) {
+    deleteGameCookie()
+    game = new Game(frontendInterface, size)
+    return
+  }
+
   if (!game.fromString(cookie)) {
-    deleteGameCookie();
+    deleteGameCookie()
+    game = new Game(frontendInterface, size)
   }
 }
 

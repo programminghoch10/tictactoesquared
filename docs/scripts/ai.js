@@ -5,9 +5,9 @@ function iterate(i, g, player) {
   }
 
   let xs = 0;
-  let xe = 3
+  let xe = game.size
   let ys = 0
-  let ye = 3;
+  let ye = game.size
   if (!g.currentField.all) {
     xs = Math.floor(g.currentField.x);
     xe = Math.floor(g.currentField.x) + 1;
@@ -17,8 +17,8 @@ function iterate(i, g, player) {
 
   for (let x = xs; x < xe; x++) {
     for (let y = ys; y < ye; y++) {
-      for (let a = 0; a < 3; a++) {
-        for (let b = 0; b < 3; b++) {
+      for (let a = 0; a < game.size; a++) {
+        for (let b = 0; b < game.size; b++) {
           let cg = g.clone();
 
           cg.frontendinterface.win = (x, y, a, b, cp) => {
@@ -52,13 +52,14 @@ function iterate(i, g, player) {
 async function ai() {
   if (game.end) return 2;
 
-  let iterations = Math.floor(2000 * Math.pow(81 - game.progress, -2)) + 3;
+  let difficulty = parseInt(getCookie("aidifficulty")) || 3
+  let iterations = Math.floor(2000 * Math.pow(81 - game.progress, -2)) + difficulty;
   if (iterations > 20) iterations = 20;
 
   let xs = 0;
-  let xe = 3
+  let xe = game.size
   let ys = 0
-  let ye = 3;
+  let ye = game.size
   if (!game.currentField.all) {
     xs = game.currentField.x;
     xe = game.currentField.x + 1;
@@ -70,8 +71,8 @@ async function ai() {
 
   for (let x = xs; x < xe; x++) {
     for (let y = ys; y < ye; y++) {
-      for (let a = 0; a < 3; a++) {
-        for (let b = 0; b < 3; b++) {
+      for (let a = 0; a < game.size; a++) {
+        for (let b = 0; b < game.size; b++) {
           let cg = game.clone();
 
           const player = cg.currentPlayer;

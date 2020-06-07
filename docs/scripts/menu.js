@@ -8,8 +8,13 @@ var useragent = navigator.userAgent; //will be "ttts-webapp", when shown in our 
 getel("game").style.setProperty("--tilesize", 3);
 
 if (useragent == "ttts-webapp") {
-  getel("google-play-button").classList.replace("sbutton", "free");
-  getel("google-play-button").innerHTML = "";
+  // getel("google-play-button").classList.replace("sbutton", "free");
+  // getel("google-play-button").innerHTML = `<div class="i free"></div>`;
+  const els = document.getElementsByClassName("webapp-hide")
+  for (let i = 0; i < els.length; i++) {
+    const el = els[i];
+    el.innerHTML = `<div class="i free"></div>`
+  }
   getel("download-button").classList.remove("fullwidth");
   getel("download-button").parentElement.outerHTML = '<td><div class="i free"></div></td><td><div class="i free"></div></td><td><div class="i free"></div></td>';
 }
