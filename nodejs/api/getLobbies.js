@@ -86,6 +86,13 @@ router.post('/api/getLobbies', async function (req, res) {
     })
   }
 
+  //filter every quickgame lobby
+  if (common.isStringEmpty(ownToken)) {
+    lobbies = lobbies.filter(function (lobby) {
+      return !lobby.hasFlag("quickgame")
+    })
+  }
+
   // filter for fieldSize
   if (fieldSizeFilter != null) {
     lobbies = lobbies.filter(function (lobby) {
