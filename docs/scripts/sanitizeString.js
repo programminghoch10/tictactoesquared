@@ -11,9 +11,3 @@ function sanitizeString(string) {
   ESCAPECHARS.forEach(value => string = string.split(value.in).join(value.out))
   return string
 }
-
-function sanitizeHtml(string) {
-  if (string == undefined || string == null || typeof string !== "string") return undefined
-  string = string.split("<").join("&lt;")
-  return string
-}
