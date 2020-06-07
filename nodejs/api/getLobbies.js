@@ -76,7 +76,13 @@ router.post('/api/getLobbies', async function (req, res) {
   //filter every lobby without spectatable flag if not searching for correlated lobbies
   if (common.isStringEmpty(ownToken)) {
     lobbies = lobbies.filter(function (lobby) {
-      return lobby.hasFlag("spectatable")
+      let correlationscount
+      try {
+        correlationscount = lobby.correlations.length
+      } catch {
+        correlationscount = 0
+      }
+      return (lobby.hasFlag("spectatable") || correlationscount < 2)
     })
   }
 
