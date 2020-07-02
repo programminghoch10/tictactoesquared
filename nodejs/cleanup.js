@@ -2,7 +2,7 @@
 const sql = require('./sql.js')
 const common = require('./common.js')
 
-const GAME_FINISHED_TIMEOUT = 60 * 15 //in seconds, how long a lobby containing a finished game exists before getting deleted
+const GAME_FINISHED_TIMEOUT = 60 * 60 * 24 //in seconds, how long a lobby containing a finished game exists before getting deleted
 const LOBBY_LEFT_TIMEOUT = 60 * 60 * 24 //in seconds, how long until a lobby, where the opponent left, gets deleted
 const LOBBY_QUICKGAME_TIMEOUT = 60 * 60 * 24 * 7 //in seconds, how long until a quick game lobby gets deleted due to inactivity
 
