@@ -53,8 +53,10 @@ async function ai() {
   if (game.end) return 2;
 
   let difficulty = parseInt(getCookie("aidifficulty")) || 3
-  let iterations = Math.floor(2000 * Math.pow(81 - game.progress, -2)) + difficulty;
-  if (iterations > 20) iterations = 20;
+
+  const totalFields = Math.pow(size, 4)
+  let iterations = Math.floor(2000 * Math.pow(totalFields - game.progress, -2)) + difficulty - (3 - size) * (3 - size)
+  iterations = Math.min(10, iterations)
 
   let xs = 0;
   let xe = game.size
