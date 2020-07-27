@@ -441,8 +441,8 @@ async function loadJoinedLobbies() {
       if (fieldSize != 3) ruleText += "Fieldsize: " + fieldSize + "   "
 
       let username = ""
-      username = "by " + lobby.ownername
-      if (lobby.ownername == name) username = "by yourself"
+      if (lobby.ownername == name) username = "waiting for players"
+      if (lobby.opponentname != undefined) username = "against " + lobby.opponentname
       if (lobby.ownername == undefined || lobby.ownername == "undefined") username = ""
       if (lobby.correlations.length == 1 && lobby.correlations.privacy == "open" && lobby.ownername == name) username = WAITINGFORPLAYERSSTRING
       else if (lobby.flags.includes("left")) username = "Your opponent left"
