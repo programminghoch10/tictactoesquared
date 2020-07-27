@@ -167,6 +167,8 @@ function newLobby() {
 }
 
 function closeNewLobbyView() {
+  getel('showmoreentry').style.display = 'flex'
+  getel('hidden').classList.add('hide')
   getel("newlobbyoverlay").classList.remove("overlay-active")
   let els = document.getElementsByClassName("add")
   for (let i = 0; i < els.length; i++) {
