@@ -8,7 +8,7 @@ const Game = require('../../docs/scripts/game.js')
 
 const USER_LIMIT = common.USER_LIMIT
 const MIN_FIELD_SIZE = 3
-const MAX_FIELD_SIZE = 5
+const MAX_FIELD_SIZE = 4
 
 router.post('/api/createLobby', async function (req, res) {
 

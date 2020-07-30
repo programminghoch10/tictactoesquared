@@ -221,19 +221,20 @@ class Game {
   }
 
   checkWin(x, y, a, b, player) {
-    if (this.globalField[x][y] != 0) return;
+    if (this.globalField[x][y] == 0) {
 
-    let wins = [0, 0, 0, 0];
-    for (let i = 0; i < this.size; i++) {
-      wins[0] += this.fields[x][y][i][b] == player ? 1 : 0;
-      wins[1] += this.fields[x][y][a][i] == player ? 1 : 0;
-      wins[2] += this.fields[x][y][i][i] == player ? 1 : 0;
-      wins[3] += this.fields[x][y][i][this.size - i - 1] == player ? 1 : 0;
-    }
+      let wins = [0, 0, 0, 0];
+      for (let i = 0; i < this.size; i++) {
+        wins[0] += this.fields[x][y][i][b] == player ? 1 : 0;
+        wins[1] += this.fields[x][y][a][i] == player ? 1 : 0;
+        wins[2] += this.fields[x][y][i][i] == player ? 1 : 0;
+        wins[3] += this.fields[x][y][i][this.size - i - 1] == player ? 1 : 0;
+      }
 
-    if (wins[0] == this.size || wins[1] == this.size || wins[2] == this.size || wins[3] == this.size) {
-      this.win(x, y, a, b, player);
-      this.checkGlobalWin(x, y, player);
+      if (wins[0] == this.size || wins[1] == this.size || wins[2] == this.size || wins[3] == this.size) {
+        this.win(x, y, a, b, player);
+        this.checkGlobalWin(x, y, player);
+      }
     }
 
     if (this.checkDraw()) {

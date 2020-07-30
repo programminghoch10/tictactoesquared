@@ -44,6 +44,9 @@ function addInfo(title, text, level, callback, timeoutCallback) {
     removeInfo(id, timeoutCallback)
   }, 10000)
 
+  info.title = sanitizeString(info.title)
+  info.text = sanitizeString(info.text)
+
   generateInner()
 }
 
@@ -99,9 +102,6 @@ function generateInner() {
         svg = `<i class="fas fa-times-circle fa-2x"></i>`
         break
     }
-
-    info.title = sanitizeString(info.title)
-    info.text = sanitizeString(info.text)
 
     inner +=
       `

@@ -1,7 +1,7 @@
 const MINAIDIFFICULTY = 1
 const MAXAIDIFFICULTY = 4
 const MINFIELDSIZE = 1
-const MAXFIELDSIZE = 5
+const MAXFIELDSIZE = 4
 
 const COLOR_THEME_ELS = [
   document.getElementById("theme-sun"),

@@ -686,6 +686,10 @@
   margin: 10px 20px;
 }
 
+.multiplayer .panel .hide {
+  display: none;
+}
+
 .multiplayer .panel .entry input {
   margin-left: auto;
 }
