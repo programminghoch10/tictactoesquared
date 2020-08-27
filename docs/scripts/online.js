@@ -1,4 +1,6 @@
 
+const GITHUB_PATH = "/tictactoesquared"
+
 const multiplayerpages = [
   "/multiplayer.html",
   "/multiplayergame.html",
@@ -17,8 +19,9 @@ window.ononline = function () {
 
 function disablemultiplayer() {
   let path = document.location.pathname
+  if (path.startsWith(GITHUB_PATH) && document.location.hostname.endsWith("github.io")) path = path.slice(GITHUB_PATH.length)
   if (multiplayerpages.includes(path)) {
-    document.location.pathname = "/"
+    document.location.pathname = (path.startsWith(GITHUB_PATH) ? GITHUB_PATH : "") + "/"
     return
   }
   if (path === "/") {
@@ -30,6 +33,7 @@ function disablemultiplayer() {
 }
 
 function enablemultiplayer() {
+  if (document.location.hostname.endsWith("github.io")) return
   let path = document.location.pathname
   if (path === "/") {
     let button = document.getElementById("onlinemultiplayerbutton")
