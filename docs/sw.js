@@ -47,6 +47,13 @@ self.addEventListener('install', function (event) {
 
 self.addEventListener('fetch', function (event) {
   if (event.request.url.endsWith("/index.html")) event.request.url.replace("/index.html", "/")
+  if (event.request.method != "GET") {
+    //console.log("sw: discarded caching " + event.request.method + " request")
+    event.respondWith(async function () {
+      return await fetch(event.request)
+    }())
+    return
+  }
   event.respondWith((async function () {
     return caches.open(CACHE_NAME).then(async function (cache) {
       return cache.match(event.request).then(function (response) {
