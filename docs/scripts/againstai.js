@@ -113,6 +113,11 @@ function load() {
     deleteGameCookie()
     game = new Game(frontendInterface, size)
   }
+
+  if (game.currentPlayer == player2 && !game.debug) {
+    let difficulty = parseInt(getCookie("aidifficulty")) || 3
+    setTimeout(function () { requestai(game, difficulty); }, 250);
+  }
 }
 
 function sleep(ms) {
