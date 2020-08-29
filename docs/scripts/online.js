@@ -7,6 +7,8 @@ const multiplayerpages = [
   "/inputname.html",
 ];
 
+var clientOnline = true;
+
 window.onoffline = function () {
   console.log("Network connection has been lost!");
   disablemultiplayer();
@@ -30,6 +32,7 @@ function disablemultiplayer() {
     button.removeAttribute("href")
     document.getElementById("offlinetitle").innerText = "OFFLINE MODE"
   }
+  clientOnline = false;
 }
 
 function enablemultiplayer() {
@@ -41,6 +44,7 @@ function enablemultiplayer() {
     button.href = "multiplayer.html"
     document.getElementById("offlinetitle").innerText = ""
   }
+  clientOnline = true;
 }
 
 if (document.location.hostname.endsWith("github.io") || !window.navigator.onLine) disablemultiplayer();
