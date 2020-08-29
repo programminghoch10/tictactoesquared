@@ -319,6 +319,7 @@ class Game {
             position++;
           }
         }
+        this.frontendinterface.setCurrentFieldBefore(x, y)
       }
     }
 
