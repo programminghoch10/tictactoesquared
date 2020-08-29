@@ -62,7 +62,7 @@ function restart() {
 }
 
 function reload() {
-  document.location.href = document.location.href;
+  document.location.reload();
 }
 
 function mousedown(x, y, a, b) {
