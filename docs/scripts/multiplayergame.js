@@ -112,7 +112,7 @@ let frontendInterface = {
     getel("win-text").innerHTML = "Draw";
   },
   rematch: () => {
-    document.location.href = document.location.href
+    document.location.reload()
   }
 }
 

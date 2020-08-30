@@ -1,3 +1,6 @@
+
+const REQUEST_AI_TIMEOUT = 10000 //in ms, timeout after which client will resort to own calculations
+
 let frontendInterface = {
   setTile: (x, y, a, b, currentPlayer) => {
     let el = getel(getid(x, y, a, b));
@@ -59,14 +62,15 @@ function restart() {
 }
 
 function reload() {
-  document.location.href = document.location.href;
+  document.location.reload();
 }
 
 function mousedown(x, y, a, b) {
   game.set(x, y, a, b);
 
   if (game.currentPlayer == player2 && !game.debug) {
-    setTimeout(function () { ai(); }, 250);
+    let difficulty = parseInt(getCookie("aidifficulty")) || 3
+    setTimeout(function () { requestai(game, difficulty); }, 0);
   }
 
   if (!game.end) {
@@ -108,6 +112,73 @@ function load() {
   if (!game.fromString(cookie)) {
     deleteGameCookie()
     game = new Game(frontendInterface, size)
+  }
+
+  if (game.currentPlayer == player2 && !game.debug) {
+    let difficulty = parseInt(getCookie("aidifficulty")) || 3
+    setTimeout(function () { requestai(game, difficulty); }, 250);
+  }
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function requestai(game, difficulty) {
+  if (!clientOnline) return ai(game, difficulty)
+  let formdata = { game: game.toString(), difficulty: difficulty }
+  formdata = Object.keys(formdata).map((key) => {
+    return encodeURIComponent(key) + '=' + encodeURIComponent(formdata[key]);
+  }).join('&');
+  let request = new Promise((resolve, reject) => {
+    setTimeout(reject, REQUEST_AI_TIMEOUT)
+    fetch("/api/requestai", {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded', },
+      body: formdata
+    }).then((data) => {
+      resolve(data.text())
+    }).catch(() => {
+      reject()
+    })
+  });
+
+  //workaround for below problem, try server first, else local
+  let result = await (new Promise((resolve) => {
+    request
+      .then((result) => resolve(result))
+      .catch(() => {
+        resolve(
+          ai(game, difficulty).then(() => {
+            resolve(game.toString())
+          }))
+      })
+  }))
+  /*
+  // This code would work perfectly, using the first result provided, whichever is faster (server or local device)
+  // but js is not actually asynchronous, so this won't work,
+  // as the result of the server can't be checked, whilst executing calculations
+  let local = new Promise((resolve) => {
+    setTimeout(() => {
+      let localgame = game.clone()
+      ai(localgame, difficulty).then(() => {
+        resolve(localgame.toString())
+      })
+    }, 0)
+  })
+  var result;
+  try {
+    result = await Promise.any([request, local])
+  } catch (e) {
+    console.log("Promise.any not supported")
+    result = await Promise.race([request, local])
+  }
+  console.log(request)
+  console.log(local)
+  */
+  game.fromString(result)
+  if (!game.end) {
+    save();
   }
 }
 

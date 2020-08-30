@@ -1,9 +1,13 @@
 
+const GITHUB_PATH = "/tictactoesquared"
+
 const multiplayerpages = [
   "/multiplayer.html",
   "/multiplayergame.html",
   "/inputname.html",
 ];
+
+var clientOnline = true;
 
 window.onoffline = function () {
   console.log("Network connection has been lost!");
@@ -17,8 +21,9 @@ window.ononline = function () {
 
 function disablemultiplayer() {
   let path = document.location.pathname
+  if (path.startsWith(GITHUB_PATH) && document.location.hostname.endsWith("github.io")) path = path.slice(GITHUB_PATH.length)
   if (multiplayerpages.includes(path)) {
-    document.location.pathname = "/"
+    document.location.pathname = (path.startsWith(GITHUB_PATH) ? GITHUB_PATH : "") + "/"
     return
   }
   if (path === "/") {
@@ -27,9 +32,11 @@ function disablemultiplayer() {
     button.removeAttribute("href")
     document.getElementById("offlinetitle").innerText = "OFFLINE MODE"
   }
+  clientOnline = false;
 }
 
 function enablemultiplayer() {
+  if (document.location.hostname.endsWith("github.io")) return
   let path = document.location.pathname
   if (path === "/") {
     let button = document.getElementById("onlinemultiplayerbutton")
@@ -37,6 +44,7 @@ function enablemultiplayer() {
     button.href = "multiplayer.html"
     document.getElementById("offlinetitle").innerText = ""
   }
+  clientOnline = true;
 }
 
 if (document.location.hostname.endsWith("github.io") || !window.navigator.onLine) disablemultiplayer();

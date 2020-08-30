@@ -27,7 +27,7 @@ function setTheme(i, dont_reload) {
 
   setThemeCookie(colorTheme == 2 ? "" : colorTheme)
 
-  if (!dont_reload) document.location.href = document.location.href
+  if (!dont_reload) document.location.reload()
 }
 
 function setAIDifficulty(i) {

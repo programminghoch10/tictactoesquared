@@ -1,5 +1,7 @@
 
-function iterate(i, g, player) {
+const DEFAULT_AI_DIFFICULTY = 3
+
+function iterate(game, i, g, player) {
   if (i <= 0) {
     return g.score;
   }
@@ -38,7 +40,7 @@ function iterate(i, g, player) {
 
           if (!cg.set(x, y, a, b)) continue;
 
-          cg.score = iterate(i - 1, cg, player);
+          cg.score = iterate(game, i - 1, cg, player);
 
           g.score = cg.score;
         }
@@ -49,13 +51,13 @@ function iterate(i, g, player) {
   return g.score;
 }
 
-async function ai() {
-  if (game.end) return 2;
+async function ai(game, difficulty = DEFAULT_AI_DIFFICULTY) {
+  if (game.end) return 1;
 
-  let difficulty = parseInt(getCookie("aidifficulty")) || 3
+  difficulty = parseInt(difficulty) || DEFAULT_AI_DIFFICULTY
 
-  const totalFields = Math.pow(size, 4)
-  let iterations = Math.floor(2000 * Math.pow(totalFields - game.progress, -2)) + difficulty - (3 - size) * (3 - size)
+  const totalFields = Math.pow(game.size, 4)
+  let iterations = Math.floor(2000 * Math.pow(totalFields - game.progress, -2)) + difficulty - (3 - game.size) * (3 - game.size)
   iterations = Math.min(10, iterations)
 
   let xs = 0;
@@ -95,7 +97,7 @@ async function ai() {
 
           if (!cg.set(x, y, a, b)) continue;
 
-          cg.score = iterate(iterations, cg, player, 0);
+          cg.score = iterate(game, iterations, cg, player, 0);
 
           let path = {
             x: x,
@@ -142,7 +144,13 @@ async function ai() {
 
   let bestPath = bests[Math.floor(Math.random() * bests.length)];
 
-  mousedown(bestPath.x, bestPath.y, bestPath.a, bestPath.b);
+  game.set(bestPath.x, bestPath.y, bestPath.a, bestPath.b);
 
   return 0;
+}
+
+try {
+  module.exports = ai;
+} catch {
+
 }

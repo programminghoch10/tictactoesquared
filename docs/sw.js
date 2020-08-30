@@ -2,7 +2,7 @@
 
 //kindly copied from https://github.com/BernoulliMath/BernoulliMath.github.io/blob/master/sw.js
 
-var CACHE_NAME = 'TTTS_CACHE';
+var CACHE_NAME = 'TTTS_CACHE'
 
 // urlsToCache: all crucial files absolutely needed to run the game without the server
 var urlsToCache = [
@@ -34,44 +34,51 @@ var urlsToCache = [
   'fontawesome/webfonts/fa-solid-900.woff2',
   'fontawesome/webfonts/fa-brands-400.woff',
   'fontawesome/webfonts/fa-brands-400.woff2',
-];
+]
 
 self.addEventListener('install', function (event) {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(function (cache) {
-        return cache.addAll(urlsToCache);
+        return cache.addAll(urlsToCache)
       })
-  );
-});
+  )
+})
 
 self.addEventListener('fetch', function (event) {
-  if (event.request.url.endsWith("/index.html")) event.request.url.replace("/index.html", "/");
+  if (event.request.url.endsWith("/index.html")) event.request.url.replace("/index.html", "/")
+  if (event.request.method != "GET") {
+    //console.log("sw: discarded caching " + event.request.method + " request")
+    event.respondWith(async function () {
+      return await fetch(event.request)
+    }())
+    return
+  }
   event.respondWith((async function () {
     return caches.open(CACHE_NAME).then(async function (cache) {
       return cache.match(event.request).then(function (response) {
         var fetchPromise = fetch(event.request).then(function (networkResponse) {
-          cache.put(event.request, networkResponse.clone());
-          return networkResponse;
+          cache.put(event.request, networkResponse.clone())
+          return networkResponse
         }).catch((error) => {
           //Network propably down, no need to complain
-          //console.error('Error:', error);
-        });;
-        return response || fetchPromise;
+          //console.error('Error:', error)
+        })
+        return response || fetchPromise
       })
     })
-  }()));
-});
+  }()))
+})
 
 self.addEventListener('activate', function (event) {
   event.waitUntil(
     caches.keys().then(function (keyList) {
       return Promise.all(keyList.map(function (key) {
         if (key !== CACHE_NAME) {
-          return caches.delete(key);
+          return caches.delete(key)
         }
-      }));
+      }))
     })
-  );
-  return self.clients.claim();
-});
+  )
+  return self.clients.claim()
+})
