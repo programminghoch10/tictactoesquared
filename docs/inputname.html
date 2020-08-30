@@ -130,6 +130,9 @@
           return
         }
 
+        //remove spaces around name
+        name = name.trim()
+
         // check if the user name already exists
         let req = post("/api/doesUserNameExist", { userName: name })
         if (req.status != 200) {
