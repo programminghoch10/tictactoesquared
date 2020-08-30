@@ -6,7 +6,7 @@ var CACHE_NAME = 'TTTS_CACHE'
 
 // urlsToCache: all crucial files absolutely needed to run the game without the server
 var urlsToCache = [
-  '/',
+  './',
   'index.html',
   'game.html',
   'game.html?ai=true',
