@@ -125,7 +125,7 @@ function sleep(ms) {
 }
 
 async function requestai(game, difficulty) {
-  if (!clientOnline) return ai(game, difficulty)
+  if (!clientOnline || !cookiesAccepted()) return ai(game, difficulty)
   let formdata = { game: game.toString(), difficulty: difficulty }
   formdata = Object.keys(formdata).map((key) => {
     return encodeURIComponent(key) + '=' + encodeURIComponent(formdata[key]);
