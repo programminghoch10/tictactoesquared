@@ -8,17 +8,11 @@
     <link rel="prerender"
           href="game.html" />
     <link rel="prefetch"
-          href="css/game.css" />
-    <link rel="prefetch"
-          href="scripts/localgame.js" />
-    <link rel="prefetch"
           href="game.html" />
     <link rel="prefetch"
+          href="multiplayer.html" />
+    <link rel="prefetch"
           href="settings.html" />
-    <link rel="prefetch"
-          href="scripts/ai.js" />
-    <link rel="prefetch"
-          href="scripts/againstai.js" />
     <link rel="prefetch"
           href="https://github.com/programminghoch10/tictactoesquared" />
     <link rel="prefetch"
@@ -36,9 +30,9 @@
     <link rel="stylesheet"
           href="fontawesome/css/all.css">
     <link rel="stylesheet"
-          href="./css/style.css" />
+          href="css/style.css" />
     <link rel="stylesheet"
-          href="./css/menu.css" />
+          href="css/menu.css" />
     <meta name="theme-color"
           content="#6200ee">
     <!--
@@ -200,7 +194,6 @@
       <script src="scripts/colortheme.js"></script>
       <script src="scripts/game.js"></script>
       <script src="scripts/menu.js"></script>
-      <script src="scripts/cookienotice.js"></script>
       <script src="scripts/online.js"></script>
       <script>
         if (cookiesAccepted()) {
@@ -215,6 +208,8 @@
           }
         }
       </script>
+      <!-- cookie notice needs to be the last script included because weirdly it removes anything below it -->
+      <script src="scripts/cookienotice.js"></script>
   </body>
 
 </html>

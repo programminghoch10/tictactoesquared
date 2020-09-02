@@ -30,6 +30,9 @@ router.post('/api/createUser', async function (req, res) {
     return
   }
 
+  //remove spaces around name
+  name = name.trim()
+
   // create a new user
   let user = new classes.User()
   user.name = name

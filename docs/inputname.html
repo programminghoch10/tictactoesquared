@@ -6,9 +6,9 @@
             Prerender & prefetch
         -->
     <link rel="prerender"
-          href="game.html" />
+          href="multiplayer.html" />
     <link rel="prefetch"
-          href="css/game.css" />
+          href="css/multiplayer.css" />
     <link rel="prefetch"
           href="scripts/localgame.js" />
     <link rel="prefetch"
@@ -38,11 +38,11 @@
     <link rel="stylesheet"
           href="fontawesome/css/all.css">
     <link rel="stylesheet"
-          href="./css/style.css" />
+          href="css/style.css" />
     <link rel="stylesheet"
-          href="./css/inputname.css" />
+          href="css/inputname.css" />
     <link rel="stylesheet"
-          href="./css/info.css" />
+          href="css/info.css" />
     <meta name="theme-color"
           content="#6200ee">
     <!--
@@ -129,6 +129,9 @@
           addInfo("Failed to set name", "Your username is too long", 2)
           return
         }
+
+        //remove spaces around name
+        name = name.trim()
 
         // check if the user name already exists
         let req = post("/api/doesUserNameExist", { userName: name })
