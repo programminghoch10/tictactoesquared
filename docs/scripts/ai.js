@@ -1,5 +1,8 @@
 
-const DEFAULT_AI_DIFFICULTY = 3
+const DEFAULT_AI_DIFFICULTY = 1
+
+// will be added to ai difficulty
+const AI_DIFFICULTY_OFFSET = 2
 
 function iterate(game, i, g, player) {
   if (i <= 0) {
@@ -55,6 +58,7 @@ async function ai(game, difficulty = DEFAULT_AI_DIFFICULTY) {
   if (game.end) return 1;
 
   difficulty = parseInt(difficulty) || DEFAULT_AI_DIFFICULTY
+  difficulty += AI_DIFFICULTY_OFFSET
 
   const totalFields = Math.pow(game.size, 4)
   let iterations = Math.floor(2000 * Math.pow(totalFields - game.progress, -2)) + difficulty - (3 - game.size) * (3 - game.size)

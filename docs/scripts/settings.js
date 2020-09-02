@@ -1,5 +1,5 @@
-const MINAIDIFFICULTY = 1
-const MAXAIDIFFICULTY = 4
+const MINAIDIFFICULTY = 0
+const MAXAIDIFFICULTY = 3
 const MINFIELDSIZE = 1
 const MAXFIELDSIZE = 4
 
@@ -13,7 +13,7 @@ const AIDIFFICULTY_EL = document.getElementById("aidifficulty")
 const FIELDSIZE_EL = document.getElementById("fieldsize")
 
 let colorTheme = 0
-let AIDifficulty = 3
+let AIDifficulty = 1
 let fieldSize = 3
 
 function setTheme(i, dont_reload) {
@@ -70,5 +70,5 @@ let themeCookie = getCookie("theme")
 if (themeCookie == "") themeCookie = "2"
 themeCookie = parseInt(themeCookie)
 setTheme(themeCookie, true)
-setAIDifficulty(parseInt(getCookie("aidifficulty")) || 3)
-setFieldSize(parseInt(getCookie("fieldsize")) || 3)
+setAIDifficulty(parseInt(getCookie("aidifficulty")) || AIDifficulty)
+setFieldSize(parseInt(getCookie("fieldsize")) || fieldSize)

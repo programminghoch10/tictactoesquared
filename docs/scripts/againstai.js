@@ -69,7 +69,7 @@ function mousedown(x, y, a, b) {
   game.set(x, y, a, b);
 
   if (game.currentPlayer == player2 && !game.debug) {
-    let difficulty = parseInt(getCookie("aidifficulty")) || 3
+    let difficulty = parseInt(getCookie("aidifficulty")) || DEFAULT_AI_DIFFICULTY
     setTimeout(function () { requestai(game, difficulty); }, 0);
   }
 
@@ -115,7 +115,7 @@ function load() {
   }
 
   if (game.currentPlayer == player2 && !game.debug) {
-    let difficulty = parseInt(getCookie("aidifficulty")) || 3
+    let difficulty = parseInt(getCookie("aidifficulty")) || DEFAULT_AI_DIFFICULTY
     setTimeout(function () { requestai(game, difficulty); }, 250);
   }
 }
@@ -125,7 +125,7 @@ function sleep(ms) {
 }
 
 async function requestai(game, difficulty) {
-  if (!clientOnline) return ai(game, difficulty)
+  if (!clientOnline || !cookiesAccepted()) return ai(game, difficulty)
   let formdata = { game: game.toString(), difficulty: difficulty }
   formdata = Object.keys(formdata).map((key) => {
     return encodeURIComponent(key) + '=' + encodeURIComponent(formdata[key]);
