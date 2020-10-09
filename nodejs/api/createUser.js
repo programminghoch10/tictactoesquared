@@ -6,7 +6,7 @@ const classes = require('../classes.js')
 const sql = require('../sql.js')
 
 router.post('/api/createUser', async function (req, res) {
-  const name = req.body.name
+  let name = req.body.name
 
   if (common.isStringEmpty(name)) {
     res.sendStatus(400)
