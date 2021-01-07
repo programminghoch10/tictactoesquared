@@ -137,6 +137,7 @@ async function requestai(game, difficulty) {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded', },
       body: formdata
     }).then((data) => {
+      if (data.status != 200) reject()
       resolve(data.text())
     }).catch(() => {
       reject()
