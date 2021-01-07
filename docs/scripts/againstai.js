@@ -1,5 +1,5 @@
 
-const REQUEST_AI_TIMEOUT = 60000 //in ms, timeout after which client will resort to own calculations
+const REQUEST_AI_TIMEOUT = 10000 //in ms, timeout after which client will resort to own calculations
 
 let frontendInterface = {
   setTile: (x, y, a, b, currentPlayer) => {
