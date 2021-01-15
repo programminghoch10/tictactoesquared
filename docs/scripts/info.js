@@ -14,9 +14,10 @@ function sanitizeString(string) {
   return string
 }
 
-document.body.innerHTML += `
-<div class="infos" id="infos">
-</div>`
+var divelement = document.createElement("div")
+divelement.className = "infos"
+divelement.id = "infos"
+document.body.appendChild(divelement)
 
 let infoel = getel("infos")
 let infos = []
