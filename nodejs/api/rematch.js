@@ -34,8 +34,6 @@ router.post('/api/rematch', async function (req, res) {
   // get the id of the user
   let userId = lobby.correlations.indexOf(lobby.correlations.find(el => el.usertoken == user.token))
 
-  lobby.setFlag("rematch" + userId)
-
   // if both requested a rematch
   if (lobby.hasFlag("rematch0") && lobby.hasFlag("rematch1")) {
     let game = new Game()
@@ -54,7 +52,19 @@ router.post('/api/rematch', async function (req, res) {
 
     lobby.removeFlag("rematch0")
     lobby.removeFlag("rematch1")
+
+    sql.updateLobby(lobby)
+    res.sendStatus(200)
+    return
   }
+
+  if (lobby.hasFlag("rematch" + userId)) {
+    //prevent addition when lobby already has that flag
+    res.sendStatus(200)
+    return
+  }
+
+  lobby.setFlag("rematch" + userId)
 
   sql.updateLobby(lobby)
 
