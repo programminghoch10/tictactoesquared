@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 		
 		//cookie setup
 		CookieManager cookieManager = CookieManager.getInstance();
-		cookieManager.acceptCookie();
+		cookieManager.setAcceptCookie(true);
 		cookieManager.setCookie(url, "cookies-accepted=1");
 		
 		handleIntent(getIntent());
