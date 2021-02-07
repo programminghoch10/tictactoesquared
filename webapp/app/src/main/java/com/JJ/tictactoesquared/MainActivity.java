@@ -21,6 +21,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.webkit.WebSettingsCompat;
 import androidx.webkit.WebViewFeature;
 
+import com.JJ.tictactoesquared.notification.Schedule;
+
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -82,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 			if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
 				WebSettingsCompat.setForceDark(webView.getSettings(), WebSettingsCompat.FORCE_DARK_ON);
 			}
-			if(WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK_STRATEGY)) {
+			if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK_STRATEGY)) {
 				WebSettingsCompat.setForceDarkStrategy(webView.getSettings(), WebSettingsCompat.DARK_STRATEGY_WEB_THEME_DARKENING_ONLY);
 			}
 		}
@@ -98,14 +100,16 @@ public class MainActivity extends AppCompatActivity {
 		
 		//Log.d("TTT", "isNetworkConnected: " + isNetworkConnected());
 		//Log.d("TTT", "onCreate: Currently saved cookies: " + CookieManager.getInstance().getCookie(MainActivity.this.getString(R.string.url)));
+		//Schedule.schedule(context);
 	}
 	
 	@Override
-	protected void onPause() {
-		super.onPause();
+	protected void onStop() {
+		super.onStop();
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			CookieManager.getInstance().flush();
 		}
+		Schedule.scheduleOnce(MainActivity.this);
 	}
 	
 	@Override
@@ -151,6 +155,7 @@ public class MainActivity extends AppCompatActivity {
 				webViewUrl = appLinkData.toString();
 			}
 		}
-		if (!previousUrl.equals(webViewUrl)) ((WebView) findViewById(R.id.webview)).loadUrl(webViewUrl);
+		if (!previousUrl.equals(webViewUrl))
+			((WebView) findViewById(R.id.webview)).loadUrl(webViewUrl);
 	}
 }
