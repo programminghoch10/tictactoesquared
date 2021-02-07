@@ -53,6 +53,7 @@ app.use(require("./nodejs/api/rematch.js"))
 app.use(require("./nodejs/api/doesUserNameExist.js"))
 app.use(require("./nodejs/api/quickgame.js"))
 app.use(require("./nodejs/api/requestai.js"))
+app.use(require("./nodejs/api/notification.js"))
 
 const DIR = "./docs/"
 
