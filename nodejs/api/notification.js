@@ -13,9 +13,6 @@ router.post('/api/notification', async function (req, res) {
   }
   //sql.updateUserLastActivityBySecret(secret) //do not count notification check as activity
 
-
-  //TODO: get unplayed games
-
   // get all lobbies
   let lobbies = await sql.getLobbies()
   if (!lobbies) {
