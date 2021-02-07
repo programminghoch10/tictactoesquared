@@ -79,11 +79,11 @@ router.post('/api/notification', async function (req, res) {
   invitedLobbies = invitedLobbies.map(lobby => common.extendLobbyInfo(lobby, user, users));
 
   if (invitedLobbies.length == 0 && lobbies.length == 0) {
-    res.status(204)
-  } else {
-    res.status(200)
+    res.sendStatus(204)
+    return
   }
 
+  res.status(200)
   res.send(
     {
       invitedLobbies: invitedLobbies,
