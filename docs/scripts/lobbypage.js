@@ -430,7 +430,7 @@ async function loadJoinedLobbies() {
     try {
       const lobby = joinedLobbies[i]
 
-      if (lobby.isyourturn || (lobby.correlations.length == 1 && lobby.privacy == "closed")) {
+      if (lobby.isyourturn) {
         yourTurnGamesCount++
       }
 
