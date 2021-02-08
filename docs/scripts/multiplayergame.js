@@ -1,3 +1,9 @@
+let urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get("lobbyToken")) {
+  setGlobalCookie("currentLobbyToken", urlParams.get("lobbyToken"))
+  window.location.search = ""
+}
+
 let lobbyToken = getCookie("currentLobbyToken")
 let lobby = getLobby(lobbyToken)
 let size = lobby.game.substring(0, lobby.game.indexOf("-"))
