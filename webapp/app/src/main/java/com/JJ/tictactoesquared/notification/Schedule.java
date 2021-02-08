@@ -23,8 +23,8 @@ public class Schedule {
 				.build();
 		WorkRequest request = new PeriodicWorkRequest.Builder(
 				Request.class,
-				2, TimeUnit.HOURS,
-				1, TimeUnit.HOURS
+				1, TimeUnit.HOURS,
+				30, TimeUnit.MINUTES
 		).setConstraints(constraints)
 				.setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 15, TimeUnit.MINUTES)
 				.addTag(requestTag)

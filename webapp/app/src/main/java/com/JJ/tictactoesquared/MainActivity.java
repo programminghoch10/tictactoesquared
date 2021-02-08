@@ -151,7 +151,15 @@ public class MainActivity extends AppCompatActivity {
 		if (appLinkData != null) {
 			if (appLinkData.getQueryParameter("token") != null && Objects.equals(appLinkData.getEncodedPath(), "/inputname.html")) {
 				//TODO: add confirm question to not make users lose their account without knowledge
+				
+				// we do not need to set the cookie manually, inputname.html will do that when queried with token
 				//cookieManager.setCookie(url, "secret=" + Base64.encodeToString(Objects.requireNonNull(appLinkData.getQueryParameter("token")).getBytes(), Base64.NO_WRAP);
+				webViewUrl = appLinkData.toString();
+			}
+			if (Objects.equals(appLinkData.getEncodedPath(), "/multiplayer.html")) {
+				webViewUrl = appLinkData.toString();
+			}
+			if (appLinkData.getQueryParameter("lobbyToken") != null && Objects.equals(appLinkData.getEncodedPath(), "/multiplayergame.html")) {
 				webViewUrl = appLinkData.toString();
 			}
 		}

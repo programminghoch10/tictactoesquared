@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
@@ -23,6 +24,10 @@ public class Notify {
 	private static final String CHANNEL_ID_UNPLAYED = "unplayed";
 	private static final int NOTIFICATION_ID_INVITE = 1;
 	private static final int NOTIFICATION_ID_UNPLAYED = 2;
+	
+	private static final String LINK_MULTIPLAYER_GAME = "https://ttts.ji-games.com/multiplayergame.html?lobbyToken=%s";
+	private static final String LINK_MULTIPLAYER = "https://ttts.ji-games.com/multiplayer.html";
+	private static final String LINK_MULTIPLAYER_INVITES = "https://ttts.ji-games.com/multiplayer.html?invites=true";
 	
 	public static void notify(Context context, JSONObject data) {
 		createNotificationChannels(context);
@@ -82,16 +87,10 @@ public class Notify {
 			title = String.format(context.getString(R.string.notificationChannelInviteNotificationTitleMultiple), invitedLobbies.length());
 			description = context.getString(R.string.notificationChannelInviteNotificationDescriptionMultiple);
 		}
-		PendingIntent intent;
-		try {
-			intent = count == 1 ? buildLobbyIntent(context, invitedLobbies.getJSONObject(0)) : buildAppIntent(context);
-		} catch (JSONException e) {
-			intent = buildAppIntent(context);
-		}
+		PendingIntent intent = buildMultiplayerInvitesIntent(context);
 		pushNotification(context, CHANNEL_ID_INVITE, title, description, NOTIFICATION_ID_INVITE, intent);
 	}
 	
-	//TODO: post notification
 	//TODO: make notification open corresponding window
 	private static void pushNotification(Context context, String channel, String title, String description, int notificationId, PendingIntent intent) {
 		NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channel)
@@ -111,14 +110,27 @@ public class Notify {
 	
 	private static PendingIntent buildMultiplayerIntent(Context context) {
 		//TODO: implement link to multiplayer page
-		return buildAppIntent(context);
+		Intent intent = new Intent(context, MainActivity.class);
+		intent.setData(Uri.parse(LINK_MULTIPLAYER));
+		return PendingIntent.getActivity(context, 0, intent, 0);
+	}
+	
+	private static PendingIntent buildMultiplayerInvitesIntent(Context context) {
+		//TODO: implement link to multiplayer page
+		Intent intent = new Intent(context, MainActivity.class);
+		intent.setData(Uri.parse(LINK_MULTIPLAYER_INVITES));
+		return PendingIntent.getActivity(context, 0, intent, 0);
 	}
 	
 	private static PendingIntent buildLobbyIntent(Context context, JSONObject lobby) {
 		//TODO: implement link to lobby
-		return buildAppIntent(context);
-		//Intent intent = new Intent(context, MainActivity.class);
-		//return PendingIntent.getActivity(context, 0, intent, 0);
+		Intent intent = new Intent(context, MainActivity.class);
+		try {
+			intent.setData(Uri.parse(String.format(LINK_MULTIPLAYER_GAME, lobby.getString("token"))));
+		} catch (JSONException e) {
+			return buildMultiplayerIntent(context);
+		}
+		return PendingIntent.getActivity(context, 0, intent, 0);
 	}
 	
 	private static void createNotificationChannels(Context context) {
