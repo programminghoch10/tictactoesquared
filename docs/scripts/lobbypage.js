@@ -1,3 +1,9 @@
+let urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get("invites")) {
+  setLocalCookie("currentGroup", "1")
+  window.location.search = ""
+}
+
 const WAITINGFORPLAYERSSTRING = "waiting for players"
 
 // in seconds
