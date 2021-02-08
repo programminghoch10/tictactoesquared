@@ -2,4 +2,19 @@
     <string name="app_name">TTT²</string>
     <string name="url" translatable="false">https://ttts.ji-games.com/</string>
     <string name="backupUrl" translatable="false">https://programminghoch10.github.io/tictactoesquared/</string>
+
+    <string name="notificationChannelInviteName">Game Invites</string>
+    <string name="notificationChannelInviteDescription">This notification will inform you about new game invites.</string>
+    <string name="notificationChannelInviteNotificationTitleSingle">%s has invited you to a new game</string>
+    <string name="notificationChannelInviteNotificationTitleSingleCatch">You have been invited to a new game</string>
+    <string name="notificationChannelInviteNotificationDescriptionSingle"></string>
+    <string name="notificationChannelInviteNotificationTitleMultiple">You have %d pending invites</string>
+    <string name="notificationChannelInviteNotificationDescriptionMultiple"></string>
+    <string name="notificationChannelUnplayedName">Unplayed Games</string>
+    <string name="notificationChannelUnplayedDescription">This notification will inform you about unplayed games.</string>
+    <string name="notificationChannelUnplayedNotificationTitleSingle">%s has made a move</string>
+    <string name="notificationChannelUnplayedNotificationTitleSingleCatch">Your opponent has made a move</string>
+    <string name="notificationChannelUnplayedNotificationDescriptionSingle">Now it\'s your turn.</string>
+    <string name="notificationChannelUnplayedNotificationTitleMultiple">You have %d unplayed games</string>
+    <string name="notificationChannelUnplayedNotificationDescriptionMultiple"></string>
 </resources>
