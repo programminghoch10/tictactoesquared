@@ -21,7 +21,7 @@ router.post('/api/notification', async function (req, res) {
   }
 
   //get all users, we need it later for extendLobbyInfo
-  let users = sql.getUsers()
+  let users = await sql.getUsers()
 
   //define ownToken for filtering
   ownToken = user.token
