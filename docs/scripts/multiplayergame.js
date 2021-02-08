@@ -5,7 +5,19 @@ if (urlParams.get("lobbyToken")) {
 }
 
 let lobbyToken = getCookie("currentLobbyToken")
-let lobby = getLobby(lobbyToken)
+let lobby
+try {
+  lobby = getLobby(lobbyToken)
+} catch (e) {
+  //token invalid or sth else went wrong loading lobby, go back to menu
+  console.error("error loading lobby")
+  console.error(e)
+  addInfo("Error loading lobby", "An error occured whilst loading lobby.", 3)
+  addInfo("Redirecting...", "We will be redirecting you to the main page shortly", 1)
+  setTimeout(() => {
+    window.location.pathname = "multiplayer.html"
+  }, 10000);
+}
 let size = lobby.game.substring(0, lobby.game.indexOf("-"))
 let listen = true
 let opponentrequestedrematch
