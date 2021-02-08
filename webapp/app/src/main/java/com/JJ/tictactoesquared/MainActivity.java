@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
 		
 		//Log.d("TTT", "isNetworkConnected: " + isNetworkConnected());
 		//Log.d("TTT", "onCreate: Currently saved cookies: " + CookieManager.getInstance().getCookie(MainActivity.this.getString(R.string.url)));
-		//Schedule.schedule(context);
+		Schedule.schedulePeriodic(context);
 	}
 	
 	@Override
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			CookieManager.getInstance().flush();
 		}
-		Schedule.scheduleOnce(MainActivity.this);
+		Schedule.scheduleAfterClose(MainActivity.this);
 	}
 	
 	@Override

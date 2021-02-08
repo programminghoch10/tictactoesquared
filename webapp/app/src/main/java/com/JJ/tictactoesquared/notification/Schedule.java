@@ -13,10 +13,13 @@ import androidx.work.WorkRequest;
 import java.util.concurrent.TimeUnit;
 
 public class Schedule {
-	static final String requestTag = "notificationRequest";
+	static final String requestPeriodicTag = "notificationRequest";
 	static final String requestOnceTag = "notificationRequestOnce";
+	static final int[] scheduleOnceChecks = {1, 2, 5, 10, 15, 30};
 	
-	public static void schedule(Context context) {
+	public static void schedulePeriodic(Context context) {
+		WorkManager workManager = WorkManager.getInstance(context);
+		workManager.cancelAllWorkByTag(requestPeriodicTag);
 		Constraints constraints = new Constraints.Builder()
 				.setRequiredNetworkType(NetworkType.CONNECTED)
 				.setRequiresBatteryNotLow(true)
@@ -27,18 +30,26 @@ public class Schedule {
 				30, TimeUnit.MINUTES
 		).setConstraints(constraints)
 				.setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 15, TimeUnit.MINUTES)
-				.addTag(requestTag)
+				.addTag(requestPeriodicTag)
 				.build();
-		WorkManager.getInstance(context).enqueue(request);
+		workManager.enqueue(request);
 	}
 	
-	public static void scheduleOnce(Context context) {
+	public static void scheduleAfterClose(Context context) {
+		WorkManager.getInstance(context).cancelAllWorkByTag(requestOnceTag);
+		for (int delay : scheduleOnceChecks) {
+			scheduleOnce(context, delay);
+		}
+	}
+	
+	private static void scheduleOnce(Context context, int delay) {
 		Constraints constraints = new Constraints.Builder()
 				.setRequiredNetworkType(NetworkType.CONNECTED)
 				.setRequiresBatteryNotLow(true)
 				.build();
 		WorkRequest request = new OneTimeWorkRequest.Builder(Request.class)
 				.setConstraints(constraints)
+				.setInitialDelay(delay, TimeUnit.MINUTES)
 				.addTag(requestOnceTag)
 				.build();
 		WorkManager.getInstance(context).enqueue(request);
