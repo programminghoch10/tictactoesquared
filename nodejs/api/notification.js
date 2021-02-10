@@ -82,6 +82,8 @@ router.post('/api/notification', async function (req, res) {
 
   unplayedLobbies = unplayedLobbies.map(lobby => common.extendLobbyInfo(lobby, user, users));
   invitedLobbies = invitedLobbies.map(lobby => common.extendLobbyInfo(lobby, user, users));
+  endedLobbies = endedLobbies.map(lobby => common.extendLobbyInfo(lobby, user, users));
+
 
   if (invitedLobbies.length == 0 && lobbies.length == 0) {
     res.sendStatus(204)
