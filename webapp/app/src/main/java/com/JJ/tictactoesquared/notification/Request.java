@@ -38,7 +38,7 @@ public class Request extends Worker {
 		
 		JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
 				com.android.volley.Request.Method.POST, url, jsonObject, response -> {
-			Log.d(TAG, "doWork: got notification response " + response);
+			//Log.d(TAG, "doWork: got notification response " + response);
 			Notify.notify(getApplicationContext(), response);
 		}, error -> {
 			Log.d(TAG, "doWork: could not check notifications " + error);

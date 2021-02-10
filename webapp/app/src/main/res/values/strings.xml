@@ -10,6 +10,7 @@
     <string name="notificationChannelInviteNotificationDescriptionSingle"></string>
     <string name="notificationChannelInviteNotificationTitleMultiple">You have %d pending invites</string>
     <string name="notificationChannelInviteNotificationDescriptionMultiple"></string>
+
     <string name="notificationChannelUnplayedName">Unplayed Games</string>
     <string name="notificationChannelUnplayedDescription">This notification will inform you about unplayed games.</string>
     <string name="notificationChannelUnplayedNotificationTitleSingle">%s has made a move</string>
@@ -17,4 +18,16 @@
     <string name="notificationChannelUnplayedNotificationDescriptionSingle">Now it\'s your turn.</string>
     <string name="notificationChannelUnplayedNotificationTitleMultiple">You have %d unplayed games</string>
     <string name="notificationChannelUnplayedNotificationDescriptionMultiple"></string>
+
+    <string name="notificationChannelEndedName">Ended Games</string>
+    <string name="notificationChannelEndedDescription">This notification will inform you about won and lost games.</string>
+    <string name="notificationChannelEndedNotificationTitleSingleWon">You have won a game against %s</string>
+    <string name="notificationChannelEndedNotificationTitleSingleDraw">It\'s a draw between you and %s</string>
+    <string name="notificationChannelEndedNotificationTitleSingleLost">You lost a game against %s</string>
+    <string name="notificationChannelEndedNotificationTitleSingleCatch">A game has ended</string>
+    <string name="notificationChannelEndedNotificationTitleSingleLeft">Your opponent gave up</string>
+    <string name="notificationChannelEndedNotificationDescriptionSingle"></string>
+    <string name="notificationChannelEndedNotificationDescriptionSingleCatch">Click to check whether you have won.</string>
+    <string name="notificationChannelEndedNotificationTitleMultiple">You have %d ended games</string>
+    <string name="notificationChannelEndedNotificationDescriptionMultiple">Click to check whether you have won.</string>
 </resources>

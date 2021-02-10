@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -19,11 +20,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Notify {
+	private static final String TAG = "Notify";
 	
 	private static final String CHANNEL_ID_INVITE = "invite";
 	private static final String CHANNEL_ID_UNPLAYED = "unplayed";
+	private static final String CHANNEL_ID_ENDED = "ended";
 	private static final int NOTIFICATION_ID_INVITE = 1;
 	private static final int NOTIFICATION_ID_UNPLAYED = 2;
+	private static final int NOTIFICATION_ID_ENDED = 3;
 	
 	private static final String LINK_MULTIPLAYER_GAME = "https://ttts.ji-games.com/multiplayergame.html?lobbyToken=%s";
 	private static final String LINK_MULTIPLAYER = "https://ttts.ji-games.com/multiplayer.html";
@@ -31,19 +35,22 @@ public class Notify {
 	
 	public static void notify(Context context, JSONObject data) {
 		createNotificationChannels(context);
-		//TODO: check previous notify
+		//TODO: check previous notify to not double notify
 		try {
 			if (data.getBoolean("hasUnplayedLobbies")) {
 				notifyUnplayed(context, data.getJSONArray("unplayedLobbies"));
 			}
-		} catch (JSONException ignored) {
-		}
+		} catch (JSONException ignored) {}
 		try {
 			if (data.getBoolean("hasInvitedLobbies")) {
 				notifyInvited(context, data.getJSONArray("invitedLobbies"));
 			}
-		} catch (JSONException ignored) {
-		}
+		} catch (JSONException ignored) {}
+		try {
+			if (data.getBoolean("hasEndedLobbies")) {
+				notifyEnded(context, data.getJSONArray("endedLobbies"));
+			}
+		} catch (JSONException ignored) {}
 	}
 	
 	private static void notifyUnplayed(Context context, JSONArray unplayedLobbies) {
@@ -64,9 +71,9 @@ public class Notify {
 		}
 		PendingIntent intent;
 		try {
-			intent = count == 1 ? buildLobbyIntent(context, unplayedLobbies.getJSONObject(0)) : buildAppIntent(context);
+			intent = count == 1 ? buildLobbyIntent(context, unplayedLobbies.getJSONObject(0)) : buildMultiplayerIntent(context);
 		} catch (JSONException e) {
-			intent = buildAppIntent(context);
+			intent = buildMultiplayerIntent(context);
 		}
 		pushNotification(context, CHANNEL_ID_UNPLAYED, title, description, NOTIFICATION_ID_UNPLAYED, intent);
 	}
@@ -89,6 +96,45 @@ public class Notify {
 		}
 		PendingIntent intent = buildMultiplayerInvitesIntent(context);
 		pushNotification(context, CHANNEL_ID_INVITE, title, description, NOTIFICATION_ID_INVITE, intent);
+	}
+	
+	private static void notifyEnded(Context context, JSONArray endedLobbies) {
+		int count = endedLobbies.length();
+		String title = "";
+		String description = "";
+		if (count == 0) return;
+		if (count == 1) {
+			try {
+				JSONObject lobby = endedLobbies.getJSONObject(0);
+				if (lobby.getBoolean("youWon")) {
+					title = String.format(context.getString(R.string.notificationChannelEndedNotificationTitleSingleWon), lobby.get("opponentname"));
+				} else if (lobby.getBoolean("draw")) {
+					title = String.format(context.getString(R.string.notificationChannelEndedNotificationTitleSingleDraw), lobby.get("opponentname"));
+				} else if (lobby.getString("flags").contains("\"left\"")) {
+					title = context.getString(R.string.notificationChannelEndedNotificationTitleSingleLeft);
+				} else if (!lobby.getBoolean("youWon")) {
+					title = String.format(context.getString(R.string.notificationChannelEndedNotificationTitleSingleLost), lobby.get("opponentname"));
+				} else {
+					//throw error, because we can't determine the end state of the lobby
+					throw new JSONException("stub");
+				}
+				description = context.getString(R.string.notificationChannelEndedNotificationDescriptionSingle);
+			} catch (JSONException e) {
+				Log.e(TAG, "notifyEnded: error decoding lobby info ", e);
+				title = context.getString(R.string.notificationChannelEndedNotificationTitleSingleCatch);
+				description = context.getString(R.string.notificationChannelEndedNotificationDescriptionSingleCatch);
+			}
+		} else {
+			title = String.format(context.getString(R.string.notificationChannelEndedNotificationTitleMultiple), endedLobbies.length());
+			description = context.getString(R.string.notificationChannelEndedNotificationDescriptionMultiple);
+		}
+		PendingIntent intent;
+		try {
+			intent = count == 1 ? buildLobbyIntent(context, endedLobbies.getJSONObject(0)) : buildMultiplayerIntent(context);
+		} catch (JSONException e) {
+			intent = buildMultiplayerIntent(context);
+		}
+		pushNotification(context, CHANNEL_ID_ENDED, title, description, NOTIFICATION_ID_ENDED, intent);
 	}
 	
 	//TODO: make notification open corresponding window
@@ -145,6 +191,10 @@ public class Notify {
 					context.getString(R.string.notificationChannelUnplayedName),
 					context.getString(R.string.notificationChannelUnplayedDescription),
 					CHANNEL_ID_UNPLAYED
+			},{
+					context.getString(R.string.notificationChannelEndedName),
+					context.getString(R.string.notificationChannelEndedDescription),
+					CHANNEL_ID_ENDED
 			}};
 			
 			for (String[] channelinfo : channels) {
