@@ -56,7 +56,7 @@ router.post('/api/notification', async function (req, res) {
   })
 
   //filter for joined lobbies
-  lobbies = lobbies.filter(function (lobby) {
+  let unplayedLobbies = lobbies.filter(function (lobby) {
     let joined = false
     for (let i = 0; i < lobby.correlations.length; i++) {
       const correlation = lobby.correlations[i]
@@ -70,12 +70,17 @@ router.post('/api/notification', async function (req, res) {
   })
 
   //filter for lobbies where it's this user's turn
-  lobbies = lobbies.filter(function (lobby) {
+  unplayedLobbies = unplayedLobbies.filter(function (lobby) {
     lobby = common.extendLobbyInfo(lobby, user, users)
     return !!lobby.isyourturn
   })
 
-  lobbies = lobbies.map(lobby => common.extendLobbyInfo(lobby, user, users));
+  let endedLobbies = lobbies.filter(function (lobby) {
+    lobby = common.extendLobbyInfo(lobby, user, users);
+    return !!lobby.end
+  })
+
+  unplayedLobbies = unplayedLobbies.map(lobby => common.extendLobbyInfo(lobby, user, users));
   invitedLobbies = invitedLobbies.map(lobby => common.extendLobbyInfo(lobby, user, users));
 
   if (invitedLobbies.length == 0 && lobbies.length == 0) {
@@ -89,9 +94,12 @@ router.post('/api/notification', async function (req, res) {
       invitedLobbies: invitedLobbies,
       hasInvitedLobbies: invitedLobbies.length > 0,
       invitedLobbiesCount: invitedLobbies.length,
-      unplayedLobbies: lobbies,
-      hasUnplayedLobbies: lobbies.length > 0,
-      unplayedLobbiesCount: lobbies.length,
+      unplayedLobbies: unplayedLobbies,
+      hasUnplayedLobbies: unplayedLobbies.length > 0,
+      unplayedLobbiesCount: unplayedLobbies.length,
+      endedLobbies: endedLobbies,
+      hasEndedLobbies: endedLobbies.length > 0,
+      endedLobbiesCount: endedLobbies.length,
     }
   )
 

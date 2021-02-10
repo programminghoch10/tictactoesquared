@@ -31,7 +31,7 @@ function getPlayer(lobby, user) {
 }
 
 function extendLobbyInfo(lobby, thisUser, users) {
-  //we need to copy the original object to not overwrite the password with a bool while it is used somewhere else asynchronisly
+  //we need to copy the original object to not overwrite the password with a bool while it is used somewhere else asynchronously
   lobby = JSON.parse(JSON.stringify(lobby))
   if (!users) users = []
   lobby.password = !isStringEmpty(lobby.password)
@@ -42,10 +42,13 @@ function extendLobbyInfo(lobby, thisUser, users) {
   } catch {
     lobby.ownername = "unknown"
   }
+  let game = new Game()
+  game.fromString(lobby.game)
+  lobby.end = game.end
+  lobby.draw = game.draw
   if (thisUser) {
-    let game = new Game()
-    game.fromString(lobby.game)
     lobby.isyourturn = (getPlayer(lobby, thisUser) == game.currentPlayer)
+    lobby.youWon = (getPlayer(lobby, thisUser) == game.won)
     lobby.currentPlayer = game.currentPlayer
     try {
       lobby.opponentname = users.filter(function (user) {
