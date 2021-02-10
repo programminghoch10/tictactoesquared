@@ -45,10 +45,10 @@ function extendLobbyInfo(lobby, thisUser, users) {
   let game = new Game()
   game.fromString(lobby.game)
   lobby.end = game.end
-  lobby.draw = game.draw
+  lobby.draw = (game.won === "draw")
   if (thisUser) {
-    lobby.isyourturn = (getPlayer(lobby, thisUser) == game.currentPlayer)
-    lobby.youWon = (getPlayer(lobby, thisUser) == game.won)
+    lobby.isyourturn = (getPlayer(lobby, thisUser) === game.currentPlayer)
+    lobby.youWon = (getPlayer(lobby, thisUser) === game.won)
     lobby.currentPlayer = game.currentPlayer
     try {
       lobby.opponentname = users.filter(function (user) {
