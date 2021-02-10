@@ -69,10 +69,10 @@ router.post('/api/notification', async function (req, res) {
     return joined
   })
 
-  //filter for lobbies where it's this user's turn
+  //filter for lobbies where it's this user's turn and the game has not ended yet
   unplayedLobbies = unplayedLobbies.filter(function (lobby) {
     lobby = common.extendLobbyInfo(lobby, user, users)
-    return !!lobby.isyourturn
+    return !!lobby.isyourturn && !lobby.end
   })
 
   let endedLobbies = lobbies.filter(function (lobby) {
