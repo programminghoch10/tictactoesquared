@@ -1,7 +1,6 @@
 let urlParams = new URLSearchParams(window.location.search);
 if (urlParams.get("lobbyToken")) {
   setGlobalCookie("currentLobbyToken", urlParams.get("lobbyToken"))
-  window.location.search = ""
 }
 
 let lobbyToken = getCookie("currentLobbyToken")
