@@ -22,7 +22,7 @@
     <string name="notificationChannelEndedName">Ended Games</string>
     <string name="notificationChannelEndedDescription">This notification will inform you about won and lost games.</string>
     <string name="notificationChannelEndedNotificationTitleSingleWon">You have won a game against %s</string>
-    <string name="notificationChannelEndedNotificationTitleSingleDraw">It\'s a draw between you and %s</string>
+    <string name="notificationChannelEndedNotificationTitleSingleDraw">It\'s a draw between %s and you</string>
     <string name="notificationChannelEndedNotificationTitleSingleLost">You lost a game against %s</string>
     <string name="notificationChannelEndedNotificationTitleSingleCatch">A game has ended</string>
     <string name="notificationChannelEndedNotificationTitleSingleLeft">Your opponent gave up</string>
