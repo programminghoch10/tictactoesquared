@@ -1,6 +1,7 @@
 package com.JJ.tictactoesquared;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -17,13 +18,12 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.webkit.WebSettingsCompat;
 import androidx.webkit.WebViewFeature;
 
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 	
 	String url;
 	String backupUrl;
@@ -63,10 +63,9 @@ public class MainActivity extends AppCompatActivity {
 			@Override
 			public void onPageFinished(WebView webView, String url) {
 				setTitle(webView.getTitle());
-				Objects.requireNonNull(getSupportActionBar()).setTitle(webView.getTitle());
+				Objects.requireNonNull(getActionBar()).setTitle(webView.getTitle());
 			}
 		});
-		webSettings.setAppCacheEnabled(true);
 		webSettings.setCacheMode(isNetworkConnected() ? WebSettings.LOAD_DEFAULT : WebSettings.LOAD_CACHE_ELSE_NETWORK);
 		webSettings.setUserAgentString("ttts-webapp"); //useragent string is used on the website to know that its accessed over the app
 		webView.setOnLongClickListener(new View.OnLongClickListener() {
